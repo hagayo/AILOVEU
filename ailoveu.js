@@ -30,7 +30,7 @@ async function fetchTranslationsFor(newLocale) {
     alert(localePath);
 
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', localesPath, true);
+    xhr.open('GET', localePath, true);
     xhr.responseType = 'json';
     xhr.onload = function() {
       if (xhr.status === 200) {
