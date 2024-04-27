@@ -26,40 +26,17 @@ function dir(locale) {
 
 // Retrieve translations JSON object for the given locale
 async function fetchTranslationsFor(newLocale) {
-    const localePath = `./_locales/${newLocale}/messages.json`;
-    alert(localePath);
-
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', localePath, true);
-    xhr.responseType = 'json';
-    xhr.onload = function() {
-      if (xhr.status === 200) {
-        alert("JSON read OK!");
-        let translationData = xhr.response;
-        alert(translationData);
-        return translationsData.json();
-      }
-      alert("JSON read failed!");
-    };
-    xhr.send();
-    
-    // import * as translationsData from localePath;
-    // const {name} = translationsData;
-    // console.log(name);
-
-    // import translationsData from localePath assert { type: 'json' };
-    // console.log(translationsData);
-    // let translationJson = require(`./_locales/${newLocale}/messages.json`);
-    // console.log(translationJson);
-    // alert(translationJson);
+    // const localePath = `./_locales/${newLocale}/messages.json`;
+    // alert(localePath);
     // const response = await fetch(`/lang/${newLocale}.json`);
     // return await fetch(`https://ailoveu.art/_locales/${newLocale}/messages.json`)
         // .then(res => res.json());
         // .then(res => res.json())
         // .then(console.log)
     // const response = await fetch(`/_locales/${newLocale}/messages.json`);
-    // const response = await fetch(localePath);
-    // return await response.json();
+    const response = await fetch('heb.json');
+    alert("response: " + response);
+    return await response.json();
     // return await translationsData.json();
 }
 
@@ -111,6 +88,7 @@ function supportedOrDefault(locales) {
  * @returns array | undefined
  */
 function browserLocales(languageCodeOnly = false) {
+    alert("in browserLocales: " + navigator.languages);
     return navigator.languages.map((locale) =>
         languageCodeOnly ? locale.split("-")[0] : locale, 
     );
