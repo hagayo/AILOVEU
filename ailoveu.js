@@ -8,7 +8,6 @@ let translations = {};  // Gets filled with active locale translations
 
 // Load translations and translate the page for given locale
 async function setLocale(newLocale) {
-    alert("in setLocale");
     newLocale = "he";
     if (newLocale === locale) return;
     alert("in setLocale - replacing language...");
@@ -35,7 +34,6 @@ async function fetchTranslationsFor(newLocale) {
         // .then(console.log)
     // const response = await fetch(`/_locales/${newLocale}/messages.json`);
     const response = await fetch('heb.json');
-    alert("response: " + response.response.value);
     return await response.json();
     // return await translationsData.json();
 }
@@ -90,7 +88,6 @@ function supportedOrDefault(locales) {
  * @returns array | undefined
  */
 function browserLocales(languageCodeOnly = false) {
-    alert("in browserLocales: " + navigator.languages);
     return navigator.languages.map((locale) =>
         languageCodeOnly ? locale.split("-")[0] : locale, 
     );
