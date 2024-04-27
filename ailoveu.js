@@ -24,11 +24,25 @@ function dir(locale) {
 // Retrieve translations JSON object for the given locale
 async function fetchTranslationsFor(newLocale) {
     const localePath = `./_locales/${newLocale}/messages.json`;
-    console.log(localePath);
+    alert(localePath);
 
-    import * as translationsData from localePath;
-    const {name} = translationsData;
-    console.log(name);
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', localesPath, true);
+    xhr.responseType = 'json';
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        alert("JSON read OK!");
+        let translationData = xhr.response;
+        alert(translationData);
+        return await translationsData.json();
+      }
+      alert("JSON read failed!");
+    };
+    xhr.send();
+    
+    // import * as translationsData from localePath;
+    // const {name} = translationsData;
+    // console.log(name);
 
     // import translationsData from localePath assert { type: 'json' };
     // console.log(translationsData);
@@ -43,7 +57,7 @@ async function fetchTranslationsFor(newLocale) {
     // const response = await fetch(`/_locales/${newLocale}/messages.json`);
     // const response = await fetch(localePath);
     // return await response.json();
-    return await translationsData.json();
+    // return await translationsData.json();
 }
 
 // Replace inner text of all HTML elements with data-i18n-key attribute
