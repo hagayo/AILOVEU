@@ -47,9 +47,9 @@ function translatePage() {
 // Replace inner text of given HTML element to active locale translation
 function translateElement(element) {
     const key = element.getAttribute("data-i18n-key");
-    alert("in translateElement, key: " + key);
+    // alert("in translateElement, key: " + key);
     const translation = translations[key];
-    alert("in translateElement, translation: " + translation);
+    // alert("in translateElement, translation: " + translation);
     element.innerText = translation;
 }
 
