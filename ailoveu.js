@@ -3,13 +3,13 @@ const defaultLocale = "en";
 const supportedLocales = ["en", "he"];
 
 
-let locale;             // active locale, set by user preferences
-let translations = {};  // Gets filled with active locale translations
+let locale = defaultLocale;     // active locale, set by user preferences
+let translations = {};          // Gets filled with active locale translations
 
 // Load translations and translate the page for given locale
 async function setLocale(newLocale) {
     if (newLocale === locale) return;
-    alert("in setLocale - replacing language...");
+    alert("replacing language...");
     const newTranslations = await fetchTranslationsFor(newLocale);
     locale = newLocale;
     translations = newTranslations;
