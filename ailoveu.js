@@ -24,6 +24,9 @@ function dir(locale) {
 // Retrieve translations JSON object for the given locale
 async function fetchTranslationsFor(newLocale) {
     const localePath = `./_locales/${newLocale}/messages.json`;
+    console.log(localePath);
+    import translationsData from localePath;
+    console.log(translationsData);
     // let translationJson = require(`./_locales/${newLocale}/messages.json`);
     // console.log(translationJson);
     // alert(translationJson);
@@ -33,9 +36,9 @@ async function fetchTranslationsFor(newLocale) {
         // .then(res => res.json())
         // .then(console.log)
     // const response = await fetch(`/_locales/${newLocale}/messages.json`);
-    const response = await fetch(localePath);
-    return await response.json();
-    //return await translationJson.json();
+    // const response = await fetch(localePath);
+    // return await response.json();
+    return await translationsData.json();
 }
 
 // Replace inner text of all HTML elements with data-i18n-key attribute
