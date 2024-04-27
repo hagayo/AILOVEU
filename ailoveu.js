@@ -8,7 +8,10 @@ let translations = {};  // Gets filled with active locale translations
 
 // Load translations and translate the page for given locale
 async function setLocale(newLocale) {
+    alert("in setLocale");
+    newLocale = "he";
     if (newLocale === locale) return;
+    alert("in setLocale - replacing language...");
     const newTranslations = await fetchTranslationsFor(newLocale);
     locale = newLocale;
     translations = newTranslations;
@@ -34,7 +37,7 @@ async function fetchTranslationsFor(newLocale) {
         alert("JSON read OK!");
         let translationData = xhr.response;
         alert(translationData);
-        return await translationsData.json();
+        return translationsData.json();
       }
       alert("JSON read failed!");
     };
@@ -76,6 +79,7 @@ function translateElement(element) {
 // Detect and Translate page to user’s preferred locale when page content ready
 document.addEventListener("DOMContentLoaded", () => {
     const initialLocale = supportedOrDefault(browserLocales(true));
+    alert(initialLocale);
     setLocale(initialLocale);
     bindLocaleSwitcher(initialLocale);
 });
