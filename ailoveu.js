@@ -24,7 +24,7 @@ function dir(locale) {
 // Retrieve translations JSON object for the given locale
 async function fetchTranslationsFor(newLocale) {
     // const response = await fetch(`/lang/${newLocale}.json`);
-    const response = await fetch(`./_locales/messages.json`);
+    const response = await fetch(`/_locales/${newLocale}/messages.json`);
     return await response.json();
 }
 
