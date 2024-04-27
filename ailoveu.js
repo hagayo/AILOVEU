@@ -55,7 +55,8 @@ function bindLocaleSwitcher(initialValue) {
     switcher.onchange = (e) => {
         // Set the locale to the selected option[value]
         setLocale(e.target.value);
-};
+    };
+}
 
 function isSupported(locale) {
     return supportedLocales.indexOf(locale) > -1;
@@ -79,5 +80,3 @@ function browserLocales(languageCodeOnly = false) {
         languageCodeOnly ? locale.split("-")[0] : locale,
     );
 }
-
-
