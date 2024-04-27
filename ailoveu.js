@@ -8,9 +8,7 @@ let translations = {};          // Gets filled with active locale translations
 
 // Load translations and translate the page for given locale
 async function setLocale(newLocale) {
-    alert("newLocale=" + newLocale + ", locale=" + locale);
     if (newLocale === locale) return;
-    alert("replacing language...");
     const newTranslations = await fetchTranslationsFor(newLocale);
     locale = newLocale;
     translations = newTranslations;
@@ -26,8 +24,7 @@ function dir(locale) {
 // Retrieve translations JSON object for the given locale
 async function fetchTranslationsFor(newLocale) {
     // return await fetch(`https://ailoveu.art/locales/${newLocale}/messages.json`)
-        // .then(res => res.json())
-        // .then(console.log)
+    // .then(res => res.json()).then(console.log)
     const localePath = `/lang/${newLocale}.json`;
     const response = await fetch(localePath);
     return await response.json();
