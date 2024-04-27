@@ -14,7 +14,7 @@ async function setLocale(newLocale) {
     const newTranslations = await fetchTranslationsFor(newLocale);
     locale = newLocale;
     translations = newTranslations;
-    document.documentElement.dir = dir(newLocale);      // Set <html dir> attribute
+    document.documentElement.dir = dir(newLocale);
     document.documentElement.lang = newLocale;
     translatePage();
 }
@@ -33,7 +33,7 @@ async function fetchTranslationsFor(newLocale) {
         // .then(res => res.json())
         // .then(console.log)
     // const response = await fetch(`/_locales/${newLocale}/messages.json`);
-    const response = await fetch('heb.json');
+    const response = await fetch('/lang/he.json');
     return await response.json();
     // return await translationsData.json();
 }
