@@ -77,6 +77,6 @@ function supportedOrDefault(locales) {
  */
 function browserLocales(languageCodeOnly = false) {
     return navigator.languages.map((locale) =>
-        languageCodeOnly ? locale.split("-")[0] : locale,
+        languageCodeOnly ? locale.split("-")[0] : locale;
     );
 }
