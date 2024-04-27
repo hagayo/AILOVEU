@@ -8,7 +8,6 @@ let translations = {};  // Gets filled with active locale translations
 
 // Load translations and translate the page for given locale
 async function setLocale(newLocale) {
-    newLocale = "he";
     if (newLocale === locale) return;
     alert("in setLocale - replacing language...");
     const newTranslations = await fetchTranslationsFor(newLocale);
@@ -25,17 +24,15 @@ function dir(locale) {
 
 // Retrieve translations JSON object for the given locale
 async function fetchTranslationsFor(newLocale) {
-    // const localePath = `./_locales/${newLocale}/messages.json`;
-    // alert(localePath);
+    // const localePath = `./locales/${newLocale}/messages.json`;
     // const response = await fetch(`/lang/${newLocale}.json`);
-    // return await fetch(`https://ailoveu.art/_locales/${newLocale}/messages.json`)
+    // return await fetch(`https://ailoveu.art/locales/${newLocale}/messages.json`)
         // .then(res => res.json());
         // .then(res => res.json())
         // .then(console.log)
-    // const response = await fetch(`/_locales/${newLocale}/messages.json`);
-    const response = await fetch('/lang/he.json');
+    const localePath = `/lang/${newLocale}.json`;
+    const response = await fetch(localePath);
     return await response.json();
-    // return await translationsData.json();
 }
 
 // Replace inner text of all HTML elements with data-i18n-key attribute
@@ -47,9 +44,7 @@ function translatePage() {
 // Replace inner text of given HTML element to active locale translation
 function translateElement(element) {
     const key = element.getAttribute("data-i18n-key");
-    // alert("in translateElement, key: " + key);
     const translation = translations[key];
-    // alert("in translateElement, translation: " + translation);
     element.innerText = translation;
 }
 
