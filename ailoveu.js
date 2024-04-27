@@ -8,6 +8,7 @@ let translations = {};          // Gets filled with active locale translations
 
 // Load translations and translate the page for given locale
 async function setLocale(newLocale) {
+    alert("newLocale=" + newLocale + ", locale=" + locale);
     if (newLocale === locale) return;
     alert("replacing language...");
     const newTranslations = await fetchTranslationsFor(newLocale);
