@@ -25,8 +25,8 @@ function dir(locale) {
 async function fetchTranslationsFor(newLocale) {
     const localePath = `./_locales/${newLocale}/messages.json`;
     console.log(localePath);
-    import translationsData from localePath;
-    console.log(translationsData);
+    import data from localePath assert { type: 'json' };
+    console.log(data);
     // let translationJson = require(`./_locales/${newLocale}/messages.json`);
     // console.log(translationJson);
     // alert(translationJson);
