@@ -35,7 +35,7 @@ async function fetchTranslationsFor(newLocale) {
         // .then(console.log)
     // const response = await fetch(`/_locales/${newLocale}/messages.json`);
     const response = await fetch('heb.json');
-    alert("response: " + response);
+    alert("response: " + response.response.value);
     return await response.json();
     // return await translationsData.json();
 }
@@ -49,7 +49,9 @@ function translatePage() {
 // Replace inner text of given HTML element to active locale translation
 function translateElement(element) {
     const key = element.getAttribute("data-i18n-key");
+    alert("in translateElement, key: " + key);
     const translation = translations[key];
+    alert("in translateElement, translation: " + translation);
     element.innerText = translation;
 }
 
