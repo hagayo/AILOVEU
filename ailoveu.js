@@ -79,7 +79,6 @@ function translateElement(element) {
 // Detect and Translate page to user’s preferred locale when page content ready
 document.addEventListener("DOMContentLoaded", () => {
     const initialLocale = supportedOrDefault(browserLocales(true));
-    alert(initialLocale);
     setLocale(initialLocale);
     bindLocaleSwitcher(initialLocale);
 });
