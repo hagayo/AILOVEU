@@ -24,8 +24,13 @@ function dir(locale) {
 // Retrieve translations JSON object for the given locale
 async function fetchTranslationsFor(newLocale) {
     // const response = await fetch(`/lang/${newLocale}.json`);
-    const response = await fetch(`/_locales/${newLocale}/messages.json`);
-    return await response.json();
+    fetch('https://ailoveu.art/_locales/${newLocale}/messages.json')
+        .then(return res.json());
+        // .then(res => res.json())
+        // .then(console.log)
+    // const response = await fetch(`/_locales/${newLocale}/messages.json`);
+    // const response = await fetch('/_locales/${newLocale}/messages.json');
+    // return await response.json();
 }
 
 // Replace inner text of all HTML elements with data-i18n-key attribute
