@@ -25,7 +25,7 @@ function dir(locale) {
 async function fetchTranslationsFor(newLocale) {
     // return await fetch(`https://ailoveu.art/locales/${newLocale}/messages.json`)
     // .then(res => res.json()).then(console.log)
-    const localePath = `/lang/${newLocale}.json`;
+    const localePath = `/locales/${newLocale}.json`;
     const response = await fetch(localePath);
     return await response.json();
 }
