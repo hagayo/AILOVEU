@@ -2,7 +2,6 @@
 const defaultLocale = "en";
 const supportedLocales = ["en", "he"];
 
-
 let locale = defaultLocale;     // active locale, set by user preferences
 let translations = {};          // Gets filled with active locale translations
 
@@ -23,15 +22,13 @@ function dir(locale) {
 
 // Retrieve translations JSON object for the given locale
 async function fetchTranslationsFor(newLocale) {
-    // return await fetch(`https://ailoveu.art/locales/${newLocale}/messages.json`)
-    // .then(res => res.json()).then(console.log)
+    // return await fetch(`https://ailoveu.art/locales/${newLocale}/messages.json`).then(res => res.json()).then(console.log)
     const localePath = `/locales/${newLocale}.json`;
     const response = await fetch(localePath);
     return await response.json();
 }
 
-// Replace inner text of all HTML elements with data-i18n-key attribute
-// with their corresponding key translation 
+// Replace inner text of all elements with data-i18n-key attribute with their corresponding key translation 
 function translatePage() {
     document.querySelectorAll("[data-i18n-key]").forEach(translateElement);
 }
@@ -73,9 +70,8 @@ function supportedOrDefault(locales) {
  * Retrieve user-preferred locales from the browser
  * browserLocales() will return ["fr-CA", "zh-CN"]
  * browserLocales(true) will return ["fr", "zh"] instead.
- *
- * @param {boolean} languageCodeOnly - when true, returns ["en", "fr"] instead of ["en-US", "fr-FR"]
- * @returns array | undefined
+ * param {boolean} languageCodeOnly - when true, returns ["en", "fr"] instead of ["en-US", "fr-FR"]
+ * returns array | undefined
  */
 function browserLocales(languageCodeOnly = false) {
     return navigator.languages.map((locale) =>
