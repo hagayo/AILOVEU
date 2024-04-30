@@ -14,11 +14,13 @@ This domain is promoting AI & ART related subjects by [AI-Love-U](https://ailove
 > Coming Soon: The free AI-Love-U chrome extension that will you knock you down!
 
 **PLUS - Hagay Onn is also a certified Kong-Fu instructor**
+
 so  small part of the website will be related to:
-(including videos/tutorials/articles by Hagay Onn)
  - Movement, Training, Workouts & Fighting Tips
  - Juggling, Parkour and Holistic body-mind workouts
  - Memory and Brain related articles, new research, innovation and inventions
+
+(including videos/tutorials/articles by Hagay Onn)
 
 > [!IMPORTANT]
 > Keep Smiling! 😃 
