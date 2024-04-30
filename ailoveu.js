@@ -1,4 +1,4 @@
-// The locale our app shows as default when loading
+// The default locale our website show when loading (English)
 const defaultLocale = "en";
 const supportedLocales = ["en", "he"];
 
