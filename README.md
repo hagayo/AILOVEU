@@ -4,9 +4,8 @@ This domain is promoting AI & ART related subjects by [AI-Love-U](https://ailove
 
 ![AI-Love-U logo](https://ailoveu.art/icons/AILoveU-Logo-48px.png)
 
-__ Among other stuff: __
- * AI-ART creations by Hagay Onn \n
-   These pictures are also offered for sale, printed on Canvas/Perspex/ChromaluxHD
+**Among other stuff:**
+ * AI-ART creations by Hagay Onn, These pictures are also offered for sale
  * AI Lectures (Live/Recorded/Courses/Tutorials)
  * AI Platforms, Tools and Plugins: Reviews, Usage & Tips
  * AI related products & recomendations
@@ -14,7 +13,7 @@ __ Among other stuff: __
 > [!TIP]
 > Coming Soon: The free AI-Love-U chrome extension that will you knock you down!
 
-__ PLUS - Hagay Onn is also a certified Kong-Fu instructor __
+**PLUS - Hagay Onn is also a certified Kong-Fu instructor**
 so  small part of the website will be related to:
 (including videos/tutorials/articles by Hagay Onn)
  - Movement, Training, Workouts & Fighting Tips
@@ -24,6 +23,6 @@ so  small part of the website will be related to:
 > [!IMPORTANT]
 > Keep Smiling! 😃 
 
-The background color is `#f0f0f0` for light mode and `#606060` for dark mode.
+<!-- The background color is `#f0f0f0` for light mode and `#606060` for dark mode. -->
 
 This site was built using [GitHub Pages](https://pages.github.com/) 
