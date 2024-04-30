@@ -1,9 +1,10 @@
 # AILOVEU
-** GitHub-Pages based website for [ailoveu.art](ailoveu.art) domain. **
-This domain is promoting AI & ART related subjects by [AI-Love-U](ailoveu.art).
+## GitHub-Pages based website for [ailoveu.art](https://ailoveu.art) domain. ##
+This domain is promoting AI & ART related subjects by [AI-Love-U](https://ailoveu.art)
+
 ![AI-Love-U logo](https://ailoveu.art/icons/AILoveU-Logo-48px.png)
 
-** Among other stuff: **
+__ Among other stuff: __
  * AI-ART creations by Hagay Onn \n
    These pictures are also offered for sale, printed on Canvas/Perspex/ChromaluxHD
  * AI Lectures (Live/Recorded/Courses/Tutorials)
@@ -13,7 +14,7 @@ This domain is promoting AI & ART related subjects by [AI-Love-U](ailoveu.art).
 > [!TIP]
 > Coming Soon: The free AI-Love-U chrome extension that will you knock you down!
 
-** PLUS - Hagay Onn is also a certified Kong-Fu instructor **
+__ PLUS - Hagay Onn is also a certified Kong-Fu instructor __
 so  small part of the website will be related to:
 (including videos/tutorials/articles by Hagay Onn)
  - Movement, Training, Workouts & Fighting Tips
