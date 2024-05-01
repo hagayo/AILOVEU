@@ -1,6 +1,7 @@
 {
     "website_domain": "ailoveu.art",
     "brand_name": "AI Love U",
+    "nav_menu_button_home": "בית",
     "nav_menu_button_gallery": "גלריה",
     "nav_menu_button_lectures": "הרצאות",
     "nav_menu_button_tutorials": "לימוד",
