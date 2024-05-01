@@ -1,6 +1,6 @@
 // The default locale our website show when loading (English)
 const defaultLocale = "en";
-const supportedLocales = ["en", "he"];
+const supportedLocales = ["en", "he", "fr"];
 
 let locale = defaultLocale;     // active locale, set by user preferences
 let translations = {};          // Gets filled with active locale translations
