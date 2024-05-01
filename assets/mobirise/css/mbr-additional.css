@@ -585,10 +585,10 @@ a[class*="text-"]:not(.nav-link):not(.dropdown-item):not([role]):not(.navbar-cap
   background-position: 0px 1.2em;
 }
 .nav-tabs .nav-link.active {
-  color: #0c2c68;
+  color: #113f96;
 }
 .nav-tabs .nav-link:not(.active) {
-  color: #232323;
+  color: #0c2c68;
 }
 .alert-success {
   background-color: #70c770;
