@@ -16,7 +16,7 @@ async function setLocale(newLocale) {
     document.documentElement.lang = newLocale;
     langDirection = dir(newLocale);
     if (langDirection != defaultAlign) {
-        alert("language direction changed: " + langDirection);
+        // alert("language direction changed: " + langDirection);
         document.documentElement.dir = langDirection;
         if (langDirection === "ltr") {
             setAlignLeft();
