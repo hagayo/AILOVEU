@@ -539,7 +539,7 @@ a.text-primary.active {
 a.text-secondary:hover,
 a.text-secondary:focus,
 a.text-secondary.active {
-  color: #01050d !important;
+  color: #fff !important;
 }
 a.text-success:hover,
 a.text-success:focus,
