@@ -357,7 +357,8 @@
                   "border-radius": "1rem !important",
                   "transition": "0.3s all !important",
                   "&:hover": {
-                    "background-color": "rgba(27, 31, 10, 0.06)"
+                    "color": "#fff",
+                    "background-color": "rgba(12, 44, 104, 0.12)"
                   },
                   "& when not (@isRoundedButtons)": {
                     "border-radius": "4px !important"
