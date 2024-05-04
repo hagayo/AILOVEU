@@ -1,6 +1,8 @@
 // The default locale our website show when loading (English)
 const defaultLocale = "en";
+const defaultAlign = "ltr";
 const supportedLocales = ["en", "he", "fr"];
+const divs = document.querySelectorAll('div[align-left]');
 
 let locale = defaultLocale;     // active locale, set by user preferences
 let translations = {};          // Gets filled with active locale translations
@@ -11,9 +13,31 @@ async function setLocale(newLocale) {
     const newTranslations = await fetchTranslationsFor(newLocale);
     locale = newLocale;
     translations = newTranslations;
-    document.documentElement.dir = dir(newLocale);
     document.documentElement.lang = newLocale;
+    langDirection = dir(newLocale);
+    if (langDirection != defaultAlign) {
+        alert("language direction changed: " + langDirection);
+        document.documentElement.dir = langDirection;
+        if (langDirection === "ltr") {
+            setAlignLeft();
+        } else {
+            setAlignRight();
+        }
+    }
     translatePage();
+}
+
+function setAlignRight(){
+    for (const div of divs) {
+        div.setAttribute('align-right', '');
+        div.removeAttribute('align-left');
+    }
+}
+function setAlignLeft(){
+    for (const div of divs) {
+        div.setAttribute('align-left', '');
+        div.removeAttribute('align-right');
+    }
 }
 
 function dir(locale) {
