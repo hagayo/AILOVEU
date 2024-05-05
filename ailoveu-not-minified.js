@@ -4,7 +4,7 @@ const supportedLocales = ["en", "he", "fr"];
 const divs = document.querySelectorAll('div[align-left]');
 
 const langSelectorDiv = document.getElementById("langSelectorDiv");
-const langSelectorTag = document.getElementById("langSelector");
+const langSelector = document.getElementById("langSelector");
 const langLabel = document.getElementById("langLabel");
 function toggleLangSelectorDisplay() {
     if (langSelectorDiv.style.display === "none") {
@@ -14,7 +14,7 @@ function toggleLangSelectorDisplay() {
     }
 }
 langLabel.addEventListener("click", toggleLangSelectorDisplay);
-langSelectorTag.addEventListener("click", toggleLangSelectorDisplay);
+langSelector.addEventListener("select", toggleLangSelectorDisplay);
 
 let currentAlign = "ltr";
 let translations = {};          // Gets filled with active locale translations
