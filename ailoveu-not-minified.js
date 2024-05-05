@@ -3,6 +3,17 @@ const defaultLocale = "en";
 const supportedLocales = ["en", "he", "fr"];
 const divs = document.querySelectorAll('div[align-left]');
 
+const langSelectorTag = document.getElementById("langSelector");
+const langLabel = document.getElementById("langLabel");
+function toggleLangSelectorDisplay() {
+    if (langSelectorTag.style.display === "none") {
+        langSelectorTag.style.display = "block";
+    } else {
+        langSelectorTag.style.display = "none";
+    }
+}
+langLabel.addEventListener("click", toggleLangSelectorDisplay);
+
 let currentAlign = "ltr";
 let translations = {};          // Gets filled with active locale translations
 let locale = defaultLocale;     // active locale, set by user preferences
@@ -64,17 +75,6 @@ function translateElement(element) {
     const translation = translations[key];
     element.innerText = translation;
 }
-
-const langSelectorTag = document.getElementById("langSelector");
-const langLabel = document.getElementById("langLabel");
-function toggleLangSelectorDisplay() {
-    if (langSelectorTag.style.display === "none") {
-        langSelectorTag.style.display = "block";
-    } else {
-        langSelectorTag.style.display = "none";
-    }
-}
-langLabel.addEventListener("onclick", toggleLangSelectorDisplay);
 
 // Detect and Translate page to user’s preferred locale when page content ready
 document.addEventListener("DOMContentLoaded", () => {
