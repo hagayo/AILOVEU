@@ -261,7 +261,7 @@
     ],
     "uniqCompNum": 0,
     "imageResize": true,
-    "favicon": "@PROJECT_PATH@/assets/images/-000-ailoveu-logo-icon-48x48.webp",
+    "favicon": "@PROJECT_PATH@/icons/AILoveU-Logo-48x48.png",
     "usedWebp": true,
     "robotsSwitcher": false,
     "robotsText": "User-agent: *\r\nDisallow: /cgi-bin\r\n",
