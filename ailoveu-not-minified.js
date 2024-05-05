@@ -65,6 +65,17 @@ function translateElement(element) {
     element.innerText = translation;
 }
 
+const langSelectorTag = document.getElementById("langSelector");
+const langLabel = document.getElementById("langLabel");
+function toggleLangSelectorDisplay() {
+    if (langSelectorTag.style.display === "none") {
+        langSelectorTag.style.display = "block";
+    } else {
+        langSelectorTag.style.display = "none";
+    }
+}
+langLabel.addEventListener("onclick", toggleLangSelectorDisplay);
+
 // Detect and Translate page to user’s preferred locale when page content ready
 document.addEventListener("DOMContentLoaded", () => {
     const initialLocale = supportedOrDefault(browserLocales(true));
