@@ -3,16 +3,18 @@ const defaultLocale = "en";
 const supportedLocales = ["en", "he", "fr"];
 const divs = document.querySelectorAll('div[align-left]');
 
+const langSelectorDiv = document.getElementById("langSelectorDiv");
 const langSelectorTag = document.getElementById("langSelector");
 const langLabel = document.getElementById("langLabel");
 function toggleLangSelectorDisplay() {
-    if (langSelectorTag.style.display === "none") {
-        langSelectorTag.style.display = "block";
+    if (langSelectorDiv.style.display === "none") {
+        langSelectorDiv.style.display = "block";
     } else {
-        langSelectorTag.style.display = "none";
+        langSelectorDiv.style.display = "none";
     }
 }
 langLabel.addEventListener("click", toggleLangSelectorDisplay);
+langSelectorTag.addEventListener("click", toggleLangSelectorDisplay);
 
 let currentAlign = "ltr";
 let translations = {};          // Gets filled with active locale translations
