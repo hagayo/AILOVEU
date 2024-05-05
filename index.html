@@ -42,11 +42,12 @@
      <div class="container">
 	<div class="navbar-brand">
           <span class="navbar-logo">
-	<span>
 	  <a href="#hero-17-u7Ukwhcawo">
-            <img src="icons/AILoveU-Logo-72px.png" alt="AI-Love-U logo" title="AI-Love-U here for you!" style="width: 4.8rem; height: 4.8rem;">
-          </a><!-- </span>
-          <span class="navbar-caption-wrap">
+            <!-- img src="icons/AILoveU-Logo-72px.png" alt="AI-Love-U logo" title="AI-Love-U here for you!" style="width: 4.8rem; height: 4.8rem;" -->
+ 	    <img src="icons/AILoveU-Logo-72px.png" height=”72” width=”72” alt="AI-Love-U logo" title="AI-Love-U, Back to Top" loading="eager" fetchpriority="high"
+		srcset="icons/AILoveU-Logo-48px.png 600w, icons/AILoveU-Logo-72px.png 1600w"/>
+          </a></span>
+          <!-- span class="navbar-caption-wrap">
             <a class="navbar-caption text-success text-primary display-4" href="#hero-17-u7Ukwhcawo" data-i18n-key="nav_menu_button_home" target="_blank">Home</a>
 	  </span -->
         </div>
@@ -96,8 +97,10 @@
 		<a class="dropdown-item text-secondary display-4" href="" target="_blank">English</a>
 		<a class="dropdown-item text-secondary display-4" href="" target="_blank">Hebrew (עברית)</a>
 	    </div> -->
-	  <label for="lang"><strong data-i18n-key="nav_menu_button_lang">Lang</strong></label>
-            <select id="lang" data-i18n-switcher class="locale-switcher">
+	    <a class="nav-link link text-secondary text-primary display-4" href="#">
+		<label for="langSelector" id="langLabel"><strong data-i18n-key="nav_menu_button_lang">Lang</strong></label>
+	    </a>
+	    <select id="langSelector" data-i18n-switcher class="locale-switcher">
               <option class="dropdown-item text-secondary display-4" value="en" selected>English</option>
               <option class="dropdown-item text-secondary display-4" value="he">Hebrew (עברית)</option>
 	      <option class="dropdown-item text-secondary display-4" value="fr">Français (French)</option>
