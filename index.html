@@ -44,7 +44,7 @@
           <span class="navbar-logo">
 	  <a href="#hero-17-u7Ukwhcawo">
             <!-- img src="icons/AILoveU-Logo-72px.png" alt="AI-Love-U logo" title="AI-Love-U here for you!" style="width: 4.8rem; height: 4.8rem;" -->
- 	    <img src="icons/AILoveU-Logo-72px.png" style="height:72;width:72;" alt="AI-Love-U logo" title="AI-Love-U, Back to Top" loading="eager" fetchpriority="high"
+ 	    <img src="icons/AILoveU-Logo-72px.png" alt="AI-Love-U logo" title="AI-Love-U, Back to Top" loading="eager" fetchpriority="high"
 		srcset="icons/AILoveU-Logo-48px.png 600w, icons/AILoveU-Logo-72px.png 1600w"/>
           </a></span>
           <!-- span class="navbar-caption-wrap">
@@ -97,14 +97,15 @@
 		<a class="dropdown-item text-secondary display-4" href="" target="_blank">English</a>
 		<a class="dropdown-item text-secondary display-4" href="" target="_blank">Hebrew (עברית)</a>
 	    </div> -->
-	    <a class="nav-link link text-secondary text-primary display-4" href="#">
-		<label for="langSelector" id="langLabel"><strong data-i18n-key="nav_menu_button_lang">Lang</strong></label>
-	    </a>
-	    <select id="langSelector" data-i18n-switcher class="locale-switcher">
+   	    <label for="langSelector" id="langLabel" class="nav-link link text-secondary text-primary display-4">
+	        <strong data-i18n-key="nav_menu_button_lang">Lang</strong></label>
+	    <div id="langSelector" style="display:none;">
+	    <select data-i18n-switcher class="locale-switcher">
               <option class="dropdown-item text-secondary display-4" value="en" selected>English</option>
               <option class="dropdown-item text-secondary display-4" value="he">Hebrew (עברית)</option>
 	      <option class="dropdown-item text-secondary display-4" value="fr">Français (French)</option>
             </select>
+	    </div>
 	</li>
       </ul>
     <!-- <div class="navbar-right"> -->
@@ -245,7 +246,7 @@
       </div>
       <div class="col-lg-8 side-features">
         <div class="image-wrapper mb-4">
-          <img class="w-100" src="assets/images/-002-hagay-onn-profile-pic-612x612.webp" alt="Portrait image of Hagay Onn" title="Hagay Onn" loading="lazy" style="width:459px;height:459px;">
+          <img class="w-100" src="assets/images/-002-hagay-onn-profile-pic-612x612.webp" alt="Portrait image of Hagay Onn" title="Hagay Onn" loading="lazy">
         </div>
       </div>
     </div>
