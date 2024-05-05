@@ -15,6 +15,7 @@ function toggleLangSelectorDisplay() {
 }
 langLabel.addEventListener("click", toggleLangSelectorDisplay);
 langSelector.addEventListener("select", toggleLangSelectorDisplay);
+langSelector.addEventListener("change", toggleLangSelectorDisplay);
 
 let currentAlign = "ltr";
 let translations = {};          // Gets filled with active locale translations
