@@ -13,6 +13,9 @@ img,
 .item-wrapper {
   border-radius: 2rem !important;
 }
+#top-hero-image {
+  border-radius: 0 !important;
+}
 .video-wrapper {
   overflow: hidden;
 }
