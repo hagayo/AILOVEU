@@ -15,6 +15,7 @@ img,
 }
 #top-hero-image {
   border-radius: 0 !important;
+  z-index: -10 !important;
 }
 .video-wrapper {
   overflow: hidden;
