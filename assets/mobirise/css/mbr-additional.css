@@ -1374,7 +1374,7 @@ a {
     justify-content: center;
   }
   .cid-u7Ukwhcawo .content-wrap {
-    width: 50%;
+    width: 30%;
     height: auto;
   }
 }
@@ -1406,7 +1406,7 @@ a {
   background-size: cover;
   background-position: center center;
   width: 100%;
-  height: auto;
+  height: 100%;
   position: absolute;
   top: 0;
 }
