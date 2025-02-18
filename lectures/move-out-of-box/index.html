@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Landing page for selling AI lecture by Hagay Onn. Lecture is about the Brain, AI, Creativity, Thinking and Memory.">
     <title>תנועה מחוץ לקופסא - הרצאה משנה חיים!</title>
+    <link rel="preload" fetchpriority="high" as="image" href="ai_background_2.webp" type="image/webp">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
@@ -12,14 +13,13 @@
     <header class="hero">
         <div class="hero-content">
             <h1 class="hero-title">🚀 תנועה מחוץ לקופסא</h1>
-            <h3>רוצה לזכור יותר, לחשוב בקלות ולהיות יצירתי באמת?</h3>
+            <p class="slogan">רוצה לזכור יותר, לחשוב בקלות ולהיות יצירתי באמת?</p>
             <h2><strong>אז זו ההרצאה בשבילך!</strong></h2>
             <p>בואו להכיר את המודל הכי חזק - המוח!</p>
             <p>ללמוד איך ניתן לשפר זיכרון ויצירתיות בקלות</p>
             <p>בואו להרצאה שבאמת תשנה לכם את החיים!</p>
             <p style="margin-bottom:20px;"> ❤️    ❤️    ❤️    ❤️    ❤️</p>
             <p class="limited-seats">🔥 נותרו <span id="seats-left">200</span> מקומות בלבד!</p>
-            <!-- <button class="cta-button floating-btn">לרכישת כרטיס</button> -->
             <button type="button" class="cta-button floating-btn">
                 <a href="https://meshulam.co.il/quick_payment?b=43d61129d30aa8e3e3ef3c9152554976" class="cta-btn-link">לרכישת כרטיס</a>
             </button>
@@ -28,14 +28,11 @@
 
     <section class="event-details">
         <h2 class="dark">📅 מתי ואיפה?</h2>
-        <!-- <p><strong>📆 תאריך:</strong> רביעי, 26 בפברואר 2025</p> -->
-        <!-- <p><strong>⏰ שעה:</strong>PM 20:00 (משך: 1.5 שעות)</p> -->
-        <!-- <p><strong>📍 מיקום:</strong> אונליין ב-Google Meet</p> -->
-        <p><img src="icons/calendar-heart.png" class="icon"></img><strong>תאריך:</strong> רביעי, 26 בפברואר 2025</p>
-        <p><img src="icons/clock.png" class="icon"></img><strong>שעה:</strong>PM 20:00 (משך: 1.5 שעות)</p>
-        <p><img src="icons/call.png" class="icon"></img><strong>מיקום:</strong> אונליין ב-Google Meet</p>
+        <p><img src="icons/calendar-heart.png" class="icon" alt=""></img><strong>תאריך:</strong> רביעי, 26 בפברואר 2025</p>
+        <p><img src="icons/clock.png" class="icon" alt=""></img><strong>שעה:</strong>PM 20:00 (משך: 1.5 שעות)</p>
+        <p><img src="icons/call.png" class="icon" alt=""></img><strong>מיקום:</strong> אונליין ב-Google Meet</p>
         <p class="small-text">(קישור יישלח לאחר ההרשמה)</p>
-        <p><img src="icons/colored-heart-icon.png" class="icon"></img><strong>פוקוס:</strong> חשיבה ויצירתיות</p>
+        <p><img src="icons/colored-heart-icon.png" class="icon" alt=""></img><strong>פוקוס:</strong> חשיבה ויצירתיות</p>
 
         <div class="social-share">
             <p>📢 שתף את ההרצאה:</p>
@@ -84,10 +81,6 @@
             <p>"אימון קוגניטיבי היה נשמע לי משעמם, אבל גיליתי שזה ממש כיף!"</p>
             <span>- אבי מ.</span>
         </div>
-        <!-- <div class="testimonial video-item item">
-            <iframe width="240" height="135" src="https://www.youtube.com/embed/EXAMPLE_VIDEO" allowfullscreen></iframe>
-            <p>🎥 חוויות של מתאמן!</p>
-        </div> -->
     </section>
 
     <section class="bonuses">
@@ -120,14 +113,12 @@
             <a href="https://www.facebook.com/hagay.onn/" target="_blank"><i class="fab fa-facebook"></i></a>
             <a href="https://www.instagram.com/hagayonn/" target="_blank"><i class="fab fa-instagram"></i></a>
             <a href="https://www.linkedin.com/in/hagaytech/" target="_blank"><i class="fab fa-linkedin"></i></a>
-            <a href="https://ailoveu.art"><img src="ailoveu-logo.jpg" width="24px" height="24px" title="חזרה לאתר הראשי"></img></a>
-            <!-- <a href="https://ailoveu.art" class="back-button">&#9664; לחזרה לאתר</a> -->
+            <a href="https://ailoveu.art"><img src="ailoveu-logo.jpg" width="24px" height="24px" title="חזרה לאתר הראשי" alt="Back to ailoveu.art"></img></a>
         </div>
     </footer>
 
-    <!-- WhatsApp floating Chat Button -->
     <a href="https://api.whatsapp.com/send?phone=972544956239&text=שלום! רציתי לשאול על ההרצאה" class="whatsapp-button">
-        <img src="icons/whatsapp-icon-txt.png" class="whatsapp-icon"></img>
+        <img src="icons/whatsapp-icon-txt.png" class="whatsapp-icon" alt="Connect on Whatsapp"></img>
     </a>
     
     <script src="script.js"></script>
