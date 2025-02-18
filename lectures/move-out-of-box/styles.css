@@ -89,7 +89,7 @@ section {
     margin: 40px auto;
     padding: 10px;
     border-radius: 20px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.2);
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     font-size: 18px;
 }
@@ -97,7 +97,7 @@ section {
 /* 🎨 Section Backgrounds */
 /* background: linear-gradient(to right, #ffcc80, #ff8a65); */
 .event-details, .testimonials, .faq-section { background: #FFF; color: #1a237e; }
-.marketing { background: linear-gradient(to left, #1a237e, #4a148c); }
+/* .marketing { background: linear-gradient(to left, #1a237e, #4a148c); } */
 .marketing ul { list-style: none; padding: 0; }
 .marketing li { font-size: 20px; margin: 10px 0; }
 .bonuses { background: #ffcc80; color: #1a237e; animation: fadeIn 1.5s ease-in-out; }
