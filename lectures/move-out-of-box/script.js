@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
     const ctaButtons = document.querySelectorAll(".cta-button");
-    let remainingSeats = 200; // Initial number of seats
+    let remainingSeats = 150; // Initial number of seats
 
     // Countdown Timer for Early-Bird Price
     function updateCountdown() {
-        const deadline = new Date("February 21, 2025 23:59:59").getTime();
+        const deadline = new Date("February 26, 2025 23:59:59").getTime();
         const now = new Date().getTime();
         const timeLeft = deadline - now;
 
@@ -18,32 +18,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Update the remaining seats dynamically
     function updateSeats() {
-        remainingSeats = Math.max(remainingSeats - Math.floor(Math.random() * 3), 20);
+        // remainingSeats = Math.max(remainingSeats - Math.floor(Math.random() * 3), 20);
         document.getElementById("seats-left").innerText = remainingSeats;
     }
-    setInterval(updateSeats, 5000); // Update every 5 seconds
+    // setInterval(updateSeats, 5000); // Update every 5 seconds
 
     // FAQ Dropdown
-    function toggleFAQ(index) {
-        const answers = document.querySelectorAll(".faq-answer");
-        answers[index].style.display = (answers[index].style.display === "block") ? "none" : "block";
-    }
-    window.toggleFAQ = toggleFAQ;
+    // function toggleFAQ(index) {
+        // const answers = document.querySelectorAll(".faq-answer");
+        // answers[index].style.display = (answers[index].style.display === "block") ? "none" : "block";
+    // }
+    // window.toggleFAQ = toggleFAQ;
 
-    // CTA Button Effects
-    ctaButtons.forEach(button => {
-        button.addEventListener("mouseover", function () {
-            button.style.backgroundColor = "#ffaa00";
-        });
-
-        button.addEventListener("mouseout", function () {
-            button.style.backgroundColor = "#ffcc00";
-        });
-
-        button.addEventListener("click", function () {
-            window.location.href = 'YOUR_PAYMENT_PAGE_URL';
-        });
-    });
 
     // Share on Facebook
     window.shareOnFacebook = function() {
@@ -59,3 +45,4 @@ document.addEventListener("DOMContentLoaded", function () {
         window.open(linkedInShareLink, '_blank');
     };
 });
+// https://grok.com/share/bGVnYWN5_00fd6a5a-821b-4b49-b583-90a07a35bd67
