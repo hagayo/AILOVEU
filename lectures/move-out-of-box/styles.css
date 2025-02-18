@@ -117,9 +117,9 @@ section {
 .testimonial, .video-item { background: #e3f2fd; }
 .item:hover { transform: scale(1.05); }
 
-.whatsapp-button { position:fixed; bottom:20px; left:20px; padding:0; transition: transform 0.3s; width:150px; height:48px; }
+.whatsapp-button { position:fixed; bottom:20px; left:20px; padding:0; transition: transform 0.3s; }
 .whatsapp-button:hover { transform: scale(1.1); }
-.whatsapp-icon { margin: 0; border-radius: 15px; }
+.whatsapp-icon { margin: 0; border-radius: 15px; width:150px; height:48px; }
 
 /* 🚀 Animations */
 @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -132,5 +132,5 @@ section {
 
 @media (max-width: 768px) {
     section { width:86vw; margin:20px auto; }
-    .whatsapp-button { width:100px; height:32px; }
+    .whatsapp-icon { width:100px; height:32px; }
 }
