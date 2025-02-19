@@ -35,10 +35,8 @@ h3, .slogan { font-size:22px; color:#FFF; margin-bottom:15px; }
 
 .cta-button {
     background: linear-gradient(to right, #ffcc00, #ff8800);
-    /* color: #1a237e; */
-    /* font-size: 20px; */
-    /* font-weight: bold; */
-    padding: 5px 5px;
+    font-size: 24px;
+    padding: 6px 15px;
     border: 1px solid #73AD21;
     border-radius: 50px;
     cursor: pointer;
@@ -48,10 +46,9 @@ h3, .slogan { font-size:22px; color:#FFF; margin-bottom:15px; }
 .cta-button:hover {
     background: linear-gradient(to right, #ff8800, #ff5500);
     transform: scale(1.05);
-    font-size: 22px;
 }
-.cta-btn-link { margin:10px 15px; color:#1a237e; font-size:20px; font-weight:bold; }
-.cta-btn-link:hover { color:#FFF; font-size:22px; }
+.cta-btn-link { margin:8px 10px; color:#1a237e; font-size:22px; font-weight:bold; }
+.cta-btn-link:hover { color:#FFF; font-size:24px; }
 
 section {
     width: 86vw;
@@ -74,7 +71,7 @@ section {
 .event-details { animation: slideUp 1s ease-in-out; }
 
 .item {
-    padding: 5px;
+    padding: 5px 15px;
     margin: 15px auto;
     border-radius: 20px;
     width: 80%;
