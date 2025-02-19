@@ -45,9 +45,10 @@ h3, .slogan { font-size:22px; color:#FFF; margin-bottom:15px; }
 }
 .cta-button:hover {
     background: linear-gradient(to right, #ff8800, #ff5500);
+    will-change: transform;
     transform: scale(1.05);
 }
-.cta-btn-link { margin:8px 10px; color:#1a237e; font-size:24px; font-weight:bold; }
+.cta-btn-link { margin:10px 12px; color:#1a237e; font-size:24px; font-weight:bold; }
 .cta-btn-link:hover { color:#FFF; }
 
 section {
@@ -85,7 +86,7 @@ section {
 .testimonial, .video-item { background: #e3f2fd; }
 /* .testimonial-video { width:320px; height:180px; } */
 
-.whatsapp-button { position:fixed; bottom:20px; left:20px; padding:0; transition: transform 0.3s; }
+.whatsapp-button { will-change:transform; position:fixed; bottom:20px; left:20px; padding:0; transition: transform 0.3s; }
 .whatsapp-button:hover { transform: scale(1.1); }
 .whatsapp-icon { margin: 0; border-radius: 15px; width:100px; height:32px; }
 
