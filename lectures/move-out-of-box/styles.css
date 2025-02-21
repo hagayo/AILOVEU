@@ -68,7 +68,7 @@ section {
 /* 🎨 Section Backgrounds */
 /* background: linear-gradient(to right, #ffcc80, #ff8a65); */
 /* .marketing { background: linear-gradient(to left, #1a237e, #4a148c); } */
-.event-details, .testimonials, .faq-section { background:#FFF; color:#1a237e; }
+.event-details, .testimonials, .faq-section, .whatsapp-group { background:#FFF; color:#1a237e; }
 .bonuses { background:#ffcc80; color:#1a237e; animation: fadeIn 1.5s ease-in-out; }
 .marketing ul { list-style:none; padding:0; }
 .marketing li { font-size:18px; font-weight:bold; margin:10px 0; }
