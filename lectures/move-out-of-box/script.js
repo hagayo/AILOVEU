@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Countdown Timer for Early-Bird Price
     function updateCountdown() {
-        const deadline = new Date("February 26, 2025 23:59:59").getTime();
+        const deadline = new Date("March 13, 2025 19:59:59").getTime();
         const now = new Date().getTime();
         const timeLeft = deadline - now;
         const millisecPerDay = 1000 * 60 * 60 * 24;
