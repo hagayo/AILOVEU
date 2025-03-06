@@ -1,26 +1,34 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html dir="rtl" lang="he-IL">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Landing page for selling AI lecture by Hagay Onn. Lecture is about the Brain, AI, Creativity, Thinking and Memory.">
+    <meta name="description" content="Landing page for an AI lecture by Hagay Onn. The lecture is about the Brain, AI, Creativity, Thinking and Memory.">
     <title>תנועה מחוץ לקופסא - הרצאה משנה חיים!</title>
-    <link rel="preload" fetchpriority="high" as="image" href="ai_background.webp" type="image/webp">
+    <link rel="preload" fetchpriority="high" as="image" href="img/ai_background.webp" type="image/webp">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Roboto%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CRoboto%20Slab%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CKarantina%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CHeebo%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic&amp;subset=hebrew&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CRoboto%20Slab%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CKarantina%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CIBM%20Plex%20Sans%20Hebrew%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CHeebo%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic&amp;subset=hebrew&amp;display=swap" media="all" onload="this.media='all'">
+    <link href="https://fonts.gstatic.com" crossorigin="" rel="preconnect">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Karantina:wght@300;400;700&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Karantina:wght@300;400;700&amp;display=swap" media="all" onload="this.media='all'">
     <link rel="stylesheet" href="styles.css">
     <script src="script.js" defer></script>
+    <link rel="canonical" href="https://ailoveu.art/lectures/move-out-of-box/index.html">
+    <link rel="shortlink" href="https://ailoveu.art?p=l1">
 </head>
 <body>
     <header class="hero">
         <div class="hero-content">
             <h1 class="hero-title">🚀 תנועה מחוץ לקופסא</h1>
+            <p class="slogan" style="margin-top:8px; margin-bottom:20px;"><strong>להפעיל יותר מ-2% מהמוח</strong></p>
             <p class="slogan">רוצה לזכור יותר, לחשוב בקלות ולהיות יצירתי באמת?</p>
             <h2><strong>אז זו ההרצאה בשבילך!</strong></h2>
-            <p>בואו להכיר את המודל הכי חזק - המוח!</p>
-            <p>ללמוד איך ניתן לשפר זיכרון ויצירתיות בקלות</p>
-            <p>בואו להרצאה שבאמת תשנה לכם את החיים!</p>
+            <p class="herop">בואו להכיר את המודל הכי חזק - המוח!</p>
+            <p class="herop">ללמוד איך ניתן לשפר זיכרון ויצירתיות בקלות</p>
+            <p class="herop"><strong>בואו להרצאה שבאמת תשנה לכם את החיים!</strong></p>
             <p style="margin-bottom:20px;"> ❤️    ❤️    ❤️    ❤️    ❤️</p>
-            <p class="limited-seats">🔥 נותרו <span id="seats-left">150</span> מקומות בלבד!</p>
-            <button type="button" class="cta-button" style="font-size:24px">
+            <!-- <p class="limited-seats"><strong>🔥 נותרו <span id="seats-left">150</span> מקומות בלבד!</strong></p> -->
+            <button type="button" class="cta-button">
                 <a href="https://meshulam.co.il/quick_payment?b=43d61129d30aa8e3e3ef3c9152554976" class="cta-btn-link" aria-label="Order a ticket for the lecture">לרכישת כרטיס</a>
             </button>
         </div>
@@ -28,12 +36,12 @@
 
     <section class="event-details">
         <h2 class="dark">📅 מתי ואיפה?</h2>
-        <!-- <p><strong>📆 תאריך:</strong> רביעי, 26 בפברואר 2025</p> -->
-        <!-- <p><strong>⏰ שעה:</strong>PM 20:00 (משך: 1.5 שעות)</p> -->
-        <!-- <p><strong>📍 מיקום:</strong> אונליין ב-Google Meet</p> -->
-        <p><img src="icons/calendar-heart.png" class="icon" alt=""></img><strong>תאריך:</strong> חמישי, 27 בפברואר 2025</p>
-        <p><img src="icons/clock.png" class="icon" alt=""></img><strong>שעה:</strong>PM 20:00 (משך: 1.5 שעות)</p>
-        <p><img src="icons/call.png" class="icon" alt=""></img><strong>מיקום:</strong> אונליין ב-Google Meet</p>
+        <p><strong>📆 תאריך: </strong> יום חמישי,13 למרץ 2025</p>
+        <p><strong>⏰ שעה: </strong>PM 20:00 (משך: 1.5 שעות)</p>
+        <p><strong>📍 מיקום: </strong> אונליין ב-Google Meet</p>
+        <!-- <p><img src="icons/calendar-heart.png" class="icon" alt=""></img><strong>תאריך:</strong> יום חמישי, 3 במרץ 2025</p> -->
+        <!-- <p><img src="icons/clock.png" class="icon" alt=""></img><strong>שעה:</strong>PM 20:00 (משך: 1.5 שעות)</p> -->
+        <!-- <p><img src="icons/call.png" class="icon" alt=""></img><strong>מיקום:</strong> אונליין ב-Google Meet</p> -->
         <p class="small-text">(קישור יישלח לאחר ההרשמה)</p>
         <p><img src="icons/colored-heart-icon.png" class="icon" alt=""></img><strong>פוקוס:</strong> חשיבה ויצירתיות</p>
 
@@ -51,8 +59,8 @@
         <ul>
             <li>💡 נלמד איך לחשוב מחוץ לקופסא ולפתח יצירתיות אינסופית</li>
             <li>🧠 איך לזכור יותר ובקלות בעזרת טכניקות פשוטות</li>
-            <li>🤖 שיפור בתנועה ובחשיבה יומיומית.</li>
             <li>🎯 הרצאה מעשית וכלים שתוכלו להשתמש בהם מיד</li>
+            <li>🤖 שיפור בתנועה ובחשיבה יומיומית</li>
         </ul>
     </section>
 
@@ -110,7 +118,7 @@
     
     <section class="cta">
         <h2>⏳ אל תפספסו את ההזדמנות!</h2>
-        <button type="button" class="cta-button" style="font-size:24px">
+        <button type="button" class="cta-button">
             <a href="https://meshulam.co.il/quick_payment?b=43d61129d30aa8e3e3ef3c9152554976" class="cta-btn-link" aria-label="Order a ticket for the lecture">🔥 כרטיסים</a>
         </button>
         <p class="countdown">ההנחה מסתיימת בעוד <span id="countdown-timer"></span>!</p>
@@ -128,7 +136,7 @@
             <a href="https://www.facebook.com/hagay.onn/" target="_blank" aria-label="My Facebook profile">
                 <img src="icons/facebook-icon.png" width="24px" height="24px" alt="Follow me on Facebook"></img></a>
             <a href="https://ailoveu.art" target="_blank" aria-label="AI-Love-U website">
-                <img src="ailoveu-logo.png" width="24px" height="24px" title="חזרה לאתר הראשי" alt="Back to ailoveu.art main website"></img></a>
+                <img src="icons/ailoveu-logo.png" width="24px" height="24px" title="חזרה לאתר הראשי" alt="Back to ailoveu.art main website"></img></a>
         </div>
     </footer>
 
