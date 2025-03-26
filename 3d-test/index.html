@@ -5,15 +5,13 @@
   <style>
     body { font-family: Arial, sans-serif; text-align: center; }
     model-viewer { width: 600px; height: 400px; margin-top: 20px; }
+    button { margin:20px; border-radius:10px; color:#ffffff; background-color:#2244aa; }
   </style>
 </head>
 <body>
-
 <h1>2D Image to 3D Model Viewer</h1>
-
-<input type="file" id="imageInput" accept="image/*"><br>
+<input type="file" id="imageInput" accept="image/*">
 <button onclick="processImage()">Upload and Convert</button>
-
 <p id="status">Awaiting input...</p>
 <model-viewer id="modelViewer" style="display:none;" camera-controls auto-rotate></model-viewer>
 
