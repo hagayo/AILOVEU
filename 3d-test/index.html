@@ -61,7 +61,8 @@ async function initiatePrediction(imageData) {
       method: "POST",
       headers: {
         Authorization: `Token ${apiToken}`,
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "cross-origin"
       },
       body: JSON.stringify({
         version: modelVersion,
