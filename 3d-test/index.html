@@ -81,7 +81,7 @@ async function pollPrediction(statusUrl) {
     let modelUrl = null;
     while (!modelUrl) {
       const response = await fetch(statusUrl, {
-        headers: { Authorization: `Token ${apiToken}` }
+        headers: { Authorization: `Token ${apiToken}`, "Access-Control-Allow-Origin": "cross-origin" }
       });
       const status = await response.json();
       if (status.status === "succeeded") {
