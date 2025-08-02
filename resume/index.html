@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hagay Onn - AI Architect & Python Expert</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #2d3748;
+            line-height: 1.6;
+            font-size: 13px;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .resume-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            min-height: 100vh;
+        }
+
+        /* LEFT SIDEBAR */
+        .sidebar {
+            background: linear-gradient(180deg, #1a202c 0%, #2d3748 50%, #4a5568 100%);
+            color: white;
+            padding: 40px 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.05)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.05)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.03)"/><circle cx="20" cy="60" r="0.5" fill="rgba(255,255,255,0.03)"/><circle cx="80" cy="30" r="0.5" fill="rgba(255,255,255,0.03)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .profile-section {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: 700;
+            color: white;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .name-sidebar {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .title-sidebar {
+            font-size: 14px;
+            color: #a0aec0;
+            font-weight: 400;
+            line-height: 1.4;
+        }
+
+        .sidebar-section {
+            margin-bottom: 35px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .sidebar-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        .sidebar-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 1px;
+        }
+
+        .contact-list {
+            list-style: none;
+        }
+
+        .contact-item {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            color: #cbd5e0;
+            font-size: 12px;
+        }
+
+        .contact-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 12px;
+            background: #667eea;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: white;
+        }
+
+        .skills-list {
+            list-style: none;
+        }
+
+        .skill-item {
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+        }
+
+        .skill-name {
+            font-weight: 600;
+            color: #667eea;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .skill-details {
+            font-size: 11px;
+            color: #a0aec0;
+            line-height: 1.4;
+        }
+
+        .education-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+            border-top: 3px solid #764ba2;
+        }
+
+        .education-degree {
+            font-weight: 600;
+            color: #764ba2;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .education-school {
+            color: #cbd5e0;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .education-details {
+            color: #a0aec0;
+            font-size: 11px;
+            line-height: 1.3;
+        }
+
+        /* RIGHT MAIN CONTENT */
+        .main-content {
+            padding: 40px;
+            background: #ffffff;
+        }
+
+        .header-main {
+            margin-bottom: 40px;
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            border-radius: 15px;
+            border: 1px solid #e2e8f0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-main::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #f5576c);
+        }
+
+        .name-main {
+            font-size: 42px;
+            font-weight: 800;
+            color: #1a202c;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #1a202c, #2d3748);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .title-main {
+            font-size: 18px;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .summary-box {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            font-size: 15px;
+            line-height: 1.7;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .summary-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .summary-text {
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-main {
+            margin-bottom: 50px;
+        }
+
+        .section-title-main {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1a202c;
+            margin-bottom: 30px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .section-title-main::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        .experience-timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .experience-timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, #667eea, #764ba2, #f093fb);
+        }
+
+        .experience-item {
+            position: relative;
+            margin-bottom: 40px;
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .experience-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .experience-item::before {
+            content: '';
+            position: absolute;
+            left: -40px;
+            top: 25px;
+            width: 12px;
+            height: 12px;
+            background: #667eea;
+            border-radius: 50%;
+            border: 3px solid #ffffff;
+            box-shadow: 0 0 0 3px #667eea;
+        }
+
+        .job-header-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .job-title-main {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 5px;
+        }
+
+        .company-main {
+            font-size: 16px;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .date-badge {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .job-description-main {
+            color: #4a5568;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .job-description-main ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .job-description-main li {
+            margin-bottom: 8px;
+        }
+
+        .tech-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .tech-badge {
+            background: linear-gradient(135deg, #e2e8f0, #cbd5e0);
+            color: #2d3748;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            border: 1px solid #e2e8f0;
+        }
+
+        .tech-badge:nth-child(3n+1) {
+            background: linear-gradient(135deg, #fed7d7, #feb2b2);
+            color: #c53030;
+            border-color: #feb2b2;
+        }
+
+        .tech-badge:nth-child(3n+2) {
+            background: linear-gradient(135deg, #c6f6d5, #9ae6b4);
+            color: #22543d;
+            border-color: #9ae6b4;
+        }
+
+        .tech-badge:nth-child(3n+3) {
+            background: linear-gradient(135deg, #bee3f8, #90cdf4);
+            color: #2a4365;
+            border-color: #90cdf4;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .resume-wrapper {
+                grid-template-columns: 1fr;
+                max-width: 800px;
+            }
+            
+            .sidebar {
+                padding: 30px 20px;
+            }
+            
+            .main-content {
+                padding: 30px 20px;
+            }
+            
+            .experience-timeline {
+                padding-left: 0;
+            }
+            
+            .experience-timeline::before {
+                display: none;
+            }
+            
+            .experience-item::before {
+                display: none;
+            }
+            
+            .name-main {
+                font-size: 32px;
+            }
+            
+            .section-title-main {
+                font-size: 24px;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .resume-wrapper {
+                box-shadow: none;
+                border-radius: 0;
+                max-width: none;
+                grid-template-columns: 300px 1fr;
+            }
+            
+            .experience-item:hover {
+                transform: none;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            }
+            
+            .summary-box::before {
+                animation: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="resume-wrapper">
+        <!-- LEFT SIDEBAR -->
+        <div class="sidebar">
+            <div class="profile-section">
+                <div class="profile-image">HO</div>
+                <h1 class="name-sidebar">Hagay Onn</h1>
+                <p class="title-sidebar">AI Architect & Integrations<br>Python Expert<br>Data Engineering Consultant</p>
+            </div>
+
+            <div class="sidebar-section">
+                <h2 class="sidebar-title">Contact</h2>
+                <ul class="contact-list">
+                    <li class="contact-item">
+                        <span class="contact-icon">📧</span>
+                        hagayo@gmail.com
+                    </li>
+                    <li class="contact-item">
+                        <span class="contact-icon">📱</span>
+                        +972(0)-544-956239
+                    </li>
+                    <li class="contact-item">
+                        <span class="contact-icon">💼</span>
+                        LinkedIn: hagaytech
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h2 class="sidebar-title">Core Skills</h2>
+                <ul class="skills-list">
+                    <li class="skill-item">
+                        <div class="skill-name">Python Development</div>
+                        <div class="skill-details">11 years • Django/Flask, Data Processing, AI/ML Integration</div>
+                    </li>
+                    <li class="skill-item">
+                        <div class="skill-name">System Architecture</div>
+                        <div class="skill-details">Cloud platforms, Microservices, Scalable Solutions</div>
+                    </li>
+                    <li class="skill-item">
+                        <div class="skill-name">Data Engineering</div>
+                        <div class="skill-details">Big Data, ETL Pipelines, Real-time Processing</div>
+                    </li>
+                    <li class="skill-item">
+                        <div class="skill-name">AI & Machine Learning</div>
+                        <div class="skill-details">ML Models, API Integration, Business Applications</div>
+                    </li>
+                    <li class="skill-item">
+                        <div class="skill-name">Full-Stack Development</div>
+                        <div class="skill-details">16 years web development, Multiple languages</div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h2 class="sidebar-title">Education</h2>
+                <div class="education-item">
+                    <div class="education-degree">B.Sc. Computer Engineering</div>
+                    <div class="education-school">Technion - Israel Institute of Technology</div>
+                    <div class="education-details">
+                        Dean's Honor (91.8)<br>
+                        Specialization: ML + Neural Networks<br>
+                        1998 - 2002
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h2 class="sidebar-title">Languages</h2>
+                <ul class="contact-list">
+                    <li class="contact-item">
+                        <span class="contact-icon">🇮🇱</span>
+                        Hebrew (Native)
+                    </li>
+                    <li class="contact-item">
+                        <span class="contact-icon">🇺🇸</span>
+                        English (Excellent)
+                    </li>
+                    <li class="contact-item">
+                        <span class="contact-icon">🇮🇹</span>
+                        Italian (Basic)
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h2 class="sidebar-title">Military Service</h2>
+                <div class="education-item">
+                    <div class="education-degree">Programmer, IDF-MAMRAM</div>
+                    <div class="education-details">
+                        Military Advocate General's Corps<br>
+                        Developed 2 major systems<br>
+                        1995 - 1998
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT MAIN CONTENT -->
+        <div class="main-content">
+            <div class="header-main">
+                <h1 class="name-main">HAGAY ONN</h1>
+                <p class="title-main">AI Solutions Architect • Python Expert • Data Engineering Consultant</p>
+            </div>
+
+            <div class="summary-box">
+                <div class="summary-text">
+                    <strong>I help companies build and scale AI/data platforms from POC to production.</strong> 
+                    With 20+ years of experience in enterprise-grade solutions, I specialize in AI/Network/Cloud/Advertising 
+                    protocols and have a proven track record in research, MVP development, and production deployments 
+                    with a focus on user experience and business impact.
+                </div>
+            </div>
+
+            <div class="section-main">
+                <h2 class="section-title-main">Professional Experience</h2>
+                
+                <div class="experience-timeline">
+                    <div class="experience-item">
+                        <div class="job-header-main">
+                            <div>
+                                <h3 class="job-title-main">AI Consultant & Lecturer</h3>
+                                <p class="company-main">Independent Practice</p>
+                            </div>
+                            <span class="date-badge">2023 - Present</span>
+                        </div>
+                        <div class="job-description-main">
+                            Provide comprehensive consulting and lectures on AI concepts, tools, business integrations, and automations. 
+                            Develop Chrome extensions and custom AI solutions for businesses. Specialize in practical AI implementation 
+                            and helping companies integrate cutting-edge AI technologies into their existing workflows and business processes.
+                        </div>
+                        <div class="tech-badges">
+                            <span class="tech-badge">AI Consulting</span>
+                            <span class="tech-badge">Chrome Extensions</span>
+                            <span class="tech-badge">Business Integration</span>
+                            <span class="tech-badge">JavaScript</span>
+                            <span class="tech-badge">Python</span>
+                        </div>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="job-header-main">
+                            <div>
+                                <h3 class="job-title-main">Team Leader Engineer</h3>
+                                <p class="company-main">Qualcomm</p>
+                            </div>
+                            <span class="date-badge">Mar 2022 - Sep 2022</span>
+                        </div>
+                        <div class="job-description-main">
+                            Led Python development initiatives and managed a team of 2 junior developers. Focused on scalable 
+                            system architecture, code quality improvements, and team mentorship. Successfully delivered multiple 
+                            high-impact projects before leaving due to medical circumstances.
+                        </div>
+                        <div class="tech-badges">
+                            <span class="tech-badge">Python</span>
+                            <span class="tech-badge">Team Leadership</span>
+                            <span class="tech-badge">System Architecture</span>
+                            <span class="tech-badge">Mentoring</span>
+                        </div>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="job-header-main">
+                            <div>
+                                <h3 class="job-title-main">Senior Data Engineer</h3>
+                                <p class="company-main">Vdoo (acquired by JFrog)</p>
+                            </div>
+                            <span class="date-badge">Sep 2020 - Jun 2021</span>
+                        </div>
+                        <div class="job-description-main">
+                            Optimized data pipelines for a sophisticated cyber-analysis platform serving enterprise clients. 
+                            Enhanced system performance and scalability through strategic architecture improvements, resulting 
+                            in 40% faster data processing and improved system reliability.
+                        </div>
+                        <div class="tech-badges">
+                            <span class="tech-badge">Django</span>
+                            <span class="tech-badge">Kubernetes</span>
+                            <span class="tech-badge">Docker</span>
+                            <span class="tech-badge">PostgreSQL</span>
+                            <span class="tech-badge">AWS SQS</span>
+                            <span class="tech-badge">S3</span>
+                            <span class="tech-badge">Python</span>
+                        </div>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="job-header-main">
+                            <div>
+                                <h3 class="job-title-main">Senior Python Developer</h3>
+                                <p class="company-main">Inspekto</p>
+                            </div>
+                            <span class="date-badge">Jul 2019 - Jun 2020</span>
+                        </div>
+                        <div class="job-description-main">
+                            Built comprehensive security interfaces for Ubuntu systems and designed the Data-Coordinators Tool 
+                            for automated data management. Created seamless connectors for data export/import and version upgrades 
+                            across local and cloud environments, significantly reducing manual operational overhead.
+                        </div>
+                        <div class="tech-badges">
+                            <span class="tech-badge">Python</span>
+                            <span class="tech-badge">Bash</span>
+                            <span class="tech-badge">Ubuntu</span>
+                            <span class="tech-badge">Cloud Integration</span>
+                            <span class="tech-badge">Security</span>
+                        </div>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="job-header-main">
+                            <div>
+                                <h3 class="job-title-main">Infrastructure Engineer</h3>
+                                <p class="company-main">Bluevine</p>
+                            </div>
+                            <span class="date-badge">Dec 2018 - Jun 2019</span>
+                        </div>
+                        <div class="job-description-main">
+                            Optimized Python/Django workflows and integrated ELK stack for comprehensive logging and monitoring. 
+                            Created detailed visualizations, dashboards, and alert systems for R&D teams, improving debugging 
+                            efficiency and system observability across the platform.
+                        </div>
+                        <div class="tech-badges">
+                            <span class="tech-badge">Django</span>
+                            <span class="tech-badge">ELK Stack</span>
+                            <span class="tech-badge">Kibana</span>
+                            <span class="tech-badge">Docker</span>
+                            <span class="tech-badge">Vue.js</span>
+                        </div>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="job-header-main">
+                            <div>
+                                <h3 class="job-title-main">Senior Developer/Integration Manager</h3>
+                                <p class="company-main">GlassboxDigital</p>
+                            </div>
+                            <span class="date-badge">Dec 2017 - Dec 2018</span>
+                        </div>
+                        <div class="job-description-main">
+                            Successfully integrated Anodot's ML-powered anomaly detection APIs with proprietary Java Analytics platform. 
+                            Designed and implemented an internal ML model and intuitive UI tool for advanced user-journey analysis, 
+                            enabling data-driven decision making for enterprise clients.
+                        </div>
+                        <div class="tech-badges">
+                            <span class="tech-badge">Java</span>
+                            <span class="tech-badge">Python</span>
+                            <span class="tech-badge">Node.js</span>
+                            <span class="tech-badge">Machine Learning</span>
+                            <span class="tech-badge">API Integration</span>
+                        </div>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="job-header-main">
+                            <div>
+                                <h3 class="job-title-main">Architect & Technology Researcher</h3>
+                                <p class="company-main">Flash-Networks Ltd</p>
+                            </div>
+                            <span class="date-badge">2013 - 2015</span>
+                        </div>
+                        <div class="job-description-main">
+                            <ul>
+                                <li><strong>Big-Data Analytics:</strong> Implemented TB-PB scale transaction-logs pattern analysis and advanced algorithms</li>
+                                <li><strong>ARTA System:</strong> Built Analytics Real-Time Activity Alerter for multiple Google Analytics accounts</li>
+                                <li><strong>ML Solutions:</strong> Developed device recognition, webpage classification, and yield-management systems</li>
+                                <li><strong>Research & Innovation:</strong> TCP optimization, mobile performance enhancement, QoE management systems</li>
+                                <li><strong>Business Impact:</strong> Presented strategic business options to C-level executives using Big-Data insights</li>
+                            </ul>
+                        </div>
+                        <div class="tech-badges">
+                            <span class="tech-badge">Big Data</span>
+                            <span class="tech-badge">Python</span>
+                            <span class="tech-badge">Analytics</span>
+                            <span class="tech-badge">Machine Learning</span>
+                            <span class="tech-badge">Google Analytics</span>
+                            <span class="tech-badge">TCP Optimization</span>
+                        </div>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="job-header-main">
+                            <div>
+                                <h3 class="job-title-main">Technology Consultant</h3>
+                                <p class="company-main">HagayTech</p>
+                            </div>
+                            <span class="date-badge">2007 - 2013</span>
+                        </div>
+                        <div class="job-description-main">
+                            Provided full-stack consulting from initial design to production deployment. Specialized in Web/Mobile/Real-Time 
+                            systems, embedded solutions, and large-scale cellular communication projects. Delivered business optimizations 
+                            and architecture consulting for major enterprise clients including defense and technology companies.
+                            <br><br>
+                            <strong>Major clients:</strong> RADA, ELBIT, XtremIO, Deal-Ply, Mind-Cite, Consonance, Embedigen
+                        </div>
+                        <div class="tech-badges">
+                            <span class="tech-badge">Full-Stack Development</span>
+                            <span class="tech-badge">Embedded Systems</span>
+                            <span class="tech-badge">Enterprise Consulting</span>
+                            <span class="tech-badge">Mobile Development</span>
+                            <span class="tech-badge">C++</span>
+                            <span class="tech-badge">Java</span>
+                        </div>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="job-header-main">
+                            <div>
+                                <h3 class="job-title-main">Senior Fullstack Developer</h3>
+                                <p class="company-main">WIX</p>
+                            </div>
+                            <span class="date-badge">Apr 2010 - Nov 2011</span>
+                        </div>
+                        <div class="job-description-main">
+                            Developed 4 major Big-Data systems serving 50M users: comprehensive SEO automation, site registration systems, 
+                            and monitoring platforms. Built automatic mail distribution systems and WIX's SEO monitoring infrastructure, 
+                            significantly improving user engagement and platform performance.
+                        </div>
+                        <div class="tech-badges">
+                            <span class="tech-badge">J2EE</span>
+                            <span class="tech-badge">Spring 3.0</span>
+                            <span class="tech-badge">MySQL</span>
+                            <span class="tech-badge">Maven</span>
+                            <span class="tech-badge">Big Data</span>
+                            <span class="tech-badge">SEO</span>
+                        </div>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="job-header-main">
+                            <div>
+                                <h3 class="job-title-main">Contract Roles - Startup Ecosystem</h3>
+                                <p class="company-main">Multiple Startups</p>
+                            </div>
+                            <span class="date-badge">2016 - 2017</span>
+                        </div>
+                        <div class="job-description-main">
+                            <strong>Fortvision:</strong> Enhanced advertising platform scalability, upgraded Angular 1→2, implemented geo-targeting features<br>
+                            <strong>Videocites:</strong> Designed comprehensive DRM-theft detection solution on Azure, built intelligent crawlers for major video platforms<br>
+                            <strong>Faception:</strong> Developed AWS-based facial classification solution with Node.js/C++/MATLAB integration for advanced computer vision
+                        </div>
+                        <div class="tech-badges">
+                            <span class="tech-badge">Node.js</span>
+                            <span class="tech-badge">Angular</span>
+                            <span class="tech-badge">Azure</span>
+                            <span class="tech-badge">AWS</span>
+                            <span class="tech-badge">Computer Vision</span>
+                            <span class="tech-badge">MATLAB</span>
+                            <span class="tech-badge">C++</span>
+                        </div>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="job-header-main">
+                            <div>
+                                <h3 class="job-title-main">Early Career Development</h3>
+                                <p class="company-main">Various Technology Companies</p>
+                            </div>
+                            <span class="date-badge">2001 - 2008</span>
+                        </div>
+                        <div class="job-description-main">
+                            <strong>Vollee/Game-stream:</strong> C++ game integration for mobile platforms (BREW, WIPI-OS), including Sony-Tekken integration<br>
+                            <strong>SanDisk:</strong> Secure embedded firmware development for USB 2.0 devices with advanced security features<br>
+                            <strong>REFAEL:</strong> RF IP-based network communication platform development for VxWorks OS, video-controlled systems architecture
+                        </div>
+                        <div class="tech-badges">
+                            <span class="tech-badge">C++</span>
+                            <span class="tech-badge">Embedded Systems</span>
+                            <span class="tech-badge">Mobile Platforms</span>
+                            <span class="tech-badge">Network Communication</span>
+                            <span class="tech-badge">VxWorks</span>
+                            <span class="tech-badge">Assembly</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<!-- ChatGPT cheat sheet, teach how to use chatgpt from 0 - 100, from starter to master in 20-30 slides -->
+<!-- imagine you are a great copywriter like Dan Kennedy and write for me... -->
