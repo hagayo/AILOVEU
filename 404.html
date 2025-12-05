@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - AIloveU</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* --- Core Theme: Quantum Instability (Blue/Orange) --- */
+        
+        :root {
+            --color-blue: #007bff; /* Primary Blue */
+            --color-orange: #FF7F00; /* Primary Orange */
+            --color-text: #212529;
+            --color-bg: #fdfdfd; /* Near white background */
+            --offset-x: 10px;
+            --offset-y: 10px;
+            --shadow-intensity: 0.1s;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            box-sizing: border-box;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        /* --- Main Content Container (Minimalist Frame) --- */
+        .quantum-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 600px;
+            padding: 2rem 1.5rem;
+        }
+
+        /* --- Quantum 404 Display --- */
+        
+        /* Keyframe animation for permanent instability */
+        @keyframes chaos-shift {
+            0% { text-shadow: var(--offset-x) 0 0 var(--color-orange), calc(var(--offset-x) * -1) 0 0 var(--color-blue); }
+            33% { text-shadow: 0 var(--offset-y) 0 var(--color-blue), 0 calc(var(--offset-y) * -1) 0 var(--color-orange); }
+            66% { text-shadow: calc(var(--offset-x) * -0.5) calc(var(--offset-y) * 0.5) 0 var(--color-orange), calc(var(--offset-x) * 0.5) calc(var(--offset-y) * -0.5) 0 var(--color-blue); }
+            100% { text-shadow: var(--offset-x) 0 0 var(--color-orange), calc(var(--offset-x) * -1) 0 0 var(--color-blue); }
+        }
+
+        /* The core 404 element */
+        .display-404 {
+            font-size: 8vw; /* Fluid size */
+            font-weight: 900;
+            line-height: 0.8;
+            margin-bottom: 2rem;
+            color: var(--color-text);
+            position: relative;
+            user-select: none;
+            cursor: default;
+            
+            /* Initial state of chaos */
+            animation: chaos-shift 1.5s infinite linear alternate-reverse;
+            transition: all var(--shadow-intensity) ease-out; /* Transition for stabilization */
+        }
+        
+        @media (min-width: 600px) {
+            .display-404 {
+                font-size: 4.5rem; /* Max size on desktop */
+            }
+        }
+        
+        /* --- Stabilized State (Managed by JS) --- */
+        .stabilized {
+            animation: none !important; /* Disable chaos */
+            text-shadow: 0 0 20px rgba(0, 123, 255, 0.7), 0 0 10px rgba(0, 123, 255, 0.5);
+            transform: scale(1.05);
+        }
+
+        /* --- Secondary Text --- */
+        .secondary-text {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--color-text);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+        
+        .error-message {
+            font-size: 1.1rem;
+            color: #6c757d;
+            margin-bottom: 2rem;
+        }
+
+        /* Highlight text */
+        .text-highlight-orange {
+            color: var(--color-orange);
+            font-weight: 700;
+        }
+
+        /* --- Button Styles --- */
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        @media (min-width: 480px) {
+            .button-group {
+                flex-direction: row;
+                justify-content: center;
+                gap: 2rem;
+            }
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2.5rem;
+            border-radius: 4px; /* Sharp corners for technical feel */
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-transform: uppercase;
+        }
+
+        .btn-primary {
+            background-color: var(--color-orange);
+            color: white;
+            border: 2px solid var(--color-orange);
+        }
+        .btn-primary:hover {
+            background-color: #e67300;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 127, 0, 0.7);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--color-blue);
+            border: 2px solid var(--color-blue);
+        }
+        .btn-secondary:hover {
+            background-color: var(--color-blue);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 123, 255, 0.7);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Content -->
+    <div class="quantum-container">
+
+        <!-- The Chaotic, Interactive 404 Display -->
+        <h1 class="display-404" id="quantum-404">
+            404 - AI❤️U
+        </h1>
+
+        <h2 class="secondary-text">
+            Quantum Buffer Overflow - Page Not Found :-)
+        </h2>
+        
+        <p class="error-message">
+            The requested dimension could not be mapped. The data pointer has <span class="text-highlight-orange">collided with its past self</span>, causing a local spatial disconnect. We recommend a full system reboot.
+        </p>
+
+        <!-- Call to Action -->
+        <div class="button-group">
+            <a href="/" class="btn btn-primary">
+                Execute System Reboot (Home)
+            </a>
+            <a href="/report-bug" class="btn btn-secondary">
+                Report Dimensional Anomaly
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const quantum404 = document.getElementById('quantum-404');
+        const container = document.querySelector('.quantum-container');
+
+        // Function to check cursor proximity to the center of the 404 element
+        function checkProximity(e) {
+            const rect = quantum404.getBoundingClientRect();
+            
+            // Calculate center of the 404 element
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            // Get cursor position (handling both mouse and touch)
+            let clientX, clientY;
+            if (e.touches && e.touches.length > 0) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            } else {
+                clientX = e.clientX;
+                clientY = e.clientY;
+            }
+            
+            // Calculate distance
+            const distance = Math.sqrt(
+                Math.pow(clientX - centerX, 2) + Math.pow(clientY - centerY, 2)
+            );
+            
+            // Threshold for stabilization (in pixels)
+            const stabilizationThreshold = 200; 
+
+            if (distance < stabilizationThreshold) {
+                // Stabilized state
+                if (!quantum404.classList.contains('stabilized')) {
+                    quantum404.classList.add('stabilized');
+                }
+            } else {
+                // Chaotic state
+                if (quantum404.classList.contains('stabilized')) {
+                    quantum404.classList.remove('stabilized');
+                }
+            }
+        }
+
+        document.addEventListener('mousemove', checkProximity);
+        document.addEventListener('touchmove', checkProximity);
+
+        // Reset if touch ends or mouse leaves
+        document.addEventListener('mouseleave', () => {
+            if (quantum404.classList.contains('stabilized')) {
+                quantum404.classList.remove('stabilized');
+            }
+        });
+        document.addEventListener('touchend', () => {
+            if (quantum404.classList.contains('stabilized')) {
+                quantum404.classList.remove('stabilized');
+            }
+        });
+        document.addEventListener('touchcancel', () => {
+            if (quantum404.classList.contains('stabilized')) {
+                quantum404.classList.remove('stabilized');
+            }
+        });
+    </script>
+</body>
+</html>
