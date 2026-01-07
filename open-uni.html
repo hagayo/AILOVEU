@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>קורס פיתוח בינה מלאכותית - GenAI Engineers</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%); color: #2c3e50; line-height: 1.6;
+        }
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #4a5fc1 100%);
+            color: white; padding: 80px 20px; text-align: center; position: relative; overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%; right: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px; animation: moveGrid 20s linear infinite;
+        }
+        @keyframes moveGrid {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        .hero h1 { font-size: 3em; margin-bottom: 20px; position: relative; z-index: 1; animation: fadeInDown 1s ease-out; }
+        .hero p { font-size: 1.3em; position: relative; z-index: 1; animation: fadeInUp 1s ease-out 0.3s both; }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        nav {
+            background: white;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        nav a {
+            text-decoration: none;
+            color: #667eea;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+            cursor: pointer;
+        }
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background: #667eea;
+            transition: width 0.3s ease;
+        }
+        nav a:hover::after, nav a.active::after { width: 100%; }
+        nav a:hover, nav a.active { color: #4a5fc1; }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            display: none;
+        }
+        .section.active { display: block; animation: fadeIn 0.6s ease-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .section h2 {
+            color: #667eea;
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            border-right: 5px solid #667eea;
+            padding-right: 20px;
+        }
+        .section h3 {
+            color: #4a5fc1;
+            font-size: 1.6em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        .card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 30px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+        .card h4 {
+            color: #667eea;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            direction: ltr;
+            text-align: left;
+        }
+        .diagram {
+            background: linear-gradient(135deg, #e0e7ff 0%, #f0f4ff 100%);
+            padding: 30px;
+            border-radius: 12px;
+            margin: 25px 0;
+            text-align: center;
+            border: 2px dashed #667eea;
+        }
+        .flow {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .flow-item {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            font-weight: 600;
+            color: #667eea;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .arrow {
+            font-size: 2em;
+            color: #667eea;
+            animation: slideArrow 1.5s ease-in-out infinite;
+        }
+        @keyframes slideArrow {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(-10px); }
+        }
+        .highlight {
+            background: linear-gradient(120deg, #667eea 0%, #4a5fc1 100%);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .promo-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        .promo-box h3 {
+            color: white;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .stat-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .stat-number { font-size: 3em; font-weight: bold; color: #667eea; display: block; }
+        .stat-label { color: #666; margin-top: 10px; }
+        .cta-button {
+            display: inline-block;
+            background: white; color: #667eea;
+            padding: 15px 40px; border-radius: 30px;
+            font-size: 1.2em; font-weight: 600; text-decoration: none;
+            margin-top: 20px; transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .cta-button:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+        .lecturer-profile { display: flex; gap: 40px; align-items: flex-start; margin: 30px 0; flex-wrap: wrap; }
+        .lecturer-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5em;
+            color: white;
+            flex-shrink: 0;
+        }
+        .lecturer-info { flex: 1; min-width: 300px; }
+        ul, ol { margin: 15px 0; padding-right: 25px; }
+        li { margin: 10px 0; }
+        footer {
+            background: #2d3748;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 60px;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2em; }
+            .hero p { font-size: 1.1em; }
+            .section { padding: 25px; }
+            .section h2 { font-size: 1.8em; }
+            nav ul { gap: 15px; }
+            .lecturer-profile { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>🎓 מפתחי בינה מלאכותית - GenAI Engineers</h1>
+        <p>תוכנית לימודים אקדמית מתקדמת • 234 שעות • 2 סמסטרים</p>
+    </div>
+
+    <nav>
+        <ul>
+            <li><a href="#" data-tab="home" class="nav-link active">בית</a></li>
+            <li><a href="#" data-tab="lecturer" class="nav-link">המרצה</a></li>
+            <li><a href="#" data-tab="client-server" class="nav-link">לקוח ושרת</a></li>
+            <li><a href="#" data-tab="apis" class="nav-link">APIs</a></li>
+            <li><a href="#" data-tab="microservices" class="nav-link">מיקרוסרוויסים</a></li>
+            <li><a href="#" data-tab="cloud" class="nav-link">ענן</a></li>
+            <li><a href="#" data-tab="python" class="nav-link">Python</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <section id="home" class="section active">
+            <h2>🚀 הכשרה פורצת דרך למפתחי AI</h2>
+            
+            <div class="promo-box">
+                <h3>הפוך למפתח GenAI מבוקש תוך פחות משנה!</h3>
+                <p style="font-size: 1.2em; margin: 20px 0;">תוכנית הלימודים היחידה בישראל שמתמקדת ב-100% בפיתוח מערכות GenAI מודרניות</p>
+                <a href="#" class="cta-button">הירשם עכשיו</a>
+            </div>
+
+            <h3>📊 מה מייחד את התוכנית?</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">234</span>
+                    <div class="stat-label">שעות אקדמיות מרוכזות</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">2</span>
+                    <div class="stat-label">סמסטרים אינטנסיביים</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">E2E</span>
+                    <div class="stat-label">מקונספט ועד פריסה בענן</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">100%</span>
+                    <div class="stat-label">מיקוד ב-GenAI</div>
+                </div>
+            </div>
+
+            <h3>💎 למה לבחור במסלול הזה?</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>🎯 ממוקד בשוק 2025</h4>
+                    <p>התוכנית תוכננה במיוחד לדרישות השוק הנוכחיות - AI Engineers שיודעים לבנות מערכות ייצור מלאות, לא רק מדעני נתונים.</p>
+                </div>
+                <div class="card">
+                    <h4>⚡ למידה מהירה ויעילה</h4>
+                    <p>ללא בזבוז זמן על NumPy, Pandas ומתמטיקה מתקדמת. מתמקדים במה שבאמת צריך - פיתוח מערכות AI עובדות.</p>
+                </div>
+                <div class="card">
+                    <h4>🤖 AI-Assisted Coding</h4>
+                    <p>לומדים לפתח עם Copilot, Claude, Gemini ועוד. הדרך המודרנית לכתוב קוד מהר ויעיל יותר.</p>
+                </div>
+                <div class="card">
+                    <h4>👥 סוכנים אוטונומיים</h4>
+                    <p>התמחות בבניית AI Agents עם LangChain, CrewAI ו-AutoGen - הטרנד החם ביותר בתעשייה.</p>
+                </div>
+                <div class="card">
+                    <h4>☁️ פריסה לענן</h4>
+                    <p>לומדים Docker, FastAPI ופריסה ל-AWS/GCP. מוצר שלם מהפיתוח ועד הייצור.</p>
+                </div>
+                <div class="card">
+                    <h4>💼 רלוונטיות מיידית</h4>
+                    <p>יתרון תחרותי מובהק - החברות מחפשות בדיוק את המיומנויות האלה!</p>
+                </div>
+            </div>
+
+            <h3>📚 מבנה התוכנית</h3>
+            
+            <div class="card">
+                <h4>סמסטר 1: יסודות התכנות, בינה מלאכותית ולמידת מכונה</h4>
+                <p><strong>117 שעות אקדמיות | 9 שעות שבועיות | 13 שבועות</strong></p>
+                <ul>
+                    <li><strong>תוכנה ופיתוח בפייתון (60 שעות)</strong> - OOP, TDD, AI-Assisted Coding</li>
+                    <li><strong>מסדי נתונים וממשקים (40 שעות)</strong> - REST, FastAPI, PostgreSQL, MongoDB, Streamlit</li>
+                    <li><strong>תיאוריה - בינה מלאכותית (20 שעות)</strong> - מודלים, הנדסת פרומפטים, RAG</li>
+                </ul>
+            </div>
+
+            <div class="card" style="margin-top: 25px;">
+                <h4>סמסטר 2: אוטומציה, ענן, סוכנים ותכנות ללא קוד</h4>
+                <p><strong>117 שעות אקדמיות | 9 שעות שבועיות | 13 שבועות</strong></p>
+                <ul>
+                    <li><strong>Vibe-Coding תכנות ללא קוד (30 שעות)</strong> - Loveable, 44Base, Streamlit</li>
+                    <li><strong>פיתוח סוכנים אוטונומיים (45 שעות)</strong> - LangChain, CrewAI, AutoGen</li>
+                    <li><strong>אוטומציה עסקית (15 שעות)</strong> - N8N, Make, Webhooks</li>
+                    <li><strong>פריסה לענן (25 שעות)</strong> - Docker, AWS/GCP, Cloud Run</li>
+                </ul>
+            </div>
+
+            <div class="promo-box" style="margin-top: 40px;">
+                <h3>🎓 מי מתאים למסלול?</h3>
+                <div style="text-align: right; max-width: 700px; margin: 20px auto;">
+                    <p style="font-size: 1.1em; margin: 15px 0;">✅ מתכנתים שרוצים לעבור ל-AI Development</p>
+                    <p style="font-size: 1.1em; margin: 15px 0;">✅ מפתחים ללא רקע AI שרוצים להיכנס לתחום</p>
+                    <p style="font-size: 1.1em; margin: 15px 0;">✅ אנשי הייטק שרוצים להתמחות ב-GenAI</p>
+                    <p style="font-size: 1.1em; margin: 15px 0;">✅ בעלי רקע טכנולוגי המעוניינים בקריירה חדשה</p>
+                </div>
+            </div>
+
+            <div class="diagram" style="margin-top: 40px;">
+                <h3 style="color: #667eea;">🚀 המסע שלך למפתח GenAI</h3>
+                <div class="flow">
+                    <div class="flow-item">📝 הרשמה<br>לקורס</div>
+                    <div class="arrow">⬅</div>
+                    <div class="flow-item">💻 סמסטר 1<br>יסודות</div>
+                    <div class="arrow">⬅</div>
+                    <div class="flow-item">🤖 סמסטר 2<br>סוכנים וענן</div>
+                    <div class="arrow">⬅</div>
+                    <div class="flow-item">🎯 מפתח AI<br>מוכן לשוק</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="lecturer" class="section">
+            <h2>👨‍🏫 המרצה - חגי און</h2>
+            
+            <div class="lecturer-profile">
+                <div class="lecturer-image">👨‍💻</div>
+                <div class="lecturer-info">
+                    <h3 style="margin-top: 0; color: #667eea;">בן 49, אב לשניים, מהנדס ומפתח מומחה</h3>
+                    <p style="font-size: 1.1em; color: #666;">בעל ניסיון של 25 שנה בפיתוח תוכנה ובינה מלאכותית</p>
+                </div>
+            </div>
+
+            <h3>🎓 השכלה וניסיון מקצועי</h3>
+            <div class="card">
+                <ul>
+                    <li><strong>תואר בהנדסת חשמל ומחשבים מהטכניון (2002)</strong> - התמחות במסלולי למידת מכונה (ML) ורשתות עצביות</li>
+                    <li><strong>25 שנות פיתוח</strong> - מומחה ב-C++, C, Java, JavaScript ופייתון</li>
+                    <li><strong>ניסיון בחברות מובילות</strong> - רפאל מערכות לחימה, סאנדיסק, קוואלקום ועוד</li>
+                    <li><strong>תפקידים בכירים</strong> - מפתח זמן-אמת, מתכנת בכיר וארכיטקט מערכת</li>
+                </ul>
+            </div>
+
+            <h3>🤖 הישגים בתחום הבינה המלאכותית</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>💡 פיתוח מודל AI מסחרי (2016)</h4>
+                    <p>תכנון, עיצוב ופיתוח מודל בינה מלאכותית מלא המנתח נתוני ציר זמן אינסופיים של אירועים מקבילים.</p>
+                </div>
+                <div class="card">
+                    <h4>🎨 יוצר וממציא (2022-היום)</h4>
+                    <p>יוצר ומוכר תמונות אמנות עם כלי בינה מלאכותית. מנחה 2 קהילות גדולות על יצירה עם AI (כ-2000 איש).</p>
+                </div>
+                <div class="card">
+                    <h4>🎤 מרצה ומדריך</h4>
+                    <p>מאז 2022 מרצה על בינה מלאכותית, מודלים והטמעה של שימוש ב-AI בארגונים ולקהל הרחב.</p>
+                </div>
+            </div>
+
+            <h3>🌟 מה מייחד את חגי כמרצה?</h3>
+            <div class="promo-box">
+                <div style="text-align: right; max-width: 800px; margin: 0 auto;">
+                    <p style="font-size: 1.2em; margin: 15px 0;">💼 <strong>ניסיון מעשי אמיתי</strong> - 25 שנה בתעשייה, לא רק תיאוריה</p>
+                    <p style="font-size: 1.2em; margin: 15px 0;">🎯 <strong>מומחיות ב-AI מהשורש</strong> - למד ML עוד לפני שזה היה מגניב</p>
+                    <p style="font-size: 1.2em; margin: 15px 0;">🚀 <strong>בונה מוצרים אמיתיים</strong> - מקונספט ועד ייצור</p>
+                    <p style="font-size: 1.2em; margin: 15px 0;">❤️ <strong>אוהב ללמד</strong> - נותן לאנשים כלים ליצור ולממש את עצמם</p>
+                    <p style="font-size: 1.2em; margin: 15px 0;">🥋 <strong>מגוון תחומי עניין</strong> - גם מאמן קונג-פו מוסמך ומדריך קרקס!</p>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 30px; background: linear-gradient(135deg, #e0e7ff 0%, #f0f4ff 100%);">
+                <h4 style="color: #667eea; font-size: 1.5em; text-align: center;">💬 "אני אוהב ללמד ולהעביר ידע פרקטי ומועיל, שנותן לאנשים עוד אפשרויות ליצור ולממש את עצמם, ועל הדרך לגעת בחדשנות ולהתמלא בהשראה!"</h4>
+                <p style="text-align: center; margin-top: 15px; font-size: 1.1em; color: #666;">- חגי און</p>
+            </div>
+        </section>
+
+        <section id="client-server" class="section">
+            <h2>💻 צד לקוח (Client) וצד שרת (Server)</h2>
+            
+            <p>אתרי אינטרנט מורכבים משני חלקים עיקריים שעובדים ביחד:</p>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h4>🖥️ צד לקוח (Client Side)</h4>
+                    <p><strong>מה זה?</strong> זה הקוד שרץ בדפדפן שלך (Chrome, Firefox וכו')</p>
+                    <p><strong>טכנולוגיות:</strong></p>
+                    <ul>
+                        <li><span class="highlight">HTML</span> - המבנה של הדף</li>
+                        <li><span class="highlight">CSS</span> - העיצוב והצבעים</li>
+                        <li><span class="highlight">JavaScript</span> - האינטראקציות והאנימציות</li>
+                    </ul>
+                    <p><strong>דוגמה:</strong> כשאתה לוחץ על כפתור ורואה אנימציה - זה צד לקוח!</p>
+                </div>
+
+                <div class="card">
+                    <h4>🖧 צד שרת (Server Side)</h4>
+                    <p><strong>מה זה?</strong> זה הקוד שרץ על מחשב מרוחק (שרת) ומעבד בקשות</p>
+                    <p><strong>טכנולוגיות:</strong></p>
+                    <ul>
+                        <li><span class="highlight">Python</span> - שפת תכנות פופולרית</li>
+                        <li><span class="highlight">Node.js</span> - JavaScript בצד שרת</li>
+                        <li><span class="highlight">Java, C#, PHP</span> - עוד שפות</li>
+                    </ul>
+                    <p><strong>דוגמה:</strong> כשאתה מתחבר לאתר ובודק סיסמה - זה צד שרת!</p>
+                </div>
+            </div>
+
+            <div class="diagram">
+                <h3>איך זה עובד ביחד?</h3>
+                <div class="flow">
+                    <div class="flow-item">🖥️ דפדפן<br>(Client)</div>
+                    <div class="arrow">⬅</div>
+                    <div class="flow-item">🌐 אינטרנט</div>
+                    <div class="arrow">⬅</div>
+                    <div class="flow-item">🖧 שרת<br>(Server)</div>
+                </div>
+                <p style="margin-top: 20px;">המשתמש שולח בקשה ← השרת מעבד ← השרת מחזיר תשובה ← הדפדפן מציג</p>
+            </div>
+
+            <h3>תהליך התקשורת בפירוט</h3>
+            <div class="card">
+                <ol>
+                    <li><strong>המשתמש מבקש מידע</strong> - לוחץ על קישור או כפתור בדפדפן</li>
+                    <li><strong>הדפדפן שולח בקשה</strong> - בקשת HTTP עוברת דרך האינטרנט לשרת</li>
+                    <li><strong>השרת מעבד את הבקשה</strong> - הקוד בצד שרת רץ ומביא מידע ממסד נתונים</li>
+                    <li><strong>השרת מחזיר תשובה</strong> - השרת שולח את המידע בחזרה כ-HTML/JSON</li>
+                    <li><strong>הדפדפן מציג את התוצאה</strong> - הדפדפן מעבד ומציג את המידע למשתמש</li>
+                </ol>
+            </div>
+        </section>
+
+        <section id="apis" class="section">
+            <h2>🔌 API - ממשק תכנות יישומים</h2>
+            
+            <h3>מה זה API?</h3>
+            <p><strong>API</strong> (Application Programming Interface) הוא כמו תפריט במסעדה - הוא אומר לך מה אתה יכול להזמין וכיצד.</p>
+
+            <div class="card">
+                <h4>📖 דוגמה מהחיים</h4>
+                <p>תחשוב על מסעדה:</p>
+                <ul>
+                    <li><strong>המלצר</strong> = ה-API</li>
+                    <li><strong>אתה (הלקוח)</strong> = האפליקציה שלך</li>
+                    <li><strong>המטבח</strong> = השרת</li>
+                </ul>
+                <p>אתה לא נכנס למטבח ישירות - אתה מדבר עם המלצר, והוא מביא לך את מה שהזמנת!</p>
+            </div>
+
+            <h3>סוגי APIs נפוצים</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>REST API</h4>
+                    <p>הסוג הנפוץ ביותר. משתמש בפעולות HTTP פשוטות:</p>
+                    <ul>
+                        <li><strong>GET</strong> - קבל מידע</li>
+                        <li><strong>POST</strong> - צור משהו חדש</li>
+                        <li><strong>PUT</strong> - עדכן משהו קיים</li>
+                        <li><strong>DELETE</strong> - מחק משהו</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>GraphQL</h4>
+                    <p>טכנולוגיה חדשה יותר מ-Facebook. מאפשרת לך לבקש בדיוק את המידע שאתה צריך.</p>
+                </div>
+
+                <div class="card">
+                    <h4>WebSocket</h4>
+                    <p>תקשורת דו-כיוונית בזמן אמת. מושלם לצ'אטים ומשחקים.</p>
+                </div>
+            </div>
+
+            <div class="code-block">
+// דוגמה לקריאת API עם JavaScript
+fetch('https://api.example.com/users')
+  .then(response => response.json())
+  .then(data => {
+    console.log('קיבלתי את המידע:', data);
+  })
+  .catch(error => {
+    console.error('שגיאה:', error);
+  });
+            </div>
+
+            <h3>למה APIs כל כך חשובים?</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>🔄 שימוש חוזר</h4>
+                    <p>פעם אחת בונים, כולם משתמשים. חוסכים זמן ומאמץ.</p>
+                </div>
+                <div class="card">
+                    <h4>🔒 אבטחה</h4>
+                    <p>השרת קובע למי יש גישה ולמה - לא כל אחד יכול לראות הכל.</p>
+                </div>
+                <div class="card">
+                    <h4>🌍 אינטגרציה</h4>
+                    <p>מערכות שונות יכולות לדבר אחת עם השנייה - Facebook עם Instagram, למשל.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="microservices" class="section">
+            <h2>🧩 מיקרוסרוויסים (Microservices)</h2>
+            
+            <h3>הרעיון המרכזי</h3>
+            <p>במקום לבנות אפליקציה אחת גדולה, מחלקים אותה לשירותים קטנים ועצמאיים.</p>
+
+            <div class="diagram">
+                <h4>ארכיטקטורה מונוליתית (ישנה) 🏢</h4>
+                <div style="background: #667eea; color: white; padding: 40px; border-radius: 10px; margin: 20px auto; max-width: 400px;">
+                    <div>משתמשים</div>
+                    <div>מוצרים</div>
+                    <div>הזמנות</div>
+                    <div>תשלומים</div>
+                    <div style="margin-top: 10px; font-size: 0.9em;">הכל באפליקציה אחת גדולה</div>
+                </div>
+
+                <h4 style="margin-top: 40px;">ארכיטקטורת מיקרוסרוויסים (מודרנית) 🧩</h4>
+                <div class="card-grid">
+                    <div style="background: #667eea; color: white; padding: 20px; border-radius: 10px;">
+                        <strong>שירות משתמשים</strong>
+                    </div>
+                    <div style="background: #764ba2; color: white; padding: 20px; border-radius: 10px;">
+                        <strong>שירות מוצרים</strong>
+                    </div>
+                    <div style="background: #f093fb; color: white; padding: 20px; border-radius: 10px;">
+                        <strong>שירות הזמנות</strong>
+                    </div>
+                    <div style="background: #4facfe; color: white; padding: 20px; border-radius: 10px;">
+                        <strong>שירות תשלומים</strong>
+                    </div>
+                </div>
+                <p style="margin-top: 15px;">כל שירות עצמאי ויכול להתעדכן בנפרד</p>
+            </div>
+
+            <h3>יתרונות מיקרוסרוויסים</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>✅ גמישות</h4>
+                    <p>כל צוות יכול לעבוד על שירות אחר בטכנולוגיה שונה</p>
+                </div>
+                <div class="card">
+                    <h4>✅ עמידות</h4>
+                    <p>אם שירות אחד קורס, השאר ממשיכים לעבוד</p>
+                </div>
+                <div class="card">
+                    <h4>✅ קנה מידה</h4>
+                    <p>אפשר להגדיל רק את השירותים העמוסים</p>
+                </div>
+                <div class="card">
+                    <h4>✅ פיתוח מהיר</h4>
+                    <p>עדכונים קטנים ותכופים במקום שחרור גדול אחד</p>
+                </div>
+            </div>
+
+            <h3>איך זה עובד בפועל?</h3>
+            <div class="card">
+                <h4>דוגמה: אתר מסחר אלקטרוני</h4>
+                <ul>
+                    <li><strong>שירות משתמשים</strong> - מטפל בהרשמה, התחברות ופרופיל</li>
+                    <li><strong>שירות מוצרים</strong> - מנהל קטלוג, תמונות ומחירים</li>
+                    <li><strong>שירות הזמנות</strong> - עוקב אחרי סל קניות והזמנות</li>
+                    <li><strong>שירות תשלומים</strong> - מעבד כרטיסי אשראי</li>
+                    <li><strong>שירות משלוחים</strong> - מתאם עם חברות שליחויות</li>
+                </ul>
+                <p style="margin-top: 15px;">כל שירות עובד בנפרד, אבל כולם מתקשרים דרך APIs!</p>
+            </div>
+
+            <h3>אתגרים במיקרוסרוויסים</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>⚠️ מורכבות</h4>
+                    <p>במקום מערכת אחת, צריך לנהל עשרות שירותים</p>
+                </div>
+                <div class="card">
+                    <h4>⚠️ תקשורת</h4>
+                    <p>צריך לוודא שכל השירותים מדברים אחד עם השני נכון</p>
+                </div>
+                <div class="card">
+                    <h4>⚠️ ניטור</h4>
+                    <p>קשה יותר לעקוב אחרי באגים כשהם מפוזרים</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="cloud" class="section">
+            <h2>☁️ מחשוב ענן (Cloud Computing)</h2>
+            
+            <h3>מה זה "ענן"?</h3>
+            <p>במקום לקנות ולתחזק שרתים בעצמך, אתה שוכר כוח מחשוב מחברות גדולות דרך האינטרנט.</p>
+
+            <div class="card">
+                <h4>🏠 בעבר (On-Premise)</h4>
+                <ul>
+                    <li>קנית שרתים יקרים</li>
+                    <li>שמת אותם במשרד</li>
+                    <li>שילמת על חשמל וקירור</li>
+                    <li>שכרת אנשי IT לתחזוקה</li>
+                </ul>
+            </div>
+
+            <div class="card" style="margin-top: 20px;">
+                <h4>☁️ היום (Cloud)</h4>
+                <ul>
+                    <li>שוכר שרתים וירטואליים לפי שעה</li>
+                    <li>משלם רק על מה שאתה משתמש</li>
+                    <li>מגדיל או מקטין בלחיצת כפתור</li>
+                    <li>החברה מטפלת בתחזוקה</li>
+                </ul>
+            </div>
+
+            <h3>ספקי ענן מובילים</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>☁️ AWS</h4>
+                    <p><strong>Amazon Web Services</strong></p>
+                    <p>הספק הגדול והותיק ביותר. מציע מאות שירותים.</p>
+                    <ul style="margin-top: 10px;">
+                        <li>EC2 - שרתים וירטואליים</li>
+                        <li>S3 - אחסון קבצים</li>
+                        <li>Lambda - פונקציות ללא שרת</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>☁️ Azure</h4>
+                    <p><strong>Microsoft Azure</strong></p>
+                    <p>אינטגרציה מצוינת עם מוצרי Microsoft.</p>
+                    <ul style="margin-top: 10px;">
+                        <li>Virtual Machines</li>
+                        <li>Azure SQL Database</li>
+                        <li>App Services</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>☁️ Google Cloud</h4>
+                    <p><strong>GCP</strong></p>
+                    <p>מומחיות בבינה מלאכותית וניתוח נתונים.</p>
+                    <ul style="margin-top: 10px;">
+                        <li>Compute Engine</li>
+                        <li>Cloud Run</li>
+                        <li>BigQuery</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>סוגי שירותי ענן</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>IaaS</h4>
+                    <p><strong>Infrastructure as a Service</strong></p>
+                    <p>שוכר שרתים וירטואליים, אחסון, רשת.</p>
+                    <p><strong>דוגמה:</strong> EC2 של AWS - אתה מקבל שרת ריק ומתקין עליו מה שאתה רוצה</p>
+                </div>
+                <div class="card">
+                    <h4>PaaS</h4>
+                    <p><strong>Platform as a Service</strong></p>
+                    <p>פלטפורמה מוכנה לפיתוח.</p>
+                    <p><strong>דוגמה:</strong> Heroku, Google App Engine - פשוט מעלה קוד והם מטפלים בשאר</p>
+                </div>
+                <div class="card">
+                    <h4>SaaS</h4>
+                    <p><strong>Software as a Service</strong></p>
+                    <p>תוכנה מוכנה לשימוש.</p>
+                    <p><strong>דוגמה:</strong> Gmail, Salesforce, Dropbox - פשוט נכנס ומשתמש</p>
+                </div>
+            </div>
+
+            <h3>למה ענן?</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>💰 חיסכון בעלויות</h4>
+                    <p>לא צריך לקנות ציוד יקר מראש. משלם רק על מה שמשתמש.</p>
+                </div>
+                <div class="card">
+                    <h4>📈 גמישות</h4>
+                    <p>מגדיל משאבים בשעות שיא, מקטין בלילה. חוסך כסף.</p>
+                </div>
+                <div class="card">
+                    <h4>🌍 זמינות גלובלית</h4>
+                    <p>השירות שלך זמין בכל מקום בעולם עם זמני תגובה מהירים.</p>
+                </div>
+                <div class="card">
+                    <h4>🔄 עדכונים אוטומטיים</h4>
+                    <p>החברה מטפלת באבטחה, גיבויים ועדכונים.</p>
+                </div>
+            </div>
+
+            <div class="diagram">
+                <h3>מסע לענן</h3>
+                <div class="flow">
+                    <div class="flow-item">💻 פיתוח<br>מקומי</div>
+                    <div class="arrow">⬅</div>
+                    <div class="flow-item">🐳 אריזה<br>ב-Docker</div>
+                    <div class="arrow">⬅</div>
+                    <div class="flow-item">☁️ העלאה<br>לענן</div>
+                    <div class="arrow">⬅</div>
+                    <div class="flow-item">🚀 פריסה<br>לעולם</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="python" class="section">
+            <h2>🐍 יסודות פיתוח ב-Python</h2>
+            
+            <h3>למה Python?</h3>
+            <p>Python היא שפת תכנות פופולרית וקלה ללמידה, מושלמת למתחילים ומקצוענים כאחד.</p>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h4>✨ קלה לקריאה</h4>
+                    <p>הקוד נראה כמעט כמו אנגלית רגילה</p>
+                </div>
+                <div class="card">
+                    <h4>🚀 רב-תכליתית</h4>
+                    <p>אתרים, מדע הנתונים, אוטומציה, AI ועוד</p>
+                </div>
+                <div class="card">
+                    <h4>📚 קהילה ענקית</h4>
+                    <p>מיליוני מפתחים וספריות לכל צורך</p>
+                </div>
+            </div>
+
+            <h3>דוגמאות קוד בסיסיות</h3>
+
+            <div class="code-block">
+# משתנים והדפסה
+name = "דני"
+age = 25
+print(f"שלום, קוראים לי {name} ואני בן {age}")
+
+# פונקציה פשוטה
+def calculate_sum(a, b):
+    return a + b
+
+result = calculate_sum(5, 3)
+print(f"התוצאה היא: {result}")
+            </div>
+
+            <div class="code-block">
+# רשימות (Lists)
+fruits = ["תפוח", "בננה", "תפוז"]
+fruits.append("אבטיח")
+
+for fruit in fruits:
+    print(f"אני אוהב {fruit}")
+
+# מילון (Dictionary)
+person = {
+    "name": "שרה",
+    "age": 30,
+    "city": "תל אביב"
+}
+print(person["name"])
+            </div>
+
+            <h3>מבני נתונים בסיסיים</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>📋 רשימות (Lists)</h4>
+                    <p>אוסף מסודר של פריטים שניתן לשנות</p>
+                    <div class="code-block">
+numbers = [1, 2, 3, 4, 5]
+numbers.append(6)
+                    </div>
+                </div>
+                <div class="card">
+                    <h4>📖 מילונים (Dictionaries)</h4>
+                    <p>זוגות מפתח-ערך למידע מובנה</p>
+                    <div class="code-block">
+user = {
+  "name": "יוסי",
+  "age": 28
+}
+                    </div>
+                </div>
+                <div class="card">
+                    <h4>🔒 קבוצות (Sets)</h4>
+                    <p>אוסף של פריטים ייחודיים ללא סדר</p>
+                    <div class="code-block">
+colors = {"אדום", "כחול"}
+colors.add("ירוק")
+                    </div>
+                </div>
+            </div>
+
+            <h3>פיתוח Web ב-Python</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>Flask</h4>
+                    <p>פריימוורק קל ופשוט לאתרים קטנים</p>
+                    <div class="code-block">
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return 'שלום עולם!'
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h4>Django</h4>
+                    <p>פריימוורק מלא ועוצמתי לאפליקציות גדולות</p>
+                    <ul>
+                        <li>מערכת משתמשים מובנית</li>
+                        <li>פאנל ניהול אוטומטי</li>
+                        <li>אבטחה מתקדמת</li>
+                        <li>ORM מובנה לעבודה עם DB</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>FastAPI</h4>
+                    <p>מודרני ומהיר, מושלם ל-APIs</p>
+                    <ul>
+                        <li>מהיר מאוד (כמו Node.js)</li>
+                        <li>תיעוד אוטומטי</li>
+                        <li>תמיכה ב-async/await</li>
+                        <li>Type hints מובנה</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>ספריות Python חשובות</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>🤖 בינה מלאכותית</h4>
+                    <ul>
+                        <li><strong>LangChain</strong> - בניית אפליקציות LLM</li>
+                        <li><strong>OpenAI</strong> - שימוש ב-GPT</li>
+                        <li><strong>Transformers</strong> - מודלי Hugging Face</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>🌐 Web ו-APIs</h4>
+                    <ul>
+                        <li><strong>Requests</strong> - קריאות HTTP</li>
+                        <li><strong>BeautifulSoup</strong> - גרידת אתרים</li>
+                        <li><strong>Selenium</strong> - אוטומציה של דפדפנים</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>📊 ניתוח נתונים</h4>
+                    <ul>
+                        <li><strong>Pandas</strong> - עבודה עם טבלאות</li>
+                        <li><strong>NumPy</strong> - חישובים מתמטיים</li>
+                        <li><strong>Matplotlib</strong> - גרפים וויזואליזציה</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>טיפים להתחלה</h3>
+            <ol>
+                <li><strong>התקן Python</strong> - הורד מ-python.org את הגרסה האחרונה</li>
+                <li><strong>למד את היסודות</strong> - משתנים, לולאות, פונקציות, תנאים</li>
+                <li><strong>תרגל</strong> - כתוב קוד כל יום, גם אם רק 15 דקות</li>
+                <li><strong>בנה פרויקטים</strong> - התחל בפרויקטים קטנים ופשוטים</li>
+                <li><strong>הצטרף לקהילה</strong> - פורומים, Discord, מפגשי מפתחים</li>
+                <li><strong>השתמש ב-AI</strong> - ChatGPT, Copilot, Claude יכולים לעזור לך ללמוד!</li>
+            </ol>
+
+            <div class="promo-box" style="margin-top: 40px;">
+                <h3>🎯 מוכן להתחיל?</h3>
+                <p style="font-size: 1.2em; margin: 20px 0;">Python היא השפה המושלמת להתחיל איתה את המסע שלך לפיתוח AI!</p>
+                <p style="font-size: 1.1em;">בקורס שלנו תלמד Python מהבסיס ועד בניית אפליקציות AI מלאות</p>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>🌐 מפתחי בינה מלאכותית - GenAI Engineers | חגי און</p>
+        <p style="margin-top: 10px; opacity: 0.8;">HTML, CSS, JavaScript בלבד - ללא ספריות חיצוניות</p>
+    </footer>
+
+    <script>
+        // Navigation handling
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('.section');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Remove active class from all links
+                navLinks.forEach(l => l.classList.remove('active'));
+                
+                // Add active class to clicked link
+                link.classList.add('active');
+                
+                // Hide all sections
+                sections.forEach(s => s.classList.remove('active'));
+                
+                // Show target section
+                const tabId = link.getAttribute('data-tab');
+                const targetSection = document.getElementById(tabId);
+                if (targetSection) {
+                    targetSection.classList.add('active');
+                    
+                    // Scroll to top smoothly
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
