@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SQL vs NoSQL + Redis</title>
+  <meta name="description" content="מדריך: SQL מול NoSQL, CAP, ושימוש ב-Redis לקאש">
+  <link rel="stylesheet" href="assets/styles.css?v=20260107094522">
+</head>
+<body>
+<a class="skip-link" href="#main">דילוג לתוכן</a>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>🎓 מפתחי בינה מלאכותית - GenAI Engineers</h1>
+    <p>הפרדה בין צד לקוח וצד שרת, ושילוב APIs בין שירותים</p>
+    <div class="badges">
+      <span class="badge">234 שעות אקדמיות</span>
+      <span class="badge">2 סמסטרים</span>
+      <span class="badge">E2E - קונספט עד ענן</span>
+    </div>
+  </div>
+</header>
+
+<div class="topbar">
+  <nav class="nav" aria-label="ניווט ראשי">
+  <a class="brand" href="index.html">
+    <span class="logo" aria-hidden="true">AI</span>
+    <span>GenAI Engineers</span>
+  </a>
+
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">תפריט</button>
+
+  <ul id="site-nav" class="nav-links">
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">פייתון</button>
+      <ul class="dropdown-menu" aria-label="פייתון" hidden>
+        <li><a href="fastapi-crud.html">FastAPI CRUD</a></li>
+        <li><a href="db-validation.html">DB + Validation</a></li>
+        <li><a href="db-sql-vs-nosql.html">SQL vs NoSQL</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">ארכיטקטורה</button>
+      <ul class="dropdown-menu" aria-label="ארכיטקטורה" hidden>
+        <li><a href="architecture.html">Client-Server</a></li>
+        <li><a href="rest-api.html">REST API</a></li>
+        <li><a href="authentication.html">אימות והרשאות</a></li>
+        <li><a href="api-security.html">אבטחת API</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">ענן והפצה</button>
+      <ul class="dropdown-menu" aria-label="ענן והפצה" hidden>
+        <li><a href="cloud-deploy.html">Docker + Cloud Run</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">סוכנים</button>
+      <ul class="dropdown-menu" aria-label="סוכנים" hidden>
+        <li><a href="agents-react.html">ReAct</a></li>
+        <li><a href="rag.html">RAG</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">וייב קודינג</button>
+      <ul class="dropdown-menu" aria-label="וייב קודינג" hidden>
+        <li><a href="vibe.html">vibe</a></li>
+        <li><a href="home-terminal.html">דף הבית - טרמינל</a></li>
+        <li><a href="home-blueprint.html">דף הבית - Blueprint</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">הקורס</button>
+      <ul class="dropdown-menu" aria-label="הקורס" hidden>
+        <li><a href="syllabus.html">תכנית</a></li>
+        <li><a href="lecturer.html">המרצה</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+</div>
+
+<main id="main" class="container">
+
+<section class="section">
+  <h2>SQL מול NoSQL - ואיפה Redis נכנס לתמונה</h2>
+  <p class="kicker">בחירה נכונה של DB היא החלטה ארכיטקטונית, לא "טעם אישי". המפתח הוא להבין מודל נתונים, עומסים, עקביות, ושאילתות - ואז לבחור טכנולוגיה מתאימה.</p>
+
+  <div class="callout">
+    <p><strong>Rule of thumb:</strong> אם אתה צריך joins, טרנזקציות מורכבות, ודוחות - SQL (Postgres) הוא ברירת מחדל חזקה. אם הנתונים גמישים מאוד, הסכימה משתנה תדיר, והאפליקציה גדלה מהר - NoSQL (כמו MongoDB) יכול להאיץ פיתוח. Redis הוא כלי אחר: זיכרון מהיר לקאש ונתונים זמניים.</p>
+  </div>
+
+  <h3>1) SQL - מסד נתונים רלציוני</h3>
+  <p>SQL DB (כמו PostgreSQL, MySQL) מאחסן נתונים בטבלאות עם סכימה מוגדרת מראש. היתרון הגדול הוא עקביות חזקה, טרנזקציות, ויכולת לשאול שאלות מורכבות בצורה יעילה.</p>
+
+  <div class="grid cols-2">
+    <div class="card">
+      <h4>יכולות עיקריות</h4>
+      <ul>
+        <li>ACID transactions (אטומיות, עקביות, בידוד, התמדה)</li>
+        <li>Joins בין טבלאות</li>
+        <li>Indexes מתקדמים, constraints, foreign keys</li>
+        <li>Reporting: GROUP BY, aggregates</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>מתי זה מנצח</h4>
+      <ul>
+        <li>מערכות עם קשרים בין ישויות (Users, Orders, Payments)</li>
+        <li>כאשר correctness קריטי (כספים, הרשאות)</li>
+        <li>כשיש שאילתות מגוונות ודוחות</li>
+        <li>כאשר רוצים סטנדרט תעשייתי</li>
+      </ul>
+    </div>
+  </div>
+
+  <details>
+    <summary>דוגמה: למה joins חשובים?</summary>
+    <div class="content">
+      <p>אם אתה רוצה "כל ההזמנות של משתמש X בחודש האחרון יחד עם פרטי התשלום" - SQL עושה את זה ביעילות עם join ו-indexes. ב-NoSQL לרוב תכפיל נתונים או תבצע שתי שאילתות ותאחד באפליקציה.</p>
+    </div>
+  </details>
+
+  <h3>2) NoSQL - מסדי נתונים לא רלציוניים</h3>
+  <p>NoSQL הוא משפחה של גישות. הנפוצה בקורסי API היא Document DB כמו MongoDB: כל רשומה היא מסמך JSON-like (BSON) עם שדות גמישים.</p>
+
+  <div class="grid cols-2">
+    <div class="card">
+      <h4>סוגים נפוצים</h4>
+      <ul>
+        <li><strong>Document:</strong> MongoDB</li>
+        <li><strong>Key-Value:</strong> Redis (כ-DB), DynamoDB</li>
+        <li><strong>Wide-column:</strong> Cassandra</li>
+        <li><strong>Graph:</strong> Neo4j</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>מתי זה מתאים</h4>
+      <ul>
+        <li>סכימה משתנה במהירות (MVP, מוצר בהתהוות)</li>
+        <li>אובייקטים "עמוקים" עם מבנה היררכי</li>
+        <li>Scaling אופקי מובנה (תלוי מוצר)</li>
+        <li>כשאין צורך ב-joins מורכבים</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><strong>נקודה חשובה:</strong> NoSQL לא אומר "אין סכימה". זה אומר שהסכימה נאכפת לרוב ברמת האפליקציה (Pydantic) ולא ברמת ה-DB. בפרודקשן זה דורש משמעת.</p>
+  </div>
+
+  <h3>3) עקביות ו-CAP - במילים פשוטות</h3>
+  <p>כשמערכת גדלה ומופצת (distributed), קשה לקבל תמיד: Consistency + Availability + Partition tolerance בו זמנית. בפועל, רוב המערכות בוחרות tradeoffs. PostgreSQL נותן עקביות חזקה, חלק ממערכות NoSQL בוחרות זמינות גבוהה עם eventual consistency.</p>
+
+  <details>
+    <summary>מה המסקנה הפרקטית לקורס?</summary>
+    <div class="content">
+      <ul>
+        <li>למערכת CRUD עם קשרים - Postgres הוא בחירה נכונה.</li>
+        <li>לפרוטוטייפ מהיר עם נתונים גמישים - MongoDB יכול לעבוד טוב.</li>
+        <li>ל-RAG metadata ולוגים - גם Postgres וגם Mongo עובדים, תלוי שאילתות.</li>
+      </ul>
+    </div>
+  </details>
+
+  <h3>4) Redis - זיכרון מהיר לקאש ונתונים זמניים</h3>
+  <p>Redis הוא in-memory store מהיר מאוד. הוא לא "ה-DB הראשי" של רוב המערכות, אלא שכבה שמאיצה או מפשטת:</p>
+  <ul>
+    <li><strong>Caching:</strong> לשמור תוצאות חישוב/שליפה (למשל תוצאות RAG retrieval או תגובות API).</li>
+    <li><strong>Sessions:</strong> session tokens, state של משתמש.</li>
+    <li><strong>Rate limiting:</strong> לספור בקשות לפי משתמש בזמן קצר.</li>
+    <li><strong>Queues:</strong> תורים פשוטים או pub/sub (תלוי צורך).</li>
+  </ul>
+
+  <div class="callout">
+    <p><strong>למה Redis מתאים לדברים "שלא אכפת לנו אם יימחקו"?</strong> כי הוא בזיכרון. אפשר להגדיר TTL לכל מפתח. אם הוא נמחק - המערכת עדיין עובדת, רק קצת איטית יותר או תבקש את הנתון מחדש מהמקור.</p>
+  </div>
+
+  <div class="code" aria-label="Redis caching idea">
+    <pre># דוגמה רעיונית:
+# key: "rag:qhash:{hash(question)}"
+# value: JSON עם answer + sources
+# TTL: 10 דקות</pre>
+  </div>
+
+  <h3>5) החלטה ארכיטקטונית לפי מקרה שימוש</h3>
+  <div class="grid cols-2">
+    <div class="card">
+      <h4>SQL (Postgres) - מתי לבחור</h4>
+      <ul>
+        <li>נתונים עם קשרים וחוקים (constraints)</li>
+        <li>היסטוריה ודוחות</li>
+        <li>טרנזקציות</li>
+        <li>צוות שרוצה סטנדרט תעשייתי</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>NoSQL (Mongo) - מתי לבחור</h4>
+      <ul>
+        <li>סכימה גמישה</li>
+        <li>מסמכים היררכיים (nested)</li>
+        <li>שינויים תכופים במבנה נתונים</li>
+        <li>גישה לפי document id או שאילתות פשוטות</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <h4>Redis - מתי לבחור</h4>
+    <ul>
+      <li>קאש לתוצאות יקרות (LLM, retrieval, aggregation)</li>
+      <li>נתונים זמניים עם TTL</li>
+      <li>Rate limiting ו-sessions</li>
+      <li>תורים קלים או pub/sub</li>
+    </ul>
+  </div>
+
+  <h3>תרגול</h3>
+
+  <details>
+    <summary>שאלות בדיקה (10)</summary>
+    <div class="content">
+      <ol>
+        <li>מה היתרון של ACID transactions ב-SQL?</li>
+        <li>מתי joins הופכים לקריטיים?</li>
+        <li>למה ב-NoSQL הסכימה "נודדת" לאפליקציה?</li>
+        <li>מה tradeoff של eventual consistency?</li>
+        <li>תן דוגמה למקרה שבו Mongo עדיף על Postgres.</li>
+        <li>תן דוגמה למקרה שבו Postgres עדיף על Mongo.</li>
+        <li>למה Redis מתאים לקאש ולא ל-DB ראשי?</li>
+        <li>מה זה TTL ולמה הוא חשוב?</li>
+        <li>איך Redis יכול לעזור ב-rate limiting?</li>
+        <li>למה לא לשמור תמונות כ-BLOB ב-Postgres בדרך כלל?</li>
+      </ol>
+    </div>
+  </details>
+
+  <details>
+    <summary>משימת בית (תכנון דאטה)</summary>
+    <div class="content">
+      <p>קח מוצר קטן של GenAI: משתמשים מעלים תמונה, עושים edit, ושומרים תוצאה בגלריה.</p>
+      <ul>
+        <li>תכנן מה נשמר ב-Object Storage (S3-like) ומה נשמר ב-DB.</li>
+        <li>בחר SQL או NoSQL לניהול הגלריה וההרשאות - ונמק.</li>
+        <li>הוסף Redis cache לתוצאה של "list gallery" עם TTL של 60 שניות.</li>
+      </ul>
+      <p class="small">הדגש: לא לכתוב קוד - לכתוב החלטות, סכימות, וזרימת נתונים.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>בדיקת פתרון (Checklist)</summary>
+    <div class="content">
+      <ul>
+        <li>הפרדת בבירור בין binary objects לבין metadata.</li>
+        <li>הסברת למה SQL/NoSQL מתאים לדרישות שאילתות שלך.</li>
+        <li>הצעת Redis רק לדברים זמניים, עם TTL ברור.</li>
+        <li>הצעת דרך invalidation לקאש (למשל למחוק מפתח אחרי upload חדש).</li>
+      </ul>
+    </div>
+  </details>
+
+</section>
+
+</main>
+
+<footer class="footer">
+  <p>🌐 מפתחי בינה מלאכותית - GenAI Engineers | חגי און</p>
+  <p class="muted">אתר סטטי: HTML + CSS + JavaScript - קבצים משותפים לקאש דפדפן</p>
+</footer>
+
+<script src="assets/app.js?v=20260107094522" defer></script>
+</body>
+</html>

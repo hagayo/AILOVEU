@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Authentication ו-Authorization ב-API</title>
+  <meta name="description" content="מדריך פרקטי לאימות והרשאות: JWT, OAuth2, FastAPI dependencies, RBAC, tokens.">
+  <link rel="stylesheet" href="assets/styles.css?v=20260107094522">
+</head>
+<body class="">
+<a class="skip-link" href="#main">דילוג לתוכן</a>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>🎓 מפתחי בינה מלאכותית - GenAI Engineers</h1>
+    <p>הפרדה בין צד לקוח וצד שרת, ושילוב APIs בין שירותים</p>
+    <div class="badges">
+      <span class="badge">234 שעות אקדמיות</span>
+      <span class="badge">2 סמסטרים</span>
+      <span class="badge">E2E - קונספט עד ענן</span>
+    </div>
+  </div>
+</header>
+
+<div class="topbar">
+  <nav class="nav" aria-label="ניווט ראשי">
+  <a class="brand" href="index.html">
+    <span class="logo" aria-hidden="true">AI</span>
+    <span>GenAI Engineers</span>
+  </a>
+
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">תפריט</button>
+
+  <ul id="site-nav" class="nav-links">
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">פייתון</button>
+      <ul class="dropdown-menu" aria-label="פייתון" hidden>
+        <li><a href="fastapi-crud.html">FastAPI CRUD</a></li>
+        <li><a href="db-validation.html">DB + Validation</a></li>
+        <li><a href="db-sql-vs-nosql.html">SQL vs NoSQL</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">ארכיטקטורה</button>
+      <ul class="dropdown-menu" aria-label="ארכיטקטורה" hidden>
+        <li><a href="architecture.html">Client-Server</a></li>
+        <li><a href="rest-api.html">REST API</a></li>
+        <li><a href="authentication.html">אימות והרשאות</a></li>
+        <li><a href="api-security.html">אבטחת API</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">ענן והפצה</button>
+      <ul class="dropdown-menu" aria-label="ענן והפצה" hidden>
+        <li><a href="cloud-deploy.html">Docker + Cloud Run</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">סוכנים</button>
+      <ul class="dropdown-menu" aria-label="סוכנים" hidden>
+        <li><a href="agents-react.html">ReAct</a></li>
+        <li><a href="rag.html">RAG</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">וייב קודינג</button>
+      <ul class="dropdown-menu" aria-label="וייב קודינג" hidden>
+        <li><a href="vibe.html">vibe</a></li>
+        <li><a href="home-terminal.html">דף הבית - טרמינל</a></li>
+        <li><a href="home-blueprint.html">דף הבית - Blueprint</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">הקורס</button>
+      <ul class="dropdown-menu" aria-label="הקורס" hidden>
+        <li><a href="syllabus.html">תכנית</a></li>
+        <li><a href="lecturer.html">המרצה</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+</div>
+
+<main id="main" class="container">
+
+<section class="section">
+  <h2>Authentication ו-Authorization ב-API - מדריך פרקטי</h2>
+  <p class="kicker">זה הפרק שמבדיל בין “שרת שמחזיר JSON” לבין מערכת אמיתית. נבנה מודל מנטלי ברור, נבחר שיטה מתאימה, ונראה איך מיישמים ב-FastAPI בצורה סטנדרטית.</p>
+
+  <div class="callout">
+    <p><strong>הגדרות קצרות:</strong><br>
+    <strong>Authentication</strong> = מי אתה? (זיהוי משתמש)<br>
+    <strong>Authorization</strong> = מה מותר לך? (הרשאות לפעולות/משאבים)</p>
+  </div>
+
+  <h3>1) מודל מנטלי: בקשה מאובטחת ב-HTTP</h3>
+  <p>ב-HTTP אין “משתמש מחובר” באופן מובנה. כל בקשה עומדת בפני עצמה. לכן אנחנו מוסיפים מזהה זהות לכל בקשה באחת מהצורות הבאות:</p>
+  <ul>
+    <li><strong>Header:</strong> למשל <span class="highlight">Authorization: Bearer &lt;token&gt;</span></li>
+    <li><strong>Cookie:</strong> session cookie או cookie עם token</li>
+    <li><strong>Query param:</strong> לרוב לא מומלץ (דליף ללוגים/URL)</li>
+  </ul>
+
+  <h3>2) השיטות הנפוצות והטרייד-אופים</h3>
+
+  <div class="grid cols-2">
+    <div class="card">
+      <h4>API Key</h4>
+      <p>מפתח סטטי שמזהה לקוח/אפליקציה (לא תמיד משתמש). מתאים לסקריפטים, אינטגרציות, שירות-לשירות.</p>
+      <ul>
+        <li><strong>יתרון:</strong> פשוט ליישום</li>
+        <li><strong>חסרון:</strong> ניהול רוטציה, אין “הרשאות משתמש” טבעי</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Session Cookie</h4>
+      <p>שרת מחזיק session store (או חתימה) והלקוח מקבל cookie.</p>
+      <ul>
+        <li><strong>יתרון:</strong> נוח לאפליקציות web קלאסיות</li>
+        <li><strong>חסרון:</strong> דורש state (או פתרון מבוזר), צריך CSRF ב-cookies</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>JWT (Bearer token)</h4>
+      <p>Token חתום שמכיל claims (למשל user_id, roles). נשלח בכל בקשה.</p>
+      <ul>
+        <li><strong>יתרון:</strong> stateless יחסית, מתאים ל-API</li>
+        <li><strong>חסרון:</strong> ביטול token קשה בלי blacklist/rotation</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>OAuth2 / OIDC</h4>
+      <p>סטנדרט של התחברות דרך ספק זהות (Google/GitHub/IdP). מתאים כשיש multiple apps או SSO.</p>
+      <ul>
+        <li><strong>יתרון:</strong> תעשייתי, סקייל, SSO</li>
+        <li><strong>חסרון:</strong> מורכב יותר, דורש flow נכון</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><strong>במערכת מבוססת Cloud Run:</strong> JWT/API-keys מתחברים טבעי לסטטלס. Session cookies אפשר, אבל לרוב דורש Redis/DB ל-sessions (או פתרון חכם).</p>
+  </div>
+
+  <h3>3) עקרונות אבטחה שלא מדלגים עליהם</h3>
+  <ul>
+    <li><strong>לעולם לא שומרים סיסמה כפי שהיא:</strong> משתמשים ב-hash עם salt (bcrypt/argon2).</li>
+    <li><strong>HTTPS תמיד:</strong> tokens עוברים רק מוצפן.</li>
+    <li><strong>Least privilege:</strong> נותנים למשתמש רק מה שהוא צריך.</li>
+    <li><strong>Rate limiting:</strong> מגנים מפני brute-force וניצול API.</li>
+    <li><strong>Logging זהיר:</strong> לא לוגים של tokens או סיסמאות.</li>
+  </ul>
+
+  <h3>4) יישום ב-FastAPI: Password hashing + JWT + protected routes</h3>
+
+  <p>הדוגמה הבאה היא “שלד נכון” - קצר, אבל עם החלטות טובות: hash לסיסמה, יצירת JWT, והגנה על endpoints דרך dependency.</p>
+
+  <div class="code" aria-label="Install deps">
+<pre>pip install fastapi uvicorn passlib[bcrypt] python-jose[cryptography]</pre>
+  </div>
+
+  <h4>4.1 Hash לסיסמה</h4>
+  <div class="code" aria-label="Password hashing with passlib">
+<pre>from passlib.context import CryptContext
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+def hash_password(password: str) -&gt; str:
+    return pwd_context.hash(password)
+
+def verify_password(password: str, password_hash: str) -&gt; bool:
+    return pwd_context.verify(password, password_hash)</pre>
+  </div>
+
+  <h4>4.2 JWT: יצירה ופענוח</h4>
+  <div class="code" aria-label="JWT create and verify">
+<pre>from datetime import datetime, timedelta, timezone
+from jose import jwt, JWTError
+
+JWT_SECRET = "CHANGE_ME"  # בפרודקשן מגיע מ-ENV
+JWT_ALG = "HS256"
+ACCESS_TOKEN_TTL_MIN = 30
+
+def create_access_token(sub: str, roles: list[str]) -&gt; str:
+    now = datetime.now(timezone.utc)
+    payload = {
+        "sub": sub,              # subject: user id
+        "roles": roles,          # claims: roles
+        "iat": int(now.timestamp()),
+        "exp": int((now + timedelta(minutes=ACCESS_TOKEN_TTL_MIN)).timestamp()),
+    }
+    return jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALG)
+
+def decode_token(token: str) -&gt; dict:
+    try:
+        return jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALG])
+    except JWTError:
+        raise ValueError("Invalid token")</pre>
+  </div>
+
+  <h4>4.3 FastAPI Dependencies: “מי המשתמש?”</h4>
+  <p>FastAPI עובד נהדר עם dependencies: פונקציה שמחלצת משתמש מה-token, ואז endpoints מוגנים פשוט משתמשים בה.</p>
+
+  <div class="code" aria-label="FastAPI dependency to protect routes">
+<pre>from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
+
+app = FastAPI()
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+def get_current_user(payload: dict = Depends(oauth2_scheme)):
+    # oauth2_scheme מחזיר token string בפועל, אז נחלץ ונפענח
+    # (נכתוב wrapper קטן כדי לשמור על קריאות)
+    raise NotImplementedError</pre>
+  </div>
+
+  <details>
+    <summary>גרסה מלאה של get_current_user (קצרה ומעשית)</summary>
+    <div class="content">
+      <div class="code" aria-label="get_current_user implementation">
+<pre>from fastapi import Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+def get_current_user(token: str = Depends(oauth2_scheme)) -&gt; dict:
+    try:
+        payload = decode_token(token)
+        return {
+            "user_id": payload.get("sub"),
+            "roles": payload.get("roles", []),
+        }
+    except Exception:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid or expired token",
+            headers={"WWW-Authenticate": "Bearer"},
+        )</pre>
+      </div>
+    </div>
+  </details>
+
+  <h4>4.4 הגנה על Endpoint + בדיקת Role</h4>
+  <div class="code" aria-label="Role based access control example">
+<pre>def require_role(role: str):
+    def checker(user: dict = Depends(get_current_user)):
+        roles = set(user.get("roles", []))
+        if role not in roles:
+            raise HTTPException(status_code=403, detail="Forbidden")
+        return user
+    return checker
+
+@app.get("/me")
+def read_me(user: dict = Depends(get_current_user)):
+    return {"id": user["user_id"], "roles": user["roles"]}
+
+@app.delete("/admin/users/{user_id}")
+def delete_user(user_id: str, admin: dict = Depends(require_role("admin"))):
+    return {"status": "ok", "deleted": user_id}</pre>
+  </div>
+
+  <h3>5) Token lifecycle: Access + Refresh (למה זה חשוב)</h3>
+  <p>Access token קצר חיים (למשל 15-30 דקות). Refresh token ארוך חיים (ימים/שבועות) ומשמש לקבלת access חדש. כך אם token נגנב, הנזק מוגבל.</p>
+
+  <div class="grid cols-2">
+    <div class="card">
+      <h4>מינימום מומלץ</h4>
+      <ul>
+        <li>Access token TTL קצר</li>
+        <li>Refresh token עם rotation</li>
+        <li>אחסון refresh בצורה בטוחה (HTTP-only cookie או storage מאובטח)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>מה לא לעשות</h4>
+      <ul>
+        <li>לשים refresh token ב-localStorage ללא סיבה</li>
+        <li>TTL אינסופי ל-access token</li>
+        <li>להדפיס token ללוגים</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>6) Service-to-Service Auth (בענן)</h3>
+  <p>כששירות אחד מדבר עם שירות אחר, לרוב לא משתמשים בסיסמאות משתמש. פתרונות תעשייתיים:</p>
+  <ul>
+    <li><strong>API keys עם רוטציה</strong></li>
+    <li><strong>JWT חתום בין שירותים</strong> (claims של service identity)</li>
+    <li><strong>Cloud IAM</strong> (למשל Cloud Run Invoker + service account)</li>
+  </ul>
+
+  <h3>7) תרגול</h3>
+
+  <details>
+    <summary>שאלות בדיקה (10)</summary>
+    <div class="content">
+      <ol>
+        <li>מה ההבדל בין Authentication ל-Authorization?</li>
+        <li>למה JWT מתאים למערכת stateless כמו Cloud Run?</li>
+        <li>למה לא שומרים סיסמאות כפי שהן?</li>
+        <li>מה הסיכון בלשים token ב-query param?</li>
+        <li>מה היתרון ב-Access token קצר חיים?</li>
+        <li>מה זה refresh token rotation ולמה הוא חשוב?</li>
+        <li>מה ההבדל בין API key ל-JWT מבחינת “זהות”?</li>
+        <li>מה ההבדל בין 401 ל-403?</li>
+        <li>מתי תעדיף OAuth2/OIDC על JWT פנימי?</li>
+        <li>איך Redis יכול לעזור ב-rate limiting?</li>
+      </ol>
+    </div>
+  </details>
+
+  <details>
+    <summary>משימת בית (מיני-פרויקט)</summary>
+    <div class="content">
+      <p><strong>מטרה:</strong> להוסיף אימות והרשאות לפרויקט ה-CRUD שלך.</p>
+      <ul>
+        <li>צור endpoint <span class="highlight">POST /auth/register</span> שמקבל email+password ושומר user (עם password_hash).</li>
+        <li>צור endpoint <span class="highlight">POST /auth/login</span> שמחזיר access token (JWT) אם הסיסמה נכונה.</li>
+        <li>הגן על <span class="highlight">GET /notes</span> כך שיחזיר רק notes של המשתמש המחובר.</li>
+        <li>הוסף role <span class="highlight">admin</span> ו-endpoint אחד שמותר רק לאדמין.</li>
+        <li>הוסף rate limiting בסיסי ל-login (אפשר עם Redis או בזיכרון עבור תרגול).</li>
+      </ul>
+      <p class="small">הערה: בפרודקשן secrets לא בקוד - רק ב-ENV.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>בדיקת פתרון (Checklist)</summary>
+    <div class="content">
+      <ul>
+        <li>סיסמאות נשמרות כ-hash בלבד.</li>
+        <li>token נשלח ב-Authorization Bearer header.</li>
+        <li>401 כשאין/לא תקין token, 403 כשאין הרשאה.</li>
+        <li>יש הפרדה בין “מי המשתמש” לבין “מה מותר לו”.</li>
+        <li>יש TTL ברור ל-access token (וגם הסבר ל-refresh אם הוספת).</li>
+        <li>הוספת מנגנון בסיסי נגד brute-force (rate limit / cooldown).</li>
+      </ul>
+    </div>
+  </details>
+</section>
+
+</main>
+
+<footer class="footer">
+  <p>🌐 מפתחי בינה מלאכותית - GenAI Engineers | חגי און</p>
+  <p class="muted">אתר סטטי: HTML + CSS + JavaScript - קבצים משותפים לקאש דפדפן</p>
+</footer>
+
+<script src="assets/app.js?v=20260107094522" defer></script>
+</body>
+</html>

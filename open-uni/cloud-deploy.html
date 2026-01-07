@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Docker + Cloud Run</title>
+  <meta name="description" content="מדריך לימודי מלא: Dockerfile, env/secrets, health, build, deploy ל-Cloud Run, כולל תרגול">
+  <link rel="stylesheet" href="assets/styles.css?v=20260107094522">
+</head>
+<body>
+<a class="skip-link" href="#main">דילוג לתוכן</a>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>🎓 מפתחי בינה מלאכותית - GenAI Engineers</h1>
+    <p>הפרדה בין צד לקוח וצד שרת, ושילוב APIs בין שירותים</p>
+    <div class="badges">
+      <span class="badge">234 שעות אקדמיות</span>
+      <span class="badge">2 סמסטרים</span>
+      <span class="badge">E2E - קונספט עד ענן</span>
+    </div>
+  </div>
+</header>
+
+<div class="topbar">
+  <nav class="nav" aria-label="ניווט ראשי">
+  <a class="brand" href="index.html">
+    <span class="logo" aria-hidden="true">AI</span>
+    <span>GenAI Engineers</span>
+  </a>
+
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">תפריט</button>
+
+  <ul id="site-nav" class="nav-links">
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">פייתון</button>
+      <ul class="dropdown-menu" aria-label="פייתון" hidden>
+        <li><a href="fastapi-crud.html">FastAPI CRUD</a></li>
+        <li><a href="db-validation.html">DB + Validation</a></li>
+        <li><a href="db-sql-vs-nosql.html">SQL vs NoSQL</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">ארכיטקטורה</button>
+      <ul class="dropdown-menu" aria-label="ארכיטקטורה" hidden>
+        <li><a href="architecture.html">Client-Server</a></li>
+        <li><a href="rest-api.html">REST API</a></li>
+        <li><a href="authentication.html">אימות והרשאות</a></li>
+        <li><a href="api-security.html">אבטחת API</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">ענן והפצה</button>
+      <ul class="dropdown-menu" aria-label="ענן והפצה" hidden>
+        <li><a href="cloud-deploy.html">Docker + Cloud Run</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">סוכנים</button>
+      <ul class="dropdown-menu" aria-label="סוכנים" hidden>
+        <li><a href="agents-react.html">ReAct</a></li>
+        <li><a href="rag.html">RAG</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">וייב קודינג</button>
+      <ul class="dropdown-menu" aria-label="וייב קודינג" hidden>
+        <li><a href="vibe.html">vibe</a></li>
+        <li><a href="home-terminal.html">דף הבית - טרמינל</a></li>
+        <li><a href="home-blueprint.html">דף הבית - Blueprint</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">הקורס</button>
+      <ul class="dropdown-menu" aria-label="הקורס" hidden>
+        <li><a href="syllabus.html">תכנית</a></li>
+        <li><a href="lecturer.html">המרצה</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+</div>
+
+<main id="main" class="container">
+
+<section class="section">
+  <h2>ענן והפצה - Docker + Cloud Run</h2>
+  <p class="kicker">בפרודקשן, "זה עובד אצלי" לא מספיק. צריך אריזה קבועה, ניהול תלויות, קונפיגורציה, ושיטה עקבית לפריסה. כאן נכנסים Docker ו-Cloud Run.</p>
+
+  <div class="callout">
+    <p><strong>המטרה:</strong> לקחת שירות FastAPI (למשל Notes או RAG API), לארוז אותו לקונטיינר שניתן להריץ זהה בכל מקום, ואז לפרוס אותו ל-Cloud Run עם ניהול סודות, סקיילינג, ותצפיות (logs/metrics).</p>
+  </div>
+
+  <h3>1) מהו Docker באמת?</h3>
+  <p>Docker הוא סט כלים שמאפשר לבנות <strong>Container Image</strong> - חבילה שמכילה את האפליקציה, התלויות שלה, והוראות איך להריץ אותה. זה לא VM: הקונטיינר משתף את הקרנל של מערכת ההפעלה, ולכן הוא קל ומהיר יותר.</p>
+
+  <div class="grid cols-2">
+    <div class="card">
+      <h4>Image</h4>
+      <p>תבנית בלתי משתנה (immutable) שמכילה שכבות. בונים אותה עם Dockerfile ומעלים לרג'יסטרי.</p>
+    </div>
+    <div class="card">
+      <h4>Container</h4>
+      <p>תהליך רץ שנוצר מ-image. אפשר להריץ הרבה קונטיינרים מאותו image.</p>
+    </div>
+  </div>
+
+  <details>
+    <summary>למה זה חשוב בהנדסת מערכות?</summary>
+    <div class="content">
+      <ul>
+        <li><strong>שחזור:</strong> אותו image פועל אותו דבר במחשב, ב-CI, ובענן.</li>
+        <li><strong>דיפלוי מהיר:</strong> Pull ל-image והרצה.</li>
+        <li><strong>אבטחה:</strong> אפשר לסרוק image לפגיעויות ולנעול גרסאות.</li>
+        <li><strong>יעילות:</strong> שכבות מאפשרות cache לבילדים מהירים.</li>
+      </ul>
+    </div>
+  </details>
+
+  <h3>2) עקרונות Dockerfile נכון (ל-Python + FastAPI)</h3>
+  <p>Dockerfile הוא מתכון. המטרה: בילד מהיר, image קטן, והרצה יציבה. הדפוס הפופולרי הוא:</p>
+  <ul>
+    <li>להעתיק קודם קבצי תלויות (requirements/pyproject) כדי לנצל cache.</li>
+    <li>להתקין תלויות ואז להעתיק את קוד האפליקציה.</li>
+    <li>להריץ עם שרת ASGI כמו uvicorn או gunicorn+uvicorn worker.</li>
+  </ul>
+
+  <div class="code" aria-label="Dockerfile בסיסי עבור FastAPI">
+    <pre># Dockerfile
+FROM python:3.12-slim
+
+# 1) יציבות והרצה צפויה
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+WORKDIR /app
+
+# 2) תלויות קודם - כדי לקבל cache
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 3) קוד אחר כך
+COPY . .
+
+# 4) Cloud Run מצפה לשרת שמאזין ל-$PORT
+ENV PORT=8080
+EXPOSE 8080
+
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]</pre>
+  </div>
+
+  <details>
+    <summary>.dockerignore שחוסך זמן וכסף</summary>
+    <div class="content">
+      <p>בפרויקט אמיתי לא רוצים לשלוח ל-Docker build קבצים מיותרים:</p>
+      <div class="code" aria-label="dockerignore">
+        <pre>__pycache__/
+*.pyc
+.venv/
+.env
+.git/
+.gitignore
+tests/
+*.db
+*.log</pre>
+      </div>
+      <p class="small">הדגש: כל מה שלא צריך בזמן ריצה - לא נכנס ל-image.</p>
+    </div>
+  </details>
+
+  <h3>3) פרמטרים תפעוליים: env, secrets, ו-config</h3>
+  <p>קונטיינר טוב לא "מקשיח" פרטים סביבתיים. במקום זה משתמשים במשתני סביבה:</p>
+  <div class="code" aria-label="דוגמת קונפיגורציה עם env">
+    <pre>DATABASE_URL=postgresql+psycopg://user:pass@host/db
+OPENAI_API_KEY=...
+LOG_LEVEL=info</pre>
+  </div>
+
+  <p><strong>כלל פרודקשן:</strong> לא שמים סודות בתוך ה-image ולא בקוד. ב-Cloud Run משתמשים ב-Secret Manager וממפים secrets למשתני סביבה בזמן דיפלוי.</p>
+
+  <h3>4) Cloud Run במודל מחשבתי</h3>
+  <p>Cloud Run מריץ קונטיינרים בצורה מנוהלת. אתה מספק image, והוא דואג ל:</p>
+  <ul>
+    <li>סקיילינג אוטומטי (כולל scale-to-zero).</li>
+    <li>HTTPS, דומיין, ונתיב routing.</li>
+    <li>ניהול גרסאות ושחרורים.</li>
+    <li>לוגים ל-Cloud Logging.</li>
+  </ul>
+
+  <div class="callout">
+    <p><strong>דרישה מרכזית:</strong> האפליקציה חייבת להאזין לפורט שניתן ב-<span class="highlight">PORT</span> (בדרך כלל 8080). לכן ב-Dockerfile אנחנו מאזינים ל-0.0.0.0:8080.</p>
+  </div>
+
+  <h3>5) בנייה מקומית והרצה</h3>
+  <p>נבנה image ונריץ קונטיינר:</p>
+  <div class="code" aria-label="docker build and run">
+    <pre># build
+docker build -t notes-api:local .
+
+# run
+docker run --rm -p 8080:8080 \
+  -e LOG_LEVEL=info \
+  notes-api:local</pre>
+  </div>
+  <p>עכשיו אפשר לגשת ל-<span class="highlight">http://localhost:8080/docs</span> ולראות את ה-OpenAPI.</p>
+
+  <h3>6) Health checks וניטור מינימלי</h3>
+  <p>Cloud Run לא דורש endpoints מיוחדים, אבל פרודקשן כן. מוסיפים endpoint כמו:</p>
+  <div class="code" aria-label="health endpoint">
+    <pre>@app.get("/health")
+def health():
+    return {"status": "ok"}</pre>
+  </div>
+
+  <p>בנוסף, מומלץ להדפיס לוגים כ-JSON כדי להקל על חיפוש:</p>
+  <div class="code" aria-label="structured log idea">
+    <pre>{
+  "level": "info",
+  "event": "request_done",
+  "path": "/api/v1/notes",
+  "status": 200,
+  "latency_ms": 37
+}</pre>
+  </div>
+
+  <h3>7) Cloud Run: build, push, deploy (תהליך טיפוסי)</h3>
+  <p>יש שני דפוסים נפוצים. הראשון הוא להשתמש ב-Cloud Build לבניית image ישירות מה-repo, בלי Docker מקומי.</p>
+
+  <div class="code" aria-label="Cloud Build + Deploy via gcloud">
+    <pre># 1) build + push (Artifact Registry)
+gcloud builds submit --tag REGION-docker.pkg.dev/PROJECT/REPO/notes-api:1.0 .
+
+# 2) deploy
+gcloud run deploy notes-api \
+  --image REGION-docker.pkg.dev/PROJECT/REPO/notes-api:1.0 \
+  --region REGION \
+  --platform managed \
+  --allow-unauthenticated \
+  --set-env-vars LOG_LEVEL=info</pre>
+  </div>
+
+  <details>
+    <summary>הערות פרודקשן חשובות ב-Cloud Run</summary>
+    <div class="content">
+      <ul>
+        <li><strong>Concurrency:</strong> כמה בקשות במקביל לכל instance. גבוה יותר חוסך כסף אבל דורש קוד יעיל.</li>
+        <li><strong>Timeout:</strong> ברירת מחדל לא תמיד מתאימה ל-LLM. מגדירים timeout מתאים.</li>
+        <li><strong>CPU allocation:</strong> אפשר CPU רק בזמן בקשה או תמיד. משפיע על ביצועים ומשימות רקע.</li>
+        <li><strong>Min instances:</strong> אם חשוב latency נמוך, משאירים 1 instance תמיד, אבל עולה כסף.</li>
+        <li><strong>Secrets:</strong> ממפים מ-Secret Manager ולא מעבירים בקוד.</li>
+      </ul>
+    </div>
+  </details>
+
+  
+  <h3>8) Object Storage - למה תמונות, וידאו וקבצים כבדים הולכים ל-"S3" ולא ל-DB</h3>
+  <p>במערכות מודרניות, קבצים כבדים (תמונות, וידאו, PDFים, ZIPים) לא נשמרים בתוך הקונטיינר ולא בתוך טבלאות DB כ-BLOBים (למעט מקרים חריגים). במקום זה משתמשים ב-<strong>Object Storage</strong> - שירות בסגנון <span class="highlight">S3</span> (ב-GCP זה Cloud Storage, ב-AWS זה S3).</p>
+
+  <div class="grid cols-2">
+    <div class="card">
+      <h4>למה לא לשמור בתוך הקונטיינר?</h4>
+      <ul>
+        <li><strong>Cloud Run הוא stateless:</strong> ה-instance יכול להיסגר בכל רגע, והדיסק המקומי לא מובטח להתמיד.</li>
+        <li><strong>סקיילינג:</strong> כשיש כמה instances, לכל אחד דיסק מקומי שונה - הנתונים לא משותפים.</li>
+        <li><strong>העתקה איטית:</strong> לשכפל קבצים בין instances זו מורכבות ותקלות.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>למה לא לשמור ב-DB כ-BLOB?</h4>
+      <ul>
+        <li><strong>עלות וביצועים:</strong> DB רלציוני לא בנוי לזרימת קבצים גדולים בקצב גבוה.</li>
+        <li><strong>גיבויים:</strong> גיבוי DB נהיה כבד ויקר.</li>
+        <li><strong>CDN:</strong> Object storage משתלב בקלות עם CDN והורדות מהירות.</li>
+      </ul>
+    </div>
+  </div>
+
+  <p><strong>הדפוס הנכון:</strong> מעלים את הקובץ ל-Object Storage ומקבלים <strong>URL</strong> (או key). ב-DB שומרים רק מטא-דאטה: מי העלה, מתי, איזה סוג, גודל, וכתובת הקובץ.</p>
+
+  <div class="code" aria-label="DB stores metadata, S3 stores the blob">
+    <pre># טבלת DB (Postgres/Mongo) - מטא-דאטה בלבד
+file_id | user_id | content_type | size_bytes | storage_key | created_at
+
+# Object storage (S3/Cloud Storage)
+storage_key -> actual binary object (image/video/pdf)</pre>
+  </div>
+
+  <details>
+    <summary>איך מעלים קובץ בצורה נכונה (פרקטי)</summary>
+    <div class="content">
+      <ul>
+        <li><strong>Signed URL:</strong> השרת יוצר URL חתום להעלאה, והלקוח מעלה ישירות ל-storage בלי להעביר את הקובץ דרך השרת.</li>
+        <li><strong>Public vs private:</strong> לרוב שומרים פרטי ומגישים דרך Signed URLs להורדה.</li>
+        <li><strong>Lifecycle:</strong> מדיניות מחיקה/ארכוב לקבצים זמניים כדי לשלוט בעלויות.</li>
+      </ul>
+    </div>
+  </details>
+
+  <h3>9) DB בענן - Postgres/Mongo לטבלאות מידע</h3>
+
+  <p>במקומי השתמשנו ב-SQLite כדי ללמוד. בענן בדרך כלל משתמשים ב-PostgreSQL (Cloud SQL או ספק אחר). עקרונות חשובים:</p>
+  <ul>
+    <li>לא מחזיקים יותר מדי connections. קובעים pool קטן ומבוקר.</li>
+    <li>מגדירים DATABASE_URL כ-env var.</li>
+    <li>מוסיפים migrations (Alembic) כחלק מתהליך שחרור.</li>
+  </ul>
+
+  <div class="callout">
+    <p><strong>מלכודת נפוצה:</strong> לעלות ל-Cloud Run עם SQLite ולצפות להתמדה. Cloud Run הוא stateless, והדיסק המקומי לא מיועד להיות DB. SQLite מצוין ללמידה, לא לשירות רשת סקיילבילי.</p>
+  </div>
+
+  <h3>10) ארכיטקטורה של דיפלוי למערכת GenAI</h3>
+  <p>במערכת GenAI, לרוב נפריד בין:</p>
+  <ul>
+    <li>Service API (FastAPI) - חשוף ללקוחות או לשער API.</li>
+    <li>RAG Service - אינדקס ושליפה, לעתים נפרד מה-API הראשי.</li>
+    <li>Worker - תהליכים אסינכרוניים (אינדוקס מסמכים, batch jobs).</li>
+  </ul>
+
+  <details>
+    <summary>למה להפריד worker מ-API?</summary>
+    <div class="content">
+      <p>כי אינדוקס מסמכים יכול לקחת דקות, וזה לא תואם request-response. לכן שולחים job לתור (למשל Pub/Sub) ו-worker עושה את העבודה. Cloud Run מתאים גם ל-workers, אבל צריך לבחור מודל הרצה מתאים.</p>
+    </div>
+  </details>
+
+  <h3>תרגול</h3>
+
+  <details>
+    <summary>שאלות בדיקה (10)</summary>
+    <div class="content">
+      <ol>
+        <li>מה ההבדל בין image ל-container?</li>
+        <li>למה Docker build נהיה מהיר יותר כשמעתיקים requirements לפני הקוד?</li>
+        <li>למה אסור לשים סודות בתוך image?</li>
+        <li>מה המשמעות של PORT ב-Cloud Run?</li>
+        <li>למה חשוב להאזין ל-0.0.0.0 ולא ל-127.0.0.1?</li>
+        <li>מה tradeoff של concurrency גבוה ב-Cloud Run?</li>
+        <li>למה SQLite לא מתאים לפרודקשן ב-Cloud Run?</li>
+        <li>מה תפקיד Secret Manager?</li>
+        <li>למה צריך health endpoint גם אם Cloud Run לא דורש?</li>
+        <li>מתי כדאי להפריד worker משירות API?</li>
+      </ol>
+    </div>
+  </details>
+
+  <details>
+    <summary>משימת בית (Dockerize + Deploy)</summary>
+    <div class="content">
+      <p>בחר אחד מהשירותים שבנית (Notes DB או RAG API) ובצע:</p>
+      <ul>
+        <li>הוסף Dockerfile ו-.dockerignore.</li>
+        <li>וודא שהשירות מאזין ל-PORT=8080 וכולל /health.</li>
+        <li>בנה והרץ מקומית עם docker run והדגם שה-OpenAPI ב-/docs עובד.</li>
+        <li>פרוס ל-Cloud Run עם gcloud (או דרך Console) והדגם URL ציבורי עובד.</li>
+      </ul>
+
+      <div class="code" aria-label="רשימת פקודות מינימלית">
+        <pre>docker build -t my-api:local .
+docker run --rm -p 8080:8080 my-api:local
+
+gcloud builds submit --tag REGION-docker.pkg.dev/PROJECT/REPO/my-api:1.0 .
+gcloud run deploy my-api --image REGION-docker.pkg.dev/PROJECT/REPO/my-api:1.0 \
+  --region REGION --allow-unauthenticated</pre>
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary>בדיקת פתרון (Checklist)</summary>
+    <div class="content">
+      <ul>
+        <li>הקונטיינר עולה מקומית ו-GET /health מחזיר 200.</li>
+        <li>הקונטיינר מאזין ל-8080, והפורט נפתח עם -p 8080:8080.</li>
+        <li>אין סודות בתוך ה-repo או ה-image.</li>
+        <li>ב-Cloud Run יש URL עובד, ו-/docs נגיש.</li>
+        <li>לוגים מופיעים ב-Cloud Logging וכוללים trace id אם הוספת.</li>
+      </ul>
+    </div>
+  </details>
+
+  <p>הפרק הבא בסדרה יהיה Webhooks + Automation (Make/N8N) כולל חתימות, retries, idempotency, ותירגול.</p>
+</section>
+
+</main>
+
+<footer class="footer">
+  <p>🌐 מפתחי בינה מלאכותית - GenAI Engineers | חגי און</p>
+  <p class="muted">אתר סטטי: HTML + CSS + JavaScript - קבצים משותפים לקאש דפדפן</p>
+</footer>
+
+<script src="assets/app.js?v=20260107094522" defer></script>
+</body>
+</html>
