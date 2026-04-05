@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AIloveU - LLM Playground (BYOK)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="noise"></div>
+
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-bracket">[</span>LLM<span class="logo-accent">·</span>PLAYGROUND - by AILOVEU<span class="logo-bracket">]</span>
+      </div>
+      <div class="header-meta">
+        <span class="badge">BYOK</span>
+        <span class="version">v1.0</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- LEFT PANEL: Controls -->
+    <section class="panel panel-controls">
+      <div class="panel-label">CONFIGURE</div>
+
+      <!-- Provider Selection -->
+      <div class="field-group">
+        <label class="field-label" for="provider">Provider</label>
+        <div class="segmented" id="provider-segmented">
+          <button class="seg-btn active" data-provider="claude">Claude</button>
+          <button class="seg-btn" data-provider="openai">ChatGPT</button>
+          <button class="seg-btn" data-provider="gemini">Gemini</button>
+        </div>
+        <input type="hidden" id="provider" value="claude" />
+      </div>
+
+      <!-- Model Selection -->
+      <div class="field-group">
+        <label class="field-label" for="model">Model</label>
+        <div class="select-wrapper">
+          <select id="model"></select>
+          <span class="select-arrow">▾</span>
+        </div>
+      </div>
+
+      <!-- API Key -->
+      <div class="field-group">
+        <label class="field-label" for="api-key">
+          API Key
+          <span class="field-hint" id="key-hint">anthropic.com</span>
+        </label>
+        <div class="input-wrapper">
+          <input
+            type="password"
+            id="api-key"
+            placeholder="sk-ant-••••••••••••••••••"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <button class="toggle-visibility" id="toggle-key" title="Show/hide key" aria-label="Toggle key visibility">
+            <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <p class="security-note">🔒 Your key is never stored — lives only in this session.</p>
+      </div>
+
+      <!-- Predefined Prompt Toggle -->
+      <div class="field-group">
+        <label class="field-label">
+          System Prompt
+          <button class="inline-btn" id="toggle-system-prompt">edit</button>
+        </label>
+        <div class="system-prompt-preview" id="system-prompt-preview">
+          You are a helpful, concise assistant. Answer clearly and directly.
+        </div>
+        <textarea
+          id="system-prompt"
+          class="hidden"
+          rows="4"
+          maxlength="1000"
+          placeholder="Define assistant behavior..."
+        >You are a helpful, concise assistant. Answer clearly and directly.</textarea>
+      </div>
+
+      <!-- Temperature -->
+      <div class="field-group">
+        <label class="field-label" for="temperature">
+          Temperature
+          <span class="field-value" id="temp-value">0.7</span>
+        </label>
+        <input type="range" id="temperature" min="0" max="2" step="0.1" value="0.7" class="slider" />
+        <div class="slider-labels"><span>Precise</span><span>Creative</span></div>
+      </div>
+
+      <!-- Theme -->
+      <div class="field-group">
+        <label class="field-label" for="theme">
+          Dark/Light Mode
+          <span class="field-value" id="theme-value">Dark</span>
+        </label>
+        <input type="range" id="theme" min="0" max="1" step="1" value="1" class="slider" />
+        <div class="slider-labels"><span>Light</span><span>Dark</span></div>
+      </div>
+    </section>
+
+    <!-- RIGHT PANEL: Chat -->
+    <section class="panel panel-chat">
+      <div class="panel-label">INTERACT</div>
+
+      <div class="chat-window" id="chat-window">
+        <div class="chat-empty" id="chat-empty">
+          <div class="empty-icon">⬡</div>
+          <p>Configure your provider and key,<br/>then send a message to begin.</p>
+        </div>
+      </div>
+
+      <div class="input-area" dir="auto">
+        <div class="textarea-wrapper">
+          <textarea
+            id="user-input"
+            placeholder="Type your message… (up to 2000 characters)"
+            maxlength="2000"
+            rows="3"
+          ></textarea>
+          <div class="char-counter">
+            <span id="char-count">0</span><span>/2000</span>
+          </div>
+        </div>
+        <div class="input-actions">
+          <button class="btn-clear" id="btn-clear" title="Clear chat">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+            Clear
+          </button>
+          <button class="btn-send" id="btn-send">
+            <span id="btn-text">Send</span>
+            <svg id="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            <div class="spinner hidden" id="spinner"></div>
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <span>Your API keys are processed client-side only and never transmitted to any third party beyond the chosen LLM provider.</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
