@@ -12,7 +12,9 @@
   --bg-hover:   #1c2028;
   --border:     #232830;
   --border-hi:  #3a4150;
+  --bg-header:  rgba(13,15,18,0.85);
 
+  --text-brand:     #f2f3f5;
   --text-primary:   #e8ecf1;
   --text-secondary: #7a8494;
   --text-muted:     #454d5c;
@@ -61,7 +63,9 @@ body.light-mode {
   --bg-hover:   #8699bf;
   --border:     #becee8;
   --border-hi:  #6a8fde;
+  --bg-header:  rgba(f2,e5,d3,0.85);
 
+  --text-brand:     #0f4b96;
   --text-primary:   #0d2442;
   --text-secondary: #2b5599;
   --text-muted:     #294987;
@@ -77,7 +81,7 @@ body.light-mode {
   top: 0;
   z-index: 100;
   border-bottom: 1px solid var(--border);
-  background: rgba(13,15,18,0.85);
+  background: var(--bg-header);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
@@ -97,7 +101,7 @@ body.light-mode {
   font-size: 13px;
   font-weight: 500;
   letter-spacing: 0.12em;
-  color: var(--text-secondary);
+  color: var(--text-primary);
 }
 .logo-bracket { color: var(--text-muted); }
 .logo-accent  { color: var(--accent); margin: 0 1px; }
@@ -134,7 +138,7 @@ body.light-mode {
   display: grid;
   grid-template-columns: 340px 1fr;
   gap: 20px;
-  min-height: calc(100vh - 56px - 44px);
+  height: calc(100vh - 56px - 44px - 20px);
 }
 
 /* ── PANELS ──────────────────────────────────── */
