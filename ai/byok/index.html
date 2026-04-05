@@ -68,7 +68,7 @@
             <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
           </button>
         </div>
-        <p class="security-note">🔒 Your key is never stored — lives only in this session.</p>
+        <p class="security-note">🔒 We NEVER store your API-Key on the server-side! It lives only in this session locally.</p>
       </div>
 
       <!-- Predefined Prompt Toggle -->
@@ -150,7 +150,11 @@
   </main>
 
   <footer class="footer">
-    <span>Your API keys are processed client-side only and never transmitted to any third party beyond the chosen LLM provider.</span>
+    <span><strong>All API-Keys are processed on client-side Only! Never transmitted to any third-party, just to your chosen LLM provider.</strong></span>
+    <p>This is an LLMs BYOK playground webpage using direct calls to LLMs.</p>
+    <p>Previously these calls were forbidden and blocked for CORS reasons by the browser.</p>
+    <p>Now it's enabled using special headers for test cases, internal-usage, etc.</p>
+    <p>This is a demonstration webpage for my students.</p>
   </footer>
 
   <script src="app.js"></script>
