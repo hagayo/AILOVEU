@@ -5,13 +5,8 @@
 
 'use strict';
 
-// const CONFIG = {
+// const CLOUD_CONFIG = {
     // PROXY_URL: 'https://your-cloud-run-url.a.run.app/v1/chat',
-    // MODELS: {
-        // openai: ['gpt-4o', 'gpt-4o-mini'],
-        // claude: ['claude-3-5-sonnet-20240620', 'claude-3-opus-20240229'],
-        // gemini: ['gemini-1.5-pro', 'gemini-1.5-flash']
-    // }
 // };
 
 
@@ -22,9 +17,9 @@ const PROVIDERS = {
     keyHint:  'console.anthropic.com',
     placeholder: 'sk-ant-••••••••••••••••••',
     models: [
-      { id: 'claude-opus-4-5',          label: 'Claude Opus 4.5'     },
-      { id: 'claude-sonnet-4-5',        label: 'Claude Sonnet 4.5'   },
-      { id: 'claude-haiku-3-5-20241022',label: 'Claude Haiku 3.5'    },
+      { id: 'claude-opus-4-6',          label: 'Claude Opus 4.6'     },
+      { id: 'claude-sonnet-4-6',        label: 'Claude Sonnet 4.6'   },
+      { id: 'claude-haiku-4-5-20251001',label: 'Claude Haiku 4.5'    },
     ],
     endpoint: 'https://api.anthropic.com/v1/messages',
   },
@@ -45,6 +40,7 @@ const PROVIDERS = {
     keyHint:  'aistudio.google.com',
     placeholder: 'AIza••••••••••••••••••••',
     models: [
+      { id: 'gemini-2.5-flash',        label: 'Gemini 2.5 Flash'        },
       { id: 'gemini-2.0-flash',        label: 'Gemini 2.0 Flash'        },
       { id: 'gemini-1.5-pro',          label: 'Gemini 1.5 Pro'          },
       { id: 'gemini-1.5-flash',        label: 'Gemini 1.5 Flash'        },
@@ -65,6 +61,7 @@ let state = {
   temperature:  0.7,
   messages:     [],   // { role, content, ts, provider }
   loading:      false,
+  maxTokens:   1024,
 };
 
 // ── DOM REFS ─────────────────────────────────────────────────────────────────
@@ -94,7 +91,8 @@ const els = {
   btnClear:           $('btn-clear'),
   theme:              $('theme'),
   themeValue:         $('theme-value'),
-  toggleBtn:          $('theme-toggle'),
+  tokensSlider:       $('tokens-slider'),
+  maxTokensValue:     $('tokens-value'),
 };
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
@@ -107,6 +105,7 @@ const els = {
   const prefersLightScheme = window.matchMedia("(prefers-color-scheme: light)");
   if (currentTheme === "light" || (!currentTheme && prefersLightScheme.matches)) {
     body.className = 'light-mode';
+    state.theme = 'light';
   }
   
   let lastProvider = localStorage.getItem('provider');
@@ -168,6 +167,12 @@ function bindEvents() {
     els.tempValue.textContent = state.temperature.toFixed(1);
   });
 
+  // Tokens slider
+  els.tokensSlider.addEventListener('input', () => {
+    state.maxTokens = parseInt(els.tokensSlider.value);
+    els.maxTokensValue.textContent = state.maxTokens;
+  });
+
   // Theme slider (light/dark mode)
   els.theme.addEventListener('input', () => {
     const body = document.body;
@@ -198,16 +203,6 @@ function bindEvents() {
       handleSend();
     }
   });
-
-  // els.toggleBtn.addEventListener('click', () => {
-    // const body = document.body;
-    // body.classList.toggle('dark-mode');
-    
-    // // Save preference to localStorage
-    // let theme = 'light';
-    // if (body.classList.contains('dark-mode')) { theme = 'dark'; }
-    // localStorage.setItem('theme', theme);
-  // });
 
   // Send button
   els.btnSend.addEventListener('click', handleSend);
@@ -289,6 +284,7 @@ async function handleSend() {
       case 'claude':  responseText = await callClaude();  break;
       case 'openai':  responseText = await callOpenAI();  break;
       case 'gemini':  responseText = await callGemini();  break;
+      default: throw new Error("Unknown provider: ${state.provider}");
     }
 
     removeTypingIndicator(typingId);
@@ -310,7 +306,7 @@ async function handleSend() {
 async function callClaude() {
   const body = {
     model:       state.model,
-    max_tokens:  1024,
+    max_tokens:  state.maxTokens,
     temperature: state.temperature,
     system:      state.systemPrompt,
     messages:    state.messages.map(m => ({ role: m.role, content: m.content })),
@@ -351,7 +347,7 @@ async function callOpenAI() {
   const body = {
     model:       state.model,
     messages,
-    max_tokens:  1024,
+    max_tokens:  state.maxTokens,
     temperature: Math.min(state.temperature, 2),  // OpenAI max is 2
   };
 
@@ -391,7 +387,7 @@ async function callGemini() {
       : undefined,
     generationConfig: {
       temperature: Math.min(state.temperature, 1),  // Gemini 1.x max is 1
-      maxOutputTokens: 1024,
+      maxOutputTokens: state.maxTokens,
     },
   };
 
@@ -433,6 +429,7 @@ async function callGemini() {
     // model:       state.model,
     // api_key:     state.apiKey,
     // temperature: state.temperature,
+    // max_tokens:  state.maxTokens,
     // messages:    state.messages.map(m => ({ role: m.role, content: m.content }))
   // };
 
@@ -463,6 +460,7 @@ async function callGemini() {
             // model: state.model,
             // apiKey: state.apiKey,
             // temperature: state.temperature,
+            // max_tokens:  state.maxTokens,
             // messages: messages  // User & Assistant history only
         // })
     // });
@@ -560,6 +558,7 @@ function clearChat() {
     <p>Configure your provider and key,<br/>then send a message to begin.</p>
   `;
   els.chatWindow.appendChild(empty);
+  els.chatEmpty = document.getElementById('chat-empty');
 }
 
 function formatError(err) {
