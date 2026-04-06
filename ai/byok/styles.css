@@ -96,13 +96,14 @@ body.light-mode {
   justify-content: space-between;
 }
 
-h1, .logo {
+.logo {
   font-family: var(--font-mono);
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   color: var(--text-primary);
 }
+.logo h1 { font-size: inherit; font-weight: inherit; margin: 0; }
 /* .logo-bracket { color: var(--text-muted); } */
 /* .logo-accent  { color: var(--accent); margin: 0 1px; } */
 
