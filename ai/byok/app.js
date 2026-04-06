@@ -5,11 +5,7 @@
 
 'use strict';
 
-// const CLOUD_CONFIG = {
-    // PROXY_URL: 'https://your-cloud-run-url.a.run.app/v1/chat',
-// };
-
-
+// const CLOUD_CONFIG = { PROXY_URL: 'https://your-cloud-run-url.a.run.app/v1/chat', };
 // ── CONFIG ──────────────────────────────────────────────────────────────────
 const PROVIDERS = {
   claude: {
