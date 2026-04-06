@@ -8,7 +8,7 @@
     Content: Bring-Your-Own-Key (BYOK) LLMs playground page, for free try and usage by students.">
   <meta name="robots" content="index, follow">
   <meta property="og:title" content="Free LLMs Playground page, enabling students to try different LLMs from the browser using their own API-Keys (BYOK)">
-  <meta property="og:image" content="https://ailoveu.art/ailoveu-128.png">
+  <meta property="og:image" content="https://ailoveu.art/ai/byok/ailoveu-128.png">
   <meta property="og:site_name" content="AILOVEU LLMs Playground">
   <meta property="og:url" content="https://ailoveu.art/ai/byok/index.html">
   <meta property="og:type" content="website">
@@ -23,7 +23,7 @@
   <meta name="author" content="Hagay Onn">
   <meta name="theme-color" content="#d5f5d6">
   <link rel="icon" sizes="192x192" href="./ailoveu-128.png">
-  <link rel="apple-touch-icon" href="/ailoveu-128.png">
+  <link rel="apple-touch-icon" href="./ailoveu-128.png">
   <link rel="canonical" href="https://ailoveu.art/ai/byok/index.html" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -82,13 +82,13 @@
 
       <!-- Provider Selection -->
       <div class="field-group">
-        <label class="field-label" for="provider">Provider
-          <input type="hidden" id="provider" value="claude"/></label>
-        <div class="segmented" id="provider-segmented">
+        <label class="field-label">Provider</label>
+        <div class="segmented" id="provider-segmented" role="group" aria-label="Provider">
           <button class="seg-btn active" data-provider="claude">Claude</button>
           <button class="seg-btn" data-provider="openai">ChatGPT</button>
           <button class="seg-btn" data-provider="gemini">Gemini</button>
         </div>
+        <input type="hidden" id="provider" value="claude" />
       </div>
 
       <!-- Model Selection -->
