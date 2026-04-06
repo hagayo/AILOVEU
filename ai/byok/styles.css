@@ -16,8 +16,8 @@
 
   --text-brand:     #f2f3f5;
   --text-primary:   #e8ecf1;
-  --text-secondary: #7a8494;
-  --text-muted:     #454d5c;
+  --text-secondary: #979EAA;    /* #7a8494; */
+  --text-muted:     #7C879C;    /* #454d5c; */
 
   --accent:     #4fffb0;
   --accent-dim: #1a3d2e;
@@ -96,15 +96,15 @@ body.light-mode {
   justify-content: space-between;
 }
 
-.logo {
+h1, .logo {
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 500;
   letter-spacing: 0.12em;
   color: var(--text-primary);
 }
-.logo-bracket { color: var(--text-muted); }
-.logo-accent  { color: var(--accent); margin: 0 1px; }
+/* .logo-bracket { color: var(--text-muted); } */
+/* .logo-accent  { color: var(--accent); margin: 0 1px; } */
 
 .header-meta {
   display: flex;
