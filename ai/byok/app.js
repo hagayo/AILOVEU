@@ -49,7 +49,7 @@ const PROVIDERS = {
 // ── STATE ────────────────────────────────────────────────────────────────────
 
 let state = {
-  theme:        'light',
+  theme:        'dark',
   provider:     'claude',
   model:        PROVIDERS.claude.models[0].id,
   apiKey:       '',
@@ -103,6 +103,7 @@ const els = {
     body.className = 'light-mode';
     state.theme = 'light';
   }
+  els.themeValue.textContent = state.theme
   
   let lastProvider = localStorage.getItem('provider');
   if (lastProvider != null) {
@@ -280,7 +281,7 @@ async function handleSend() {
       case 'claude':  responseText = await callClaude();  break;
       case 'openai':  responseText = await callOpenAI();  break;
       case 'gemini':  responseText = await callGemini();  break;
-      default: throw new Error("Unknown provider: ${state.provider}");
+      default: throw new Error(`Unknown provider: ${state.provider}`);
     }
 
     removeTypingIndicator(typingId);
@@ -376,13 +377,18 @@ async function callGemini() {
     parts: [{ text: m.content }],
   }));
 
+  let tempToSet = Math.min(state.temperature, 2);  // Gemini 2.x max is 2
+  if ( state.model.startsWith('gemini-1', 0) ) {
+    tempToSet = Math.min(state.temperature, 1);  // Gemini 1.x max is 1
+  }
+
   const body = {
     contents,
     systemInstruction: state.systemPrompt
       ? { parts: [{ text: state.systemPrompt }] }
       : undefined,
     generationConfig: {
-      temperature: Math.min(state.temperature, 1),  // Gemini 1.x max is 1
+      temperature: tempToSet,
       maxOutputTokens: state.maxTokens,
     },
   };
