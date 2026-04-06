@@ -22,7 +22,6 @@
   <meta name="twitter:creator" content="@HagayOnn45271">
   <meta name="author" content="Hagay Onn">
   <meta name="theme-color" content="#d5f5d6">
-  <!-- with the meta tag “rel=icon” you can define an icon which is displayed when users add your page to the home screen of their mobile devices. -->
   <link rel="icon" sizes="192x192" href="./ailoveu-128.png">
   <link rel="apple-touch-icon" href="/ailoveu-128.png">
   <link rel="canonical" href="https://ailoveu.art/ai/byok/index.html" />
@@ -36,14 +35,42 @@
 
   <header class="header">
     <div class="header-inner">
+
+      <!-- ① Logo now links to the brand site -->
       <div class="logo">
-        <h1>[LLMs PLAYGROUND page - by AILOVEU]</h1>
-        <!-- <span class="logo-bracket">[</span>LLM<span class="logo-accent">·</span>PLAYGROUND - by AILOVEU<span class="logo-bracket">]</span> -->
+        <a href="https://ailoveu.art" target="_blank" rel="noopener noreferrer">
+          <h1>[LLMs PLAYGROUND page - by AILOVEU]</h1>
+        </a>
       </div>
+
       <div class="header-meta">
         <span class="badge">BYOK</span>
         <span class="version">v1.0</span>
+
+        <!-- ④ Dark / Light toggle moved here from the controls panel -->
+        <button class="theme-toggle-btn" id="theme-toggle-btn"
+                title="Toggle dark / light mode" aria-label="Toggle theme">
+          <!-- Sun icon — shown in dark mode -->
+          <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1"  x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22"  x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1"  y1="12" x2="3"  y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+          <!-- Moon icon — shown in light mode -->
+          <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
       </div>
+
     </div>
   </header>
 
@@ -88,14 +115,36 @@
             spellcheck="false"
           />
           <button class="toggle-visibility" id="toggle-key" title="Show/hide key" aria-label="Toggle key visibility">
-            <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
           </button>
         </div>
-        <p class="security-note">🔒 We NEVER store your API-Key on the Server-side! It lives only in this session locally.</p>
-        <p class="security-note">   Your key is stored locally in your browser for convenience, and never sent to our servers.</p>
+
+        <!-- ② Save-key row: checkbox + forget button -->
+        <div class="save-key-row">
+          <label class="save-key-label">
+            <input type="checkbox" id="save-key-checkbox" checked />
+            Remember key in this browser
+          </label>
+          <button class="btn-forget-key" id="btn-forget-key" title="Delete saved key from browser storage">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="3 6 5 6 21 6"/>
+              <path d="M19 6l-1 14H6L5 6"/>
+              <path d="M10 11v6M14 11v6"/>
+              <path d="M9 6V4h6v2"/>
+            </svg>
+            Forget
+          </button>
+        </div>
+
+        <p class="security-note">🔒 Your key is <strong>never</strong> sent to our servers — only to your chosen LLM provider.</p>
       </div>
 
-      <!-- Predefined Prompt Toggle -->
+      <!-- System Prompt -->
       <div class="field-group">
         <label class="field-label">
           System Prompt
@@ -123,25 +172,18 @@
         <div class="slider-labels"><span>Precise</span><span>Creative</span></div>
       </div>
 
-      <!-- MaxTokens-Slider -->
+      <!-- MaxTokens Slider -->
       <div class="field-group">
         <label class="field-label" for="tokens-slider">
           Max Tokens (Output)
           <span class="field-value" id="tokens-value">1024</span>
         </label>
         <input type="range" id="tokens-slider" min="512" max="4096" step="512" value="1024" class="slider" />
-        <div class="slider-labels"><span>Small</span><span>Large Context</span></div>
+        <div class="slider-labels"><span>Small</span><span>Large</span></div>
       </div>
 
-      <!-- Theme -->
-      <div class="field-group">
-        <label class="field-label" for="theme">
-          Dark/Light Mode
-          <span class="field-value" id="theme-value">Dark</span>
-        </label>
-        <input type="range" id="theme" min="0" max="1" step="1" value="1" class="slider" />
-        <div class="slider-labels"><span>Light</span><span>Dark</span></div>
-      </div>
+      <!-- ④ Dark/Light Mode slider REMOVED — toggle is now in the header -->
+
     </section>
 
     <!-- RIGHT PANEL: Chat -->
@@ -169,12 +211,22 @@
         </div>
         <div class="input-actions">
           <button class="btn-clear" id="btn-clear" title="Clear chat">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="3 6 5 6 21 6"/>
+              <path d="M19 6l-1 14H6L5 6"/>
+              <path d="M10 11v6M14 11v6"/>
+              <path d="M9 6V4h6v2"/>
+            </svg>
             Clear
           </button>
           <button class="btn-send" id="btn-send">
             <span id="btn-text">Send</span>
-            <svg id="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            <svg id="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="22" y1="2" x2="11" y2="13"/>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
             <div class="spinner hidden" id="spinner"></div>
           </button>
         </div>
@@ -184,10 +236,9 @@
   </main>
 
   <footer class="footer">
-    <span><strong>All API-Keys are processed on client-side Only! Never transmitted to any third-party, just to your chosen LLM provider.</strong></span>
-    <p>This is an LLMs BYOK playground webpage using direct calls to LLMs.</p>
-    <p>Previously these calls were forbidden and blocked for CORS reasons by the browser.</p>
-    <p>Now it's enabled using special headers for test cases, internal-usage, etc.</p>
+    <span><strong>All API-Keys are processed on client-side only! Never transmitted to any third-party — just to your chosen LLM provider.</strong></span>
+    <p>This is an LLMs BYOK playground webpage using direct browser calls to LLM APIs.</p>
+    <p>Previously these calls were blocked for CORS reasons; now enabled via special headers for test/demo usage.</p>
     <p>This is a demonstration webpage for my students.</p>
   </footer>
 
