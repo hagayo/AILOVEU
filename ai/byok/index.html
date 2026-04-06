@@ -82,13 +82,13 @@
 
       <!-- Provider Selection -->
       <div class="field-group">
-        <label class="field-label" for="provider">Provider</label>
+        <label class="field-label" for="provider">Provider
+          <input type="hidden" id="provider" value="claude"/></label>
         <div class="segmented" id="provider-segmented">
           <button class="seg-btn active" data-provider="claude">Claude</button>
           <button class="seg-btn" data-provider="openai">ChatGPT</button>
           <button class="seg-btn" data-provider="gemini">Gemini</button>
         </div>
-        <input type="hidden" id="provider" value="claude" />
       </div>
 
       <!-- Model Selection -->
