@@ -1,3 +1,5 @@
 User-agent: *
 Disallow: ailoveu-*.js
 Disallow: project.mobirise
+
+Sitemap: https://ailoveu.art/sitemap.xml
