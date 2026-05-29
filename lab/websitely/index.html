@@ -12,7 +12,7 @@
 <body>
   <main class="page-wrap" id="main">
     <header class="page-header">
-      <p class="eyebrow">FREE Website Generator</p>
+      <p class="eyebrow">Static website starter-kit generator</p>
       <h1>Make me a website!</h1>
       <p>Enter a few details and download a polished, multi-page static website ZIP.</p>
     </header>
@@ -22,6 +22,14 @@
       <div class="field">
         <label for="biz-name">Business name <span class="required">*</span></label>
         <input type="text" id="biz-name" placeholder="e.g. Bright Studio" autocomplete="organization" />
+      </div>
+
+      <div class="field">
+        <label for="site-language">Site language</label>
+        <select id="site-language">
+          <option value="en">English</option>
+          <option value="he">Hebrew / עברית</option>
+        </select>
       </div>
       <div class="field logo-field">
         <label for="logo-input">Logo or icon</label>
@@ -270,10 +278,7 @@
       </button>
     </div>
 
-    <p class="footer-note">Generates: all site pages, Picsum images, dark/light toggle, launch-kit, sitemap, robots, and more inside</p>
+    <p class="footer-note">Generates: static site, Picsum images, dark mode, compare content, schema, launch kit, sitemap, robots, manifest, README.</p>
   </main>
-  <footer>
-  <p>@ By Hagay & AILOVEU</p>
-  </footer>
 </body>
 </html>
