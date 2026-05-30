@@ -1,131 +1,12 @@
-const PALETTES = [
-  { name: "Ocean Signal", colors: ["#0f172a", "#2563eb", "#38bdf8"] },
-  { name: "Forest Gold", colors: ["#12372a", "#436850", "#f5c542"] },
-  { name: "Ink Coral", colors: ["#111827", "#334155", "#fb7185"] },
-  { name: "Desert Luxe", colors: ["#2b2118", "#a16207", "#facc15"] },
-  { name: "Mint Charcoal", colors: ["#1f2937", "#10b981", "#f59e0b"] },
-  { name: "Lavender Tech", colors: ["#1e1b4b", "#7c3aed", "#c4b5fd"] },
-  { name: "Warm Local", colors: ["#3f2e2a", "#c76f42", "#f2b880"] },
-  { name: "Blue Steel", colors: ["#0b1220", "#475569", "#60a5fa"] },
-  { name: "Wellness Sage", colors: ["#243528", "#6b8f71", "#d8c3a5"] }
-];
-
-const DESIGN_STYLES = {
-  modern: { radius: "18px", sectionPad: "5.5rem", shadow: "0 18px 45px rgba(15,23,42,.09)", heroClass: "hero-modern", fontHead: "Inter, ui-sans-serif, system-ui, sans-serif", fontBody: "Inter, ui-sans-serif, system-ui, sans-serif" },
-  bold: { radius: "26px", sectionPad: "6.2rem", shadow: "0 24px 70px rgba(15,23,42,.16)", heroClass: "hero-bold", fontHead: "Inter, ui-sans-serif, system-ui, sans-serif", fontBody: "Inter, ui-sans-serif, system-ui, sans-serif" },
-  luxury: { radius: "4px", sectionPad: "7rem", shadow: "0 10px 30px rgba(0,0,0,.05)", heroClass: "hero-luxury", fontHead: "Georgia, 'Times New Roman', serif", fontBody: "Inter, ui-sans-serif, system-ui, sans-serif" },
-  friendly: { radius: "22px", sectionPad: "4.8rem", shadow: "0 16px 36px rgba(15,23,42,.08)", heroClass: "hero-friendly", fontHead: "Trebuchet MS, Inter, system-ui, sans-serif", fontBody: "Inter, ui-sans-serif, system-ui, sans-serif" },
-  creative: { radius: "32px", sectionPad: "6rem", shadow: "0 26px 80px rgba(15,23,42,.15)", heroClass: "hero-creative", fontHead: "Impact, Inter, system-ui, sans-serif", fontBody: "Inter, ui-sans-serif, system-ui, sans-serif" },
-  wellness: { radius: "28px", sectionPad: "5.2rem", shadow: "0 14px 38px rgba(15,23,42,.06)", heroClass: "hero-wellness", fontHead: "Georgia, 'Times New Roman', serif", fontBody: "Inter, ui-sans-serif, system-ui, sans-serif" },
-  corporate: { radius: "10px", sectionPad: "5rem", shadow: "0 10px 28px rgba(15,23,42,.07)", heroClass: "hero-corporate", fontHead: "Inter, ui-sans-serif, system-ui, sans-serif", fontBody: "Inter, ui-sans-serif, system-ui, sans-serif" }
-};
-
-const INDUSTRIES = {
-  technology: { hero: "Software that moves faster than meetings.", sub: "Modern tools, automation, and digital products for teams that need momentum.", nav: ["Platform", "Pricing", "Resources", "Contact"], sections: ["Platform", "Automation", "Integrations", "Security"], type: "SoftwareApplication", foot: "Build better systems." },
-  healthcare: { hero: "Care designed around people.", sub: "Trusted healthcare services with a calmer, clearer patient experience.", nav: ["Services", "Team", "FAQ", "Contact"], sections: ["Care Services", "Specialists", "Patient Resources", "Appointments"], type: "MedicalBusiness", foot: "Better care, every day." },
-  finance: { hero: "Confidence for every decision.", sub: "Practical financial and legal guidance for individuals and growing businesses.", nav: ["Services", "Pricing", "FAQ", "Contact"], sections: ["Advisory", "Planning", "Compliance", "Reports"], type: "FinancialService", foot: "Trusted guidance." },
-  retail: { hero: "Products people remember.", sub: "A sharp shopping experience for modern brands, stores, and makers.", nav: ["Shop", "Collections", "Reviews", "Contact"], sections: ["Collections", "New Arrivals", "Customer Favorites", "Shipping"], type: "Store", foot: "Made to be loved." },
-  food: { hero: "Flavor with a fan club.", sub: "Fresh, memorable food experiences crafted for real people and hungry calendars.", nav: ["Menu", "Reservations", "Gallery", "Contact"], sections: ["Menu Highlights", "Catering", "Reservations", "Location"], type: "Restaurant", foot: "Served with heart." },
-  education: { hero: "Learning that actually sticks.", sub: "Programs, courses, and training experiences that turn curiosity into capability.", nav: ["Courses", "Programs", "Pricing", "Contact"], sections: ["Courses", "Programs", "Mentors", "Outcomes"], type: "EducationalOrganization", foot: "Learn forward." },
-  creative: { hero: "Ideas with fingerprints.", sub: "Brand, design, and media work for people who refuse to look generic.", nav: ["Work", "Services", "Studio", "Contact"], sections: ["Selected Work", "Creative Direction", "Production", "Brand Systems"], type: "ProfessionalService", foot: "Make it unforgettable." },
-  realestate: { hero: "Find the place that fits your life.", sub: "Property guidance for buyers, sellers, renters, and investors.", nav: ["Properties", "Sell", "Agents", "Contact"], sections: ["Featured Properties", "Selling", "Neighborhoods", "Agents"], type: "RealEstateAgent", foot: "Move with confidence." },
-  hospitality: { hero: "Stay somewhere worth remembering.", sub: "Beautiful experiences, warm service, and the small details that make trips feel effortless.", nav: ["Rooms", "Dining", "Experiences", "Book"], sections: ["Rooms", "Dining", "Experiences", "Offers"], type: "Hotel", foot: "Hospitality with soul." },
-  fitness: { hero: "Stronger starts here.", sub: "Programs, coaching, and routines built for real progress.", nav: ["Classes", "Plans", "Trainers", "Join"], sections: ["Programs", "Coaching", "Nutrition", "Results"], type: "FitnessCenter", foot: "Move better." },
-  ngo: { hero: "Change needs a home base.", sub: "A clear, credible website for missions, communities, and measurable impact.", nav: ["Mission", "Impact", "Volunteer", "Donate"], sections: ["Mission", "Programs", "Impact", "Get Involved"], type: "NGO", foot: "Purpose in motion." },
-  construction: { hero: "Built clean. Built strong. Built once.", sub: "Reliable construction and manufacturing services for demanding projects.", nav: ["Services", "Projects", "Safety", "Contact"], sections: ["Services", "Projects", "Process", "Safety"], type: "LocalBusiness", foot: "Built to last." },
-  other: { hero: "A sharper home for your business.", sub: "A complete starter website that looks polished before the first edit.", nav: ["Services", "Pricing", "FAQ", "Contact"], sections: ["What We Do", "How It Works", "Why Us", "Testimonials"], type: "Organization", foot: "Ready for what is next." }
-};
-
-const GOALS = {
-  leads: { name: "Get leads", cta: "Get a quote", hero: "Turn interest into qualified conversations.", focus: "Lead-focused sections repeat the offer, proof, and contact path so visitors know exactly what to do next." },
-  bookings: { name: "Book appointments", cta: "Book a call", hero: "Make booking the obvious next step.", focus: "Booking-focused pages highlight availability, simple steps, and fast response expectations." },
-  credibility: { name: "Build credibility", cta: "Start a conversation", hero: "Look established before the first handshake.", focus: "Credibility-focused pages emphasize trust, credentials, process, testimonials, and clear proof." },
-  portfolio: { name: "Show portfolio", cta: "View portfolio", hero: "Let the work do the talking.", focus: "Portfolio-focused pages bring visuals, case studies, and project outcomes closer to the top." },
-  sales: { name: "Sell products or packages", cta: "Shop now", hero: "Make the offer easy to understand and easy to buy.", focus: "Sales-focused pages emphasize products, packages, pricing, and purchase-ready calls to action." },
-  donations: { name: "Collect donations", cta: "Donate now", hero: "Turn belief into action.", focus: "Donation-focused pages make impact visible and the donation path simple." },
-  event: { name: "Promote an event", cta: "Reserve now", hero: "Give people a reason to show up.", focus: "Event-focused pages surface dates, benefits, schedule, location, and registration CTAs." },
-  hiring: { name: "Hire employees", cta: "Apply now", hero: "Attract people who want to build with you.", focus: "Hiring-focused pages highlight culture, values, open roles, and application next steps." }
-};
-
-const VOICES = {
-  professional: { opener: "Practical, polished, and ready for real customers.", ctaLine: "Let us discuss the right next step for your goals.", adjective: "reliable" },
-  friendly: { opener: "Helpful service from people who care about the details.", ctaLine: "Tell us what you need. We will help you figure out the rest.", adjective: "approachable" },
-  bold: { opener: "Built for teams that want momentum, not more meetings.", ctaLine: "Ready to move faster? Let us make the next step obvious.", adjective: "decisive" },
-  luxury: { opener: "Quiet excellence, shaped with attention to every detail.", ctaLine: "Begin with a conversation. The details follow.", adjective: "refined" },
-  playful: { opener: "Useful, memorable, and allergic to boring websites.", ctaLine: "Bring the idea. We will bring the good kind of trouble.", adjective: "memorable" },
-  technical: { opener: "Clear systems, measurable outcomes, and fewer loose ends.", ctaLine: "Share the requirements and we will map the path.", adjective: "precise" },
-  calm: { opener: "A clear path, a steady process, and no unnecessary noise.", ctaLine: "Start simply. We will guide the next step.", adjective: "focused" }
-};
-
-
-const HEBREW_INDUSTRIES = {
-  technology: { hero: "תוכנה שזזה מהר יותר מישיבות.", sub: "כלים מודרניים, אוטומציה ומוצרים דיגיטליים לצוותים שרוצים להתקדם.", nav: ["פלטפורמה", "מחירים", "מאמרים", "צור קשר"], sections: ["פלטפורמה", "אוטומציה", "אינטגרציות", "אבטחה"], type: "SoftwareApplication", foot: "בונים מערכות טובות יותר." },
-  healthcare: { hero: "טיפול שמתחיל באנשים.", sub: "שירותי בריאות אמינים עם חוויית מטופל רגועה וברורה יותר.", nav: ["שירותים", "צוות", "שאלות", "צור קשר"], sections: ["שירותי טיפול", "מומחים", "מידע למטופלים", "תורים"], type: "MedicalBusiness", foot: "טיפול טוב יותר, כל יום." },
-  finance: { hero: "ביטחון בכל החלטה.", sub: "ליווי פיננסי ומשפטי מעשי לאנשים ולעסקים בצמיחה.", nav: ["שירותים", "מחירים", "שאלות", "צור קשר"], sections: ["ייעוץ", "תכנון", "ציות", "דוחות"], type: "FinancialService", foot: "ליווי שאפשר לסמוך עליו." },
-  retail: { hero: "מוצרים שאנשים זוכרים.", sub: "חוויית קנייה חדה למותגים, חנויות ויוצרים מודרניים.", nav: ["חנות", "קולקציות", "ביקורות", "צור קשר"], sections: ["קולקציות", "חדש באתר", "מועדפים", "משלוחים"], type: "Store", foot: "נוצר כדי שיאהבו אותו." },
-  food: { hero: "טעם עם קהל מעריצים.", sub: "חוויות אוכל טריות וזכירות לאנשים אמיתיים וליומנים רעבים.", nav: ["תפריט", "הזמנות", "גלריה", "צור קשר"], sections: ["מנות מובילות", "קייטרינג", "הזמנות", "מיקום"], type: "Restaurant", foot: "מוגש מכל הלב." },
-  education: { hero: "למידה שבאמת נשארת.", sub: "קורסים ותוכניות שהופכים סקרנות ליכולת אמיתית.", nav: ["קורסים", "תוכניות", "סגל", "הרשמה"], sections: ["קורסים", "תוכניות", "מנטורים", "בוגרים"], type: "EducationalOrganization", foot: "ידע שמניע קדימה." },
-  creative: { hero: "רעיונות שנראים בלתי אפשריים להתעלם מהם.", sub: "עבודה יצירתית למותגים שרוצים להיראות, להישמע ולהיזכר.", nav: ["עבודות", "שירותים", "סטודיו", "צור קשר"], sections: ["עבודות נבחרות", "מיתוג", "קמפיינים", "תוכן"], type: "ProfessionalService", foot: "רעיונות עם נוכחות." },
-  realestate: { hero: "המקום הנכון מתחיל כאן.", sub: "שירותי נדל״ן ברורים לקונים, מוכרים ומשקיעים.", nav: ["נכסים", "מכירה", "סוכנים", "צור קשר"], sections: ["נכסים מובילים", "שירותי מכירה", "הצוות", "מדריך אזורים"], type: "RealEstateAgent", foot: "הבית שלכם, המומחיות שלנו." },
-  hospitality: { hero: "חוויה שנשארת אחרי הצ׳ק-אאוט.", sub: "אירוח נעים, מוקפד וזכיר לכל אורח.", nav: ["חדרים", "חוויות", "הצעות", "הזמנה"], sections: ["חדרים", "אוכל", "חוויות", "הטבות"], type: "Hotel", foot: "יוצרים רגעים טובים." },
-  fitness: { hero: "להתחזק בלי להתחיל מחדש כל פעם.", sub: "אימונים, ליווי ותוכניות שבנויות לתוצאות אמיתיות.", nav: ["שיעורים", "מאמנים", "מסלולים", "הצטרפות"], sections: ["תוכניות", "אימון אישי", "תזונה", "סיפורי הצלחה"], type: "FitnessCenter", foot: "חזקים יותר, כל יום." },
-  ngo: { hero: "שינוי מתחיל בצעד ברור.", sub: "פעילות קהילתית עם אימפקט שאפשר לראות ולהרגיש.", nav: ["משימה", "פרויקטים", "התנדבות", "תרומה"], sections: ["המשימה", "פרויקטים", "אימפקט", "הצטרפות"], type: "NGO", foot: "עושים טוב ביחד." },
-  construction: { hero: "בנוי לעמוד במבחן הזמן.", sub: "בנייה, ייצור וביצוע מדויק לפרויקטים רציניים.", nav: ["שירותים", "פרויקטים", "תהליך", "צור קשר"], sections: ["שירותים", "פרויקטים", "תהליך", "בטיחות"], type: "LocalBusiness", foot: "חוזק בכל פרט." },
-  other: { hero: "עושים עבודה שאפשר לסמוך עליה.", sub: "שירות ברור, מקצועי וממוקד תוצאה.", nav: ["שירותים", "אודות", "עבודות", "צור קשר"], sections: ["מה אנחנו עושים", "הגישה שלנו", "תוצאות", "לקוחות"], type: "Organization", foot: "מצוינות, כל יום." }
-};
-
-const HEBREW_GOALS = {
-  leads: { name: "קבלת לידים", cta: "קבלו הצעת מחיר", hero: "להפוך מבקרים לפניות אמיתיות.", focus: "אתר שמוביל את המבקר לצעד הבא בצורה ברורה ומהירה." },
-  bookings: { name: "קביעת פגישות", cta: "קבעו שיחה", hero: "להפוך קביעת פגישה לצעד הטבעי הבא.", focus: "הדף מדגיש זמינות, תהליך פשוט וציפייה למענה מהיר." },
-  credibility: { name: "בניית אמון", cta: "בואו נדבר", hero: "להיראות מבוססים עוד לפני השיחה הראשונה.", focus: "האתר מדגיש אמון, תהליך, הוכחות, המלצות וניסיון." },
-  portfolio: { name: "הצגת תיק עבודות", cta: "צפו בעבודות", hero: "לתת לעבודה לדבר.", focus: "האתר שם ויזואליות, פרויקטים ותוצאות בחזית." },
-  sales: { name: "מכירת מוצרים או חבילות", cta: "לקנייה", hero: "להפוך את ההצעה לברורה וקלה לרכישה.", focus: "האתר מדגיש מוצרים, חבילות, מחירים וקריאות לפעולה." },
-  donations: { name: "איסוף תרומות", cta: "תרמו עכשיו", hero: "להפוך אמונה לפעולה.", focus: "האתר מציג אימפקט ומקל על תהליך התרומה." },
-  event: { name: "קידום אירוע", cta: "שריינו מקום", hero: "לתת לאנשים סיבה להגיע.", focus: "האתר מציג תאריך, ערך, לו״ז, מיקום והרשמה." },
-  hiring: { name: "גיוס עובדים", cta: "הגישו מועמדות", hero: "למשוך אנשים שרוצים לבנות איתכם.", focus: "האתר מציג תרבות, ערכים, תפקידים פתוחים וצעד הבא ברור." }
-};
-
-const HEBREW_VOICES = {
-  professional: { opener: "מקצועי, ברור ומוכן ללקוחות אמיתיים.", ctaLine: "בואו נדבר על הצעד הנכון למטרות שלכם.", adjective: "אמין" },
-  friendly: { opener: "שירות אנושי מאנשים שאכפת להם מהפרטים.", ctaLine: "ספרו לנו מה אתם צריכים, ונעזור להבין את הצעד הבא.", adjective: "נגיש" },
-  bold: { opener: "בנוי לאנשים שרוצים תנועה, לא עוד ישיבות.", ctaLine: "מוכנים לזוז מהר יותר? בואו נעשה את הצעד הבא ברור.", adjective: "חד" },
-  luxury: { opener: "מצוינות שקטה, עם תשומת לב לכל פרט.", ctaLine: "מתחילים בשיחה. הפרטים יבואו אחר כך.", adjective: "יוקרתי" },
-  playful: { opener: "שימושי, זכיר ואלרגי לאתרים משעממים.", ctaLine: "תביאו את הרעיון. אנחנו נביא את האנרגיה.", adjective: "זכיר" },
-  technical: { opener: "מערכות ברורות, תוצאות מדידות ופחות קצוות פתוחים.", ctaLine: "שלחו את הדרישות ונמפה את הדרך.", adjective: "מדויק" },
-  calm: { opener: "דרך ברורה, תהליך יציב ובלי רעש מיותר.", ctaLine: "מתחילים פשוט. אנחנו נוביל את הצעד הבא.", adjective: "ממוקד" }
-};
-
-const UI_TEXT = {
-  en: {
-    skip:"Skip to content", navLabel:"Main navigation", dark:"Dark", light:"Light", openMenu:"Open navigation menu", closeMenu:"Close navigation menu",
-    home:"Home", about:"About", services:"Services", pricing:"Pricing", faq:"FAQ", blog:"Blog", compare:"Compare", contact:"Contact", company:"Company", resources:"Resources", legal:"Legal", privacy:"Privacy", terms:"Terms", cookies:"Cookies", rights:"All rights reserved", explore:"Explore services",
-    websiteGoal:"Website goal", whatWeDo:"What we do", clearOffers:"Clear offers, better proof, and a next step that is hard to miss.", servicesKicker:"Services", contactDetails:"Contact details", email:"Email", phone:"Phone", serviceArea:"Service area", address:"Address", hours:"Hours", name:"Name", subject:"Subject", message:"Message",
-    pricingHead:"Simple pricing that gives people a starting point.", pricingLead:"Replace these packages with real offers, ranges, or a request-a-quote model.", faqHead:"Questions customers ask before saying yes.", faqLead:"Answer with specifics: timeline, pricing model, requirements, guarantees, and response time.", blogHead:"Useful articles that can support SEO and trust.", blogLead:"Use posts for educational content, case studies, customer questions, and updates.", onePageHead:"Everything visitors need on one focused page.", onePageLead:"Designed for speed: proof, offer, pricing cues, comparison, FAQ, and contact stay close together.",
-    thankYou:"Thank you!", messageReceived:"Message received", thanksText:"Your message has been received. We will get back to you soon.", backHome:"Back to homepage", pageNotFound:"Page not found", lost:"Oops. This page wandered off.", lostText:"The page you are looking for may have moved, changed, or joined a startup."
-  },
-  he: {
-    skip:"דילוג לתוכן", navLabel:"ניווט ראשי", dark:"כהה", light:"בהיר", openMenu:"פתחו תפריט ניווט", closeMenu:"סגרו תפריט ניווט",
-    home:"בית", about:"אודות", services:"שירותים", pricing:"מחירים", faq:"שאלות", blog:"בלוג", compare:"השוואה", contact:"צור קשר", company:"חברה", resources:"משאבים", legal:"משפטי", privacy:"פרטיות", terms:"תנאי שימוש", cookies:"עוגיות", rights:"כל הזכויות שמורות", explore:"גלו שירותים",
-    websiteGoal:"מטרת האתר", whatWeDo:"מה אנחנו עושים", clearOffers:"הצעות ברורות, הוכחות טובות וצעד הבא שקשה לפספס.", servicesKicker:"שירותים", contactDetails:"פרטי התקשרות", email:"אימייל", phone:"טלפון", serviceArea:"אזור שירות", address:"כתובת", hours:"שעות פעילות", name:"שם", subject:"נושא", message:"הודעה",
-    pricingHead:"מחירים פשוטים שנותנים נקודת פתיחה.", pricingLead:"החליפו את החבילות בהצעות אמיתיות, טווחי מחיר או מודל של בקשת הצעת מחיר.", faqHead:"שאלות שלקוחות שואלים לפני שהם אומרים כן.", faqLead:"ענו בצורה ספציפית: זמנים, מודל תמחור, דרישות, אחריות וזמן תגובה.", blogHead:"מאמרים שימושיים שמחזקים אמון וקידום אורגני.", blogLead:"השתמשו בפוסטים לתוכן לימודי, מקרי בוחן, שאלות לקוחות ועדכונים.", onePageHead:"כל מה שמבקרים צריכים בעמוד אחד ממוקד.", onePageLead:"נבנה למהירות: הוכחה, הצעה, מחירים, השוואה, שאלות ויצירת קשר נשארים קרובים.",
-    thankYou:"תודה!", messageReceived:"ההודעה התקבלה", thanksText:"ההודעה שלכם התקבלה. נחזור אליכם בקרוב.", backHome:"חזרה לדף הבית", pageNotFound:"העמוד לא נמצא", lost:"אופס. העמוד הזה יצא לטיול.", lostText:"העמוד שחיפשתם אולי עבר מקום, השתנה או הצטרף לסטארטאפ."
-  }
-};
-
-const CTA_HE = { "Book a call":"קבעו שיחה", "Get a quote":"קבלו הצעת מחיר", "Start free":"התחילו בחינם", "Reserve now":"שריינו עכשיו", "Join now":"הצטרפו עכשיו", "Donate now":"תרמו עכשיו", "View portfolio":"צפו בעבודות", "Shop now":"לקנייה", "Apply now":"הגישו מועמדות", "Start a conversation":"בואו נדבר" };
-
-function isHebrew(ctx) { return ctx?.lang === "he"; }
-function dirOf(ctx) { return isHebrew(ctx) ? "rtl" : "ltr"; }
-function langOf(ctx) { return isHebrew(ctx) ? "he" : "en"; }
-function txt(ctx, key) { return (UI_TEXT[langOf(ctx)] && UI_TEXT[langOf(ctx)][key]) || UI_TEXT.en[key] || key; }
-function ctaForLang(ctx, raw) { return isHebrew(ctx) ? (CTA_HE[raw] || raw) : raw; }
-function pageTitle(ctx, nameEn, nameHe) { return `${ctx.biz} - ${isHebrew(ctx) ? nameHe : nameEn}`; }
-
 let activeTab = "presets";
 let selectedPreset = PALETTES[0].colors;
+let selectedPresetIndex = 0;
 let variationSeed = Math.floor(Math.random() * 100000);
+let variationIndex = 0;
 let uploadedLogoFile = null;
 let logoPreviewUrl = null;
+let logoExtractedColors = null;
+let logoColorsActive = false;
 
 const TRUST_STYLES = ["logos", "customers", "stars", "certifications", "experience", "counters", "reviews"];
 const AUTO_STYLE_BY_INDUSTRY = { technology:"bold", finance:"corporate", healthcare:"modern", retail:"friendly", food:"friendly", education:"modern", creative:"creative", realestate:"corporate", hospitality:"luxury", fitness:"bold", ngo:"friendly", construction:"corporate", other:"modern" };
@@ -144,16 +25,315 @@ const $ = (id) => document.getElementById(id);
 const valueOf = (id, fallback = "") => $(id)?.value ?? fallback;
 const checked = (id) => $(id)?.checked ?? false;
 
+const SETTINGS_KEY = "make-me-a-website:v22";
+const isPersistableField = (el) => el && el.id && !["file", "button", "submit"].includes(el.type);
+function persistableFields() { return Array.from(document.querySelectorAll("input, select, textarea")).filter(isPersistableField); }
+function saveSettings() {
+  const data = { values: {}, activeTab, selectedPresetIndex, details: {} };
+  persistableFields().forEach(el => {
+    data.values[el.id] = el.type === "checkbox" ? el.checked : el.value;
+  });
+  document.querySelectorAll("details[id]").forEach(el => { data.details[el.id] = el.open; });
+  try { localStorage.setItem(SETTINGS_KEY, JSON.stringify(data)); } catch (e) { /* storage may be disabled */ }
+}
+function restoreSettings() {
+  try {
+    const data = JSON.parse(localStorage.getItem(SETTINGS_KEY) || "null");
+    if (!data) return;
+    Object.entries(data.values || {}).forEach(([id, value]) => {
+      const el = $(id);
+      if (!el || !isPersistableField(el)) return;
+      if (el.type === "checkbox") el.checked = Boolean(value); else el.value = value;
+    });
+    activeTab = data.activeTab === "manual" ? "manual" : "presets";
+    selectedPresetIndex = Number.isInteger(data.selectedPresetIndex) ? Math.max(0, Math.min(PALETTES.length - 1, data.selectedPresetIndex)) : 0;
+    selectedPreset = PALETTES[selectedPresetIndex].colors;
+    Object.entries(data.details || {}).forEach(([id, open]) => { const el = $(id); if (el?.tagName === "DETAILS") el.open = Boolean(open); });
+  } catch (e) { /* ignore corrupted saved settings */ }
+}
+function bindSettingsPersistence() {
+  persistableFields().forEach(el => {
+    el.addEventListener("input", saveSettings);
+    el.addEventListener("change", saveSettings);
+  });
+  document.querySelectorAll("details[id]").forEach(el => el.addEventListener("toggle", saveSettings));
+}
+
+
+const UI_LANG_KEY = "make-me-a-website:ui-lang";
+let uiLanguage = "en";
+const UI_COPY = {
+  en: {
+    dir: "ltr",
+    htmlLang: "en",
+    selectors: {
+      ".top-back-link": "← Back to AILOVEU",
+      ".eyebrow": "Static website starter-kit generator",
+      ".page-header h1": "Make me a website!",
+      ".page-header p:last-child": "Enter a few details and download a polished, multi-page static website ZIP.",
+      "#business-label": "Business details",
+      "label[for='biz-name']": "Business name <span class='required'>*</span>",
+      "label[for='site-language']": "Site language",
+      "label[for='logo-input']": "Logo or icon",
+      ".logo-color-label": "Extracted colors",
+      "label[for='biz-industry']": "Industry <span class='required'>*</span>",
+      "label[for='brand-voice']": "Brand voice",
+      "label[for='website-type']": "Website type",
+      "label[for='site-domain']": "Domain URL <span class='optional'>optional</span>",
+      "#contact-details-label": "Contact Details",
+      "label[for='biz-email']": "Email",
+      "label[for='biz-phone']": "Phone",
+      "label[for='biz-area']": "City / service area",
+      "label[for='biz-address']": "Address",
+      "label[for='biz-hours']": "Opening hours",
+      "#cta-goals-label": "CTA-Goals-Slogans",
+      "label[for='main-headline']": "Main headline <span class='optional'>optional</span>",
+      "label[for='biz-tagline']": "Tagline <span class='muted-label'>optional</span>",
+      "label[for='about-text']": "About text <span class='optional'>optional</span>",
+      "label[for='website-goal']": "Main website goal",
+      "label[for='primary-cta']": "Primary CTA",
+      "label[for='custom-cta-url']": "Custom CTA URL <span class='optional'>optional</span>",
+      "label[for='product-payment-url']": "Product / payments page link <span class='optional'>optional</span>",
+      "#social-links-card summary": "Social links",
+      "#social-links-card .card-help": "Optional. Add only the profiles you want shown in the generated footer and contact page.",
+      "label[for='social-instagram']": "Instagram",
+      "label[for='social-linkedin']": "LinkedIn",
+      "label[for='social-facebook']": "Facebook",
+      "label[for='social-tiktok']": "TikTok",
+      "label[for='social-youtube']": "YouTube",
+      "#integrations-card summary": "Analytics placeholders",
+      "#integrations-card .card-help": "Optional. Adds clearly marked placeholder snippets to the generated site head.",
+      "label[for='ga-id']": "GA measurement ID",
+      "label[for='meta-pixel-id']": "Meta Pixel ID",
+      "#brand-label": "Styling & Colors",
+      "#tab-manual": "Enter colors",
+      "#tab-presets": "Presets",
+      "label[for='col1']": "Primary",
+      "label[for='col2']": "Secondary",
+      "label[for='col3']": "Accent",
+      "#style-label": "Site style engine",
+      "label[for='design-style']": "Design style",
+      "label[for='trust-style']": "Trust section",
+      "label[for='image-personality']": "Image feel",
+      "#features-label": "Generated website options",
+      "label[for='form-mode']": "Contact form behavior",
+      "#alert-success": "Files ready - your download should start automatically.",
+      "#quality-label": "Site quality score",
+      "#quality-score": "Not generated yet",
+      "#quality-summary": "Generate a site to see the launch checklist.",
+      "#generation-card .section-label": "Generation progress",
+      "#preview-label": "Live preview",
+      "#preview-card .card-help": "Preview the homepage before downloading. Regenerate to explore another visual version.",
+      "#regen-btn": "↻ Generate another version",
+      "label[for='preview-page-select']": "Preview page",
+      ".device-btn[data-device='desktop']": "Desktop",
+      ".device-btn[data-device='tablet']": "Tablet",
+      ".device-btn[data-device='mobile']": "Mobile",
+      "#preview-btn": "Preview website",
+      "#gen-btn": "<span aria-hidden='true'>⬇</span> Generate & Download Website ZIP",
+      ".footer-note": "Generates: static site, Picsum images, dark mode, compare content, schema, launch kit, sitemap, robots, manifest, README.",
+      ".app-footer": "By <a href='https://ailoveu.art' target='_blank' rel='noopener'>AILOVEU</a> &amp; <a href='https://il.linkedin.com/in/hagaytech' target='_blank' rel='noopener'>Hagay</a>"
+    },
+    checks: ["Add Google Analytics placeholder", "Add Meta Pixel placeholder"],
+    featureChecks: ["Add faq.html", "Add pricing.html", "Add blog.html", "Add thank-you.html", "Add 404.html"],
+    generationSteps: ["Reading your business details", "Choosing layout and image direction", "Building pages and local business data", "Adding SEO, schema, sitemap, and assets", "Packing the ZIP"],
+    qualityItems: ["Goal-aware structure", "CTA strategy", "Brand voice", "SEO files", "Dark-mode toggle", "Schema.org data", "Launch kit"],
+    placeholders: {
+      "biz-name": "e.g. Bright Studio", "site-domain": "https://yourdomain.com", "biz-email": "hello@yourbusiness.com", "biz-phone": "+1 (555) 000-0000", "biz-area": "e.g. Tel Aviv, online worldwide", "biz-address": "123 Main Street, City", "biz-hours": "Mon-Fri, 9:00-18:00", "main-headline": "e.g. Websites that sell while you sleep", "biz-tagline": "e.g. Building better tomorrows", "about-text": "Tell visitors who you are, who you help, and what makes your approach different.", "custom-cta-url": "https://calendly.com/your-link", "product-payment-url": "https://your-store.com/product-or-payment", "social-instagram": "https://instagram.com/yourbrand", "social-linkedin": "https://linkedin.com/company/yourbrand", "social-facebook": "https://facebook.com/yourbrand", "social-tiktok": "https://tiktok.com/@yourbrand", "social-youtube": "https://youtube.com/@yourbrand", "ga-id": "G-XXXXXXXXXX", "meta-pixel-id": "1234567890"
+    },
+    options: {
+      "site-language": { en:"English", he:"Hebrew / עברית" },
+      "biz-industry": { "":"Select industry", technology:"Technology / Software", healthcare:"Healthcare / Medical", finance:"Finance / Legal", retail:"Retail / E-commerce", food:"Food & Beverage", education:"Education / Training", creative:"Creative / Design / Media", realestate:"Real Estate / Property", hospitality:"Hospitality / Travel", fitness:"Fitness / Wellness", ngo:"Non-profit / NGO", construction:"Construction / Manufacturing", other:"Other" },
+      "brand-voice": { professional:"Professional", friendly:"Friendly", bold:"Bold", luxury:"Luxury", playful:"Playful", technical:"Technical", calm:"Calm" },
+      "website-type": { full:"Full site", onepage:"One-page site" },
+      "website-goal": { leads:"Get leads", bookings:"Book appointments", credibility:"Build credibility", portfolio:"Show portfolio", sales:"Sell products or packages", donations:"Collect donations", event:"Promote an event", hiring:"Hire employees" },
+      "primary-cta": { auto:"Auto choose from goal", "Book a call":"Book a call", "Get a quote":"Get a quote", "Start free":"Start free", "Reserve now":"Reserve now", "Join now":"Join now", "Donate now":"Donate now", "View portfolio":"View portfolio", "Shop now":"Shop now", "Apply now":"Apply now" },
+      "design-style": { auto:"Auto choose from business type", modern:"Modern clean", bold:"Bold startup", luxury:"Luxury editorial", friendly:"Friendly local business", creative:"Creative studio", wellness:"Calm wellness", corporate:"Corporate professional" },
+      "trust-style": { auto:"Random / auto choose", logos:"Client logo strip", customers:"Trusted by 250+ customers", stars:"Star rating block", certifications:"Certifications", experience:"Years of experience", counters:"Number counters", reviews:"Review cards" },
+      "image-personality": { auto:"Auto from industry", abstract:"Abstract", people:"People", nature:"Nature", architecture:"Architecture", workspaces:"Workspaces", food:"Food" },
+      "form-mode": { netlify:"Netlify-ready form + thank-you page", mailto:"Mailto fallback", static:"Static demo form" },
+      "preview-page-select": { "index.html":"Home", "about.html":"About", "services.html":"Services", "pricing.html":"Pricing", "faq.html":"FAQ", "blog.html":"Blog", "compare.html":"Compare", "contact.html":"Contact" }
+    }
+  },
+  he: {
+    dir: "rtl",
+    htmlLang: "he",
+    selectors: {
+      ".top-back-link": "חזרה ל-AILOVEU →",
+      ".eyebrow": "יוצר אתר שלם בשבילכם!",
+      ".page-header h1": "בנה לי אתר!",
+      ".page-header p:last-child": "ממלאים כמה פרטים ומורידים קובץ ZIP עם אתר סטטי מעוצב ומוכן לעריכה.",
+      "#business-label": "פרטי העסק",
+      "label[for='biz-name']": "שם העסק <span class='required'>*</span>",
+      "label[for='site-language']": "שפת האתר",
+      "label[for='logo-input']": "לוגו או אייקון",
+      ".logo-color-label": "צבעים שחולצו",
+      "label[for='biz-industry']": "תחום פעילות <span class='required'>*</span>",
+      "label[for='brand-voice']": "סגנון כתיבה",
+      "label[for='website-type']": "סוג אתר",
+      "label[for='site-domain']": "כתובת דומיין <span class='optional'>אופציונלי</span>",
+      "#contact-details-label": "פרטי יצירת קשר",
+      "label[for='biz-email']": "אימייל",
+      "label[for='biz-phone']": "טלפון",
+      "label[for='biz-area']": "עיר / אזור שירות",
+      "label[for='biz-address']": "כתובת",
+      "label[for='biz-hours']": "שעות פעילות",
+      "#cta-goals-label": "מטרות, כותרות וקריאה לפעולה",
+      "label[for='main-headline']": "כותרת ראשית <span class='optional'>אופציונלי</span>",
+      "label[for='biz-tagline']": "סלוגן <span class='muted-label'>אופציונלי</span>",
+      "label[for='about-text']": "טקסט אודות <span class='optional'>אופציונלי</span>",
+      "label[for='website-goal']": "מטרת האתר המרכזית",
+      "label[for='primary-cta']": "קריאה ראשית לפעולה",
+      "label[for='custom-cta-url']": "קישור CTA מותאם <span class='optional'>אופציונלי</span>",
+      "label[for='product-payment-url']": "קישור מוצר / תשלום <span class='optional'>אופציונלי</span>",
+      "#social-links-card summary": "קישורים חברתיים",
+      "#social-links-card .card-help": "אופציונלי. הוסיפו רק פרופילים שתרצו להציג בפוטר ובעמוד יצירת הקשר.",
+      "label[for='social-instagram']": "אינסטגרם",
+      "label[for='social-linkedin']": "לינקדאין",
+      "label[for='social-facebook']": "פייסבוק",
+      "label[for='social-tiktok']": "טיקטוק",
+      "label[for='social-youtube']": "יוטיוב",
+      "#integrations-card summary": "תוספי אנליטיקה",
+      "#integrations-card .card-help": "אופציונלי. מוסיף קטעי קוד מסומנים וברורים ל-head של האתר שנוצר.",
+      "label[for='ga-id']": "מזהה Google Analytics",
+      "label[for='meta-pixel-id']": "מזהה Meta Pixel",
+      "#brand-label": "עיצוב וצבעים",
+      "#tab-manual": "הזנת צבעים",
+      "#tab-presets": "פלטות מוכנות",
+      "label[for='col1']": "ראשי",
+      "label[for='col2']": "משני",
+      "label[for='col3']": "הדגשה",
+      "#style-label": "מנוע סגנון האתר",
+      "label[for='design-style']": "סגנון עיצוב",
+      "label[for='trust-style']": "סגנון אמון",
+      "label[for='image-personality']": "אופי תמונות",
+      "#features-label": "אפשרויות האתר שייווצר",
+      "label[for='form-mode']": "התנהגות טופס יצירת קשר",
+      "#alert-success": "הקבצים מוכנים - ההורדה אמורה להתחיל אוטומטית.",
+      "#quality-label": "ציון מוכנות האתר",
+      "#quality-score": "עדיין לא נוצר",
+      "#quality-summary": "צרו אתר כדי לראות את רשימת ההשקה.",
+      "#generation-card .section-label": "התקדמות הבנייה",
+      "#preview-label": "תצוגה מקדימה חיה",
+      "#preview-card .card-help": "צפו באתר לפני ההורדה. צרו גרסה נוספת כדי לראות כיוון ויזואלי אחר.",
+      "#regen-btn": "↻ צור גרסה נוספת",
+      "label[for='preview-page-select']": "עמוד לתצוגה",
+      ".device-btn[data-device='desktop']": "דסקטופ",
+      ".device-btn[data-device='tablet']": "טאבלט",
+      ".device-btn[data-device='mobile']": "מובייל",
+      "#preview-btn": "תצוגה מקדימה",
+      "#gen-btn": "<span aria-hidden='true'>⬇</span> יצירת והורדת ZIP לאתר",
+      ".footer-note": "יוצר: אתר סטטי, תמונות Picsum, מצב כהה, עמוד השוואה, Schema, קיט השקה, sitemap, robots, manifest ו-README.",
+      ".app-footer": "מאת <a href='https://ailoveu.art' target='_blank' rel='noopener'>AILOVEU</a> ו-<a href='https://il.linkedin.com/in/hagaytech' target='_blank' rel='noopener'>Hagay</a>"
+    },
+    checks: ["הוסף Google Analytics", "הוסף Meta Pixel"],
+    featureChecks: ["הוסף faq.html", "הוסף pricing.html", "הוסף blog.html", "הוסף thank-you.html", "הוסף 404.html"],
+    generationSteps: ["קורא את פרטי העסק", "בוחר מבנה וכיוון תמונות", "בונה עמודים ונתוני עסק מקומי", "מוסיף SEO, Schema, Sitemap ונכסים", "אורז את קובץ ה-ZIP"],
+    qualityItems: ["מבנה לפי מטרה", "אסטרטגיית CTA", "סגנון כתיבה", "קבצי SEO", "מתג מצב כהה", "נתוני Schema.org", "קיט השקה"],
+    placeholders: {
+      "biz-name": "לדוגמה: Bright Studio", "site-domain": "https://yourdomain.com", "biz-email": "hello@yourbusiness.com", "biz-phone": "+972 50-000-0000", "biz-area": "לדוגמה: תל אביב או שירות אונליין", "biz-address": "רחוב ראשי 123, עיר", "biz-hours": "א׳-ה׳, 9:00-18:00", "main-headline": "לדוגמה: אתרים שמוכרים בזמן שאתם ישנים", "biz-tagline": "לדוגמה: בונים מחר טוב יותר", "about-text": "ספרו למבקרים מי אתם, למי אתם עוזרים ומה מייחד את הגישה שלכם.", "custom-cta-url": "https://calendly.com/your-link", "product-payment-url": "https://your-store.com/product-or-payment", "social-instagram": "https://instagram.com/yourbrand", "social-linkedin": "https://linkedin.com/company/yourbrand", "social-facebook": "https://facebook.com/yourbrand", "social-tiktok": "https://tiktok.com/@yourbrand", "social-youtube": "https://youtube.com/@yourbrand", "ga-id": "G-XXXXXXXXXX", "meta-pixel-id": "1234567890"
+    },
+    options: {
+      "site-language": { en:"אנגלית", he:"עברית" },
+      "biz-industry": { "":"בחרו תחום", technology:"טכנולוגיה / תוכנה", healthcare:"בריאות / רפואה", finance:"פיננסים / משפטים", retail:"קמעונאות / מסחר", food:"אוכל ומשקאות", education:"חינוך / הכשרה", creative:"קריאייטיב / עיצוב / מדיה", realestate:"נדל״ן", hospitality:"אירוח / תיירות", fitness:"כושר / וולנס", ngo:"עמותה / ארגון חברתי", construction:"בנייה / ייצור", other:"אחר" },
+      "brand-voice": { professional:"מקצועי", friendly:"ידידותי", bold:"נועז", luxury:"יוקרתי", playful:"שובב", technical:"טכני", calm:"רגוע" },
+      "website-type": { full:"אתר מלא", onepage:"עמוד אחד" },
+      "website-goal": { leads:"קבלת לידים", bookings:"קביעת פגישות", credibility:"בניית אמון", portfolio:"הצגת פורטפוליו", sales:"מכירת מוצרים או חבילות", donations:"איסוף תרומות", event:"קידום אירוע", hiring:"גיוס עובדים" },
+      "primary-cta": { auto:"בחירה אוטומטית לפי המטרה", "Book a call":"קביעת שיחה", "Get a quote":"קבלת הצעת מחיר", "Start free":"להתחיל בחינם", "Reserve now":"להזמין עכשיו", "Join now":"להצטרף עכשיו", "Donate now":"לתרום עכשיו", "View portfolio":"צפייה בפורטפוליו", "Shop now":"לקנייה", "Apply now":"להגשת מועמדות" },
+      "design-style": { auto:"בחירה אוטומטית לפי העסק", modern:"מודרני ונקי", bold:"סטארטאפ נועז", luxury:"יוקרתי / מגזיני", friendly:"עסק מקומי ידידותי", creative:"סטודיו קריאייטיב", wellness:"וולנס רגוע", corporate:"מקצועי / תאגידי" },
+      "trust-style": { auto:"אקראי / אוטומטי", logos:"רצועת לוגואים", customers:"250+ לקוחות", stars:"דירוג כוכבים", certifications:"הסמכות", experience:"שנות ניסיון", counters:"מספרים חזקים", reviews:"כרטיסי ביקורות" },
+      "image-personality": { auto:"אוטומטי לפי תחום", abstract:"אבסטרקטי", people:"אנשים", nature:"טבע", architecture:"אדריכלות", workspaces:"סביבת עבודה", food:"אוכל" },
+      "form-mode": { netlify:"טופס מותאם Netlify + עמוד תודה", mailto:"פתיחה באימייל", static:"טופס דמו סטטי" },
+      "preview-page-select": { "index.html":"בית", "about.html":"אודות", "services.html":"שירותים", "pricing.html":"מחירים", "faq.html":"שאלות נפוצות", "blog.html":"בלוג", "compare.html":"השוואה", "contact.html":"יצירת קשר" }
+    }
+  }
+};
+function setText(selector, html) {
+  document.querySelectorAll(selector).forEach(el => { el.innerHTML = html; });
+}
+function setOptions(selectId, options) {
+  const select = $(selectId);
+  if (!select) return;
+  Array.from(select.options).forEach(opt => {
+    if (Object.prototype.hasOwnProperty.call(options, opt.value)) opt.textContent = options[opt.value];
+  });
+}
+function setPlaceholders(placeholders) {
+  Object.entries(placeholders).forEach(([id, text]) => { const el = $(id); if (el) el.placeholder = text; });
+}
+function setListText(selector, items) {
+  const nodes = Array.from(document.querySelectorAll(selector));
+  nodes.forEach((node, index) => { if (items[index]) node.textContent = items[index]; });
+}
+function setCheckboxLabels(selector, items) {
+  const labels = Array.from(document.querySelectorAll(selector));
+  labels.forEach((label, index) => {
+    const input = label.querySelector("input");
+    if (input && items[index]) label.replaceChildren(input, document.createTextNode(" " + items[index]));
+  });
+}
+function applyUiLanguage(lang = "en") {
+  uiLanguage = lang === "he" ? "he" : "en";
+  const copy = UI_COPY[uiLanguage];
+  document.documentElement.lang = copy.htmlLang;
+  document.documentElement.dir = copy.dir;
+  document.body.classList.toggle("ui-rtl", uiLanguage === "he");
+  document.title = uiLanguage === "he" ? "בנה לי אתר!" : "Make me a website!";
+  const topBack = document.querySelector(".top-back-link");
+  if (topBack) topBack.setAttribute("aria-label", uiLanguage === "he" ? "חזרה ל-AILOVEU" : "Back to AILOVEU");
+  Object.entries(copy.selectors).forEach(([selector, html]) => setText(selector, html));
+  setPlaceholders(copy.placeholders);
+  Object.entries(copy.options).forEach(([id, opts]) => setOptions(id, opts));
+  setListText("#generation-steps li", copy.generationSteps);
+  setListText("#quality-list li", copy.qualityItems);
+  const deviceToggle = document.querySelector(".device-toggle");
+  if (deviceToggle) deviceToggle.setAttribute("aria-label", uiLanguage === "he" ? "גודל תצוגה" : "Preview size");
+  setCheckboxLabels(".checks label", copy.featureChecks);
+  setCheckboxLabels("#integrations-card .check-line", copy.checks);
+  document.querySelectorAll(".ui-lang-btn").forEach(btn => {
+    const active = btn.dataset.uiLang === uiLanguage;
+    btn.classList.toggle("active", active);
+    btn.setAttribute("aria-pressed", String(active));
+  });
+  try { localStorage.setItem(UI_LANG_KEY, uiLanguage); } catch (e) { /* ignore */ }
+}
+function bindUiLanguageSwitch() {
+  try { uiLanguage = localStorage.getItem(UI_LANG_KEY) || "en"; } catch (e) { uiLanguage = "en"; }
+  applyUiLanguage(uiLanguage);
+  document.querySelectorAll(".ui-lang-btn").forEach(btn => {
+    btn.addEventListener("click", () => applyUiLanguage(btn.dataset.uiLang));
+  });
+}
+
+
 document.addEventListener("DOMContentLoaded", () => {
+  restoreSettings();
+  bindUiLanguageSwitch();
   buildPresetGrid();
   bindTabs();
+  applyColorTabUI();
   bindColorInputs();
+  bindValidation();
+  bindSettingsPersistence();
   bindLogoInput();
   bindPreviewControls();
+  bindAutoPreview();
+  updatePreviewPageOptions();
+  $("preview-page-select")?.addEventListener("change", () => renderPreview(false, false));
   $("gen-btn").addEventListener("click", generateSite);
   $("preview-btn")?.addEventListener("click", () => renderPreview(true));
-  $("regen-btn")?.addEventListener("click", () => { variationSeed = Math.floor(Math.random() * 100000); renderPreview(true); });
+  $("regen-btn")?.addEventListener("click", regenerateVersion);
 });
+
+function regenerateVersion() {
+  variationIndex += 1;
+  variationSeed = Math.floor(Math.random() * 100000);
+  renderPreview(true);
+}
+
+function variantSlot(count, offset = 0) {
+  return Math.abs((variationSeed + variationIndex * 97 + offset) % count);
+}
 
 function bindLogoInput() {
   const input = $("logo-input");
@@ -161,11 +341,14 @@ function bindLogoInput() {
   const img = $("logo-preview");
   const name = $("logo-file-name");
   if (!input) return;
-  input.addEventListener("change", () => {
+  input.addEventListener("change", async () => {
     const file = input.files?.[0];
     if (logoPreviewUrl) URL.revokeObjectURL(logoPreviewUrl);
     logoPreviewUrl = null;
     uploadedLogoFile = null;
+    logoExtractedColors = null;
+    logoColorsActive = false;
+    updateLogoColorSwatches(null);
     if (!file) { if (wrap) wrap.hidden = true; return; }
     const ok = ["image/png", "image/jpeg", "image/svg+xml", "image/webp"].includes(file.type);
     if (!ok) { input.value = ""; if (wrap) wrap.hidden = true; showError("Please upload a PNG, JPG, SVG, or WebP logo."); return; }
@@ -174,8 +357,165 @@ function bindLogoInput() {
     if (img) img.src = logoPreviewUrl;
     if (name) name.textContent = file.name;
     if (wrap) wrap.hidden = false;
-      clearAlerts();
+    try {
+      const extracted = await extractLogoColors(file);
+      if (extracted?.length === 3) {
+        logoExtractedColors = extracted;
+        logoColorsActive = true;
+        updateLogoColorSwatches(extracted);
+        syncManualColors(extracted);
+      }
+    } catch (e) {
+      logoExtractedColors = null;
+      logoColorsActive = false;
+      updateLogoColorSwatches(null);
+    }
+    clearAlerts();
+    saveSettings();
+    const card = $("preview-card");
+    if (card && !card.hidden) renderPreview(false, false);
   });
+}
+
+function updateLogoColorSwatches(colors) {
+  const box = $("logo-color-swatches");
+  if (!box) return;
+  box.hidden = !(colors && colors.length === 3);
+  if (!colors || colors.length !== 3) return;
+  colors.forEach((color, index) => {
+    const dot = $(`logo-color-${index + 1}`);
+    if (dot) {
+      dot.style.background = color;
+      dot.title = color;
+      dot.setAttribute("aria-label", color);
+    }
+  });
+}
+
+function syncManualColors(colors) {
+  [["col1","hex1"],["col2","hex2"],["col3","hex3"]].forEach(([colorId, hexId], index) => {
+    const color = $(colorId);
+    const hex = $(hexId);
+    if (color && hex && colors[index]) {
+      color.value = colors[index];
+      hex.value = colors[index];
+      validateField(hex, false);
+    }
+  });
+}
+
+function extractLogoColors(file) {
+  return new Promise((resolve, reject) => {
+    if (file.type === "image/svg+xml") {
+      const reader = new FileReader();
+      reader.onload = () => extractSvgColors(String(reader.result || ""), resolve, reject);
+      reader.onerror = reject;
+      reader.readAsText(file);
+      return;
+    }
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      try {
+        const colors = extractImageElementColors(img);
+        URL.revokeObjectURL(url);
+        resolve(colors);
+      } catch (e) {
+        URL.revokeObjectURL(url);
+        reject(e);
+      }
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("Could not read logo colors")); };
+    img.src = url;
+  });
+}
+
+function extractSvgColors(svgText, resolve, reject) {
+  const matches = svgText.match(/#[0-9a-fA-F]{3,8}|rgba?\([^\)]+\)/g) || [];
+  const scored = new Map();
+  matches.map(normalizeCssColor).filter(Boolean).forEach(color => {
+    const rgb = hexToRgbArr(color);
+    if (!isUsefulLogoRgb(rgb[0], rgb[1], rgb[2], 255)) return;
+    scored.set(color, (scored.get(color) || 0) + colorScore(rgb[0], rgb[1], rgb[2]));
+  });
+  const colors = Array.from(scored.entries()).sort((a,b) => b[1] - a[1]).map(([c]) => c);
+  const picked = pickDistinctHexColors(colors);
+  if (picked.length === 3) resolve(picked); else reject(new Error("Not enough SVG colors"));
+}
+
+function normalizeCssColor(value) {
+  value = value.trim();
+  if (value.startsWith("#")) {
+    let hex = value.slice(1);
+    if (hex.length === 3) hex = hex.split("").map(ch => ch + ch).join("");
+    if (hex.length >= 6) return "#" + hex.slice(0, 6).toLowerCase();
+  }
+  const nums = value.match(/[\d.]+/g)?.map(Number) || [];
+  if (nums.length >= 3) return rgbToHexArr(nums.slice(0, 3));
+  return null;
+}
+
+function extractImageElementColors(img) {
+  const canvas = document.createElement("canvas");
+  const size = 96;
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext("2d", { willReadFrequently: true });
+  ctx.drawImage(img, 0, 0, size, size);
+  const data = ctx.getImageData(0, 0, size, size).data;
+  const buckets = new Map();
+  for (let i = 0; i < data.length; i += 4) {
+    const r = data[i], g = data[i + 1], b = data[i + 2], a = data[i + 3];
+    if (!isUsefulLogoRgb(r, g, b, a)) continue;
+    const key = [Math.round(r / 24) * 24, Math.round(g / 24) * 24, Math.round(b / 24) * 24].map(v => clamp(v)).join(",");
+    const score = colorScore(r, g, b);
+    const current = buckets.get(key) || { count: 0, score: 0, r: 0, g: 0, b: 0 };
+    current.count += 1;
+    current.score += score;
+    current.r += r;
+    current.g += g;
+    current.b += b;
+    buckets.set(key, current);
+  }
+  const ranked = Array.from(buckets.values())
+    .map(item => ({ hex: rgbToHexArr([item.r / item.count, item.g / item.count, item.b / item.count]), score: item.score * Math.log(item.count + 2) }))
+    .sort((a, b) => b.score - a.score)
+    .map(item => item.hex);
+  return pickDistinctHexColors(ranked);
+}
+
+function isUsefulLogoRgb(r, g, b, a) {
+  if (a < 80) return false;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  const saturation = max - min;
+  const brightness = (r + g + b) / 3;
+  if (brightness > 246) return false;
+  if (brightness < 10) return false;
+  if (saturation < 14 && brightness > 36 && brightness < 220) return false;
+  return true;
+}
+
+function colorScore(r, g, b) {
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  const saturation = max - min;
+  const brightness = (r + g + b) / 3;
+  const vivid = 1 + saturation / 128;
+  const balanced = 1 - Math.abs(brightness - 128) / 220;
+  return Math.max(.2, vivid + balanced);
+}
+
+function pickDistinctHexColors(colors) {
+  const picked = [];
+  for (const color of colors) {
+    const rgb = hexToRgbArr(color);
+    const tooClose = picked.some(existing => {
+      const other = hexToRgbArr(existing);
+      return Math.abs(rgb[0] - other[0]) + Math.abs(rgb[1] - other[1]) + Math.abs(rgb[2] - other[2]) < 90;
+    });
+    if (!tooClose) picked.push(color);
+    if (picked.length === 3) break;
+  }
+  return picked.length === 3 ? picked : null;
 }
 
 function logoExtension(file) {
@@ -214,12 +554,54 @@ function bindPreviewControls() {
   });
 }
 
+let autoPreviewTimer = null;
+function bindAutoPreview() {
+  const handler = () => {
+    saveSettings();
+    updatePreviewPageOptions();
+    const card = $("preview-card");
+    if (!card || card.hidden) return;
+    clearTimeout(autoPreviewTimer);
+    autoPreviewTimer = setTimeout(() => renderPreview(false, false), 350);
+  };
+  persistableFields().forEach(el => {
+    el.addEventListener("input", handler);
+    el.addEventListener("change", handler);
+  });
+}
+
+function availablePreviewPages(ctx) {
+  if (ctx.siteType === "onepage") return [["index.html", "Home"]];
+  return [
+    ["index.html", "Home"],
+    ["about.html", "About"],
+    ["services.html", "Services"],
+    ctx.options?.pricing && ["pricing.html", "Pricing"],
+    ctx.options?.faq && ["faq.html", "FAQ"],
+    ctx.options?.blog && ["blog.html", "Blog"],
+    ["compare.html", "Compare"],
+    ["contact.html", "Contact"]
+  ].filter(Boolean);
+}
+
+function updatePreviewPageOptions() {
+  const select = $("preview-page-select");
+  if (!select) return;
+  const ctx = validContextFromForm(false);
+  const pages = ctx ? availablePreviewPages(ctx) : [["index.html", "Home"]];
+  const current = select.value;
+  select.innerHTML = pages.map(([value, label]) => `<option value="${value}">${label}</option>`).join("");
+  select.value = pages.some(([value]) => value === current) ? current : pages[0][0];
+}
+
 function validContextFromForm(showMessages = true) {
   const biz = valueOf("biz-name").trim();
   const industry = valueOf("biz-industry");
   const tagline = valueOf("biz-tagline").trim();
   if (!biz) { if (showMessages) showError("Please enter a business name."); return null; }
   if (!industry) { if (showMessages) showError("Please select an industry."); return null; }
+  const emailField = $("biz-email");
+  if (emailField && !validateField(emailField, true)) { if (showMessages) showError("Please enter a valid email address, or leave the email field empty."); return null; }
   const colors = getColors();
   if (!colors) { if (showMessages) showError(activeTab === "presets" ? "Please select a color preset." : "Please enter valid hex colors for all three colors."); return null; }
   return buildContext(biz, industry, tagline, colors);
@@ -227,14 +609,19 @@ function validContextFromForm(showMessages = true) {
 
 function previewPage(ctx) {
   const previewCtx = { ...ctx, preview: true, logo: ctx.logo ? { ...ctx.logo, previewSrc: logoPreviewUrl } : null };
-  const body = ctx.siteType === "onepage" ? onePageBody(previewCtx) : homeBody(previewCtx);
-  return `<!DOCTYPE html><html lang="${langOf(previewCtx)}" dir="${dirOf(previewCtx)}"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><style>${siteCSS(previewCtx)}</style><script>${siteJS()}<\/script><title>${esc(ctx.biz)} preview</title></head><body>${nav(previewCtx)}<main id="main">${body}</main>${footer(previewCtx)}</body></html>`;
+  const requested = valueOf("preview-page-select", "index.html");
+  const pages = Object.fromEntries(generatedPages(previewCtx));
+  const html = pages[requested] || pages["index.html"] || onePage(previewCtx);
+  return html.replace(`<link rel="stylesheet" href="assets/css/style.css">`, `<style>${siteCSS(previewCtx)}</style>`)
+    .replace(`<script src="assets/js/main.js" defer></script>`, `<script>${siteJS()}<\/script>`)
+    .replace(/<link rel="manifest" href="[^"]+">/, "");
 }
 
-async function renderPreview(withSteps = false) {
+async function renderPreview(withSteps = false, showMessages = true) {
   clearAlerts();
-  const ctx = validContextFromForm(true);
+  const ctx = validContextFromForm(showMessages);
   if (!ctx) return;
+  updatePreviewPageOptions();
   if (withSteps) await runGenerationSteps(false);
   const card = $("preview-card");
   if (card) card.hidden = false;
@@ -264,27 +651,38 @@ function buildPresetGrid() {
   PALETTES.forEach((p, index) => {
     const item = document.createElement("button");
     item.type = "button";
-    item.className = "preset-opt" + (index === 0 ? " selected" : "");
-    item.innerHTML = `<div class="preset-swatches">${p.colors.map(c => `<span style="background:${c}"></span>`).join("")}</div><div class="preset-name">${p.name}</div>`;
+    item.className = "preset-opt" + (index === selectedPresetIndex ? " selected" : "");
+    item.setAttribute("aria-label", p.name);
+    item.title = p.name;
+    item.innerHTML = `<div class="preset-swatches">${p.colors.map(c => `<span style="background:${c}"></span>`).join("")}</div>`;
     item.addEventListener("click", () => {
       document.querySelectorAll(".preset-opt").forEach(el => el.classList.remove("selected"));
       item.classList.add("selected");
       selectedPreset = p.colors;
+      selectedPresetIndex = index;
+      logoColorsActive = false;
+      saveSettings();
       clearAlerts();
     });
     grid.appendChild(item);
   });
 }
+function applyColorTabUI() {
+  document.querySelectorAll(".tab-btn").forEach(btn => {
+    const isActive = btn.dataset.tab === activeTab;
+    btn.classList.toggle("active", isActive);
+    btn.setAttribute("aria-selected", isActive ? "true" : "false");
+  });
+  $("panel-manual").hidden = activeTab !== "manual";
+  $("panel-presets").hidden = activeTab !== "presets";
+}
 function bindTabs() {
   document.querySelectorAll(".tab-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       activeTab = btn.dataset.tab;
-      document.querySelectorAll(".tab-btn").forEach(b => {
-        b.classList.toggle("active", b === btn);
-        b.setAttribute("aria-selected", b === btn ? "true" : "false");
-      });
-      $("panel-manual").hidden = activeTab !== "manual";
-      $("panel-presets").hidden = activeTab !== "presets";
+      logoColorsActive = false;
+      applyColorTabUI();
+      saveSettings();
       clearAlerts();
     });
   });
@@ -293,28 +691,115 @@ function bindColorInputs() {
   [["col1","hex1"],["col2","hex2"],["col3","hex3"]].forEach(([colorId, hexId]) => {
     const color = $(colorId);
     const hex = $(hexId);
-    color.addEventListener("input", () => { hex.value = color.value; });
-    hex.addEventListener("input", () => { if (/^#[0-9a-fA-F]{6}$/.test(hex.value)) color.value = hex.value; });
+    color.addEventListener("input", () => { logoColorsActive = false; hex.value = color.value; validateField(hex, false); saveSettings(); });
+    hex.addEventListener("input", () => { logoColorsActive = false; if (/^#[0-9a-fA-F]{6}$/.test(hex.value)) color.value = hex.value; validateField(hex, false); });
+  });
+}
+function isValidEmailValue(value) { return !value || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value); }
+function isValidHexValue(value) { return /^#[0-9a-fA-F]{6}$/.test(value); }
+function validateField(el, showEmpty = false) {
+  if (!el) return true;
+  const value = el.value.trim();
+  let valid = true;
+  if (el.type === "email") valid = isValidEmailValue(value);
+  if (el.classList.contains("hex-input")) valid = (!showEmpty && value === "") || isValidHexValue(value);
+  el.classList.toggle("is-invalid", !valid);
+  el.setAttribute("aria-invalid", valid ? "false" : "true");
+  return valid;
+}
+function bindValidation() {
+  document.querySelectorAll('input[type="email"], .hex-input').forEach(el => {
+    el.addEventListener("blur", () => validateField(el, true));
+    el.addEventListener("input", () => validateField(el, false));
   });
 }
 function showError(msg) { const el = $("alert-error"); el.textContent = msg; el.classList.add("visible"); $("alert-success").classList.remove("visible"); }
 function showSuccess() { $("alert-success").classList.add("visible"); $("alert-error").classList.remove("visible"); }
 function clearAlerts() { $("alert-error").classList.remove("visible"); $("alert-success").classList.remove("visible"); }
-function getColors() { if (activeTab === "presets") return selectedPreset; const colors = ["hex1", "hex2", "hex3"].map(id => $(id).value.trim()); return colors.every(v => /^#[0-9a-fA-F]{6}$/.test(v)) ? colors : null; }
+function getBaseColors() {
+  if (logoColorsActive && logoExtractedColors?.length === 3) return ["#ffffff", ...logoExtractedColors];
+  if (activeTab === "presets") return selectedPreset;
+  const hexEls = ["hex1", "hex2", "hex3"].map(id => $(id));
+  hexEls.forEach(el => validateField(el, true));
+  const colors = hexEls.map(el => el.value.trim());
+  return colors.every(v => /^#[0-9a-fA-F]{6}$/.test(v)) ? ["#ffffff", ...colors] : null;
+}
+function getColors() {
+  const base = getBaseColors();
+  return base ? colorVariation(base) : null;
+}
+function clamp(n, min = 0, max = 255) { return Math.max(min, Math.min(max, Math.round(n))); }
+function hexToRgbArr(hex) { return [parseInt(hex.slice(1,3),16), parseInt(hex.slice(3,5),16), parseInt(hex.slice(5,7),16)]; }
+function rgbToHexArr(rgb) { return "#" + rgb.map(v => clamp(v).toString(16).padStart(2,"0")).join(""); }
+function mixHex(a, b, amount = .5) {
+  const ar = hexToRgbArr(a), br = hexToRgbArr(b);
+  return rgbToHexArr(ar.map((v, i) => v * (1 - amount) + br[i] * amount));
+}
+function adjustHex(hex, percent = 0) {
+  const rgb = hexToRgbArr(hex);
+  const target = percent >= 0 ? 255 : 0;
+  const amount = Math.abs(percent) / 100;
+  return rgbToHexArr(rgb.map(v => v * (1 - amount) + target * amount));
+}
+function colorVariation(colors) {
+  const normalized = colors.length >= 4 ? colors.slice(0, 4) : ["#ffffff", ...colors.slice(0, 3)];
+  const [bg, primary, secondary, accent] = normalized;
+  switch (variantSlot(4, 23)) {
+    case 1:
+      return [bg, adjustHex(primary, -8), mixHex(secondary, accent, .18), adjustHex(accent, 8)];
+    case 2:
+      return [bg, adjustHex(secondary, -12), mixHex(primary, secondary, .22), adjustHex(accent, -6)];
+    case 3:
+      return [bg, mixHex(primary, secondary, .28), adjustHex(secondary, 10), mixHex(accent, primary, .12)];
+    default:
+      return normalized;
+  }
+}
+
+function tech(s) { return `<span class="tech-value" dir="ltr">${esc(s)}</span>`; }
+
 function esc(s) { return String(s ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;"); }
+function textToParagraphs(s) {
+  return String(s || "").split(/\n{2,}/).map(p => p.trim()).filter(Boolean).map(p => `<p>${esc(p).replace(/\n/g,"<br>")}</p>`).join("");
+}
 function slugify(s) { return String(s || "site").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"") || "site"; }
 function emailSlug(s) { return slugify(s).replace(/-/g, ""); }
+function normalizeDomainUrl(raw) {
+  const value = String(raw || "").trim();
+  if (!value) return "https://example.com";
+  const withProtocol = /^https?:\/\//i.test(value) ? value : `https://${value}`;
+  try {
+    const url = new URL(withProtocol);
+    return `${url.protocol}//${url.host}${url.pathname.replace(/\/$/, "")}`;
+  } catch (e) {
+    return "https://example.com";
+  }
+}
+function absoluteUrl(ctx, path = "index.html") {
+  const clean = path === "index.html" ? "" : String(path || "").replace(/^\/+/, "");
+  return `${ctx.siteUrl || "https://example.com"}/${clean}`;
+}
 function pick(map, key, fallback = "other") { return map[key] || map[fallback]; }
-function chooseStyle(industry, selected) { return selected && selected !== "auto" ? selected : AUTO_STYLE_BY_INDUSTRY[industry] || "modern"; }
-function chooseLayout(industry, selected) { return selected && selected !== "auto" ? selected : AUTO_LAYOUT_BY_INDUSTRY[industry] || "classic"; }
+function chooseStyle(industry, selected) {
+  if (selected && selected !== "auto") return selected;
+  const base = AUTO_STYLE_BY_INDUSTRY[industry] || "modern";
+  const pool = Array.from(new Set([base, "modern", "bold", "creative", "friendly", "corporate"]));
+  return pool[variantSlot(pool.length, 11)];
+}
+function chooseLayout(industry, selected) {
+  if (selected && selected !== "auto") return selected;
+  const base = AUTO_LAYOUT_BY_INDUSTRY[industry] || "classic";
+  const options = Array.from(new Set([base, "impact", "showcase"]));
+  return options[variantSlot(options.length, String(industry || "").length)];
+}
 function chooseImagePersonality(industry, selected) { return selected && selected !== "auto" ? selected : AUTO_IMAGE_BY_INDUSTRY[industry] || "abstract"; }
-function chooseTrust(selected) { return selected && selected !== "auto" ? selected : TRUST_STYLES[variationSeed % TRUST_STYLES.length]; }
+function chooseTrust(selected) { return selected && selected !== "auto" ? selected : TRUST_STYLES[variantSlot(TRUST_STYLES.length, 37)]; }
 function chooseCTA(goal, selected) { return selected && selected !== "auto" ? selected : (GOALS[goal] || GOALS.leads).cta; }
 function luminance(hex) { const rgb = [1,3,5].map(i => parseInt(hex.slice(i,i+2),16) / 255).map(v => v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4)); return .2126 * rgb[0] + .7152 * rgb[1] + .0722 * rgb[2]; }
 function textColor(bg) { return luminance(bg) > .32 ? "#111827" : "#ffffff"; }
 function imageUrl(w, h, label, ctx = null) {
   const mood = ctx?.imagePersonality ? `${ctx.imagePersonality}-${IMAGE_PERSONALITIES[ctx.imagePersonality] || ""}` : "demo";
-  return `https://picsum.photos/seed/${encodeURIComponent(mood + '-' + label + '-' + variationSeed)}/${w}/${h}`;
+  return `https://picsum.photos/seed/${encodeURIComponent(mood + '-' + label + '-' + variationSeed + '-v' + variationIndex)}/${w}/${h}`;
 }
 function updateQualityScore(ctx) {
   const items = Array.from(document.querySelectorAll("#quality-list li"));
@@ -323,24 +808,42 @@ function updateQualityScore(ctx) {
   $("quality-summary").textContent = `${ctx.goal.name}, ${ctx.cta} CTA, ${ctx.voiceKey} voice, ${ctx.styleKey} style.`;
 }
 
-function cssVars(ctx) {
-  const s = DESIGN_STYLES[ctx.styleKey];
-  const [c1, c2, c3] = ctx.colors;
-  return `:root{--brand-primary:${c1};--brand-secondary:${c2};--brand-accent:${c3};--on-primary:${textColor(c1)};--on-secondary:${textColor(c2)};--on-accent:${textColor(c3)};--bg:#ffffff;--surface:#f8fafc;--surface-strong:#eef2f7;--text:#111827;--muted:#64748b;--border:rgba(15,23,42,.12);--card:#ffffff;--nav-bg:rgba(255,255,255,.86);--footer-bg:#0f172a;--footer-text:#cbd5e1;--radius:${s.radius};--section-pad:${s.sectionPad};--shadow:${s.shadow};--font-head:${s.fontHead};--font-body:${s.fontBody}}\n[data-theme="dark"]{--bg:#0b1120;--surface:#111827;--surface-strong:#1f2937;--text:#f8fafc;--muted:#a7b2c3;--border:rgba(255,255,255,.14);--card:#111827;--nav-bg:rgba(15,23,42,.86);--footer-bg:#030712;--footer-text:#d1d5db}`;
-}
-function siteCSS(ctx) {
-  return `${cssVars(ctx)}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:var(--font-body);color:var(--text);background:var(--bg);line-height:1.65}img{max-width:100%;display:block}a{color:inherit;text-decoration:none}.skip-link{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}.skip-link:focus{left:1rem;top:1rem;width:auto;height:auto;background:var(--brand-accent);color:var(--on-accent);padding:.6rem 1rem;border-radius:999px;z-index:9999}.site-header{position:sticky;top:0;z-index:50;background:var(--nav-bg);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}.nav{max-width:1180px;margin:auto;min-height:72px;padding:0 1.25rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}.brand{font-weight:900;letter-spacing:-.03em;color:var(--brand-primary);font-family:var(--font-head);font-size:1.2rem;display:inline-flex;align-items:center;gap:.6rem}.brand-logo{width:36px;height:36px;object-fit:contain;border-radius:9px;background:#fff;padding:2px;border:1px solid var(--border)}.nav-actions{display:flex;gap:.55rem;align-items:center}.nav-links{display:flex;gap:1.15rem;align-items:center}.nav-links a{font-size:.94rem;color:var(--text);font-weight:750;opacity:.86}.nav-links a:hover{opacity:1;color:var(--brand-secondary)}.btn,.nav-cta,.theme-toggle{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;border-radius:999px;font-weight:850;border:0;cursor:pointer}.nav-cta,.btn-primary{background:var(--brand-accent);color:var(--on-accent);padding:.72rem 1.2rem;box-shadow:0 12px 30px rgba(0,0,0,.12)}.btn-secondary{border:1px solid currentColor;color:inherit;padding:.68rem 1.15rem}.theme-toggle,.menu-btn{background:transparent;border:1px solid var(--border);border-radius:999px;padding:.58rem .8rem;color:var(--text)}.menu-btn{display:none;border-radius:12px}main{overflow:hidden}.hero{position:relative;padding:calc(var(--section-pad) + 1rem) 1.25rem;color:var(--on-primary);background:linear-gradient(135deg,var(--brand-primary),var(--brand-secondary));}.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 75% 15%,var(--brand-accent),transparent 30rem);opacity:.35}.hero-inner{position:relative;max-width:1180px;margin:auto;display:grid;grid-template-columns:1.05fr .95fr;gap:3rem;align-items:center}.hero-copy h1{font-family:var(--font-head);font-size:clamp(2.4rem,6vw,5rem);line-height:.98;letter-spacing:-.055em;margin:0 0 1.1rem}.hero-copy p{font-size:clamp(1.05rem,2vw,1.25rem);max-width:58ch;opacity:.9}.hero-actions{display:flex;gap:.9rem;flex-wrap:wrap;margin-top:1.7rem}.hero-media{border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transform:rotate(1.5deg);border:8px solid rgba(255,255,255,.14)}.hero-media img{width:100%;height:440px;object-fit:cover}.hero-bold{background:linear-gradient(135deg,var(--brand-primary),var(--brand-secondary) 55%,var(--brand-accent))}.hero-luxury .hero-copy h1{letter-spacing:-.02em}.hero-luxury{background:var(--brand-primary)}.hero-friendly{border-bottom-left-radius:60px;border-bottom-right-radius:60px}.hero-creative .hero-media{transform:rotate(-3deg) translateY(1rem)}.hero-wellness{background:linear-gradient(135deg,var(--brand-primary),var(--brand-secondary))}.hero-corporate{background:linear-gradient(135deg,var(--brand-primary),#1e293b)}.section{max-width:1180px;margin:auto;padding:var(--section-pad) 1.25rem}.section.alt{max-width:none;background:var(--surface)}.section.alt>.section-inner{max-width:1180px;margin:auto}.section-head{max-width:760px;margin-bottom:2.4rem}.kicker{color:var(--brand-secondary);font-weight:900;letter-spacing:.12em;text-transform:uppercase;font-size:.78rem}.section h1,.section h2{font-family:var(--font-head);font-size:clamp(1.8rem,4vw,3rem);line-height:1.08;letter-spacing:-.04em;margin:.4rem 0 .75rem}.section p.lead{color:var(--muted);font-size:1.08rem}.grid{display:grid;gap:1.4rem}.cards{grid-template-columns:repeat(3,minmax(0,1fr))}.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow)}.card img{border-radius:calc(var(--radius) - 6px);height:190px;width:100%;object-fit:cover;margin-bottom:1rem}.icon{width:48px;height:48px;border-radius:16px;background:rgba(249,115,22,.12);display:grid;place-items:center;margin-bottom:.9rem}.card h3{font-size:1.1rem;margin:.2rem 0 .45rem}.card p{color:var(--muted);margin:0}.trust{max-width:1180px;margin:-2.3rem auto 0;position:relative;z-index:5;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.2rem;display:grid;gap:1rem}.trust.grid4{grid-template-columns:repeat(4,1fr);text-align:center}.trust strong{font-size:1.55rem;color:var(--brand-primary);display:block}.trust span{color:var(--muted);font-size:.9rem}.logo-strip{grid-template-columns:repeat(5,1fr)}.fake-logo{border:1px solid var(--border);border-radius:14px;padding:.9rem;text-align:center;font-weight:900;color:var(--muted);background:var(--surface)}.stars{font-size:1.4rem;color:var(--brand-accent)}.split{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:center}.split img{border-radius:var(--radius);box-shadow:var(--shadow)}.pricing{grid-template-columns:repeat(3,minmax(0,1fr))}.price{font-size:2.4rem;font-weight:950;color:var(--brand-primary);letter-spacing:-.05em}.list{padding-left:1.2rem;color:var(--muted)}.faq-item{border-bottom:1px solid var(--border);padding:1rem 0}.faq-item summary{cursor:pointer;font-weight:850}.faq-item p{color:var(--muted)}.blog-card time{font-size:.82rem;color:var(--muted);font-weight:750}.compare-table{width:100%;border-collapse:collapse;background:var(--card);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}.compare-table th,.compare-table td{border:1px solid var(--border);padding:1rem;text-align:start}.compare-table th{background:var(--surface)}.cta{background:var(--brand-primary);color:var(--on-primary);text-align:center;padding:var(--section-pad) 1.25rem}.cta h2{font-family:var(--font-head);font-size:clamp(2rem,4vw,3.4rem);letter-spacing:-.04em;margin:0 0 .7rem}.footer{background:var(--footer-bg);color:var(--footer-text);padding:3.5rem 1.25rem 1.5rem}.footer-inner{max-width:1180px;margin:auto}.footer-grid{display:grid;grid-template-columns:2fr repeat(3,1fr);gap:2rem;margin-bottom:2rem}.footer h3,.footer h4{color:#fff}.footer a{display:block;color:var(--footer-text);margin:.35rem 0}.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding-top:1rem;color:#94a3b8;font-size:.88rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}.contact-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:2rem}.form input,.form textarea{width:100%;border:1px solid var(--border);border-radius:14px;padding:.8rem 1rem;margin-bottom:.9rem;font:inherit;background:var(--bg);color:var(--text)}.form textarea{min-height:150px}.honeypot{position:absolute;left:-9999px}.notice{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;color:var(--muted)}:focus-visible{outline:3px solid var(--brand-accent);outline-offset:3px}[dir="rtl"] .list{padding-right:1.2rem;padding-left:0}[dir="rtl"] .compare-table th,[dir="rtl"] .compare-table td{text-align:right}[dir="rtl"] .hero-media{transform:rotate(-1.5deg)}[dir="rtl"] .hero-creative .hero-media{transform:rotate(3deg) translateY(1rem)}[dir="rtl"] .footer-bottom{direction:rtl}[dir="rtl"] .contact-grid,[dir="rtl"] .split{direction:rtl}@media(max-width:840px){.menu-btn{display:inline-flex}.nav-links{position:absolute;left:1rem;right:1rem;top:78px;background:var(--card);border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);padding:1rem;display:none;flex-direction:column;align-items:stretch}.nav-links.open{display:flex}.nav-links a{padding:.65rem}.hero-inner,.split,.contact-grid{grid-template-columns:1fr}.hero-media img{height:300px}.cards,.pricing,.trust.grid4,.logo-strip,.footer-grid{grid-template-columns:1fr}.trust{margin:0 1.25rem}.section{padding:4rem 1.25rem}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}`;
-}
-function siteJS() { return `document.addEventListener('DOMContentLoaded',()=>{const btn=document.querySelector('[data-menu-button]');const links=document.querySelector('[data-nav-links]');const theme=document.querySelector('[data-theme-toggle]');const openLabel=btn?.dataset.openLabel||'Open navigation menu';const closeLabel=btn?.dataset.closeLabel||'Close navigation menu';const lightLabel=theme?.dataset.lightLabel||'Light';const darkLabel=theme?.dataset.darkLabel||'Dark';const close=()=>{if(!links||!btn)return;links.classList.remove('open');btn.setAttribute('aria-expanded','false');btn.setAttribute('aria-label',openLabel);};if(btn&&links){btn.addEventListener('click',()=>{const open=!links.classList.contains('open');links.classList.toggle('open',open);btn.setAttribute('aria-expanded',String(open));btn.setAttribute('aria-label',open?closeLabel:openLabel);});links.querySelectorAll('a').forEach(a=>a.addEventListener('click',close));document.addEventListener('keydown',e=>{if(e.key==='Escape')close();});document.addEventListener('click',e=>{if(!links.contains(e.target)&&!btn.contains(e.target))close();});}if(theme){const saved=localStorage.getItem('theme')||'light';document.documentElement.dataset.theme=saved;theme.textContent=saved==='dark'?lightLabel:darkLabel;theme.addEventListener('click',()=>{const next=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=next;localStorage.setItem('theme',next);theme.textContent=next==='dark'?lightLabel:darkLabel;});}document.querySelectorAll('[data-demo-form]').forEach(form=>{form.addEventListener('submit',e=>{e.preventDefault();const note=form.querySelector('[data-form-note]');if(note)note.textContent=form.dataset.demoMessage||'Demo submission captured. Connect a real endpoint before launch.';});});});`; }
 
+
+const HEBREW_SITE_FONTS = [
+  { name: "Heebo", cssFamily: "Heebo", cssUrl: "https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800;900&display=swap", stack: "'Heebo', 'Rubik', 'Noto Sans Hebrew', Arial, sans-serif" },
+  { name: "Rubik", cssFamily: "Rubik", cssUrl: "https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&display=swap", stack: "'Rubik', 'Heebo', 'Noto Sans Hebrew', Arial, sans-serif" },
+  { name: "Alef", cssFamily: "Alef", cssUrl: "https://fonts.googleapis.com/css2?family=Alef:wght@400;700&display=swap", stack: "'Alef', 'Rubik', 'Noto Sans Hebrew', Arial, sans-serif" },
+  { name: "Noto Sans Hebrew", cssFamily: "Noto Sans Hebrew", cssUrl: "https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@400;500;600;700;800;900&display=swap", stack: "'Noto Sans Hebrew', 'Rubik', 'Heebo', Arial, sans-serif" },
+  { name: "Varela Round", cssFamily: "Varela Round", cssUrl: "https://fonts.googleapis.com/css2?family=Varela+Round&display=swap", stack: "'Varela Round', 'Rubik', 'Heebo', Arial, sans-serif" }
+];
+function chooseHebrewSiteFont(industry) {
+  return HEBREW_SITE_FONTS[variantSlot(HEBREW_SITE_FONTS.length, String(industry || "").length + 71)];
+}
+function generatedFontLinks(ctx) {
+  if (ctx.lang !== "he" || !ctx.hebrewFont) return "";
+  return `<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="${ctx.hebrewFont.cssUrl}" rel="stylesheet">`;
+}
+
+function analyticsSnippets(ctx) {
+  const ga = ctx.analytics?.googleAnalytics ? `
+<!-- Google Analytics placeholder. Replace with your real ID before launch. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=${esc(ctx.analytics.googleAnalyticsId || "G-XXXXXXXXXX")}"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${esc(ctx.analytics.googleAnalyticsId || "G-XXXXXXXXXX")}');<\/script>` : "";
+  const meta = ctx.analytics?.metaPixel ? `
+<!-- Meta Pixel placeholder. Replace with your real Pixel ID before launch. -->
+<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','${esc(ctx.analytics.metaPixelId || "YOUR_PIXEL_ID")}');fbq('track','PageView');<\/script>` : "";
+  return ga + meta;
+}
 function meta(ctx, title, description, prefix = "") {
   const faviconHref = ctx.logo ? prefix + ctx.logo.path : prefix + "assets/img/favicon.svg";
-  return `<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="description" content="${esc(description)}"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(description)}"><meta property="og:type" content="website"><meta property="og:image" content="${prefix}assets/img/og-image.svg"><link rel="canonical" href="https://example.com/"><link rel="icon" href="${faviconHref}"><link rel="apple-touch-icon" href="${faviconHref}"><link rel="manifest" href="${prefix}site.webmanifest"><link rel="stylesheet" href="${prefix}assets/css/style.css"><script type="application/ld+json">${schema(ctx)}</script><script src="${prefix}assets/js/main.js" defer></script><title>${esc(title)}</title>`;
+  const ogImage = absoluteUrl(ctx, "assets/img/og-image.svg");
+  return `<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="description" content="${esc(description)}"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(description)}"><meta property="og:type" content="website"><meta property="og:url" content="${ctx.siteUrl}/"><meta property="og:image" content="${ogImage}"><link rel="canonical" href="${ctx.siteUrl}/"><link rel="icon" href="${faviconHref}"><link rel="apple-touch-icon" href="${faviconHref}"><link rel="manifest" href="${prefix}site.webmanifest">${generatedFontLinks(ctx)}<link rel="stylesheet" href="${prefix}assets/css/style.css"><script type="application/ld+json">${schema(ctx)}</script>${analyticsSnippets(ctx)}<script src="${prefix}assets/js/main.js" defer></script><title>${esc(title)}</title>`;
 }
 function schema(ctx) {
-  const schemaImage = ctx.logo ? `https://example.com/${ctx.logo.path}` : "https://example.com/assets/img/og-image.svg";
-  const data = { "@context":"https://schema.org", "@type": ctx.data.type || "Organization", name: ctx.biz, url: "https://example.com/", description: ctx.tagline || ctx.data.sub, email: ctx.local.email, telephone: ctx.local.phone, areaServed: ctx.local.area, openingHours: ctx.local.hours, image: schemaImage };
+  const schemaImage = ctx.logo ? absoluteUrl(ctx, ctx.logo.path) : absoluteUrl(ctx, "assets/img/og-image.svg");
+  const data = { "@context":"https://schema.org", "@type": ctx.data.type || "Organization", name: ctx.biz, url: ctx.siteUrl + "/", description: ctx.tagline || ctx.data.sub, email: ctx.local.email, telephone: ctx.local.phone, areaServed: ctx.local.area, openingHours: ctx.local.hours, image: schemaImage };
+  if (ctx.socials?.length) data.sameAs = ctx.socials.map(s => s.url);
   if (["Restaurant","Hotel","LocalBusiness","FitnessCenter","Store","RealEstateAgent","MedicalBusiness"].includes(data["@type"])) data.address = { "@type":"PostalAddress", streetAddress: ctx.local.address, addressLocality: ctx.local.area };
   return JSON.stringify(data).replace(/</g,"\\u003c");
 }
@@ -359,13 +862,18 @@ function nav(ctx, prefix = "") {
         ["contact.html", txt(ctx,"contact")]
       ].filter(Boolean).map(([path,label]) => [`${prefix}${path}`, label]);
   const homeHref = one && prefix ? `${prefix}index.html` : (one ? "#main" : `${prefix}index.html`);
-  const ctaHref = one && prefix ? `${prefix}index.html#contact` : (one ? "#contact" : `${prefix}contact.html`);
+  const ctaHref = ctx.ctaUrl || (one && prefix ? `${prefix}index.html#contact` : (one ? "#contact" : `${prefix}contact.html`));
   const logoSrc = ctx.preview && ctx.logo?.previewSrc ? ctx.logo.previewSrc : (ctx.logo ? `${prefix}${ctx.logo.path}` : "");
   const logo = ctx.logo ? `<img class="brand-logo" src="${logoSrc}" alt="${esc(ctx.biz)} logo">` : "";
   return `<a class="skip-link" href="#main">${txt(ctx,"skip")}</a><header class="site-header"><nav class="nav" aria-label="${txt(ctx,"navLabel")}"><a class="brand" href="${homeHref}">${logo}<span>${esc(ctx.biz)}</span></a><div class="nav-links" data-nav-links>${links.map(([href,label])=>`<a href="${href}">${esc(label)}</a>`).join("")}</div><div class="nav-actions"><button class="theme-toggle" type="button" data-theme-toggle data-light-label="${txt(ctx,"light")}" data-dark-label="${txt(ctx,"dark")}" aria-label="Toggle dark mode">${txt(ctx,"dark")}</button><a class="nav-cta" href="${ctaHref}">${esc(ctx.cta)}</a><button class="menu-btn" type="button" data-menu-button aria-expanded="false" data-open-label="${txt(ctx,"openMenu")}" data-close-label="${txt(ctx,"closeMenu")}" aria-label="${txt(ctx,"openMenu")}">☰</button></div></nav></header>`;
 }
 function pageLink(prefix, path, label) { return `<a href="${prefix}${path}">${label}</a>`; }
+function onePageHref(prefix, anchor) { return prefix ? `${prefix}index.html${anchor}` : anchor; }
 function onePage(ctx) { return wrapPage(ctx, pageTitle(ctx,"One Page","עמוד אחד"), ctx.tagline || ctx.data.sub, onePageBody(ctx)); }
+function socialLinksHtml(ctx, className = "social-links") {
+  if (!ctx.socials?.length) return "";
+  return `<div class="${className}">${ctx.socials.map(item => `<a href="${esc(item.url)}" target="_blank" rel="noopener">${esc(item.label)}</a>`).join("")}</div>`;
+}
 function footer(ctx, prefix = "") {
   const y = new Date().getFullYear();
   const resources = ctx.siteType === "onepage"
@@ -374,11 +882,11 @@ function footer(ctx, prefix = "") {
   const company = ctx.siteType === "onepage"
     ? `${pageLink(prefix,"index.html",txt(ctx,"home"))}<a href="${onePageHref(prefix,"#services")}">${txt(ctx,"services")}</a><a href="${onePageHref(prefix,"#compare")}">${txt(ctx,"compare")}</a><a href="${onePageHref(prefix,"#contact")}">${txt(ctx,"contact")}</a>`
     : `${pageLink(prefix,"index.html",txt(ctx,"home"))}${pageLink(prefix,"about.html",txt(ctx,"about"))}${pageLink(prefix,"services.html",txt(ctx,"services"))}${pageLink(prefix,"compare.html",txt(ctx,"compare"))}`;
-  return `<footer class="footer"><div class="footer-inner"><div class="footer-grid"><div><h3>${esc(ctx.biz)}</h3><p>${esc(ctx.tagline || ctx.data.foot)}</p><p>${esc(ctx.local.area)} · ${esc(ctx.local.phone)}</p></div><div><h4>${txt(ctx,"company")}</h4>${company}</div><div><h4>${txt(ctx,"resources")}</h4>${resources}</div><div><h4>${txt(ctx,"legal")}</h4>${pageLink(prefix,"legal/privacy-policy.html",txt(ctx,"privacy"))}${pageLink(prefix,"legal/terms-of-usage.html",txt(ctx,"terms"))}${pageLink(prefix,"legal/cookie-policy.html",txt(ctx,"cookies"))}</div></div><div class="footer-bottom"><span>© ${y} ${esc(ctx.biz)}. ${txt(ctx,"rights")}.</span><span>${esc(ctx.goal.name)} - ${esc(ctx.voice.adjective)} by design.</span></div></div></footer>`;
+  return `<footer class="footer"><div class="footer-inner"><div class="footer-grid"><div><h3>${esc(ctx.biz)}</h3><p>${esc(ctx.tagline || ctx.data.foot)}</p><p><strong>${txt(ctx,"contactDetails")}</strong><br>${tech(ctx.local.email)}<br>${tech(ctx.local.phone)}<br>${esc(ctx.local.area)}<br>${esc(ctx.local.address)}<br>${esc(ctx.local.hours)}</p>${socialLinksHtml(ctx)}</div><div><h4>${txt(ctx,"company")}</h4>${company}</div><div><h4>${txt(ctx,"resources")}</h4>${resources}</div><div><h4>${txt(ctx,"legal")}</h4>${pageLink(prefix,"legal/privacy-policy.html",txt(ctx,"privacy"))}${pageLink(prefix,"legal/terms-of-usage.html",txt(ctx,"terms"))}${pageLink(prefix,"legal/cookie-policy.html",txt(ctx,"cookies"))}</div></div><div class="footer-bottom"><span>© ${y} ${esc(ctx.biz)}. ${txt(ctx,"rights")}.</span><span>${esc(ctx.goal.name)} - ${esc(ctx.voice.adjective)} by design.</span></div></div></footer>`;
 }
 function wrapPage(ctx, title, description, body, prefix = "") { return `<!DOCTYPE html><html lang="${langOf(ctx)}" dir="${dirOf(ctx)}"><head>${meta(ctx,title,description,prefix)}</head><body>${nav(ctx,prefix)}<main id="main">${body}</main>${footer(ctx,prefix)}</body></html>`; }
 function hero(ctx, title, subtitle, seed) {
-  const contactHref = ctx.siteType === "onepage" ? "#contact" : "contact.html";
+  const contactHref = actionHref(ctx);
   const servicesHref = ctx.siteType === "onepage" ? "#services" : "services.html";
   return `<section class="hero ${DESIGN_STYLES[ctx.styleKey].heroClass}"><div class="hero-inner"><div class="hero-copy"><p class="kicker">${esc(ctx.goal.name)}</p><h1>${esc(title)}</h1><p>${esc(subtitle)}</p><p>${esc(ctx.voice.opener)}</p><div class="hero-actions"><a class="btn btn-primary" href="${contactHref}">${esc(ctx.cta)}</a><a class="btn btn-secondary" href="${servicesHref}">${txt(ctx,"explore")}</a></div></div><div class="hero-media"><img src="${imageUrl(900,650,ctx.slug+'-'+seed,ctx)}" alt="${esc(ctx.biz)} visual placeholder"></div></div></section>`;
 }
@@ -422,12 +930,37 @@ function industryModule(ctx) {
   }
   return `<section class="section"><div class="section-head"><p class="kicker">${txt(ctx,"whatWeDo")}</p><h2>${txt(ctx,"clearOffers")}</h2></div>${servicesCards(ctx,3,true)}</section>`;
 }
-function homeBody(ctx) { return hero(ctx, ctx.data.hero, ctx.tagline || ctx.data.sub, "hero") + trustSection(ctx) + goalSection(ctx) + industryModule(ctx) + `<section class="cta"><h2>${esc(ctx.voice.ctaLine)}</h2><p>${esc(ctx.goal.focus)}</p><a class="btn btn-primary" href="contact.html">${esc(ctx.cta)}</a></section>`; }
+function actionHref(ctx) {
+  if (ctx.ctaUrl) return ctx.ctaUrl;
+  if (ctx.productPaymentUrl && ctx.goalKey === "sales") return ctx.productPaymentUrl;
+  return ctx.siteType === "onepage" ? "#contact" : "contact.html";
+}
+function productHref(ctx) { return ctx.productPaymentUrl || actionHref(ctx); }
+function finalCta(ctx) { return `<section class="cta"><h2>${esc(ctx.voice.ctaLine)}</h2><p>${esc(ctx.goal.focus)}</p><a class="btn btn-primary" href="${actionHref(ctx)}">${esc(ctx.cta)}</a></section>`; }
+function featureBand(ctx) {
+  const head = isHebrew(ctx) ? "אתר שבונה אמון מהר יותר." : "A page that builds trust faster.";
+  const lead = isHebrew(ctx) ? "הבלוק הזה מחבר תמונה חזקה, מסר קצר וצעדים ברורים כדי שהמבקר יבין מיד למה להמשיך." : "This block combines a strong visual, short positioning, and clear next steps so visitors instantly understand why to continue.";
+  const points = isHebrew(ctx) ? ["מסר חד", "הוכחה מוקדמת", "פעולה ברורה"] : ["Sharp positioning", "Early proof", "Obvious action"];
+  return `<section class="section"><div class="grid cards" style="align-items:center"><article class="card" style="padding:0;overflow:hidden"><img src="${imageUrl(900,620,ctx.slug+'-feature',ctx)}" alt="${esc(ctx.biz)} feature image"></article><article class="card"><p class="kicker">${isHebrew(ctx)?"פוקוס":"Focus"}</p><h2>${head}</h2><p>${lead}</p><ul class="list">${points.map(p=>`<li>${p}</li>`).join("")}</ul><a class="btn btn-primary" href="${actionHref(ctx)}">${esc(ctx.cta)}</a></article></div></section>`;
+}
+function showcaseWall(ctx) {
+  const head = isHebrew(ctx) ? "תנו לאנשים להרגיש את המותג לפני שהם קוראים הכול." : "Let people feel the brand before they read everything.";
+  const lead = isHebrew(ctx) ? "וריאציית תצוגה שמדגישה תמונות, כרטיסים קצרים והוכחה חברתית מוקדמת." : "A showcase variation that emphasizes visuals, short cards, and early social proof.";
+  return `<section class="section alt"><div class="section-inner"><div class="section-head"><p class="kicker">${isHebrew(ctx)?"תצוגה":"Showcase"}</p><h2>${head}</h2><p class="lead">${lead}</p></div><div class="grid cards"><article class="card" style="grid-row:span 2"><img src="${imageUrl(700,900,ctx.slug+'-showcase-tall',ctx)}" alt="${esc(ctx.biz)} showcase image"><h3>${esc(ctx.data.sections[0])}</h3><p>${esc(ctx.voice.opener)}</p></article><article class="card"><img src="${imageUrl(700,420,ctx.slug+'-showcase-wide',ctx)}" alt="${esc(ctx.biz)} showcase image"><h3>${esc(ctx.data.sections[1])}</h3><p>${esc(ctx.goal.focus)}</p></article><article class="card"><div class="icon">★</div><h3>${isHebrew(ctx)?"סיבה להאמין":"Reason to believe"}</h3><p>${isHebrew(ctx)?"הוסיפו כאן הוכחה קצרה, מספר או ציטוט שמוריד ספק.":"Add a short proof point, number, or quote that reduces doubt."}</p></article></div></div></section>`;
+}
+function homeBodyClassic(ctx) { return hero(ctx, ctx.mainHeadline || ctx.data.hero, ctx.tagline || ctx.data.sub, "hero") + trustSection(ctx) + goalSection(ctx) + industryModule(ctx) + finalCta(ctx); }
+function homeBodyImpact(ctx) { return hero(ctx, ctx.mainHeadline || ctx.goal.hero || ctx.data.hero, ctx.tagline || ctx.data.sub, "impact") + goalSection(ctx) + featureBand(ctx) + trustSection(ctx) + pricingSection(ctx) + finalCta(ctx); }
+function homeBodyShowcase(ctx) { return hero(ctx, ctx.mainHeadline || ctx.data.hero, ctx.tagline || ctx.data.sub, "showcase") + showcaseWall(ctx) + industryModule(ctx) + trustSection(ctx) + compareSection(ctx) + finalCta(ctx); }
+function homeBody(ctx) {
+  if (ctx.layoutKey === "impact") return homeBodyImpact(ctx);
+  if (ctx.layoutKey === "showcase") return homeBodyShowcase(ctx);
+  return homeBodyClassic(ctx);
+}
 function homePage(ctx) { return wrapPage(ctx, pageTitle(ctx,"Home","בית"), ctx.tagline || ctx.data.sub, homeBody(ctx)); }
 function pricingSection(ctx) {
   const names = isHebrew(ctx) ? ["בסיסי","מקצועי","פרימיום"] : ["Starter","Professional","Premium"];
   const bullets = isHebrew(ctx) ? ["תכולה ברורה","לוח זמנים מוגדר","תמיכה בצעד הבא"] : ["Clear deliverables","Defined timeline","Next-step support"];
-  return `<section class="section" id="pricing"><div class="section-head"><p class="kicker">${txt(ctx,"pricing")}</p><h2>${txt(ctx,"pricingHead")}</h2><p class="lead">${txt(ctx,"pricingLead")}</p></div><div class="grid pricing">${names.map((n,i)=>`<article class="card"><h3>${n}</h3><div class="price">${["$99","$299",isHebrew(ctx)?"מותאם":"Custom"][i]}</div><ul class="list">${bullets.map(b=>`<li>${b}</li>`).join("")}</ul><a class="btn btn-primary" href="${ctx.siteType==='onepage'?'#contact':'contact.html'}">${esc(ctx.cta)}</a></article>`).join("")}</div></section>`;
+  return `<section class="section" id="pricing"><div class="section-head"><p class="kicker">${txt(ctx,"pricing")}</p><h2>${txt(ctx,"pricingHead")}</h2><p class="lead">${txt(ctx,"pricingLead")}</p></div><div class="grid pricing">${names.map((n,i)=>`<article class="card"><h3>${n}</h3><div class="price">${["$99","$299",isHebrew(ctx)?"מותאם":"Custom"][i]}</div><ul class="list">${bullets.map(b=>`<li>${b}</li>`).join("")}</ul><a class="btn btn-primary" href="${productHref(ctx)}">${esc(ctx.cta)}</a></article>`).join("")}</div></section>`;
 }
 function faqSection(ctx) {
   const qs = isHebrew(ctx)
@@ -453,17 +986,33 @@ function contactForm(ctx) {
   const note = ctx.formMode==='netlify'
     ? (isHebrew(ctx)?'מוכן ל-Netlify. אחרי פריסה ל-Netlify, הפניות יופיעו בדשבורד.':'Netlify-ready. Deploy to Netlify and submissions will appear in your dashboard.')
     : (isHebrew(ctx)?'טופס דמו מוכן.':'Demo-ready form.');
-  return `<form class="card form" ${formAttrs}><input type="hidden" name="form-name" value="contact"><p class="honeypot"><label>Do not fill this out <input name="bot-field"></label></p><label>${txt(ctx,"name")}<input name="name" required autocomplete="name"></label><label>${txt(ctx,"email")}<input type="email" name="email" required autocomplete="email"></label><label>${txt(ctx,"subject")}<input name="subject"></label><label>${txt(ctx,"message")}<textarea name="message" required></textarea></label><button class="btn btn-primary" type="submit">${esc(ctx.cta)}</button><p data-form-note class="notice">${note}</p>${action}</form>`;
+  return `<form class="card form" ${formAttrs}><input type="hidden" name="form-name" value="contact"><p class="honeypot"><label>Do not fill this out <input name="bot-field" autocomplete="off"></label></p><label>${txt(ctx,"name")}<input name="name" required autocomplete="name"></label><label>${txt(ctx,"email")}<input class="ltr-field" dir="ltr" type="email" name="email" required autocomplete="email"></label><label>${txt(ctx,"phone")}<input class="ltr-field" dir="ltr" type="tel" name="phone" autocomplete="tel"></label><label>${txt(ctx,"subject")}<input name="subject" autocomplete="on"></label><label>${txt(ctx,"message")}<textarea name="message" required autocomplete="on"></textarea></label><button class="btn btn-primary" type="submit">${esc(ctx.cta)}</button><p data-form-note class="notice">${note}</p>${action}</form>`;
 }
 function contactBlock(ctx) {
-  return `<div class="contact-grid"><div class="card"><h3>${txt(ctx,"contactDetails")}</h3><p>${txt(ctx,"email")}: ${esc(ctx.local.email)}</p><p>${txt(ctx,"phone")}: ${esc(ctx.local.phone)}</p><p>${txt(ctx,"serviceArea")}: ${esc(ctx.local.area)}</p><p>${txt(ctx,"address")}: ${esc(ctx.local.address)}</p><p>${txt(ctx,"hours")}: ${esc(ctx.local.hours)}</p></div>${contactForm(ctx)}</div>`;
+  return `<div class="contact-grid"><div class="card"><h3>${txt(ctx,"contactDetails")}</h3><p>${txt(ctx,"email")}: ${tech(ctx.local.email)}</p><p>${txt(ctx,"phone")}: ${tech(ctx.local.phone)}</p><p>${txt(ctx,"serviceArea")}: ${esc(ctx.local.area)}</p><p>${txt(ctx,"address")}: ${esc(ctx.local.address)}</p><p>${txt(ctx,"hours")}: ${esc(ctx.local.hours)}</p>${socialLinksHtml(ctx,"social-links contact-socials")}</div>${contactForm(ctx)}</div>`;
 }
-function onePageBody(ctx) { return hero(ctx, ctx.data.hero, ctx.tagline || ctx.data.sub, "hero") + trustSection(ctx) + `<section class="section" id="services"><div class="section-head"><p class="kicker">${txt(ctx,"services")}</p><h2>${txt(ctx,"onePageHead")}</h2><p class="lead">${txt(ctx,"onePageLead")}</p></div>${servicesCards(ctx,4,true)}</section>` + pricingSection(ctx) + compareSection(ctx) + faqSection(ctx) + `<section class="section" id="contact"><div class="section-head"><p class="kicker">${txt(ctx,"contact")}</p><h2>${esc(ctx.cta)}</h2><p class="lead">${esc(ctx.voice.ctaLine)}</p></div>${contactBlock(ctx)}</section>`; }
+function onePageServices(ctx) { return `<section class="section" id="services"><div class="section-head"><p class="kicker">${txt(ctx,"services")}</p><h2>${txt(ctx,"onePageHead")}</h2><p class="lead">${txt(ctx,"onePageLead")}</p></div>${servicesCards(ctx,4,true)}</section>`; }
+function onePageContact(ctx) { return `<section class="section" id="contact"><div class="section-head"><p class="kicker">${txt(ctx,"contact")}</p><h2>${esc(ctx.cta)}</h2><p class="lead">${esc(ctx.voice.ctaLine)}</p></div>${contactBlock(ctx)}</section>`; }
+function onePageBodyClassic(ctx) { return hero(ctx, ctx.mainHeadline || ctx.data.hero, ctx.tagline || ctx.data.sub, "hero") + trustSection(ctx) + onePageServices(ctx) + pricingSection(ctx) + compareSection(ctx) + faqSection(ctx) + onePageContact(ctx); }
+function onePageBodyImpact(ctx) { return hero(ctx, ctx.mainHeadline || ctx.goal.hero || ctx.data.hero, ctx.tagline || ctx.data.sub, "impact") + goalSection(ctx) + pricingSection(ctx) + trustSection(ctx) + onePageServices(ctx) + faqSection(ctx) + onePageContact(ctx); }
+function onePageBodyShowcase(ctx) { return hero(ctx, ctx.mainHeadline || ctx.data.hero, ctx.tagline || ctx.data.sub, "showcase") + showcaseWall(ctx) + onePageServices(ctx) + compareSection(ctx) + trustSection(ctx) + pricingSection(ctx) + onePageContact(ctx); }
+function onePageBody(ctx) {
+  if (ctx.layoutKey === "impact") return onePageBodyImpact(ctx);
+  if (ctx.layoutKey === "showcase") return onePageBodyShowcase(ctx);
+  return onePageBodyClassic(ctx);
+}
 function onePage(ctx) { return wrapPage(ctx, `${ctx.biz} - One Page`, ctx.tagline || ctx.data.sub, onePageBody(ctx)); }
+function customAboutSection(ctx) {
+  if (!ctx.aboutText) return "";
+  const title = isHebrew(ctx) ? "על העסק" : "About the business";
+  const kicker = isHebrew(ctx) ? "אודות" : "About";
+  return `<section class="section about-custom"><div class="section-head"><p class="kicker">${kicker}</p><h2>${title}</h2></div><div class="card rich-text">${textToParagraphs(ctx.aboutText)}</div></section>`;
+}
 function aboutPage(ctx) {
+  const intro = customAboutSection(ctx);
   const body = isHebrew(ctx)
-    ? hero(ctx, `אודות ${ctx.biz}`, ctx.tagline || ctx.data.sub, "about") + `<section class="section"><div class="section-head"><p class="kicker">הסיפור שלנו</p><h2>סיפור פתיחה עם הנחיות שימושיות.</h2><p class="lead">השתמשו באזור הזה כדי להסביר למה העסק קיים, את מי הוא משרת ומה לקוחות יכולים לצפות לקבל. התמקדו באמון, לא באוטוביוגרפיה.</p></div><div class="grid cards"><article class="card"><h3>הבטחה</h3><p>כתבו את ההבטחה הפשוטה שהלקוחות יכולים לסמוך עליה.</p></article><article class="card"><h3>תהליך</h3><p>הסבירו איך אתם עובדים כדי שאנשים ירגישו בטוחים להתקדם.</p></article><article class="card"><h3>הוכחה</h3><p>הוסיפו הסמכות, מספרים, המלצות או תוצאות נראות.</p></article></div></section>`
-    : hero(ctx, `About ${ctx.biz}`, ctx.tagline || ctx.data.sub, "about") + `<section class="section"><div class="section-head"><p class="kicker">Our story</p><h2>A starter story with useful prompts built in.</h2><p class="lead">Use this area to explain why the business exists, who it serves, and what customers can expect. Focus on trust, not autobiography.</p></div><div class="grid cards"><article class="card"><h3>Promise</h3><p>Write the simple promise customers can hold you to.</p></article><article class="card"><h3>Process</h3><p>Explain how you work so people feel safe taking the next step.</p></article><article class="card"><h3>Proof</h3><p>Add credentials, numbers, testimonials, or visible outcomes.</p></article></div></section>`;
+    ? hero(ctx, `אודות ${ctx.biz}`, ctx.tagline || ctx.data.sub, "about") + intro + `<section class="section"><div class="section-head"><p class="kicker">הסיפור שלנו</p><h2>סיפור פתיחה עם הנחיות שימושיות.</h2><p class="lead">השתמשו באזור הזה כדי להסביר למה העסק קיים, את מי הוא משרת ומה לקוחות יכולים לצפות לקבל. התמקדו באמון, לא באוטוביוגרפיה.</p></div><div class="grid cards"><article class="card"><h3>הבטחה</h3><p>כתבו את ההבטחה הפשוטה שהלקוחות יכולים לסמוך עליה.</p></article><article class="card"><h3>תהליך</h3><p>הסבירו איך אתם עובדים כדי שאנשים ירגישו בטוחים להתקדם.</p></article><article class="card"><h3>הוכחה</h3><p>הוסיפו הסמכות, מספרים, המלצות או תוצאות נראות.</p></article></div></section>`
+    : hero(ctx, `About ${ctx.biz}`, ctx.tagline || ctx.data.sub, "about") + intro + `<section class="section"><div class="section-head"><p class="kicker">Our story</p><h2>A starter story with useful prompts built in.</h2><p class="lead">Use this area to explain why the business exists, who it serves, and what customers can expect. Focus on trust, not autobiography.</p></div><div class="grid cards"><article class="card"><h3>Promise</h3><p>Write the simple promise customers can hold you to.</p></article><article class="card"><h3>Process</h3><p>Explain how you work so people feel safe taking the next step.</p></article><article class="card"><h3>Proof</h3><p>Add credentials, numbers, testimonials, or visible outcomes.</p></article></div></section>`;
   return wrapPage(ctx, pageTitle(ctx,"About","אודות"), isHebrew(ctx) ? `מידע על ${ctx.biz}.` : `Learn about ${ctx.biz}.`, body);
 }
 function servicesPage(ctx) { return wrapPage(ctx, pageTitle(ctx,"Services","שירותים"), isHebrew(ctx) ? `שירותים של ${ctx.biz}.` : `Services offered by ${ctx.biz}.`, hero(ctx, txt(ctx,"services"), isHebrew(ctx)?"הצעות ברורות, הסברים פשוטים וצעדים הבאים ברורים.":"Clear offers, simple explanations, and obvious next steps.", "services") + `<section class="section"><div class="section-head"><p class="kicker">${txt(ctx,"services")}</p><h2>${isHebrew(ctx)?"כרטיסי שירות ממוקדי תוצאה.":"Outcome-first service cards."}</h2><p class="lead">${isHebrew(ctx)?"כל כרטיס צריך להסביר איזו תוצאה מקבלים, למי זה מתאים ומה קורה אחרי הלחיצה.":"Each card should tell the reader what result they get, who it is for, and what happens after they click."}</p></div>${servicesCards(ctx,6,true)}</section>`); }
@@ -484,8 +1033,8 @@ function legalNotice(ctx, updated) {
 }
 function legalContact(ctx) {
   return isHebrew(ctx)
-    ? `<h2>יצירת קשר</h2><p>לשאלות לגבי עמוד זה, פרטיות או בקשות משתמשים, ניתן לפנות אלינו בכתובת <a href="mailto:${esc(ctx.local.email)}">${esc(ctx.local.email)}</a>.</p>`
-    : `<h2>Contact</h2><p>For questions about this page, privacy matters, or user requests, contact us at <a href="mailto:${esc(ctx.local.email)}">${esc(ctx.local.email)}</a>.</p>`;
+    ? `<h2>יצירת קשר</h2><p>לשאלות לגבי עמוד זה, פרטיות או בקשות משתמשים, ניתן לפנות אלינו בכתובת <a class="tech-value" dir="ltr" href="mailto:${esc(ctx.local.email)}">${esc(ctx.local.email)}</a>.</p>`
+    : `<h2>Contact</h2><p>For questions about this page, privacy matters, or user requests, contact us at <a class="tech-value" dir="ltr" href="mailto:${esc(ctx.local.email)}">${esc(ctx.local.email)}</a>.</p>`;
 }
 function privacyLegalContent(ctx, updated) {
   return isHebrew(ctx)
@@ -575,7 +1124,10 @@ function legalPage(ctx,type) {
   const desc = isHebrew(ctx) ? `${titles[type]} עבור ${ctx.biz}.` : `${titles[type]} for ${ctx.biz}.`;
   return wrapPage(ctx, `${ctx.biz} - ${titles[type]}`, desc, body, "../");
 }
-function sitemap(ctx) { const pages=[...generatedPages(ctx).map(([path])=>path),"legal/privacy-policy.html","legal/terms-of-usage.html","legal/cookie-policy.html"]; return `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${pages.map(p=>`<url><loc>https://example.com/${p}</loc></url>`).join("")}</urlset>`; }
+function sitemap(ctx) {
+  const pages = [...generatedPages(ctx).map(([path]) => path), "legal/privacy-policy.html", "legal/terms-of-usage.html", "legal/cookie-policy.html"];
+  return `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${pages.map(p => `<url><loc>${absoluteUrl(ctx, p)}</loc></url>`).join("")}</urlset>`;
+}
 function manifest(ctx) { const icon = ctx.logo ? { src: ctx.logo.path, sizes: "any", type: ctx.logo.mime } : { src: "assets/img/favicon.svg", sizes: "any", type: "image/svg+xml" }; return JSON.stringify({ name: ctx.biz, short_name: ctx.biz.slice(0,12), start_url: "index.html", display: "standalone", background_color: "#ffffff", theme_color: ctx.colors[0], icons: [icon] }, null, 2); }
 function favicon(ctx) { return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="${ctx.colors[0]}"/><circle cx="68" cy="32" r="18" fill="${ctx.colors[2]}"/><text x="50" y="62" text-anchor="middle" font-family="Arial" font-size="42" font-weight="800" fill="${textColor(ctx.colors[0])}">${esc(ctx.biz[0]||"W")}</text></svg>`; }
 function ogImage(ctx) { return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630"><rect width="1200" height="630" fill="${ctx.colors[0]}"/><circle cx="980" cy="120" r="220" fill="${ctx.colors[2]}" opacity=".75"/><text x="80" y="300" font-family="Arial" font-size="82" font-weight="800" fill="${textColor(ctx.colors[0])}">${esc(ctx.biz)}</text><text x="84" y="380" font-family="Arial" font-size="34" fill="${textColor(ctx.colors[0])}" opacity=".82">${esc(ctx.tagline||ctx.data.sub)}</text></svg>`; }
@@ -584,7 +1136,7 @@ function launchKitFiles(ctx) {
     "launch-kit/copy-checklist.md": `# Copy checklist\n\n- Homepage headline names the customer and result.\n- CTA uses: ${ctx.cta}.\n- Each service card explains outcome, audience, and next step.\n- FAQ answers pricing, timeline, preparation, and support.\n- Comparison page stays fair and specific.\n`,
     "launch-kit/content-prompts.md": `# Content prompts\n\n## Homepage\nI help [audience] achieve [result] without [pain].\n\n## About\nWe started ${ctx.biz} because [problem]. Today we help [audience] by [solution].\n\n## Proof\nAdd numbers, testimonials, certifications, before/after examples, or case studies.\n`,
     "launch-kit/image-replacement-guide.md": `# Image replacement guide\n\nThis starter uses stable Picsum URLs for demo impact. Replace them with real images before launch. Keep similar aspect ratios: hero 900x650, cards 600x380, blog 600x360.\n`,
-    "launch-kit/seo-checklist.md": `# SEO checklist\n\n- Replace example.com in canonical, robots.txt, sitemap.xml, and schema.\n- Write a unique meta description per page.\n- Rename image alt text to match real images.\n- Submit sitemap.xml after deployment.\n`,
+    "launch-kit/seo-checklist.md": `# SEO checklist\n\n- If you entered a domain in the generator, canonical, robots.txt, sitemap.xml, and schema URLs already use it. If not, replace example.com after deployment.\n- Write a unique meta description per page.\n- Rename image alt text to match real images.\n- Submit sitemap.xml after deployment.\n`,
     "launch-kit/deployment-guide.md": deployGuide(ctx)
   };
 }
@@ -675,7 +1227,7 @@ https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pag
 
 ## After deployment
 
-- Replace every example.com URL with your real domain in HTML meta tags, robots.txt, sitemap.xml, and schema data.
+- If you entered your domain in the generator, canonical, robots.txt, sitemap.xml, and schema data already use it. If not, replace every example.com URL after deployment.
 - Test the main CTA: ${ctx.cta}.
 - Open these URLs in your browser after publishing:
   - /robots.txt
@@ -701,6 +1253,7 @@ Open index.html in your browser.
 - Launch kit folder
 - Goal: ${ctx.goal.name}
 - CTA: ${ctx.cta}
+- Product / payment link: ${ctx.productPaymentUrl || "Not provided"}
 - Brand voice: ${ctx.voiceKey}
 - Layout: ${ctx.layoutKey}
 - Design style: ${ctx.styleKey}
@@ -728,7 +1281,7 @@ Fast path:
 - Picsum image URLs
 - Contact information
 - Legal pages
-- example.com canonical, sitemap, robots, and schema URLs
+- Canonical, sitemap, robots, and schema URLs. If you entered a domain, they already use it. Otherwise they use https://example.com as a safe placeholder
 `; }
 
 
@@ -746,8 +1299,16 @@ function buildContext(biz, industry, tagline, colors) {
   const voiceSource = lang === "he" ? HEBREW_VOICES : VOICES;
   const ctx = {
     biz, industry, tagline, colors, goalKey, voiceKey, lang,
+    hebrewFont: lang === "he" ? chooseHebrewSiteFont(industry) : null,
     logo: logoAsset(uploadedLogoFile),
     local: localDetails(biz),
+    socials: socialDetails(),
+    analytics: analyticsOptions(),
+    mainHeadline: valueOf("main-headline").trim(),
+    aboutText: valueOf("about-text").trim(),
+    ctaUrl: normalizeOptionalUrl(valueOf("custom-cta-url")),
+    productPaymentUrl: normalizeOptionalUrl(valueOf("product-payment-url")),
+    siteUrl: normalizeDomainUrl(valueOf("site-domain")),
     siteType: valueOf("website-type", "full"),
     styleKey: chooseStyle(industry, valueOf("design-style")),
     layoutKey: chooseLayout(industry, valueOf("home-layout", "auto")),
@@ -786,8 +1347,81 @@ function generatedPages(ctx) {
   ].filter(Boolean);
 }
 
+
+function projectConfig(ctx) {
+  return {
+    version: "1.0",
+    exportedAt: new Date().toISOString(),
+    generator: "Make me a website",
+    business: {
+      name: ctx.biz,
+      slug: ctx.slug,
+      industry: ctx.industry,
+      tagline: ctx.tagline,
+      mainHeadline: ctx.mainHeadline || null,
+      aboutText: ctx.aboutText || null,
+      language: ctx.lang,
+      direction: dirOf(ctx),
+      domainUrl: ctx.siteUrl,
+      logo: ctx.logo ? { filename: ctx.logo.filename, href: ctx.logo.href, mimeType: ctx.logo.mimeType || null } : null
+    },
+    strategy: {
+      websiteType: ctx.siteType,
+      goal: ctx.goalKey,
+      primaryCta: ctx.cta,
+      customCtaUrl: ctx.ctaUrl || null,
+      productPaymentUrl: ctx.productPaymentUrl || null,
+      brandVoice: ctx.voiceKey
+    },
+    styling: {
+      colors: {
+        background: ctx.colors[0],
+        primary: ctx.colors[1],
+        secondary: ctx.colors[2],
+        accent: ctx.colors[3]
+      },
+      designStyle: ctx.styleKey,
+      layout: ctx.layoutKey,
+      trustSection: ctx.trustStyle,
+      imagePersonality: ctx.imagePersonality,
+      hebrewFont: ctx.hebrewFont ? ctx.hebrewFont.name : null
+    },
+    localBusiness: ctx.local,
+    socialLinks: ctx.socials,
+    analytics: ctx.analytics,
+    generatedFiles: generatedPages(ctx).map(([path]) => path).concat([
+      "assets/css/style.css",
+      "assets/js/main.js",
+      "assets/img/favicon.svg",
+      "assets/img/og-image.svg",
+      "legal/privacy-policy.html",
+      "legal/terms-of-usage.html",
+      "legal/cookie-policy.html",
+      "robots.txt",
+      "sitemap.xml",
+      "site.webmanifest",
+      "README.md"
+    ]),
+    options: ctx.options,
+    notes: [
+      "This file captures the generator choices used to create the website.",
+      "It does not embed uploaded image binary data. The uploaded logo is saved separately in assets/img when provided."
+    ]
+  };
+}
+
+function pageUrl(ctx, path = "index.html") {
+  return absoluteUrl(ctx, path);
+}
+function applyPageUrls(html, path, ctx) {
+  const url = pageUrl(ctx, path);
+  return html
+    .replace(/<link rel="canonical" href="[^"]*">/, `<link rel="canonical" href="${url}">`)
+    .replace(/<meta property="og:url" content="[^"]*">/, `<meta property="og:url" content="${url}">`);
+}
+
 function writeWebsiteZip(root, ctx) {
-  generatedPages(ctx).forEach(([path, content]) => root.file(path, content));
+  generatedPages(ctx).forEach(([path, content]) => root.file(path, applyPageUrls(content, path, ctx)));
   root.folder("assets").folder("css").file("style.css", siteCSS(ctx));
   root.folder("assets").folder("js").file("main.js", siteJS());
   const imgFolder = root.folder("assets").folder("img");
@@ -795,13 +1429,14 @@ function writeWebsiteZip(root, ctx) {
   imgFolder.file("favicon.svg", favicon(ctx));
   imgFolder.file("og-image.svg", ogImage(ctx));
   const legal = root.folder("legal");
-  legal.file("privacy-policy.html", legalPage(ctx,"privacy"));
-  legal.file("terms-of-usage.html", legalPage(ctx,"terms"));
-  legal.file("cookie-policy.html", legalPage(ctx,"cookies"));
-  root.file("robots.txt", "User-agent: *\nAllow: /\nSitemap: https://example.com/sitemap.xml\n");
+  legal.file("privacy-policy.html", applyPageUrls(legalPage(ctx,"privacy"), "legal/privacy-policy.html", ctx));
+  legal.file("terms-of-usage.html", applyPageUrls(legalPage(ctx,"terms"), "legal/terms-of-usage.html", ctx));
+  legal.file("cookie-policy.html", applyPageUrls(legalPage(ctx,"cookies"), "legal/cookie-policy.html", ctx));
+  root.file("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${absoluteUrl(ctx, "sitemap.xml")}\n`);
   root.file("sitemap.xml", sitemap(ctx));
   root.file("site.webmanifest", manifest(ctx));
   root.file(".nojekyll", "");
+  root.file("site-config.json", JSON.stringify(projectConfig(ctx), null, 2));
   root.file("README.md", readme(ctx));
   Object.entries(launchKitFiles(ctx)).forEach(([path, content]) => root.file(path, content));
 }
