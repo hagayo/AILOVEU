@@ -7,7 +7,7 @@
 <title>Make me a website!</title>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
 <link href="styles.css" rel="stylesheet"/>
 <script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script defer="" src="modules/config.js"></script>
@@ -16,7 +16,7 @@
 <script defer="" src="app.js"></script>
 </head>
 <body>
-<a aria-label="Back to AILOVEU" class="top-back-link" href="https://ailoveu.art">← Back to AILOVEU</a>
+<a aria-label="Back to AILOVEU" class="top-back-link" href="https://ailoveu.art">← Back to <bdi>AILOVEU</bdi></a>
 <main class="page-wrap" id="main">
 <header class="page-header">
 <div aria-label="Interface language" class="ui-lang-switch">
@@ -94,6 +94,10 @@
 <label for="site-domain">Domain URL <span class="optional">optional</span></label>
 <input class="ltr-field" autocomplete="url" id="site-domain" inputmode="url" name="site-domain" placeholder="https://yourdomain.com" type="text" dir="ltr"/>
 </div>
+<div class="field">
+<label for="project-config-input">Import project config <span class="optional">optional</span></label>
+<input accept="application/json,.json" autocomplete="off" id="project-config-input" name="project-config-input" type="file"/>
+</div>
 </section>
 <details aria-labelledby="contact-details-label" class="card collapsible-card" id="contact-details-card" open="">
 <summary class="section-label" id="contact-details-label">Contact Details</summary>
@@ -104,6 +108,14 @@
 <div class="field">
 <label for="biz-phone">Phone</label>
 <input class="ltr-field" autocomplete="tel" id="biz-phone" name="biz-phone" placeholder="+1 (555) 000-0000" type="text" dir="ltr"/>
+</div>
+<div class="field">
+<label for="biz-whatsapp">WhatsApp number <span class="optional">optional</span></label>
+<input class="ltr-field" autocomplete="tel" id="biz-whatsapp" name="biz-whatsapp" placeholder="+972501234567" type="text" dir="ltr"/>
+</div>
+<div class="field">
+<label for="whatsapp-message">WhatsApp message <span class="optional">optional</span></label>
+<input autocomplete="on" id="whatsapp-message" name="whatsapp-message" placeholder="Hi, I would like to hear more." type="text"/>
 </div>
 <div class="field">
 <label for="biz-area">City / service area</label>
@@ -206,6 +218,7 @@
 <label for="meta-pixel-id">Meta Pixel ID</label>
 <input class="ltr-field" autocomplete="on" id="meta-pixel-id" name="meta-pixel-id" placeholder="1234567890" type="text" dir="ltr"/>
 </div>
+<label class="check-line"><input id="cookie-banner" name="cookie-banner" type="checkbox"/> Add cookie consent banner</label>
 </details>
 <details aria-labelledby="brand-label" class="card collapsible-card styling-colors">
 <summary class="section-label" id="brand-label">Styling &amp; Colors</summary>
@@ -279,6 +292,13 @@
 </div>
 </div>
 </details>
+
+<details class="card collapsible-card wanted-sections-card" id="wanted-sections-card" open="">
+<summary class="section-label" id="wanted-sections-label">Wanted Sections</summary>
+<p class="card-help" id="wanted-sections-help">Choose which sections appear on index.html and reorder them with the arrows.</p>
+<input id="wanted-sections-order" name="wanted-sections-order" type="hidden" value="hero,trust,goal,services,pricing,compare,faq,gallery,booking,contact,finalCta"/>
+<div class="wanted-sections-list" id="wanted-sections-list" aria-live="polite"></div>
+</details>
 <section aria-labelledby="features-label" class="card" style="display:none">
 <div class="section-label" id="features-label">Generated website options</div>
 <div class="field">
@@ -293,6 +313,8 @@
 <label><input checked="" id="page-faq" name="page-faq" type="checkbox"/> Add faq.html</label>
 <label><input checked="" id="page-pricing" name="page-pricing" type="checkbox"/> Add pricing.html</label>
 <label><input checked="" id="page-blog" name="page-blog" type="checkbox"/> Add blog.html</label>
+<label><input checked="" id="page-gallery" name="page-gallery" type="checkbox"/> Add gallery.html</label>
+<label><input checked="" id="page-booking" name="page-booking" type="checkbox"/> Add booking.html</label>
 <label><input checked="" id="page-thanks" name="page-thanks" type="checkbox"/> Add thank-you.html</label>
 <label><input checked="" id="page-404" name="page-404" type="checkbox"/> Add 404.html</label>
 </div>
@@ -341,6 +363,8 @@
 <option value="pricing.html">Pricing</option>
 <option value="faq.html">FAQ</option>
 <option value="blog.html">Blog</option>
+<option value="gallery.html">Gallery</option>
+<option value="booking.html">Booking</option>
 <option value="compare.html">Compare</option>
 <option value="contact.html">Contact</option>
 </select>
