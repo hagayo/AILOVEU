@@ -21,6 +21,13 @@ const IMAGE_PERSONALITIES = {
   food: "food table restaurant"
 };
 
+const DEFAULT_WANTED_SECTIONS = ["hero", "trust", "goal", "services", "pricing", "compare", "faq", "gallery", "booking", "contact", "finalCta"];
+const ALL_WANTED_SECTIONS = ["hero", "trust", "goal", "services", "showcase", "featureBand", "pricing", "compare", "faq", "gallery", "booking", "contact", "finalCta"];
+const WANTED_SECTION_LABELS = {
+  en: { hero:"Hero", trust:"Trust section", goal:"Website goal", services:"Services / industry module", showcase:"Visual showcase", featureBand:"Feature band", pricing:"Pricing", compare:"Comparison", faq:"FAQ", gallery:"Gallery", booking:"Booking", contact:"Contact", finalCta:"Final CTA" },
+  he: { hero:"הירו", trust:"אזור אמון", goal:"מטרת האתר", services:"שירותים / מודול תחום", showcase:"תצוגה ויזואלית", featureBand:"פס פיצ׳רים", pricing:"מחירים", compare:"השוואה", faq:"שאלות נפוצות", gallery:"גלריה", booking:"הזמנה", contact:"יצירת קשר", finalCta:"קריאה אחרונה לפעולה" }
+};
+
 const $ = (id) => document.getElementById(id);
 const valueOf = (id, fallback = "") => $(id)?.value ?? fallback;
 const checked = (id) => $(id)?.checked ?? false;
@@ -67,7 +74,7 @@ const UI_COPY = {
     dir: "ltr",
     htmlLang: "en",
     selectors: {
-      ".top-back-link": "← Back to AILOVEU",
+      ".top-back-link": "← Back to <bdi>AILOVEU</bdi>",
       ".eyebrow": "Static website starter-kit generator",
       ".page-header h1": "Make me a website!",
       ".page-header p:last-child": "Enter a few details and download a polished, multi-page static website ZIP.",
@@ -80,9 +87,12 @@ const UI_COPY = {
       "label[for='brand-voice']": "Brand voice",
       "label[for='website-type']": "Website type",
       "label[for='site-domain']": "Domain URL <span class='optional'>optional</span>",
+      "label[for='project-config-input']": "Import project config <span class='optional'>optional</span>",
       "#contact-details-label": "Contact Details",
       "label[for='biz-email']": "Email",
       "label[for='biz-phone']": "Phone",
+      "label[for='biz-whatsapp']": "WhatsApp number <span class='optional'>optional</span>",
+      "label[for='whatsapp-message']": "WhatsApp message <span class='optional'>optional</span>",
       "label[for='biz-area']": "City / service area",
       "label[for='biz-address']": "Address",
       "label[for='biz-hours']": "Opening hours",
@@ -115,6 +125,8 @@ const UI_COPY = {
       "label[for='design-style']": "Design style",
       "label[for='trust-style']": "Trust section",
       "label[for='image-personality']": "Image feel",
+      "#wanted-sections-label": "Wanted Sections",
+      "#wanted-sections-help": "Choose which sections appear on index.html and reorder them with the arrows.",
       "#features-label": "Generated website options",
       "label[for='form-mode']": "Contact form behavior",
       "#alert-success": "Files ready - your download should start automatically.",
@@ -132,14 +144,14 @@ const UI_COPY = {
       "#preview-btn": "Preview website",
       "#gen-btn": "<span aria-hidden='true'>⬇</span> Generate & Download Website ZIP",
       ".footer-note": "Generates: static site, Picsum images, dark mode, compare content, schema, launch kit, sitemap, robots, manifest, README.",
-      ".app-footer": "By <a href='https://ailoveu.art' target='_blank' rel='noopener'>AILOVEU</a> &amp; <a href='https://il.linkedin.com/in/hagaytech' target='_blank' rel='noopener'>Hagay</a>"
+      ".app-footer": "By <a href='https://ailoveu.art' target='_blank' rel='noopener'><bdi>AILOVEU</bdi></a> &amp; <a href='https://il.linkedin.com/in/hagaytech' target='_blank' rel='noopener'><bdi>Hagay</bdi></a>"
     },
-    checks: ["Add Google Analytics placeholder", "Add Meta Pixel placeholder"],
-    featureChecks: ["Add faq.html", "Add pricing.html", "Add blog.html", "Add thank-you.html", "Add 404.html"],
+    checks: ["Add Google Analytics placeholder", "Add Meta Pixel placeholder", "Add cookie consent banner"],
+    featureChecks: ["Add faq.html", "Add pricing.html", "Add blog.html", "Add gallery.html", "Add booking.html", "Add thank-you.html", "Add 404.html"],
     generationSteps: ["Reading your business details", "Choosing layout and image direction", "Building pages and local business data", "Adding SEO, schema, sitemap, and assets", "Packing the ZIP"],
     qualityItems: ["Goal-aware structure", "CTA strategy", "Brand voice", "SEO files", "Dark-mode toggle", "Schema.org data", "Launch kit"],
     placeholders: {
-      "biz-name": "e.g. Bright Studio", "site-domain": "https://yourdomain.com", "biz-email": "hello@yourbusiness.com", "biz-phone": "+1 (555) 000-0000", "biz-area": "e.g. Tel Aviv, online worldwide", "biz-address": "123 Main Street, City", "biz-hours": "Mon-Fri, 9:00-18:00", "main-headline": "e.g. Websites that sell while you sleep", "biz-tagline": "e.g. Building better tomorrows", "about-text": "Tell visitors who you are, who you help, and what makes your approach different.", "custom-cta-url": "https://calendly.com/your-link", "product-payment-url": "https://your-store.com/product-or-payment", "social-instagram": "https://instagram.com/yourbrand", "social-linkedin": "https://linkedin.com/company/yourbrand", "social-facebook": "https://facebook.com/yourbrand", "social-tiktok": "https://tiktok.com/@yourbrand", "social-youtube": "https://youtube.com/@yourbrand", "ga-id": "G-XXXXXXXXXX", "meta-pixel-id": "1234567890"
+      "biz-name": "e.g. Bright Studio", "site-domain": "https://yourdomain.com", "biz-email": "hello@yourbusiness.com", "biz-phone": "+1 (555) 000-0000", "biz-whatsapp": "+972501234567", "whatsapp-message": "Hi, I would like to hear more.", "biz-area": "e.g. Tel Aviv, online worldwide", "biz-address": "123 Main Street, City", "biz-hours": "Mon-Fri, 9:00-18:00", "main-headline": "e.g. Websites that sell while you sleep", "biz-tagline": "e.g. Building better tomorrows", "about-text": "Tell visitors who you are, who you help, and what makes your approach different.", "custom-cta-url": "https://calendly.com/your-link", "product-payment-url": "https://your-store.com/product-or-payment", "social-instagram": "https://instagram.com/yourbrand", "social-linkedin": "https://linkedin.com/company/yourbrand", "social-facebook": "https://facebook.com/yourbrand", "social-tiktok": "https://tiktok.com/@yourbrand", "social-youtube": "https://youtube.com/@yourbrand", "ga-id": "G-XXXXXXXXXX", "meta-pixel-id": "1234567890"
     },
     options: {
       "site-language": { en:"English", he:"Hebrew / עברית" },
@@ -152,14 +164,14 @@ const UI_COPY = {
       "trust-style": { auto:"Random / auto choose", logos:"Client logo strip", customers:"Trusted by 250+ customers", stars:"Star rating block", certifications:"Certifications", experience:"Years of experience", counters:"Number counters", reviews:"Review cards" },
       "image-personality": { auto:"Auto from industry", abstract:"Abstract", people:"People", nature:"Nature", architecture:"Architecture", workspaces:"Workspaces", food:"Food" },
       "form-mode": { netlify:"Netlify-ready form + thank-you page", mailto:"Mailto fallback", static:"Static demo form" },
-      "preview-page-select": { "index.html":"Home", "about.html":"About", "services.html":"Services", "pricing.html":"Pricing", "faq.html":"FAQ", "blog.html":"Blog", "compare.html":"Compare", "contact.html":"Contact" }
+      "preview-page-select": { "index.html":"Home", "about.html":"About", "services.html":"Services", "pricing.html":"Pricing", "faq.html":"FAQ", "blog.html":"Blog", "gallery.html":"Gallery", "booking.html":"Booking", "compare.html":"Compare", "contact.html":"Contact" }
     }
   },
   he: {
     dir: "rtl",
     htmlLang: "he",
     selectors: {
-      ".top-back-link": "חזרה ל-AILOVEU →",
+      ".top-back-link": "חזרה ל-<bdi>AILOVEU</bdi> →",
       ".eyebrow": "יוצר אתר שלם בשבילכם!",
       ".page-header h1": "בנה לי אתר!",
       ".page-header p:last-child": "ממלאים כמה פרטים ומורידים קובץ ZIP עם אתר סטטי מעוצב ומוכן לעריכה.",
@@ -172,9 +184,12 @@ const UI_COPY = {
       "label[for='brand-voice']": "סגנון כתיבה",
       "label[for='website-type']": "סוג אתר",
       "label[for='site-domain']": "כתובת דומיין <span class='optional'>אופציונלי</span>",
+      "label[for='project-config-input']": "ייבוא קובץ פרויקט <span class='optional'>אופציונלי</span>",
       "#contact-details-label": "פרטי יצירת קשר",
       "label[for='biz-email']": "אימייל",
       "label[for='biz-phone']": "טלפון",
+      "label[for='biz-whatsapp']": "מספר WhatsApp <span class='optional'>אופציונלי</span>",
+      "label[for='whatsapp-message']": "הודעת WhatsApp <span class='optional'>אופציונלי</span>",
       "label[for='biz-area']": "עיר / אזור שירות",
       "label[for='biz-address']": "כתובת",
       "label[for='biz-hours']": "שעות פעילות",
@@ -207,6 +222,8 @@ const UI_COPY = {
       "label[for='design-style']": "סגנון עיצוב",
       "label[for='trust-style']": "סגנון אמון",
       "label[for='image-personality']": "אופי תמונות",
+      "#wanted-sections-label": "חלקים רצויים",
+      "#wanted-sections-help": "בחרו אילו חלקים יופיעו ב-index.html וסדרו אותם עם החיצים.",
       "#features-label": "אפשרויות האתר שייווצר",
       "label[for='form-mode']": "התנהגות טופס יצירת קשר",
       "#alert-success": "הקבצים מוכנים - ההורדה אמורה להתחיל אוטומטית.",
@@ -223,15 +240,15 @@ const UI_COPY = {
       ".device-btn[data-device='mobile']": "מובייל",
       "#preview-btn": "תצוגה מקדימה",
       "#gen-btn": "<span aria-hidden='true'>⬇</span> יצירת והורדת ZIP לאתר",
-      ".footer-note": "יוצר: אתר סטטי, תמונות Picsum, מצב כהה, עמוד השוואה, Schema, קיט השקה, sitemap, robots, manifest ו-README.",
-      ".app-footer": "מאת <a href='https://ailoveu.art' target='_blank' rel='noopener'>AILOVEU</a> ו-<a href='https://il.linkedin.com/in/hagaytech' target='_blank' rel='noopener'>Hagay</a>"
+      ".footer-note": "יוצר: אתר סטטי, תמונות <bdi>Picsum</bdi>, מצב כהה, עמוד השוואה, <bdi>Schema</bdi>, קיט השקה, <bdi>sitemap</bdi>, <bdi>robots</bdi>, <bdi>manifest</bdi> ו-<bdi>README</bdi>.",
+      ".app-footer": "מאת <a href='https://ailoveu.art' target='_blank' rel='noopener'><bdi>AILOVEU</bdi></a> ו-<a href='https://il.linkedin.com/in/hagaytech' target='_blank' rel='noopener'><bdi>Hagay</bdi></a>"
     },
-    checks: ["הוסף Google Analytics", "הוסף Meta Pixel"],
-    featureChecks: ["הוסף faq.html", "הוסף pricing.html", "הוסף blog.html", "הוסף thank-you.html", "הוסף 404.html"],
+    checks: ["הוסף Google Analytics", "הוסף Meta Pixel", "הוסף באנר עוגיות"],
+    featureChecks: ["הוסף faq.html", "הוסף pricing.html", "הוסף blog.html", "הוסף gallery.html", "הוסף booking.html", "הוסף thank-you.html", "הוסף 404.html"],
     generationSteps: ["קורא את פרטי העסק", "בוחר מבנה וכיוון תמונות", "בונה עמודים ונתוני עסק מקומי", "מוסיף SEO, Schema, Sitemap ונכסים", "אורז את קובץ ה-ZIP"],
     qualityItems: ["מבנה לפי מטרה", "אסטרטגיית CTA", "סגנון כתיבה", "קבצי SEO", "מתג מצב כהה", "נתוני Schema.org", "קיט השקה"],
     placeholders: {
-      "biz-name": "לדוגמה: Bright Studio", "site-domain": "https://yourdomain.com", "biz-email": "hello@yourbusiness.com", "biz-phone": "+972 50-000-0000", "biz-area": "לדוגמה: תל אביב או שירות אונליין", "biz-address": "רחוב ראשי 123, עיר", "biz-hours": "א׳-ה׳, 9:00-18:00", "main-headline": "לדוגמה: אתרים שמוכרים בזמן שאתם ישנים", "biz-tagline": "לדוגמה: בונים מחר טוב יותר", "about-text": "ספרו למבקרים מי אתם, למי אתם עוזרים ומה מייחד את הגישה שלכם.", "custom-cta-url": "https://calendly.com/your-link", "product-payment-url": "https://your-store.com/product-or-payment", "social-instagram": "https://instagram.com/yourbrand", "social-linkedin": "https://linkedin.com/company/yourbrand", "social-facebook": "https://facebook.com/yourbrand", "social-tiktok": "https://tiktok.com/@yourbrand", "social-youtube": "https://youtube.com/@yourbrand", "ga-id": "G-XXXXXXXXXX", "meta-pixel-id": "1234567890"
+      "biz-name": "לדוגמה: Bright Studio", "site-domain": "https://yourdomain.com", "biz-email": "hello@yourbusiness.com", "biz-phone": "+972 50-000-0000", "biz-whatsapp": "+972501234567", "whatsapp-message": "היי, אשמח לשמוע פרטים נוספים.", "biz-area": "לדוגמה: תל אביב או שירות אונליין", "biz-address": "רחוב ראשי 123, עיר", "biz-hours": "א׳-ה׳, 9:00-18:00", "main-headline": "לדוגמה: אתרים שמוכרים בזמן שאתם ישנים", "biz-tagline": "לדוגמה: בונים מחר טוב יותר", "about-text": "ספרו למבקרים מי אתם, למי אתם עוזרים ומה מייחד את הגישה שלכם.", "custom-cta-url": "https://calendly.com/your-link", "product-payment-url": "https://your-store.com/product-or-payment", "social-instagram": "https://instagram.com/yourbrand", "social-linkedin": "https://linkedin.com/company/yourbrand", "social-facebook": "https://facebook.com/yourbrand", "social-tiktok": "https://tiktok.com/@yourbrand", "social-youtube": "https://youtube.com/@yourbrand", "ga-id": "G-XXXXXXXXXX", "meta-pixel-id": "1234567890"
     },
     options: {
       "site-language": { en:"אנגלית", he:"עברית" },
@@ -244,7 +261,7 @@ const UI_COPY = {
       "trust-style": { auto:"אקראי / אוטומטי", logos:"רצועת לוגואים", customers:"250+ לקוחות", stars:"דירוג כוכבים", certifications:"הסמכות", experience:"שנות ניסיון", counters:"מספרים חזקים", reviews:"כרטיסי ביקורות" },
       "image-personality": { auto:"אוטומטי לפי תחום", abstract:"אבסטרקטי", people:"אנשים", nature:"טבע", architecture:"אדריכלות", workspaces:"סביבת עבודה", food:"אוכל" },
       "form-mode": { netlify:"טופס מותאם Netlify + עמוד תודה", mailto:"פתיחה באימייל", static:"טופס דמו סטטי" },
-      "preview-page-select": { "index.html":"בית", "about.html":"אודות", "services.html":"שירותים", "pricing.html":"מחירים", "faq.html":"שאלות נפוצות", "blog.html":"בלוג", "compare.html":"השוואה", "contact.html":"יצירת קשר" }
+      "preview-page-select": { "index.html":"בית", "about.html":"אודות", "services.html":"שירותים", "pricing.html":"מחירים", "faq.html":"שאלות נפוצות", "blog.html":"בלוג", "gallery.html":"גלריה", "booking.html":"הזמנה", "compare.html":"השוואה", "contact.html":"יצירת קשר" }
     }
   }
 };
@@ -307,6 +324,7 @@ function bindUiLanguageSwitch() {
 
 
 document.addEventListener("DOMContentLoaded", () => {
+  buildWantedSectionsUI();
   restoreSettings();
   bindUiLanguageSwitch();
   buildPresetGrid();
@@ -316,6 +334,7 @@ document.addEventListener("DOMContentLoaded", () => {
   bindValidation();
   bindSettingsPersistence();
   bindLogoInput();
+  bindProjectImport();
   bindPreviewControls();
   bindAutoPreview();
   updatePreviewPageOptions();
@@ -333,6 +352,69 @@ function regenerateVersion() {
 
 function variantSlot(count, offset = 0) {
   return Math.abs((variationSeed + variationIndex * 97 + offset) % count);
+}
+
+
+function wantedSectionOrderFromHidden() {
+  const raw = valueOf("wanted-sections-order", "");
+  const ids = raw.split(",").map(v => v.trim()).filter(id => ALL_WANTED_SECTIONS.includes(id));
+  const merged = ids.concat(ALL_WANTED_SECTIONS.filter(id => !ids.includes(id)));
+  return merged.length ? merged : DEFAULT_WANTED_SECTIONS.slice();
+}
+function currentWantedState() {
+  const state = {};
+  ALL_WANTED_SECTIONS.forEach(id => {
+    const el = $(`wanted-section-${id}`);
+    state[id] = el ? el.checked : DEFAULT_WANTED_SECTIONS.includes(id);
+  });
+  return state;
+}
+function setWantedOrder(ids) {
+  const ordered = ids.filter(id => ALL_WANTED_SECTIONS.includes(id));
+  const hidden = $("wanted-sections-order");
+  if (hidden) hidden.value = ordered.join(",");
+}
+function buildWantedSectionsUI() {
+  const list = $("wanted-sections-list");
+  if (!list) return;
+  const previous = currentWantedState();
+  const order = wantedSectionOrderFromHidden();
+  const labels = WANTED_SECTION_LABELS[uiLanguage] || WANTED_SECTION_LABELS.en;
+  setWantedOrder(order);
+  list.innerHTML = order.map((id, index) => {
+    const checkedAttr = previous[id] ? "checked" : "";
+    const label = labels[id] || id;
+    return `<div class="wanted-section-row" data-section-id="${id}"><label for="wanted-section-${id}"><input id="wanted-section-${id}" name="wanted-section-${id}" type="checkbox" ${checkedAttr}> <span>${label}</span></label><div class="wanted-section-actions"><button type="button" data-move="up" aria-label="Move ${label} up" ${index === 0 ? "disabled" : ""}>↑</button><button type="button" data-move="down" aria-label="Move ${label} down" ${index === order.length - 1 ? "disabled" : ""}>↓</button></div></div>`;
+  }).join("");
+  list.querySelectorAll("input[type='checkbox']").forEach(input => {
+    input.addEventListener("change", () => { saveSettings(); schedulePreviewRefresh(); });
+  });
+  list.querySelectorAll("button[data-move]").forEach(btn => {
+    btn.addEventListener("click", () => moveWantedSection(btn.closest(".wanted-section-row")?.dataset.sectionId, btn.dataset.move));
+  });
+}
+function moveWantedSection(id, direction) {
+  const order = wantedSectionOrderFromHidden();
+  const i = order.indexOf(id);
+  if (i < 0) return;
+  const j = direction === "up" ? i - 1 : i + 1;
+  if (j < 0 || j >= order.length) return;
+  [order[i], order[j]] = [order[j], order[i]];
+  setWantedOrder(order);
+  buildWantedSectionsUI();
+  saveSettings();
+  schedulePreviewRefresh();
+}
+function wantedSectionsFromForm() {
+  const order = wantedSectionOrderFromHidden();
+  return order.map(id => ({ id, enabled: checked(`wanted-section-${id}`) }));
+}
+function schedulePreviewRefresh() {
+  updatePreviewPageOptions();
+  const card = $("preview-card");
+  if (!card || card.hidden) return;
+  clearTimeout(autoPreviewTimer);
+  autoPreviewTimer = setTimeout(() => renderPreview(false, false), 250);
 }
 
 function bindLogoInput() {
@@ -543,6 +625,97 @@ function localDetails(biz) {
   };
 }
 
+function setFieldValue(id, value) {
+  const el = $(id);
+  if (!el || value === undefined || value === null) return;
+  if (el.type === "checkbox") el.checked = Boolean(value); else el.value = String(value);
+}
+function applyProjectConfig(config) {
+  if (!config || typeof config !== "object") return;
+  const b = config.business || {};
+  const st = config.strategy || {};
+  const styling = config.styling || {};
+  const local = config.localBusiness || {};
+  const socials = config.socialLinks || [];
+  const analytics = config.analytics || {};
+  const opts = config.options || {};
+  setFieldValue("biz-name", b.name);
+  setFieldValue("biz-industry", b.industry);
+  setFieldValue("biz-tagline", b.tagline);
+  setFieldValue("main-headline", b.mainHeadline);
+  setFieldValue("about-text", b.aboutText);
+  setFieldValue("site-language", b.language);
+  setFieldValue("site-domain", b.domainUrl && b.domainUrl !== "https://example.com" ? b.domainUrl : "");
+  setFieldValue("website-type", st.websiteType);
+  setFieldValue("website-goal", st.goal);
+  setFieldValue("primary-cta", st.primaryCta);
+  setFieldValue("custom-cta-url", st.customCtaUrl);
+  setFieldValue("product-payment-url", st.productPaymentUrl);
+  setFieldValue("brand-voice", st.brandVoice);
+  setFieldValue("biz-email", local.email);
+  setFieldValue("biz-phone", local.phone);
+  setFieldValue("biz-area", local.area);
+  setFieldValue("biz-address", local.address);
+  setFieldValue("biz-hours", local.hours);
+  setFieldValue("biz-whatsapp", config.whatsapp?.number || local.whatsappNumber);
+  setFieldValue("whatsapp-message", config.whatsapp?.message);
+  const socialMap = Object.fromEntries((Array.isArray(socials) ? socials : []).map(s => [String(s.label || "").toLowerCase(), s.url]));
+  ["instagram","linkedin","facebook","tiktok","youtube"].forEach(k => setFieldValue(`social-${k}`, socialMap[k]));
+  setFieldValue("analytics-ga", analytics.googleAnalytics);
+  setFieldValue("ga-id", analytics.googleAnalyticsId);
+  setFieldValue("analytics-meta", analytics.metaPixel);
+  setFieldValue("meta-pixel-id", analytics.metaPixelId);
+  setFieldValue("cookie-banner", config.cookieBanner || opts.cookieBanner);
+  setFieldValue("design-style", styling.designStyle);
+  setFieldValue("trust-style", styling.trustSection);
+  setFieldValue("image-personality", styling.imagePersonality);
+  setFieldValue("page-faq", opts.faq);
+  setFieldValue("page-pricing", opts.pricing);
+  setFieldValue("page-blog", opts.blog);
+  setFieldValue("page-gallery", opts.gallery);
+  setFieldValue("page-booking", opts.booking);
+  setFieldValue("page-thanks", opts.thanks);
+  setFieldValue("page-404", opts.notFound);
+  if (Array.isArray(config.wantedSections) || Array.isArray(opts.wantedSections) || Array.isArray(st.wantedSections)) {
+    const wanted = Array.isArray(config.wantedSections) ? config.wantedSections : (Array.isArray(opts.wantedSections) ? opts.wantedSections : st.wantedSections);
+    const order = wanted.map(item => typeof item === "string" ? item : item.id).filter(id => ALL_WANTED_SECTIONS.includes(id));
+    setWantedOrder(order.length ? order : DEFAULT_WANTED_SECTIONS);
+    buildWantedSectionsUI();
+    wanted.forEach(item => {
+      const id = typeof item === "string" ? item : item.id;
+      const enabled = typeof item === "string" ? true : item.enabled !== false;
+      setFieldValue(`wanted-section-${id}`, enabled);
+    });
+  }
+  const c = styling.colors || {};
+  if (c.background && c.primary && c.secondary && c.accent) {
+    activeTab = "manual";
+    setFieldValue("hex1", c.primary); setFieldValue("col1", c.primary);
+    setFieldValue("hex2", c.secondary); setFieldValue("col2", c.secondary);
+    setFieldValue("hex3", c.accent); setFieldValue("col3", c.accent);
+    logoColorsActive = false;
+    applyColorTabUI();
+  }
+  saveSettings();
+  updatePreviewPageOptions();
+  renderPreview(false, false);
+}
+function bindProjectImport() {
+  const input = $("project-config-input");
+  if (!input) return;
+  input.addEventListener("change", async () => {
+    const file = input.files && input.files[0];
+    if (!file) return;
+    try {
+      const config = JSON.parse(await file.text());
+      applyProjectConfig(config);
+      showSuccess();
+    } catch (err) {
+      showError(uiLanguage === "he" ? "קובץ הפרויקט אינו תקין." : "The project config file is not valid JSON.");
+    }
+  });
+}
+
 function bindPreviewControls() {
   document.querySelectorAll("[data-device]").forEach(btn => {
     btn.addEventListener("click", () => {
@@ -579,6 +752,8 @@ function availablePreviewPages(ctx) {
     ctx.options?.pricing && ["pricing.html", "Pricing"],
     ctx.options?.faq && ["faq.html", "FAQ"],
     ctx.options?.blog && ["blog.html", "Blog"],
+    ctx.options?.gallery && ["gallery.html", "Gallery"],
+    ctx.options?.booking && ["booking.html", "Booking"],
     ["compare.html", "Compare"],
     ["contact.html", "Contact"]
   ].filter(Boolean);
@@ -756,7 +931,13 @@ function colorVariation(colors) {
   }
 }
 
-function tech(s) { return `<span class="tech-value" dir="ltr">${esc(s)}</span>`; }
+function bdi(value, className = "") {
+  const cls = className ? ` class="${className}"` : "";
+  return `<bdi${cls}>${esc(value)}</bdi>`;
+}
+function tech(s) { return `<bdi class="tech-value" dir="ltr">${esc(s)}</bdi>`; }
+function techLink(href, label) { return `<a class="tech-link" dir="ltr" href="${esc(href)}"><bdi>${esc(label)}</bdi></a>`; }
+function mixed(value) { return `<bdi>${esc(value)}</bdi>`; }
 
 function esc(s) { return String(s ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;"); }
 function textToParagraphs(s) {
@@ -800,6 +981,14 @@ function socialDetails() {
     .filter(item => item.url);
 }
 
+
+function whatsappDetails() {
+  const number = valueOf("biz-whatsapp").trim();
+  const message = valueOf("whatsapp-message").trim() || (uiLanguage === "he" ? "היי, אשמח לשמוע פרטים נוספים." : "Hi, I would like to hear more.");
+  const digits = number.replace(/[^0-9]/g, "");
+  if (!digits) return null;
+  return { number, message, url: `https://wa.me/${digits}?text=${encodeURIComponent(message)}` };
+}
 function analyticsOptions() {
   return {
     googleAnalytics: checked("analytics-ga"),
@@ -893,6 +1082,8 @@ function nav(ctx, prefix = "") {
         ctx.options?.pricing && ["pricing.html", txt(ctx,"pricing")],
         ctx.options?.faq && ["faq.html", txt(ctx,"faq")],
         ctx.options?.blog && ["blog.html", txt(ctx,"blog")],
+        ctx.options?.gallery && ["gallery.html", isHebrew(ctx)?"גלריה":"Gallery"],
+        ctx.options?.booking && ["booking.html", isHebrew(ctx)?"הזמנה":"Booking"],
         ["compare.html", txt(ctx,"compare")],
         ["contact.html", txt(ctx,"contact")]
       ].filter(Boolean).map(([path,label]) => [`${prefix}${path}`, label]);
@@ -900,26 +1091,34 @@ function nav(ctx, prefix = "") {
   const ctaHref = ctx.ctaUrl || (one && prefix ? `${prefix}index.html#contact` : (one ? "#contact" : `${prefix}contact.html`));
   const logoSrc = ctx.preview && ctx.logo?.previewSrc ? ctx.logo.previewSrc : (ctx.logo ? `${prefix}${ctx.logo.path}` : "");
   const logo = ctx.logo ? `<img class="brand-logo" src="${logoSrc}" alt="${esc(ctx.biz)} logo">` : "";
-  return `<a class="skip-link" href="#main">${txt(ctx,"skip")}</a><header class="site-header"><nav class="nav" aria-label="${txt(ctx,"navLabel")}"><a class="brand" href="${homeHref}">${logo}<span>${esc(ctx.biz)}</span></a><div class="nav-links" data-nav-links>${links.map(([href,label])=>`<a href="${href}">${esc(label)}</a>`).join("")}</div><div class="nav-actions"><button class="theme-toggle" type="button" data-theme-toggle data-light-label="${txt(ctx,"light")}" data-dark-label="${txt(ctx,"dark")}" aria-label="Toggle dark mode">${txt(ctx,"dark")}</button><a class="nav-cta" href="${ctaHref}">${esc(ctx.cta)}</a><button class="menu-btn" type="button" data-menu-button aria-expanded="false" data-open-label="${txt(ctx,"openMenu")}" data-close-label="${txt(ctx,"closeMenu")}" aria-label="${txt(ctx,"openMenu")}">☰</button></div></nav></header>`;
+  return `<a class="skip-link" href="#main">${txt(ctx,"skip")}</a><header class="site-header"><nav class="nav" aria-label="${txt(ctx,"navLabel")}"><a class="brand" href="${homeHref}">${logo}<span>${mixed(ctx.biz)}</span></a><div class="nav-links" data-nav-links>${links.map(([href,label])=>`<a href="${href}">${esc(label)}</a>`).join("")}</div><div class="nav-actions"><button class="theme-toggle" type="button" data-theme-toggle data-light-label="${txt(ctx,"light")}" data-dark-label="${txt(ctx,"dark")}" aria-label="Toggle dark mode">${txt(ctx,"dark")}</button><a class="nav-cta" href="${ctaHref}">${esc(ctx.cta)}</a><button class="menu-btn" type="button" data-menu-button aria-expanded="false" data-open-label="${txt(ctx,"openMenu")}" data-close-label="${txt(ctx,"closeMenu")}" aria-label="${txt(ctx,"openMenu")}">☰</button></div></nav></header>`;
 }
 function pageLink(prefix, path, label) { return `<a href="${prefix}${path}">${label}</a>`; }
 function onePageHref(prefix, anchor) { return prefix ? `${prefix}index.html${anchor}` : anchor; }
 function onePage(ctx) { return wrapPage(ctx, pageTitle(ctx,"One Page","עמוד אחד"), ctx.tagline || ctx.data.sub, onePageBody(ctx)); }
 function socialLinksHtml(ctx, className = "social-links") {
   if (!ctx.socials?.length) return "";
-  return `<div class="${className}">${ctx.socials.map(item => `<a href="${esc(item.url)}" target="_blank" rel="noopener">${esc(item.label)}</a>`).join("")}</div>`;
+  return `<div class="${className}">${ctx.socials.map(item => `<a href="${esc(item.url)}" target="_blank" rel="noopener"><bdi>${esc(item.label)}</bdi></a>`).join("")}</div>`;
 }
 function footer(ctx, prefix = "") {
   const y = new Date().getFullYear();
   const resources = ctx.siteType === "onepage"
     ? [[onePageHref(prefix,"#pricing"),txt(ctx,"pricing")],[onePageHref(prefix,"#faq"),txt(ctx,"faq")],[onePageHref(prefix,"#compare"),txt(ctx,"compare")]].map(([href,label])=>`<a href="${href}">${label}</a>`).join("")
-    : [ctx.options?.pricing && ["pricing.html", txt(ctx,"pricing")], ctx.options?.faq && ["faq.html", txt(ctx,"faq")], ctx.options?.blog && ["blog.html", txt(ctx,"blog")], ["compare.html", txt(ctx,"compare")]].filter(Boolean).map(([path, label]) => pageLink(prefix, path, label)).join("");
+    : [ctx.options?.pricing && ["pricing.html", txt(ctx,"pricing")], ctx.options?.faq && ["faq.html", txt(ctx,"faq")], ctx.options?.blog && ["blog.html", txt(ctx,"blog")], ctx.options?.gallery && ["gallery.html", isHebrew(ctx)?"גלריה":"Gallery"], ctx.options?.booking && ["booking.html", isHebrew(ctx)?"הזמנה":"Booking"], ["compare.html", txt(ctx,"compare")]].filter(Boolean).map(([path, label]) => pageLink(prefix, path, label)).join("");
   const company = ctx.siteType === "onepage"
     ? `${pageLink(prefix,"index.html",txt(ctx,"home"))}<a href="${onePageHref(prefix,"#services")}">${txt(ctx,"services")}</a><a href="${onePageHref(prefix,"#compare")}">${txt(ctx,"compare")}</a><a href="${onePageHref(prefix,"#contact")}">${txt(ctx,"contact")}</a>`
     : `${pageLink(prefix,"index.html",txt(ctx,"home"))}${pageLink(prefix,"about.html",txt(ctx,"about"))}${pageLink(prefix,"services.html",txt(ctx,"services"))}${pageLink(prefix,"compare.html",txt(ctx,"compare"))}`;
-  return `<footer class="footer"><div class="footer-inner"><div class="footer-grid"><div><h3>${esc(ctx.biz)}</h3><p>${esc(ctx.tagline || ctx.data.foot)}</p><p><strong>${txt(ctx,"contactDetails")}</strong><br>${tech(ctx.local.email)}<br>${tech(ctx.local.phone)}<br>${esc(ctx.local.area)}<br>${esc(ctx.local.address)}<br>${esc(ctx.local.hours)}</p>${socialLinksHtml(ctx)}</div><div><h4>${txt(ctx,"company")}</h4>${company}</div><div><h4>${txt(ctx,"resources")}</h4>${resources}</div><div><h4>${txt(ctx,"legal")}</h4>${pageLink(prefix,"legal/privacy-policy.html",txt(ctx,"privacy"))}${pageLink(prefix,"legal/terms-of-usage.html",txt(ctx,"terms"))}${pageLink(prefix,"legal/cookie-policy.html",txt(ctx,"cookies"))}</div></div><div class="footer-bottom"><span>© ${y} ${esc(ctx.biz)}. ${txt(ctx,"rights")}.</span><span>${esc(ctx.goal.name)} - ${esc(ctx.voice.adjective)} by design.</span></div></div></footer>`;
+  return `<footer class="footer"><div class="footer-inner"><div class="footer-grid"><div><h3>${mixed(ctx.biz)}</h3><p>${esc(ctx.tagline || ctx.data.foot)}</p><p><strong>${txt(ctx,"contactDetails")}</strong><br>${tech(ctx.local.email)}<br>${tech(ctx.local.phone)}<br>${mixed(ctx.local.area)}<br>${mixed(ctx.local.address)}<br>${tech(ctx.local.hours)}</p>${socialLinksHtml(ctx)}</div><div><h4>${txt(ctx,"company")}</h4>${company}</div><div><h4>${txt(ctx,"resources")}</h4>${resources}</div><div><h4>${txt(ctx,"legal")}</h4>${pageLink(prefix,"legal/privacy-policy.html",txt(ctx,"privacy"))}${pageLink(prefix,"legal/terms-of-usage.html",txt(ctx,"terms"))}${pageLink(prefix,"legal/cookie-policy.html",txt(ctx,"cookies"))}</div></div><div class="footer-bottom"><span>© ${y} ${mixed(ctx.biz)}. ${txt(ctx,"rights")}.</span><span>${mixed(ctx.goal.name)} - ${mixed(ctx.voice.adjective)} ${isHebrew(ctx) ? "בעיצוב." : "by design."}</span></div></div></footer>`;
 }
-function wrapPage(ctx, title, description, body, prefix = "") { return `<!DOCTYPE html><html lang="${langOf(ctx)}" dir="${dirOf(ctx)}"><head>${meta(ctx,title,description,prefix)}</head><body>${nav(ctx,prefix)}<main id="main">${body}</main>${footer(ctx,prefix)}</body></html>`; }
+function cookieBannerHtml(ctx, prefix = "") {
+  if (!ctx.cookieBanner) return "";
+  return `<div class="cookie-banner" data-cookie-banner><p>${isHebrew(ctx)?"אנחנו משתמשים בעוגיות כדי לשפר את חוויית השימוש ולמדוד ביצועים.":"We use cookies to improve the experience and measure performance."} <a href="${prefix}legal/cookie-policy.html">${txt(ctx,"cookies")}</a></p><button class="btn btn-primary" type="button" data-cookie-accept>${isHebrew(ctx)?"הבנתי":"Accept"}</button></div>`;
+}
+function whatsappFloatHtml(ctx) {
+  if (!ctx.whatsapp) return "";
+  return `<a class="whatsapp-float" href="${esc(ctx.whatsapp.url)}" target="_blank" rel="noopener" aria-label="WhatsApp">WhatsApp</a>`;
+}
+function wrapPage(ctx, title, description, body, prefix = "") { return `<!DOCTYPE html><html lang="${langOf(ctx)}" dir="${dirOf(ctx)}"><head>${meta(ctx,title,description,prefix)}</head><body>${nav(ctx,prefix)}<main id="main">${body}</main>${footer(ctx,prefix)}${cookieBannerHtml(ctx,prefix)}${whatsappFloatHtml(ctx)}</body></html>`; }
 function hero(ctx, title, subtitle, seed) {
   const contactHref = actionHref(ctx);
   const servicesHref = ctx.siteType === "onepage" ? "#services" : "services.html";
@@ -929,17 +1128,17 @@ function trustSection(ctx) {
   const style = ctx.trustStyle;
   if (style === "logos") return `<section class="trust logo-strip" aria-label="Client logos">${["North","Acme","Bright","Union","Atlas"].map(n=>`<div class="fake-logo">${n}</div>`).join("")}</section>`;
   if (isHebrew(ctx)) {
-    if (style === "stars") return `<section class="trust grid4"><div><strong class="stars">★★★★★</strong><span>ביקורת ממוצעת</span></div><div><strong>4.9/5</strong><span>דירוג לקוחות</span></div><div><strong>250+</strong><span>לקוחות מרוצים</span></div><div><strong>24 שעות</strong><span>זמן תגובה</span></div></section>`;
+    if (style === "stars") return `<section class="trust grid4"><div><strong class="stars">★★★★★</strong><span>ביקורת ממוצעת</span></div><div><strong>${tech("4.9/5")}</strong><span>דירוג לקוחות</span></div><div><strong>${tech("250+")}</strong><span>לקוחות מרוצים</span></div><div><strong>${tech("24 שעות")}</strong><span>זמן תגובה</span></div></section>`;
     if (style === "certifications") return `<section class="trust grid4"><div><strong>מוסמך</strong><span>מוכן לתעשייה</span></div><div><strong>מבוטח</strong><span>שקט נפשי</span></div><div><strong>מאובטח</strong><span>תהליך אחראי</span></div><div><strong>אמין</strong><span>לקוחות חוזרים</span></div></section>`;
-    if (style === "experience") return `<section class="trust grid4"><div><strong>10+</strong><span>שנות ניסיון</span></div><div><strong>500+</strong><span>פרויקטים</span></div><div><strong>98%</strong><span>שביעות רצון</span></div><div><strong>1:1</strong><span>ליווי אישי</span></div></section>`;
+    if (style === "experience") return `<section class="trust grid4"><div><strong>${tech("10+")}</strong><span>שנות ניסיון</span></div><div><strong>${tech("500+")}</strong><span>פרויקטים</span></div><div><strong>${tech("98%")}</strong><span>שביעות רצון</span></div><div><strong>${tech("1:1")}</strong><span>ליווי אישי</span></div></section>`;
     if (style === "reviews") return `<section class="trust grid4"><div><strong>“ברור.”</strong><span>תהליך שימושי מהיום הראשון.</span></div><div><strong>“מהיר.”</strong><span>צעדים פשוטים ומענה מהיר.</span></div><div><strong>“שווה.”</strong><span>מלוטש מספיק כדי לסמוך.</span></div><div><strong>“אנושי.”</strong><span>תקשורת מצוינת.</span></div></section>`;
-    return `<section class="trust grid4"><div><strong>250+</strong><span>לקוחות</span></div><div><strong>4.9/5</strong><span>דירוג ממוצע</span></div><div><strong>10+</strong><span>שנות ניסיון</span></div><div><strong>24 שעות</strong><span>זמן תגובה</span></div></section>`;
+    return `<section class="trust grid4"><div><strong>${tech("250+")}</strong><span>לקוחות</span></div><div><strong>${tech("4.9/5")}</strong><span>דירוג ממוצע</span></div><div><strong>${tech("10+")}</strong><span>שנות ניסיון</span></div><div><strong>${tech("24 שעות")}</strong><span>זמן תגובה</span></div></section>`;
   }
-  if (style === "stars") return `<section class="trust grid4"><div><strong class="stars">★★★★★</strong><span>Average review</span></div><div><strong>4.9/5</strong><span>Customer rating</span></div><div><strong>250+</strong><span>Happy customers</span></div><div><strong>24h</strong><span>Response time</span></div></section>`;
+  if (style === "stars") return `<section class="trust grid4"><div><strong class="stars">★★★★★</strong><span>Average review</span></div><div><strong>${tech("4.9/5")}</strong><span>Customer rating</span></div><div><strong>${tech("250+")}</strong><span>Happy customers</span></div><div><strong>${tech("24h")}</strong><span>Response time</span></div></section>`;
   if (style === "certifications") return `<section class="trust grid4"><div><strong>Certified</strong><span>Industry ready</span></div><div><strong>Insured</strong><span>Peace of mind</span></div><div><strong>Secure</strong><span>Responsible process</span></div><div><strong>Trusted</strong><span>Repeat clients</span></div></section>`;
-  if (style === "experience") return `<section class="trust grid4"><div><strong>10+</strong><span>Years experience</span></div><div><strong>500+</strong><span>Projects delivered</span></div><div><strong>98%</strong><span>Client satisfaction</span></div><div><strong>1:1</strong><span>Personal support</span></div></section>`;
+  if (style === "experience") return `<section class="trust grid4"><div><strong>${tech("10+")}</strong><span>Years experience</span></div><div><strong>${tech("500+")}</strong><span>Projects delivered</span></div><div><strong>${tech("98%")}</strong><span>Client satisfaction</span></div><div><strong>${tech("1:1")}</strong><span>Personal support</span></div></section>`;
   if (style === "reviews") return `<section class="trust grid4"><div><strong>“Clear.”</strong><span>A useful process from day one.</span></div><div><strong>“Fast.”</strong><span>Easy next steps and quick response.</span></div><div><strong>“Worth it.”</strong><span>Polished enough to trust.</span></div><div><strong>“Human.”</strong><span>Great communication.</span></div></section>`;
-  return `<section class="trust grid4"><div><strong>250+</strong><span>Customers served</span></div><div><strong>4.9/5</strong><span>Average rating</span></div><div><strong>10+</strong><span>Years experience</span></div><div><strong>24h</strong><span>Response time</span></div></section>`;
+  return `<section class="trust grid4"><div><strong>${tech("250+")}</strong><span>Customers served</span></div><div><strong>${tech("4.9/5")}</strong><span>Average rating</span></div><div><strong>${tech("10+")}</strong><span>Years experience</span></div><div><strong>${tech("24h")}</strong><span>Response time</span></div></section>`;
 }
 function servicesCards(ctx, count=3, withImages=false) {
   const helper = isHebrew(ctx)
@@ -983,19 +1182,34 @@ function showcaseWall(ctx) {
   const lead = isHebrew(ctx) ? "וריאציית תצוגה שמדגישה תמונות, כרטיסים קצרים והוכחה חברתית מוקדמת." : "A showcase variation that emphasizes visuals, short cards, and early social proof.";
   return `<section class="section alt"><div class="section-inner"><div class="section-head"><p class="kicker">${isHebrew(ctx)?"תצוגה":"Showcase"}</p><h2>${head}</h2><p class="lead">${lead}</p></div><div class="grid cards"><article class="card" style="grid-row:span 2"><img src="${imageUrl(700,900,ctx.slug+'-showcase-tall',ctx)}" alt="${esc(ctx.biz)} showcase image"><h3>${esc(ctx.data.sections[0])}</h3><p>${esc(ctx.voice.opener)}</p></article><article class="card"><img src="${imageUrl(700,420,ctx.slug+'-showcase-wide',ctx)}" alt="${esc(ctx.biz)} showcase image"><h3>${esc(ctx.data.sections[1])}</h3><p>${esc(ctx.goal.focus)}</p></article><article class="card"><div class="icon">★</div><h3>${isHebrew(ctx)?"סיבה להאמין":"Reason to believe"}</h3><p>${isHebrew(ctx)?"הוסיפו כאן הוכחה קצרה, מספר או ציטוט שמוריד ספק.":"Add a short proof point, number, or quote that reduces doubt."}</p></article></div></div></section>`;
 }
-function homeBodyClassic(ctx) { return hero(ctx, ctx.mainHeadline || ctx.data.hero, ctx.tagline || ctx.data.sub, "hero") + trustSection(ctx) + goalSection(ctx) + industryModule(ctx) + finalCta(ctx); }
-function homeBodyImpact(ctx) { return hero(ctx, ctx.mainHeadline || ctx.goal.hero || ctx.data.hero, ctx.tagline || ctx.data.sub, "impact") + goalSection(ctx) + featureBand(ctx) + trustSection(ctx) + pricingSection(ctx) + finalCta(ctx); }
-function homeBodyShowcase(ctx) { return hero(ctx, ctx.mainHeadline || ctx.data.hero, ctx.tagline || ctx.data.sub, "showcase") + showcaseWall(ctx) + industryModule(ctx) + trustSection(ctx) + compareSection(ctx) + finalCta(ctx); }
+function indexSectionHtml(ctx, id) {
+  switch (id) {
+    case "hero": return hero(ctx, ctx.mainHeadline || ctx.data.hero, ctx.tagline || ctx.data.sub, "hero");
+    case "trust": return trustSection(ctx);
+    case "goal": return goalSection(ctx);
+    case "services": return industryModule(ctx);
+    case "showcase": return showcaseWall(ctx);
+    case "featureBand": return featureBand(ctx);
+    case "pricing": return pricingSection(ctx);
+    case "compare": return compareSection(ctx);
+    case "faq": return faqSection(ctx);
+    case "gallery": return gallerySection(ctx);
+    case "booking": return bookingSection(ctx);
+    case "contact": return onePageContact(ctx);
+    case "finalCta": return finalCta(ctx);
+    default: return "";
+  }
+}
 function homeBody(ctx) {
-  if (ctx.layoutKey === "impact") return homeBodyImpact(ctx);
-  if (ctx.layoutKey === "showcase") return homeBodyShowcase(ctx);
-  return homeBodyClassic(ctx);
+  const wanted = Array.isArray(ctx.wantedSections) ? ctx.wantedSections : DEFAULT_WANTED_SECTIONS.map(id => ({ id, enabled: true }));
+  const html = wanted.filter(item => item.enabled).map(item => indexSectionHtml(ctx, item.id)).join("");
+  return html || hero(ctx, ctx.mainHeadline || ctx.data.hero, ctx.tagline || ctx.data.sub, "hero") + finalCta(ctx);
 }
 function homePage(ctx) { return wrapPage(ctx, pageTitle(ctx,"Home","בית"), ctx.tagline || ctx.data.sub, homeBody(ctx)); }
 function pricingSection(ctx) {
   const names = isHebrew(ctx) ? ["בסיסי","מקצועי","פרימיום"] : ["Starter","Professional","Premium"];
   const bullets = isHebrew(ctx) ? ["תכולה ברורה","לוח זמנים מוגדר","תמיכה בצעד הבא"] : ["Clear deliverables","Defined timeline","Next-step support"];
-  return `<section class="section" id="pricing"><div class="section-head"><p class="kicker">${txt(ctx,"pricing")}</p><h2>${txt(ctx,"pricingHead")}</h2><p class="lead">${txt(ctx,"pricingLead")}</p></div><div class="grid pricing">${names.map((n,i)=>`<article class="card"><h3>${n}</h3><div class="price">${["$99","$299",isHebrew(ctx)?"מותאם":"Custom"][i]}</div><ul class="list">${bullets.map(b=>`<li>${b}</li>`).join("")}</ul><a class="btn btn-primary" href="${productHref(ctx)}">${esc(ctx.cta)}</a></article>`).join("")}</div></section>`;
+  return `<section class="section" id="pricing"><div class="section-head"><p class="kicker">${txt(ctx,"pricing")}</p><h2>${txt(ctx,"pricingHead")}</h2><p class="lead">${txt(ctx,"pricingLead")}</p></div><div class="grid pricing">${names.map((n,i)=>`<article class="card"><h3>${n}</h3><div class="price">${i < 2 ? tech(["$99","$299"][i]) : esc(isHebrew(ctx)?"מותאם":"Custom")}</div><ul class="list">${bullets.map(b=>`<li>${b}</li>`).join("")}</ul><a class="btn btn-primary" href="${productHref(ctx)}">${esc(ctx.cta)}</a></article>`).join("")}</div></section>`;
 }
 function faqSection(ctx) {
   const qs = isHebrew(ctx)
@@ -1006,9 +1220,9 @@ function faqSection(ctx) {
 }
 function compareSection(ctx) {
   if (isHebrew(ctx)) {
-    return `<section class="section" id="compare"><div class="section-head"><p class="kicker">השוואה</p><h2>למה לבחור ב-${esc(ctx.biz)}?</h2><p class="lead">אזור השוואה עוזר לקונים להבין מה שונה בגישה שלכם בלי להישמע מתגוננים.</p></div><table class="compare-table"><thead><tr><th>צורך</th><th>${esc(ctx.biz)}</th><th>חלופה גנרית</th></tr></thead><tbody><tr><td>תהליך</td><td>צעדים ברורים וליווי אישי</td><td>לעיתים לא ברור או מבוסס תבנית</td></tr><tr><td>התאמה</td><td>נבנה סביב ${esc(ctx.goal.name)}</td><td>פתרון כללי לכולם</td></tr><tr><td>זמינות</td><td>${esc(ctx.local.hours)}</td><td>זמני מענה לא ברורים</td></tr><tr><td>פעולה</td><td>${esc(ctx.cta)} מופיע בצורה עקבית באתר</td><td>קריאה לפעולה לא תמיד עקבית</td></tr></tbody></table></section>`;
+    return `<section class="section" id="compare"><div class="section-head"><p class="kicker">השוואה</p><h2>למה לבחור ב-${mixed(ctx.biz)}?</h2><p class="lead">אזור השוואה עוזר לקונים להבין מה שונה בגישה שלכם בלי להישמע מתגוננים.</p></div><table class="compare-table"><thead><tr><th>צורך</th><th>${mixed(ctx.biz)}</th><th>חלופה גנרית</th></tr></thead><tbody><tr><td>תהליך</td><td>צעדים ברורים וליווי אישי</td><td>לעיתים לא ברור או מבוסס תבנית</td></tr><tr><td>התאמה</td><td>נבנה סביב ${mixed(ctx.goal.name)}</td><td>פתרון כללי לכולם</td></tr><tr><td>זמינות</td><td>${tech(ctx.local.hours)}</td><td>זמני מענה לא ברורים</td></tr><tr><td>פעולה</td><td>${mixed(ctx.cta)} מופיע בצורה עקבית באתר</td><td>קריאה לפעולה לא תמיד עקבית</td></tr></tbody></table></section>`;
   }
-  return `<section class="section" id="compare"><div class="section-head"><p class="kicker">Comparison</p><h2>Why choose ${esc(ctx.biz)}?</h2><p class="lead">A comparison section helps buyers understand what makes your approach different without sounding defensive.</p></div><table class="compare-table"><thead><tr><th>Need</th><th>${esc(ctx.biz)}</th><th>Generic alternative</th></tr></thead><tbody><tr><td>Process</td><td>Clear next steps and personal guidance</td><td>Often unclear or template-based</td></tr><tr><td>Fit</td><td>Built around ${esc(ctx.goal.name.toLowerCase())}</td><td>One-size-fits-most</td></tr><tr><td>Availability</td><td>${esc(ctx.local.hours)}</td><td>Unclear timing</td></tr><tr><td>Action</td><td>${esc(ctx.cta)} is visible across the site</td><td>CTA may be inconsistent</td></tr></tbody></table></section>`;
+  return `<section class="section" id="compare"><div class="section-head"><p class="kicker">Comparison</p><h2>Why choose ${mixed(ctx.biz)}?</h2><p class="lead">A comparison section helps buyers understand what makes your approach different without sounding defensive.</p></div><table class="compare-table"><thead><tr><th>Need</th><th>${mixed(ctx.biz)}</th><th>Generic alternative</th></tr></thead><tbody><tr><td>Process</td><td>Clear next steps and personal guidance</td><td>Often unclear or template-based</td></tr><tr><td>Fit</td><td>Built around ${mixed(ctx.goal.name.toLowerCase())}</td><td>One-size-fits-most</td></tr><tr><td>Availability</td><td>${tech(ctx.local.hours)}</td><td>Unclear timing</td></tr><tr><td>Action</td><td>${mixed(ctx.cta)} is visible across the site</td><td>CTA may be inconsistent</td></tr></tbody></table></section>`;
 }
 function contactForm(ctx) {
   let formAttrs = `data-demo-form data-mode="static" data-demo-message="${isHebrew(ctx)?"פניית דמו נקלטה. חברו נקודת קצה אמיתית לפני השקה.":"Demo submission captured. Connect a real endpoint before launch."}"`;
@@ -1024,18 +1238,12 @@ function contactForm(ctx) {
   return `<form class="card form" ${formAttrs}><input type="hidden" name="form-name" value="contact"><p class="honeypot"><label>Do not fill this out <input name="bot-field" autocomplete="off"></label></p><label>${txt(ctx,"name")}<input name="name" required autocomplete="name"></label><label>${txt(ctx,"email")}<input class="ltr-field" dir="ltr" type="email" name="email" required autocomplete="email"></label><label>${txt(ctx,"phone")}<input class="ltr-field" dir="ltr" type="tel" name="phone" autocomplete="tel"></label><label>${txt(ctx,"subject")}<input name="subject" autocomplete="on"></label><label>${txt(ctx,"message")}<textarea name="message" required autocomplete="on"></textarea></label><button class="btn btn-primary" type="submit">${esc(ctx.cta)}</button><p data-form-note class="notice">${note}</p>${action}</form>`;
 }
 function contactBlock(ctx) {
-  return `<div class="contact-grid"><div class="card"><h3>${txt(ctx,"contactDetails")}</h3><p>${txt(ctx,"email")}: ${tech(ctx.local.email)}</p><p>${txt(ctx,"phone")}: ${tech(ctx.local.phone)}</p><p>${txt(ctx,"serviceArea")}: ${esc(ctx.local.area)}</p><p>${txt(ctx,"address")}: ${esc(ctx.local.address)}</p><p>${txt(ctx,"hours")}: ${esc(ctx.local.hours)}</p>${socialLinksHtml(ctx,"social-links contact-socials")}</div>${contactForm(ctx)}</div>`;
+  return `<div class="contact-grid"><div class="card"><h3>${txt(ctx,"contactDetails")}</h3><p>${txt(ctx,"email")}: ${tech(ctx.local.email)}</p><p>${txt(ctx,"phone")}: ${tech(ctx.local.phone)}</p><p>${txt(ctx,"serviceArea")}: ${mixed(ctx.local.area)}</p><p>${txt(ctx,"address")}: ${mixed(ctx.local.address)}</p><p>${txt(ctx,"hours")}: ${tech(ctx.local.hours)}</p>${ctx.whatsapp ? `<p>WhatsApp: ${techLink(ctx.whatsapp.url, ctx.whatsapp.number)}</p>` : ""}${socialLinksHtml(ctx,"social-links contact-socials")}</div>${contactForm(ctx)}</div>`;
 }
 function onePageServices(ctx) { return `<section class="section" id="services"><div class="section-head"><p class="kicker">${txt(ctx,"services")}</p><h2>${txt(ctx,"onePageHead")}</h2><p class="lead">${txt(ctx,"onePageLead")}</p></div>${servicesCards(ctx,4,true)}</section>`; }
 function onePageContact(ctx) { return `<section class="section" id="contact"><div class="section-head"><p class="kicker">${txt(ctx,"contact")}</p><h2>${esc(ctx.cta)}</h2><p class="lead">${esc(ctx.voice.ctaLine)}</p></div>${contactBlock(ctx)}</section>`; }
-function onePageBodyClassic(ctx) { return hero(ctx, ctx.mainHeadline || ctx.data.hero, ctx.tagline || ctx.data.sub, "hero") + trustSection(ctx) + onePageServices(ctx) + pricingSection(ctx) + compareSection(ctx) + faqSection(ctx) + onePageContact(ctx); }
-function onePageBodyImpact(ctx) { return hero(ctx, ctx.mainHeadline || ctx.goal.hero || ctx.data.hero, ctx.tagline || ctx.data.sub, "impact") + goalSection(ctx) + pricingSection(ctx) + trustSection(ctx) + onePageServices(ctx) + faqSection(ctx) + onePageContact(ctx); }
-function onePageBodyShowcase(ctx) { return hero(ctx, ctx.mainHeadline || ctx.data.hero, ctx.tagline || ctx.data.sub, "showcase") + showcaseWall(ctx) + onePageServices(ctx) + compareSection(ctx) + trustSection(ctx) + pricingSection(ctx) + onePageContact(ctx); }
-function onePageBody(ctx) {
-  if (ctx.layoutKey === "impact") return onePageBodyImpact(ctx);
-  if (ctx.layoutKey === "showcase") return onePageBodyShowcase(ctx);
-  return onePageBodyClassic(ctx);
-}
+function onePageExtraSections(ctx) { return (ctx.options.gallery ? gallerySection(ctx) : "") + (ctx.options.booking ? bookingSection(ctx) : ""); }
+function onePageBody(ctx) { return homeBody(ctx); }
 function onePage(ctx) { return wrapPage(ctx, `${ctx.biz} - One Page`, ctx.tagline || ctx.data.sub, onePageBody(ctx)); }
 function customAboutSection(ctx) {
   if (!ctx.aboutText) return "";
@@ -1058,6 +1266,20 @@ function blogPage(ctx) {
   return wrapPage(ctx, pageTitle(ctx,"Blog","בלוג"), isHebrew(ctx) ? `מאמרים ועדכונים מאת ${ctx.biz}.` : `Articles and updates from ${ctx.biz}.`, body);
 }
 function comparePage(ctx) { return wrapPage(ctx, pageTitle(ctx,"Compare","השוואה"), isHebrew(ctx) ? `השוואת ${ctx.biz} לחלופות נפוצות.` : `Compare ${ctx.biz} with common alternatives.`, compareSection(ctx)); }
+
+function gallerySection(ctx) {
+  const title = isHebrew(ctx) ? "גלריה ויזואלית" : "Visual gallery";
+  const lead = isHebrew(ctx) ? "החליפו את התמונות בדוגמאות אמיתיות של העסק, העבודה, המקום או המוצרים שלכם." : "Replace these images with real examples of your business, work, space, products, or atmosphere.";
+  const labels = isHebrew(ctx) ? ["אווירה", "תהליך", "תוצאה", "צוות", "פרטים", "הוכחה"] : ["Atmosphere", "Process", "Result", "Team", "Details", "Proof"];
+  return `<section class="section"><div class="section-head"><p class="kicker">${isHebrew(ctx)?"גלריה":"Gallery"}</p><h1>${title}</h1><p class="lead">${lead}</p></div><div class="grid gallery-grid">${labels.map((label,i)=>`<article class="card gallery-card"><img src="${imageUrl(i%2?700:600,i%2?500:420,ctx.slug+'-gallery-'+i,ctx)}" alt="${esc(ctx.biz)} ${esc(label)}"><h3>${esc(label)}</h3><p>${isHebrew(ctx)?"הוסיפו כאן תיאור קצר שמסביר מה רואים ולמה זה חשוב.":"Add a short caption explaining what visitors see and why it matters."}</p></article>`).join("")}</div></section>`;
+}
+function galleryPage(ctx) { return wrapPage(ctx, pageTitle(ctx,"Gallery","גלריה"), isHebrew(ctx) ? `גלריה עבור ${ctx.biz}.` : `Gallery for ${ctx.biz}.`, gallerySection(ctx)); }
+function bookingSection(ctx) {
+  const title = isHebrew(ctx) ? "קבעו פגישה או התחילו תהליך" : "Book a call or start the process";
+  const lead = isHebrew(ctx) ? "טופס הזמנה ראשוני. לפרודקשן, חברו אותו לכלי הזמנות, Calendly, Netlify Forms או השרת שלכם." : "A starter booking form. For production, connect it to your booking tool, Calendly, Netlify Forms, or backend.";
+  return `<section class="section"><div class="section-head"><p class="kicker">${isHebrew(ctx)?"הזמנה":"Booking"}</p><h1>${title}</h1><p class="lead">${lead}</p></div><div class="contact-grid"><div class="card"><h3>${txt(ctx,"contactDetails")}</h3><p>${txt(ctx,"email")}: ${tech(ctx.local.email)}</p><p>${txt(ctx,"phone")}: ${tech(ctx.local.phone)}</p>${ctx.whatsapp ? `<p>WhatsApp: ${techLink(ctx.whatsapp.url, ctx.whatsapp.number)}</p>` : ""}<p>${txt(ctx,"hours")}: ${tech(ctx.local.hours)}</p><a class="btn btn-primary" href="${actionHref(ctx)}">${esc(ctx.cta)}</a></div><form class="card form" data-demo-form data-demo-message="${isHebrew(ctx)?"בקשת הזמנה דמו נקלטה. חברו נקודת קצה אמיתית לפני השקה.":"Demo booking request captured. Connect a real endpoint before launch."}"><label>${txt(ctx,"name")}<input name="name" required autocomplete="name"></label><label>${txt(ctx,"email")}<input class="ltr-field" dir="ltr" type="email" name="email" required autocomplete="email"></label><label>${txt(ctx,"phone")}<input class="ltr-field" dir="ltr" type="tel" name="phone" autocomplete="tel"></label><label>${isHebrew(ctx)?"שירות מבוקש":"Requested service"}<input name="service" autocomplete="on"></label><label>${isHebrew(ctx)?"זמן מועדף":"Preferred time"}<input name="preferred-time" autocomplete="on"></label><label>${txt(ctx,"message")}<textarea name="message" autocomplete="on"></textarea></label><button class="btn btn-primary" type="submit">${esc(ctx.cta)}</button><p data-form-note class="notice">${isHebrew(ctx)?"טופס דמו מוכן.":"Demo-ready form."}</p></form></div></section>`;
+}
+function bookingPage(ctx) { return wrapPage(ctx, pageTitle(ctx,"Booking","הזמנה"), isHebrew(ctx) ? `הזמנה או קביעת פגישה עם ${ctx.biz}.` : `Booking or appointment page for ${ctx.biz}.`, bookingSection(ctx)); }
 function contactPage(ctx) { return wrapPage(ctx, pageTitle(ctx,"Contact","צור קשר"), isHebrew(ctx) ? `יצירת קשר עם ${ctx.biz}.` : `Contact ${ctx.biz}.`, `<section class="section"><div class="section-head"><p class="kicker">${txt(ctx,"contact")}</p><h2>${esc(ctx.cta)}</h2><p class="lead">${esc(ctx.voice.ctaLine)}</p></div>${contactBlock(ctx)}</section>`); }
 function thanksPage(ctx) { return wrapPage(ctx, pageTitle(ctx,"Thank You","תודה"), isHebrew(ctx) ? `תודה שפניתם אל ${ctx.biz}.` : `Thank you for contacting ${ctx.biz}.`, `<section class="section"><div class="card"><p class="kicker">${txt(ctx,"messageReceived")}</p><h1>${txt(ctx,"thankYou")}</h1><p>${txt(ctx,"thanksText")}</p><a class="btn btn-primary" href="index.html">${txt(ctx,"backHome")}</a></div></section>`); }
 function notFoundPage(ctx) { return wrapPage(ctx, pageTitle(ctx,"Page Not Found","העמוד לא נמצא"), txt(ctx,"pageNotFound"), `<section class="section"><div class="card"><p class="kicker">404</p><h1>${txt(ctx,"lost")}</h1><p>${txt(ctx,"lostText")}</p><a class="btn btn-primary" href="index.html">${txt(ctx,"backHome")}</a></div></section>`); }
@@ -1068,8 +1290,8 @@ function legalNotice(ctx, updated) {
 }
 function legalContact(ctx) {
   return isHebrew(ctx)
-    ? `<h2>יצירת קשר</h2><p>לשאלות לגבי עמוד זה, פרטיות או בקשות משתמשים, ניתן לפנות אלינו בכתובת <a class="tech-value" dir="ltr" href="mailto:${esc(ctx.local.email)}">${esc(ctx.local.email)}</a>.</p>`
-    : `<h2>Contact</h2><p>For questions about this page, privacy matters, or user requests, contact us at <a class="tech-value" dir="ltr" href="mailto:${esc(ctx.local.email)}">${esc(ctx.local.email)}</a>.</p>`;
+    ? `<h2>יצירת קשר</h2><p>לשאלות לגבי עמוד זה, פרטיות או בקשות משתמשים, ניתן לפנות אלינו בכתובת ${techLink(`mailto:${ctx.local.email}`, ctx.local.email)}.</p>`
+    : `<h2>Contact</h2><p>For questions about this page, privacy matters, or user requests, contact us at ${techLink(`mailto:${ctx.local.email}`, ctx.local.email)}.</p>`;
 }
 function privacyLegalContent(ctx, updated) {
   return isHebrew(ctx)
@@ -1321,7 +1543,7 @@ Fast path:
 
 
 function selectedOptions() {
-  return { faq: checked("page-faq"), pricing: checked("page-pricing"), blog: checked("page-blog"), thanks: checked("page-thanks"), notFound: checked("page-404") };
+  return { faq: checked("page-faq"), pricing: checked("page-pricing"), blog: checked("page-blog"), gallery: checked("page-gallery"), booking: checked("page-booking"), thanks: checked("page-thanks"), notFound: checked("page-404"), cookieBanner: checked("cookie-banner") };
 }
 
 function buildContext(biz, industry, tagline, colors) {
@@ -1338,7 +1560,9 @@ function buildContext(biz, industry, tagline, colors) {
     logo: logoAsset(uploadedLogoFile),
     local: localDetails(biz),
     socials: socialDetails(),
+    whatsapp: whatsappDetails(),
     analytics: analyticsOptions(),
+    cookieBanner: checked("cookie-banner"),
     mainHeadline: valueOf("main-headline").trim(),
     aboutText: valueOf("about-text").trim(),
     ctaUrl: normalizeOptionalUrl(valueOf("custom-cta-url")),
@@ -1354,7 +1578,8 @@ function buildContext(biz, industry, tagline, colors) {
     goal: goalSource[goalKey] || goalSource.leads,
     voice: voiceSource[voiceKey] || voiceSource.professional,
     formMode: valueOf("form-mode"),
-    options: selectedOptions()
+    options: selectedOptions(),
+    wantedSections: wantedSectionsFromForm()
   };
   ctx.cta = ctaForLang(ctx, rawCta);
   return ctx;
@@ -1375,6 +1600,8 @@ function generatedPages(ctx) {
     ctx.options.pricing && ["pricing.html", pricingPage(ctx)],
     ctx.options.faq && ["faq.html", faqPage(ctx)],
     ctx.options.blog && ["blog.html", blogPage(ctx)],
+    ctx.options.gallery && ["gallery.html", galleryPage(ctx)],
+    ctx.options.booking && ["booking.html", bookingPage(ctx)],
     ["compare.html", comparePage(ctx)],
     ["contact.html", contactPage(ctx)],
     ctx.options.thanks && ["thank-you.html", thanksPage(ctx)],
@@ -1406,7 +1633,8 @@ function projectConfig(ctx) {
       primaryCta: ctx.cta,
       customCtaUrl: ctx.ctaUrl || null,
       productPaymentUrl: ctx.productPaymentUrl || null,
-      brandVoice: ctx.voiceKey
+      brandVoice: ctx.voiceKey,
+      wantedSections: ctx.wantedSections
     },
     styling: {
       colors: {
@@ -1422,8 +1650,10 @@ function projectConfig(ctx) {
       hebrewFont: ctx.hebrewFont ? ctx.hebrewFont.name : null
     },
     localBusiness: ctx.local,
+    whatsapp: ctx.whatsapp,
     socialLinks: ctx.socials,
     analytics: ctx.analytics,
+    cookieBanner: ctx.cookieBanner,
     generatedFiles: generatedPages(ctx).map(([path]) => path).concat([
       "assets/css/style.css",
       "assets/js/main.js",
@@ -1437,7 +1667,8 @@ function projectConfig(ctx) {
       "site.webmanifest",
       "README.md"
     ]),
-    options: ctx.options,
+    options: Object.assign({}, ctx.options, { wantedSections: ctx.wantedSections }),
+    wantedSections: ctx.wantedSections,
     notes: [
       "This file captures the generator choices used to create the website.",
       "It does not embed uploaded image binary data. The uploaded logo is saved separately in assets/img when provided."
