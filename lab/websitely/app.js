@@ -775,6 +775,40 @@ function normalizeDomainUrl(raw) {
     return "https://example.com";
   }
 }
+
+function normalizeOptionalUrl(raw) {
+  const value = String(raw || "").trim();
+  if (!value) return "";
+  const withProtocol = /^https?:\/\//i.test(value) ? value : `https://${value}`;
+  try {
+    return new URL(withProtocol).href.replace(/\/$/, "");
+  } catch (e) {
+    return "";
+  }
+}
+
+function socialDetails() {
+  const items = [
+    ["instagram", "Instagram"],
+    ["linkedin", "LinkedIn"],
+    ["facebook", "Facebook"],
+    ["tiktok", "TikTok"],
+    ["youtube", "YouTube"]
+  ];
+  return items
+    .map(([key, label]) => ({ label, url: normalizeOptionalUrl(valueOf(`social-${key}`)) }))
+    .filter(item => item.url);
+}
+
+function analyticsOptions() {
+  return {
+    googleAnalytics: checked("analytics-ga"),
+    googleAnalyticsId: valueOf("ga-id").trim(),
+    metaPixel: checked("analytics-meta"),
+    metaPixelId: valueOf("meta-pixel-id").trim()
+  };
+}
+
 function absoluteUrl(ctx, path = "index.html") {
   const clean = path === "index.html" ? "" : String(path || "").replace(/^\/+/, "");
   return `${ctx.siteUrl || "https://example.com"}/${clean}`;
@@ -812,6 +846,7 @@ function updateQualityScore(ctx) {
 
 const HEBREW_SITE_FONTS = [
   { name: "Heebo", cssFamily: "Heebo", cssUrl: "https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800;900&display=swap", stack: "'Heebo', 'Rubik', 'Noto Sans Hebrew', Arial, sans-serif" },
+  { name: "Inter", cssFamily: "Inter", cssUrl: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap", stack: "'Inter', 'Heebo', 'Rubik', 'Noto Sans Hebrew', Arial, sans-serif" },
   { name: "Rubik", cssFamily: "Rubik", cssUrl: "https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&display=swap", stack: "'Rubik', 'Heebo', 'Noto Sans Hebrew', Arial, sans-serif" },
   { name: "Alef", cssFamily: "Alef", cssUrl: "https://fonts.googleapis.com/css2?family=Alef:wght@400;700&display=swap", stack: "'Alef', 'Rubik', 'Noto Sans Hebrew', Arial, sans-serif" },
   { name: "Noto Sans Hebrew", cssFamily: "Noto Sans Hebrew", cssUrl: "https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@400;500;600;700;800;900&display=swap", stack: "'Noto Sans Hebrew', 'Rubik', 'Heebo', Arial, sans-serif" },
