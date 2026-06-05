@@ -1,4 +1,15 @@
 User-agent: *
+
+Allow: /services/
+Allow: /lectures/
+Allow: /articles/
+Allow: /lab/websitely/
+Allow: /open-uni/
+Allow: /resume/
+Allow: /thank-you/
+Allow: /assets/images/
+Allow: /icons/
+
 Disallow: ailoveu-*.js
 Disallow: project.mobirise
 
