@@ -738,6 +738,8 @@
         <form id="leadForm" style="display: flex; flex-direction: column; gap: 12px; max-width: 350px;">
           <input type="text" id="leadName" placeholder="השם שלך" required style="padding: 12px; border-radius: 12px; border: none; font-size: 16px;">
           <input type="tel" id="leadPhone" placeholder="מספר הווטסאפ שלך" required style="padding: 12px; border-radius: 12px; border: none; font-size: 16px;">
+          <input type="email" id="leadEmail" placeholder="המייל שלך" required style="padding: 12px; border-radius: 12px; border: none; font-size: 16px;">
+          <input type="text" id="leadDescription" placeholder="בקשה\שאלה\הזמנת הרצאה" required style="padding: 12px; border-radius: 12px; border: none; font-size: 16px;">          
           <button type="submit" class="btn btn-secondary" id="submitBtn">שילחו לי פרטים בווטסאפ 🚀</button>
         </form>
         <p id="formStatus" style="margin-top: 10px; font-weight: bold; display: none;"></p>
@@ -818,27 +820,30 @@
     const leadForm = document.getElementById('leadForm');
     const formStatus = document.getElementById('formStatus');
     const submitBtn = document.getElementById('submitBtn');
-
     const MAKE_WEBHOOK_URL = 'https://hook.eu2.make.com/iujrrr39budgzllu85urn3863b3d9r4p';
     const MAKE_K = 'G2Ru4CG9DPrWD-E';
 
     leadForm.addEventListener('submit', async (event) => {
       event.preventDefault();
-
       const name = document.getElementById('leadName').value.trim();
       const phone = document.getElementById('leadPhone').value.trim();
-
+      const email = document.getElementById('leadEmail').value.trim() || "";
+      const description = document.getElementById('leadDescription').value.trim() || "";
       if (!name || !phone) {
         formStatus.textContent = 'נא למלא שם ומספר ווטסאפ.';
         formStatus.style.color = '#ff5d8f';
         formStatus.style.display = 'block';
         return;
       }
-
       submitBtn.disabled = true;
       submitBtn.textContent = 'שולח... ✨';
       formStatus.style.display = 'none';
 
+      // fetch('/api/lead', {
+        // method: 'POST',
+        // body: JSON.stringify({ name, phone })
+      // });
+    
       try {
         const response = await fetch(MAKE_WEBHOOK_URL, {
           method: 'POST',
@@ -849,6 +854,8 @@
           body: JSON.stringify({
             name,
             phone,
+            email,
+            description,
             source: 'ai_devs_site_2026',
             sentAt: new Date().toISOString()
           })
@@ -858,7 +865,7 @@
           throw new Error(`Make webhook returned ${response.status} ${response.statusText}`);
         }
 
-        formStatus.textContent = 'תודה! הפרטים נשלחו בהצלחה. ההודעה בדרך אליך.';
+        formStatus.textContent = '!תודה! הפרטים נשלחו בהצלחה. ההודעה בדרך אליך.';
         formStatus.style.color = '#8bd450';
         formStatus.style.display = 'block';
         leadForm.reset();
