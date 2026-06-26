@@ -1,0 +1,862 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>מפתחי AI - המסלול למגשימי חלומות</title>
+  <style>
+    :root {
+      --bg: #fff8ef;
+      --ink: #24142f;
+      --muted: #6c5b7b;
+      --orange: #ff8a3d;
+      --yellow: #ffd166;
+      --teal: #19c3b3;
+      --blue: #4d8cff;
+      --green: #8bd450;
+      --pink: #ff5d8f;
+      --card: rgba(255, 255, 255, 0.78);
+      --shadow: 0 24px 70px rgba(54, 32, 84, 0.18);
+      --radius: 28px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Arial, "Noto Sans Hebrew", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 12%, rgba(255, 209, 102, 0.55), transparent 28%),
+        radial-gradient(circle at 88% 8%, rgba(25, 195, 179, 0.45), transparent 25%),
+        radial-gradient(circle at 72% 82%, rgba(255, 93, 143, 0.35), transparent 26%),
+        linear-gradient(135deg, #fff8ef 0%, #edf7ff 45%, #fff1f6 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    .bg-orbs {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+    .orb {
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      filter: blur(2px);
+      opacity: 0.42;
+      animation: float 11s ease-in-out infinite;
+    }
+    .orb:nth-child(1) {
+      right: -55px;
+      top: 120px;
+      background: var(--orange);
+    }
+    .orb:nth-child(2) {
+      left: 5%;
+      top: 35%;
+      background: var(--teal);
+      animation-delay: -4s;
+      width: 155px;
+      height: 155px;
+    }
+    .orb:nth-child(3) {
+      right: 58%;
+      bottom: -70px;
+      background: var(--yellow);
+      animation-delay: -7s;
+      width: 260px;
+      height: 260px;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) translateX(0) scale(1); }
+      50% { transform: translateY(-34px) translateX(22px) scale(1.08); }
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(14px);
+      background: rgba(255, 248, 239, 0.68);
+      border-bottom: 1px solid rgba(36, 20, 47, 0.08);
+    }
+
+    .nav {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      color: white;
+      background: conic-gradient(from 140deg, var(--orange), var(--pink), var(--blue), var(--teal), var(--orange));
+      box-shadow: 0 10px 30px rgba(255, 138, 61, 0.35);
+      animation: spinGlow 8s linear infinite;
+    }
+
+    @keyframes spinGlow {
+      0% { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(360deg); }
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .nav-links a {
+      padding: 9px 13px;
+      border-radius: 999px;
+      transition: 0.25s ease;
+    }
+
+    .nav-links a:hover {
+      background: white;
+      color: var(--ink);
+      transform: translateY(-2px);
+    }
+
+    .page {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 54px 22px 80px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 42px;
+      align-items: center;
+      min-height: calc(100vh - 90px);
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.74);
+      box-shadow: 0 14px 36px rgba(36, 20, 47, 0.08);
+      color: #6a3a00;
+      font-weight: 900;
+      animation: popIn 0.7s ease both;
+    }
+
+    .spark {
+      width: 12px;
+      height: 12px;
+      background: var(--orange);
+      border-radius: 50%;
+      box-shadow: 0 0 0 8px rgba(255, 138, 61, 0.18);
+      animation: pulse 1.6s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.35); opacity: 0.65; }
+    }
+
+    h1 {
+      margin: 24px 0 10px;
+      font-size: clamp(56px, 10vw, 126px);
+      line-height: 0.9;
+      letter-spacing: -0.08em;
+      text-wrap: balance;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #ff6b35, #ff3f8e, #4d8cff, #12bfae);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      background-size: 220% 100%;
+      animation: shine 5s ease-in-out infinite;
+    }
+
+    @keyframes shine {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .subtitle {
+      font-size: clamp(28px, 4vw, 54px);
+      line-height: 1.05;
+      margin: 0 0 22px;
+      font-weight: 900;
+      letter-spacing: -0.05em;
+    }
+
+    .lead {
+      font-size: clamp(18px, 2.1vw, 24px);
+      line-height: 1.65;
+      color: #493b56;
+      max-width: 650px;
+      margin: 0 0 30px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .btn {
+      border: 0;
+      cursor: pointer;
+      border-radius: 999px;
+      padding: 15px 23px;
+      font-size: 17px;
+      font-weight: 900;
+      transition: 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+    }
+
+    .btn-primary {
+      color: white;
+      background: linear-gradient(135deg, var(--orange), var(--pink));
+      box-shadow: 0 16px 32px rgba(255, 93, 143, 0.28);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.78);
+      color: var(--ink);
+      box-shadow: 0 12px 28px rgba(36, 20, 47, 0.1);
+    }
+
+    .btn:hover {
+      transform: translateY(-4px) scale(1.02);
+    }
+
+    .hero-card {
+      position: relative;
+      min-height: 560px;
+      border-radius: 42px;
+      background: linear-gradient(160deg, rgba(255,255,255,0.75), rgba(255,255,255,0.32));
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.72);
+      overflow: hidden;
+      isolation: isolate;
+      transform-style: preserve-3d;
+      animation: cardEnter 0.9s 0.15s ease both;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: -30%;
+      background:
+        conic-gradient(from 0deg, transparent, rgba(255, 138, 61, 0.3), transparent, rgba(25, 195, 179, 0.3), transparent),
+        radial-gradient(circle, rgba(255,255,255,0.7), transparent 34%);
+      animation: rotate 18s linear infinite;
+      z-index: -2;
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      inset: 2px;
+      border-radius: 40px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.62), rgba(255,255,255,0.26));
+      z-index: -1;
+    }
+
+    @keyframes rotate {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes cardEnter {
+      from { opacity: 0; transform: translateY(24px) rotateX(10deg); }
+      to { opacity: 1; transform: translateY(0) rotateX(0); }
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: translateY(12px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .orbit {
+      position: absolute;
+      inset: 70px;
+      border: 2px dashed rgba(36, 20, 47, 0.14);
+      border-radius: 50%;
+      animation: rotate 22s linear infinite reverse;
+    }
+
+    .planet {
+      position: absolute;
+      width: 88px;
+      height: 88px;
+      border-radius: 26px;
+      display: grid;
+      place-items: center;
+      font-size: 34px;
+      box-shadow: 0 18px 35px rgba(36, 20, 47, 0.16);
+      background: white;
+      animation: bob 4s ease-in-out infinite;
+    }
+
+    .planet:nth-child(2) { top: 36px; right: 42px; background: #fff2c9; animation-delay: -1s; }
+    .planet:nth-child(3) { top: 112px; left: 34px; background: #dff8ff; animation-delay: -2s; }
+    .planet:nth-child(4) { bottom: 118px; right: 18px; background: #e8ffd8; animation-delay: -3s; }
+    .planet:nth-child(5) { bottom: 38px; left: 72px; background: #ffe2ef; animation-delay: -0.4s; }
+
+    @keyframes bob {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-16px) rotate(5deg); }
+    }
+
+    .dream-core {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 250px;
+      height: 250px;
+      translate: -50% -50%;
+      border-radius: 50px;
+      background:
+        radial-gradient(circle at 30% 22%, rgba(255,255,255,0.92), transparent 30%),
+        linear-gradient(135deg, var(--orange), var(--pink), var(--blue));
+      color: white;
+      box-shadow: 0 30px 70px rgba(77, 140, 255, 0.28);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 28px;
+      transform: rotate(-7deg);
+      animation: core 5s ease-in-out infinite;
+    }
+
+    .dream-core strong {
+      font-size: 36px;
+      line-height: 1;
+      display: block;
+      letter-spacing: -0.05em;
+    }
+
+    .dream-core span {
+      font-size: 16px;
+      opacity: 0.9;
+      font-weight: 800;
+      display: block;
+      margin-top: 10px;
+    }
+
+    @keyframes core {
+      0%, 100% { transform: rotate(-7deg) scale(1); }
+      50% { transform: rotate(4deg) scale(1.04); }
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 24px 0 64px;
+    }
+
+    .stat {
+      padding: 22px;
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: 0 14px 35px rgba(36, 20, 47, 0.08);
+      border: 1px solid rgba(255,255,255,0.7);
+      transition: 0.25s ease;
+    }
+    .stat:hover { transform: translateY(-7px); }
+    .stat b {
+      font-size: 38px;
+      display: block;
+      background: linear-gradient(90deg, var(--orange), var(--blue));
+      -webkit-background-clip: text;
+      color: transparent;
+      line-height: 1;
+    }
+    .stat span {
+      color: var(--muted);
+      font-weight: 800;
+      margin-top: 8px;
+      display: block;
+    }
+
+    section { margin: 88px 0; }
+    .section-title {
+      font-size: clamp(34px, 5vw, 62px);
+      margin: 0 0 18px;
+      letter-spacing: -0.06em;
+      line-height: 1.02;
+    }
+    .section-lead {
+      color: var(--muted);
+      font-size: 20px;
+      line-height: 1.7;
+      max-width: 760px;
+      margin: 0 0 28px;
+      font-weight: 700;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .feature-card {
+      position: relative;
+      min-height: 240px;
+      padding: 26px;
+      border-radius: 32px;
+      background: rgba(255,255,255,0.72);
+      box-shadow: 0 18px 50px rgba(36,20,47,0.09);
+      border: 1px solid rgba(255,255,255,0.72);
+      overflow: hidden;
+      transition: 0.25s ease;
+    }
+    .feature-card:hover { transform: translateY(-8px) rotate(-1deg); }
+    .feature-card::before {
+      content: "";
+      position: absolute;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      left: -50px;
+      bottom: -50px;
+      background: var(--blob, var(--yellow));
+      opacity: 0.35;
+    }
+
+    .icon {
+      width: 58px;
+      height: 58px;
+      border-radius: 20px;
+      display: grid;
+      place-items: center;
+      font-size: 28px;
+      background: white;
+      box-shadow: 0 10px 24px rgba(36,20,47,0.1);
+      margin-bottom: 18px;
+    }
+
+    .feature-card h3 {
+      font-size: 26px;
+      margin: 0 0 10px;
+      letter-spacing: -0.04em;
+    }
+    .feature-card p {
+      color: #5b4b68;
+      line-height: 1.65;
+      font-weight: 700;
+      margin: 0;
+    }
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      counter-reset: step;
+    }
+
+    .step {
+      counter-increment: step;
+      background: rgba(255,255,255,0.76);
+      border-radius: 28px;
+      padding: 24px;
+      box-shadow: 0 16px 40px rgba(36,20,47,0.08);
+      border: 1px solid rgba(255,255,255,0.76);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .step::before {
+      content: counter(step);
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--teal), var(--blue));
+      color: white;
+      font-weight: 900;
+      margin-bottom: 16px;
+      box-shadow: 0 10px 24px rgba(77,140,255,0.26);
+    }
+
+    .step h3 { margin: 0 0 8px; font-size: 22px; }
+    .step p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 700;
+    }
+
+    .magic-panel {
+      border-radius: 38px;
+      padding: 38px;
+      background:
+        linear-gradient(135deg, rgba(255, 138, 61, 0.94), rgba(255, 93, 143, 0.88)),
+        radial-gradient(circle at 10% 20%, rgba(255,255,255,0.4), transparent 35%);
+      color: white;
+      box-shadow: 0 26px 70px rgba(255, 93, 143, 0.26);
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 26px;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .magic-panel::after {
+      content: "{} </> ✦ AI ⚡";
+      position: absolute;
+      left: -20px;
+      bottom: 10px;
+      font-size: 90px;
+      opacity: 0.13;
+      font-weight: 900;
+      direction: ltr;
+    }
+
+    .magic-panel h2 {
+      font-size: clamp(34px, 5vw, 64px);
+      line-height: 1;
+      margin: 0 0 16px;
+      letter-spacing: -0.06em;
+    }
+
+    .magic-panel p {
+      font-size: 20px;
+      line-height: 1.7;
+      margin: 0;
+      font-weight: 800;
+      opacity: 0.95;
+    }
+
+    .code-box {
+      background: rgba(36, 20, 47, 0.74);
+      color: #eafffb;
+      border-radius: 26px;
+      padding: 22px;
+      direction: ltr;
+      text-align: left;
+      font-family: Consolas, monospace;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.13);
+      transform: rotate(2deg);
+      animation: codeFloat 4s ease-in-out infinite;
+    }
+
+    .code-line {
+      display: block;
+      margin: 8px 0;
+      white-space: nowrap;
+    }
+
+    @keyframes codeFloat {
+      0%, 100% { transform: translateY(0) rotate(2deg); }
+      50% { transform: translateY(-10px) rotate(-1deg); }
+    }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-weight: 800;
+      padding: 38px 22px 56px;
+    }
+
+    .cursor-light {
+      position: fixed;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      pointer-events: none;
+      background: radial-gradient(circle, rgba(255,255,255,0.45), transparent 60%);
+      translate: -50% -50%;
+      mix-blend-mode: soft-light;
+      z-index: 1;
+    }
+
+    @media (max-width: 900px) {
+      .hero, .magic-panel { grid-template-columns: 1fr; }
+      .hero { min-height: auto; }
+      .hero-card { min-height: 440px; }
+      .stats, .cards, .timeline { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .dream-core { width: 210px; height: 210px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor-light" id="cursorLight"></div>
+  <div class="bg-orbs" aria-hidden="true">
+    <div class="orb"></div>
+    <div class="orb"></div>
+    <div class="orb"></div>
+  </div>
+
+  <header>
+    <nav class="nav" aria-label="ניווט ראשי">
+      <a class="brand" href="#top" aria-label="חזרה לראש העמוד">
+        <span class="logo">✦</span>
+        <span>AI Love U Academy</span>
+      </a>
+      <div class="nav-links">
+        <a href="#why">למה זה מיוחד</a>
+        <a href="#path">מה לומדים</a>
+        <a href="#join">מתחילים</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top" class="page">
+    <section class="hero">
+      <div>
+        <div class="kicker"><span class="spark"></span> מסלול מעשי לבניית מוצרים עם בינה מלאכותית</div>
+        <h1><span class="gradient-text">מפתחי AI</span></h1>
+        <p class="subtitle">המסלול למגשימי חלומות</p>
+        <p class="lead">
+          לא עוד קורס שמדבר על העתיד מרחוק. כאן לומדים לבנות, לבדוק, לפרסם ולשפר רעיונות אמיתיים - עד שהם הופכים למוצר עובד שאפשר להראות לעולם.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#join">אני רוצה להתחיל ✨</a>
+          <a class="btn btn-secondary" href="#path">מה יש במסלול?</a>
+        </div>
+      </div>
+
+      <div class="hero-card" id="heroCard" aria-label="איור אינטראקטיבי של חלום שהופך למוצר">
+        <div class="orbit"></div>
+        <div class="planet">💡</div>
+        <div class="planet">🤖</div>
+        <div class="planet">🧪</div>
+        <div class="planet">🚀</div>
+        <div class="dream-core">
+          <div>
+            <strong>רעיון<br>לקוד<br>למוצר</strong>
+            <span>בונים חלום שלב אחרי שלב</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="stats reveal" aria-label="נתוני המסלול">
+      <div class="stat"><b data-count="12">0</b><span>פרויקטים קטנים בדרך למוצר</span></div>
+      <div class="stat"><b data-count="30">0</b><span>כלים, תרגילים ודוגמאות קוד</span></div>
+      <div class="stat"><b data-count="1">0</b><span>חלום מרכזי שהופך למוצר עובד</span></div>
+    </div>
+
+    <section id="why" class="reveal">
+      <h2 class="section-title">למה המסלול הזה מרגיש אחרת?</h2>
+      <p class="section-lead">
+        כי המטרה היא לא רק להבין מהי בינה מלאכותית. המטרה היא ללמוד לחשוב כמו יוצר, לפתח כמו מתכנת, ולחבר רעיון אישי למערכת אמיתית.
+      </p>
+      <div class="cards">
+        <article class="feature-card" style="--blob:#ffd166">
+          <div class="icon">🎯</div>
+          <h3>מיקוד בחלום</h3>
+          <p>כל תלמיד בוחר רעיון, מפרק אותו לשלבים, ומתקדם ממסך פשוט למוצר שאפשר להשתמש בו.</p>
+        </article>
+        <article class="feature-card" style="--blob:#19c3b3">
+          <div class="icon">🛠️</div>
+          <h3>כלים של העולם האמיתי</h3>
+          <p>פייתון, API, בדיקות, בסיסי נתונים, מודלים, סוכנים, אבטחה ופריסה לענן.</p>
+        </article>
+        <article class="feature-card" style="--blob:#ff5d8f">
+          <div class="icon">🌈</div>
+          <h3>למידה חיה וצבעונית</h3>
+          <p>דמואים, אתגרים, אפקטים, משימות קצרות והרבה רגעים שבהם קוד פתאום נהיה קסם.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="path" class="reveal">
+      <h2 class="section-title">המסלול בארבע תחנות</h2>
+      <p class="section-lead">מתחילים פשוט, אבל בונים נכון מהיום הראשון.</p>
+      <div class="timeline">
+        <article class="step">
+          <h3>חושבים מוצר</h3>
+          <p>מגדירים חלום, משתמש, בעיה, ערך ומסך ראשון.</p>
+        </article>
+        <article class="step">
+          <h3>בונים בסיס</h3>
+          <p>HTML, CSS, JavaScript, Python ושרת FastAPI קטן.</p>
+        </article>
+        <article class="step">
+          <h3>מחברים בינה</h3>
+          <p>מודלים, פרומפטים, API, זיכרון, סוכנים ואוטומציות.</p>
+        </article>
+        <article class="step">
+          <h3>משיקים לעולם</h3>
+          <p>בדיקות, אבטחה, פריסה לענן ושיפור לפי פידבק אמיתי.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="join" class="magic-panel reveal">
+      <div>
+        <h2>החלום הבא שלך לא צריך להישאר במחברת.</h2>
+        <p>
+          הוא יכול להפוך לאפליקציה, כלי, סוכן חכם, אתר, שירות או מוצר קטן שמתחיל לעבוד באמת.
+          מתחילים מרעיון אחד ומתקדמים עד שיש משהו שאפשר לפתוח בדפדפן ולהגיד: את זה אני בניתי.
+        </p>
+        <br>
+        <!-- <a class="btn btn-secondary" href="mailto:hagayo@gmail.com?subject=אני רוצה לשמוע על מסלול מפתחי AI">דברו איתי על המסלול</a> -->
+        <form id="leadForm" style="display: flex; flex-direction: column; gap: 12px; max-width: 350px;">
+          <input type="text" id="leadName" placeholder="השם שלך" required style="padding: 12px; border-radius: 12px; border: none; font-size: 16px;">
+          <input type="tel" id="leadPhone" placeholder="מספר הווטסאפ שלך" required style="padding: 12px; border-radius: 12px; border: none; font-size: 16px;">
+          <button type="submit" class="btn btn-secondary" id="submitBtn">שילחו לי פרטים בווטסאפ 🚀</button>
+        </form>
+        <p id="formStatus" style="margin-top: 10px; font-weight: bold; display: none;"></p>
+      </div>
+      <div class="code-box" aria-label="קוד דוגמה דקורטיבי">
+        <span class="code-line">const dream = "build something real";</span>
+        <span class="code-line">while (!dream.isLive) {</span>
+        <span class="code-line">  learn();</span>
+        <span class="code-line">  build();</span>
+        <span class="code-line">  ship();</span>
+        <span class="code-line">}</span>
+        <span class="code-line">console.log("החלום באוויר 🚀");</span>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © מסלול מפתחי AI - בניית חלומות עם קוד, יצירתיות ובינה מלאכותית
+    נכתב על ידי חגי און 2026
+  </footer>
+
+  <script>
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.16 });
+
+    revealElements.forEach((element) => revealObserver.observe(element));
+
+    const counters = document.querySelectorAll('[data-count]');
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const target = Number(el.dataset.count);
+        const duration = 900;
+        const startTime = performance.now();
+
+        function tick(now) {
+          const progress = Math.min((now - startTime) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          el.textContent = Math.round(target * eased);
+          if (progress < 1) requestAnimationFrame(tick);
+        }
+
+        requestAnimationFrame(tick);
+        counterObserver.unobserve(el);
+      });
+    }, { threshold: 0.6 });
+
+    counters.forEach((counter) => counterObserver.observe(counter));
+
+    const heroCard = document.getElementById('heroCard');
+    heroCard.addEventListener('pointermove', (event) => {
+      const rect = heroCard.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      const rotateY = ((x / rect.width) - 0.5) * -12;
+      const rotateX = ((y / rect.height) - 0.5) * 12;
+      heroCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+
+    heroCard.addEventListener('pointerleave', () => {
+      heroCard.style.transform = 'rotateX(0deg) rotateY(0deg)';
+    });
+
+    const cursorLight = document.getElementById('cursorLight');
+    window.addEventListener('pointermove', (event) => {
+      cursorLight.style.left = event.clientX + 'px';
+      cursorLight.style.top = event.clientY + 'px';
+    });
+    
+    const leadForm = document.getElementById('leadForm');
+    const formStatus = document.getElementById('formStatus');
+    const submitBtn = document.getElementById('submitBtn');
+
+    const MAKE_WEBHOOK_URL = 'https://hook.eu2.make.com/iujrrr39budgzllu85urn3863b3d9r4p';
+    // const MAKE_WEBHOOK_URL = 'https://hook.make.com/YOUR_WEBHOOK_ID';
+
+    leadForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      
+      const name = document.getElementById('leadName').value;
+      const phone = document.getElementById('leadPhone').value;
+      
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'שולח... ✨';
+      
+      try {
+        const response = await fetch(MAKE_WEBHOOK_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ name: name, phone: phone })
+        });
+        
+        if (response.ok) {
+          formStatus.textContent = 'תודה! הפרטים נשלחו בהצלחה. ההודעה בדרך אליך.';
+          formStatus.style.color = '#8bd450';
+          formStatus.style.display = 'block';
+          leadForm.reset();
+        } else {
+          throw new Error('שגיאה בתגובת השרת');
+        }
+      } catch (error) {
+        formStatus.textContent = 'אופס! משהו השתבש. נסו שוב מאוחר יותר.';
+        formStatus.style.color = '#ff5d8f';
+        formStatus.style.display = 'block';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'שילחו לי פרטים בווטסאפ 🚀';
+      }
+    });
+  </script>
+</body>
+</html>
