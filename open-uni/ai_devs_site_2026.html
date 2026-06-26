@@ -820,35 +820,53 @@
     const submitBtn = document.getElementById('submitBtn');
 
     const MAKE_WEBHOOK_URL = 'https://hook.eu2.make.com/iujrrr39budgzllu85urn3863b3d9r4p';
-    // const MAKE_WEBHOOK_URL = 'https://hook.make.com/YOUR_WEBHOOK_ID';
+
+    // החלף כאן ידנית לערך האמיתי של ה-API Key שלך מ-Make.
+    // חשוב: בדף HTML ציבורי כל מי שפותח את הדף יכול לראות את הערך הזה.
+    const MAKE_K = 'PUT_YOUR_MAKE_API_KEY_HERE';
 
     leadForm.addEventListener('submit', async (event) => {
       event.preventDefault();
-      
-      const name = document.getElementById('leadName').value;
-      const phone = document.getElementById('leadPhone').value;
-      
+
+      const name = document.getElementById('leadName').value.trim();
+      const phone = document.getElementById('leadPhone').value.trim();
+
+      if (!name || !phone) {
+        formStatus.textContent = 'נא למלא שם ומספר ווטסאפ.';
+        formStatus.style.color = '#ff5d8f';
+        formStatus.style.display = 'block';
+        return;
+      }
+
       submitBtn.disabled = true;
       submitBtn.textContent = 'שולח... ✨';
-      
+      formStatus.style.display = 'none';
+
       try {
         const response = await fetch(MAKE_WEBHOOK_URL, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'x-make-apikey': MAKE_K
           },
-          body: JSON.stringify({ name: name, phone: phone })
+          body: JSON.stringify({
+            name,
+            phone,
+            source: 'ai_devs_site_2026',
+            sentAt: new Date().toISOString()
+          })
         });
-        
-        if (response.ok) {
-          formStatus.textContent = 'תודה! הפרטים נשלחו בהצלחה. ההודעה בדרך אליך.';
-          formStatus.style.color = '#8bd450';
-          formStatus.style.display = 'block';
-          leadForm.reset();
-        } else {
-          throw new Error('שגיאה בתגובת השרת');
+
+        if (!response.ok) {
+          throw new Error(`Make webhook returned ${response.status} ${response.statusText}`);
         }
+
+        formStatus.textContent = 'תודה! הפרטים נשלחו בהצלחה. ההודעה בדרך אליך.';
+        formStatus.style.color = '#8bd450';
+        formStatus.style.display = 'block';
+        leadForm.reset();
       } catch (error) {
+        console.error('Make webhook error:', error);
         formStatus.textContent = 'אופס! משהו השתבש. נסו שוב מאוחר יותר.';
         formStatus.style.color = '#ff5d8f';
         formStatus.style.display = 'block';
