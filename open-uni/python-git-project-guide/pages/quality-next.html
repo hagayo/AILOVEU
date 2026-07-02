@@ -1,0 +1,42 @@
+<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>בדיקות המשך ואיכות קוד | python-git-first-project</title><link rel="stylesheet" href="../assets/css/main.css"></head><body>
+<header class="site-header"><a class="brand" href="../index.html"><span class="brand-mark">G</span><span>python-git-first-project</span></a><button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">תפריט</button><nav id="main-nav" class="main-nav"><a href="../index.html">בית</a><a href="install.html">התקנה</a><a href="project.html">פרויקט</a><a href="code-tests.html">קוד ובדיקות</a><a href="upgrade-overview.html">שדרוג האפליקציה</a><a href="github-actions.html">Actions</a><a href="cheat-sheet.html">פקודות</a></nav></header>
+<main><section class="page-hero section-shell reveal"><p class="eyebrow">שדרוג האפליקציה</p><h1>בדיקות המשך ואיכות קוד</h1><p class="lead">נוסיף בדיקות לקוד החדש, נריץ pytest ו-pylint, ונעלה את השדרוג ל-GitHub בצורה מסודרת.</p></section><section class="content-layout section-shell"><aside class="side-nav reveal"><a href="install.html">1. התקנה</a><a href="project.html">2. פרויקט ראשון</a><a href="gitignore-readme.html">3. gitignore ו-README</a><a href="code-tests.html">4. קוד ובדיקות</a><a href="upgrade-overview.html">5. שדרוג האפליקציה</a><a href="api-layer.html">6. שכבת API</a><a href="cli-json.html">7. CLI ושמירת JSON</a><a href="quality-next.html">8. בדיקות המשך</a><a href="github-actions.html">9. GitHub Actions</a><a href="dependabot.html">10. Dependabot</a><a href="cheat-sheet.html">פקודות בסיסיות</a></aside><div><article class="content-card reveal"><h2>tests/test_github_report.py</h2><pre><code>"""Tests for github_report module."""
+
+import json
+
+from src.github_report import save_report
+
+
+def test_save_report_creates_json_file(tmp_path) -> None:
+    """Test that save_report creates a JSON file."""
+    output_file = tmp_path / "report.json"
+    data = {"status_code": 200, "current_user_url": "https://api.github.com/user"}
+
+    result_path = save_report(data, str(output_file))
+
+    assert result_path == output_file
+    assert output_file.exists()
+    assert json.loads(output_file.read_text(encoding="utf-8")) == data</code></pre></article><article class="content-card reveal"><h2>עדכון tests/test_github_client.py</h2><p>מוסיפים בדיקה לפונקציה החדשה <code>build_github_summary</code>:</p><pre><code>from unittest.mock import patch
+
+from src.github_client import build_github_summary
+
+
+@patch("src.github_client.get_github_status_with_requests")
+@patch("src.github_client.get_github_info_with_httpx")
+def test_build_github_summary(mock_info, mock_status) -> None:
+    """Test that build_github_summary returns selected fields."""
+    mock_status.return_value = 200
+    mock_info.return_value = {
+        "current_user_url": "https://api.github.com/user",
+        "authorizations_url": "https://api.github.com/authorizations",
+        "repository_search_url": "https://api.github.com/search/repositories?q={query}",
+    }
+
+    result = build_github_summary()
+
+    assert result["status_code"] == 200
+    assert result["current_user_url"] == "https://api.github.com/user"</code></pre></article><article class="content-card reveal"><h2>הרצת בדיקות ואיכות קוד</h2><pre><code>pytest
+pylint src tests</code></pre><div class="callout"><strong>דגש חשוב:</strong> אם pylint מתלונן על שם משתנה, אורך שורה או תיעוד חסר, זו הזדמנות מצוינת להראות לסטודנטים איך כלי איכות עוזר לשפר קוד לפני העלאה ל-GitHub.</div></article><article class="content-card reveal"><h2>Commit לשדרוג</h2><pre><code>git status
+git add .
+git commit -m "Add CLI report generation"
+git push</code></pre><p>לאחר ה-Push, GitHub Actions אמור להריץ מחדש את כל הבדיקות.</p></article></div></section></main><footer class="site-footer"><p>מדריך Git למתחילים - פרויקט Python ראשון.</p></footer><script src="../assets/js/main.js"></script></body></html>

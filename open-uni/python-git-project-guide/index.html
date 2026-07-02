@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="מדריך Git ו-GitHub למתחילים - פרויקט Python ראשון עם Git Bash, pytest, pylint, GitHub Actions ו-Dependabot.">
+  <title>מדריך Git למתחילים | python-git-first-project</title>
+
+  <meta name="description" content="Jerusalem Defenders, 3D Shooter game, Free online Fun Game, by ailoveu.art" />
+  <meta name="author" content="Hagay Onn" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="keywords" content="AI Love U, Jerusalem Defender, Fun, 3D Shooter game, online game, free game" />
+  <link rel="canonical" href="https://ailoveu.art/lab/jerusalem-defender/index.html" />
+  <meta property="og:title" content="Jerusalem Defender - Fun 3D Shooter game!" />
+  <meta property="og:description" content="Jerusalem Defender, A 3D Shooter game, Free online, Fun Game by AILoveU" />
+  <meta property="og:type" content="online game">
+  <meta property="og:url" content="https://ailoveu.art/lab/jerusalem-defender/index.html">
+  <meta property="og:image" content="https://ailoveu.art/lab/jerusalem-defender/jd-screenshot.jpg">
+  <meta property="og:image:alt" content="Jerusalem Defender - Fun 3D Shooter game" />
+  <meta property="og:site_name" content="ailoveu.art" />
+  <meta property="og:locale" content="en_EN" />
+  <meta property="article:author" content="Hagay Onn">
+  <meta property="article:published_time" content="2026-06-26T00:00:00+03:00">
+  <meta property="article:modified_time" content="2026-06-26T00:00:00+03:00">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Jerusalem Defender - Fun 3D Shooter game!" />
+  <meta name="twitter:description" content="Jerusalem Defender, A 3D Shooter game, Free online, Fun Game by AILoveU" />
+  <meta name="twitter:image" content="https://ailoveu.art/lab/jerusalem-defender/jd-screenshot.jpg">
+  <meta name="twitter:image:alt" content="Jerusalem Defender - Fun 3D Shooter game by AILoveU" />
+  <link rel="icon" href="https://ailoveu.art/icons/jd-icon-light.png" type="image/png">
+  <link rel="apple-touch-icon" href="https://ailoveu.art/icons/jd-icon-light.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://ailoveu.art/lab/jerusalem-defender/index.html",
+        "url": "https://ailoveu.art/lab/jerusalem-defender/index.html",
+        "name": "Jerusalem Defenders!",
+        "description": "Jerusalem Defenders, A 3D Shooter game, Free online, Fun Game by AILoveU",
+        "inLanguage": "en-US",
+        "isPartOf": { "@id": "https://ailoveu.art/#website" },
+        "primaryImageOfPage": {
+          "@type": "ImageObject",
+          "url": "https://ailoveu.art/lab/jerusalem-defender/jd-screenshot.jpg"
+        }
+      }
+    ]
+  }
+  </script>
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="דף הבית">
+      <span class="brand-mark">G</span>
+      <span>python-git-first-project</span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">תפריט</button>
+    <nav id="main-nav" class="main-nav" aria-label="ניווט ראשי">
+      <a href="index.html" aria-current="page">בית</a>
+      <a href="pages/install.html">התקנה</a>
+      <a href="pages/project.html">פרויקט</a>
+      <a href="pages/code-tests.html">קוד ובדיקות</a>
+      <a href="pages/upgrade-overview.html">שדרוג האפליקציה</a>
+      <a href="pages/github-actions.html">Actions</a>
+      <a href="pages/cheat-sheet.html">פקודות</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero section-shell">
+      <div class="hero-copy reveal">
+        <p class="eyebrow">מדריך פתיחה ידידותי לקהל הרחב</p>
+        <h1>לומדים Git דרך פרויקט Python אמיתי, צעד אחרי צעד.</h1>
+        <p class="lead">בלי קסמים, בלי קפיצות, בלי הנחות מוקדמות. נבנה תיקיית פרויקט, נוסיף קוד, בדיקות, GitHub Actions ו-Dependabot.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="pages/install.html">להתחיל מההתקנה</a>
+          <a class="button secondary" href="pages/cheat-sheet.html">לראות פקודות בסיסיות</a>
+        </div>
+      </div>
+      <div class="hero-visual reveal delay-1" aria-hidden="true">
+        <div class="orbit-card card-a">git init</div>
+        <div class="orbit-card card-b">pytest</div>
+        <div class="orbit-card card-c">pylint</div>
+        <div class="terminal-window">
+          <div class="terminal-dots"><span></span><span></span><span></span></div>
+          <pre><code>$ mkdir python-git-first-project
+$ git init
+$ pytest
+$ git push</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-shell intro-grid">
+      <article class="info-card reveal">
+        <span class="step-badge">01</span>
+        <h2>מה בונים?</h2>
+        <p>פרויקט Python קטן שמשתמש ב-requests וב-httpx, עם בדיקות אוטומטיות וזרימת עבודה מקצועית.</p>
+      </article>
+      <article class="info-card reveal delay-1">
+        <span class="step-badge">02</span>
+        <h2>למי זה מתאים?</h2>
+        <p>למתחילים שרוצים להבין איך עובדים נכון עם קוד, גרסאות, GitHub ואוטומציות בסיסיות.</p>
+      </article>
+      <article class="info-card reveal delay-2">
+        <span class="step-badge">03</span>
+        <h2>מה הסוף?</h2>
+        <p>Repository מסודר ב-GitHub שמריץ pytest ו-pylint אוטומטית בכל העלאה.</p>
+      </article>
+    </section>
+
+    <section class="section-shell timeline-section">
+      <div class="section-title reveal">
+        <p class="eyebrow">המסלול המלא</p>
+        <h2>כל השלבים לפי סדר נכון</h2>
+      </div>
+      <div class="timeline">
+        <a class="timeline-item reveal" href="pages/install.html"><span>1</span><strong>התקנת Git Bash</strong><small>Git, הגדרת שם ואימייל</small></a>
+        <a class="timeline-item reveal" href="pages/project.html"><span>2</span><strong>פתיחת פרויקט</strong><small>תיקייה, venv, requirements</small></a>
+        <a class="timeline-item reveal" href="pages/gitignore-readme.html"><span>3</span><strong>gitignore ו-README</strong><small>קבצי בסיס נקיים</small></a>
+        <a class="timeline-item reveal" href="pages/code-tests.html"><span>4</span><strong>קוד ובדיקות</strong><small>requests, httpx, pytest, pylint</small></a>
+        <a class="timeline-item reveal" href="pages/upgrade-overview.html"><span>5</span><strong>שדרוג ראשון</strong><small>מבנה נקי, CLI, JSON</small></a>
+        <a class="timeline-item reveal" href="pages/github-actions.html"><span>6</span><strong>GitHub Actions</strong><small>הרצה אוטומטית בענן</small></a>
+        <a class="timeline-item reveal" href="pages/dependabot.html"><span>7</span><strong>Dependabot</strong><small>עדכוני תלויות אוטומטיים</small></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>מדריך Git למתחילים - פרויקט Python ראשון.</p>
+  </footer>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
