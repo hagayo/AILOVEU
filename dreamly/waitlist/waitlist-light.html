@@ -1,0 +1,1361 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFF8ED">
+  <meta name="description" content="Dreamly הופכת חלום גדול למסלול ברור ולצעד אחד שאפשר לבצע השבוע. הצטרפו לרשימת ההמתנה לבטא.">
+  <title>Dreamly - הרשמה לבטא</title>
+
+  <style>
+    :root {
+      --color-primary: #0F766E;
+      --color-primary-dark: #0A5E58;
+      --color-primary-soft: #D9F4EE;
+      --color-secondary: #3B82F6;
+      --color-secondary-soft: #DDEBFF;
+      --color-accent: #FF8A3D;
+      --color-accent-hover: #EE782E;
+      --color-success: #2F9E68;
+
+      --color-background: #FFF8ED;
+      --color-surface: #FFFFFF;
+      --color-text: #12322F;
+      --color-text-muted: #63736F;
+      --color-border: #C8DDD7;
+      --color-focus: rgba(59, 130, 246, 0.28);
+      --color-overlay: rgba(18, 50, 47, 0.56);
+      --color-error: #A83A3A;
+      --color-error-bg: #FDECEC;
+
+      --radius-visual: 28px;
+      --radius-card: 18px;
+      --radius-button: 15px;
+      --radius-input: 14px;
+      --radius-pill: 999px;
+
+      --shadow-large: 0 18px 42px rgba(18, 50, 47, 0.13);
+      --shadow-medium: 0 12px 28px rgba(18, 50, 47, 0.10);
+      --shadow-small: 0 8px 20px rgba(18, 50, 47, 0.08);
+
+      --content-width: 1120px;
+      --mobile-content-width: 560px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--color-background);
+      color: var(--color-text);
+      font-family: Rubik, Assistant, Arial, sans-serif;
+      line-height: 1.55;
+      overflow-x: hidden;
+    }
+
+    body.menu-open {
+      overflow: hidden;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    button,
+    input,
+    a {
+      font: inherit;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--color-focus);
+      outline-offset: 3px;
+    }
+
+    .skip-link {
+      position: fixed;
+      z-index: 200;
+      top: 12px;
+      inset-inline-start: -9999px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: var(--color-surface);
+      box-shadow: var(--shadow-medium);
+      font-weight: 800;
+    }
+
+    .skip-link:focus {
+      inset-inline-start: 12px;
+    }
+
+    .shell {
+      width: min(100% - 28px, var(--mobile-content-width));
+      margin-inline: auto;
+    }
+
+    .desktop-shell {
+      width: min(100% - 28px, var(--content-width));
+      margin-inline: auto;
+    }
+
+    .site-header {
+      position: sticky;
+      z-index: 80;
+      top: 0;
+      background: rgba(255, 248, 237, 0.86);
+      border-bottom: 1px solid transparent;
+      backdrop-filter: blur(16px);
+      transition: border-color 180ms ease, box-shadow 180ms ease;
+    }
+
+    .site-header.scrolled {
+      border-color: rgba(200, 221, 215, 0.84);
+      box-shadow: 0 8px 22px rgba(18, 50, 47, 0.06);
+    }
+
+    .header-inner {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.18rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border-radius: 50% 50% 44% 56%;
+      background: linear-gradient(135deg, var(--color-primary), #44C7B2);
+      color: #fff;
+      box-shadow: 0 9px 20px rgba(15, 118, 110, 0.22);
+      transform: rotate(-6deg);
+    }
+
+    .desktop-nav {
+      display: none;
+    }
+
+    .menu-button {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--color-border);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.78);
+      color: var(--color-primary-dark);
+    }
+
+    .menu-button span,
+    .menu-button::before,
+    .menu-button::after {
+      content: "";
+      width: 20px;
+      height: 2px;
+      display: block;
+      border-radius: var(--radius-pill);
+      background: currentColor;
+      transition: transform 200ms ease, opacity 200ms ease;
+    }
+
+    .menu-button {
+      gap: 4px;
+    }
+
+    .menu-button[aria-expanded="true"] span {
+      opacity: 0;
+    }
+
+    .menu-button[aria-expanded="true"]::before {
+      transform: translateY(6px) rotate(45deg);
+    }
+
+    .menu-button[aria-expanded="true"]::after {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+
+    .mobile-menu {
+      position: fixed;
+      z-index: 70;
+      inset: 68px 0 0;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      padding: 28px 20px calc(20px + env(safe-area-inset-bottom));
+      background: rgba(255, 248, 237, 0.98);
+      transform: translateX(100%);
+      transition: transform 220ms ease;
+    }
+
+    .mobile-menu.open {
+      transform: translateX(0);
+    }
+
+    .mobile-menu nav {
+      display: grid;
+      align-content: start;
+      gap: 6px;
+    }
+
+    .mobile-menu a {
+      min-height: 56px;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      border-radius: 14px;
+      font-size: 1.15rem;
+      font-weight: 800;
+    }
+
+    .mobile-menu a:hover {
+      background: var(--color-primary-soft);
+      color: var(--color-primary-dark);
+    }
+
+    .hero {
+      padding: 36px 0 30px;
+    }
+
+    .hero-grid {
+      display: grid;
+      gap: 28px;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--color-primary);
+      font-size: 0.84rem;
+      font-weight: 900;
+    }
+
+    .kicker::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--color-accent);
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      max-width: 12ch;
+      margin-bottom: 14px;
+      font-size: clamp(2.35rem, 11.8vw, 3.55rem);
+      line-height: 1.02;
+      letter-spacing: -0.048em;
+    }
+
+    .hero-copy {
+      max-width: 34rem;
+      margin-bottom: 20px;
+      color: var(--color-text-muted);
+      font-size: 1rem;
+    }
+
+    .trust-list {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      color: var(--color-text-muted);
+      font-size: 0.84rem;
+      font-weight: 700;
+    }
+
+    .trust-list li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .trust-list li::before {
+      content: "✓";
+      color: var(--color-primary);
+      font-weight: 900;
+    }
+
+    .hero-visual {
+      position: relative;
+      min-height: 395px;
+      overflow: hidden;
+      border: 1px solid rgba(15, 118, 110, 0.12);
+      border-radius: var(--radius-visual);
+      background:
+        radial-gradient(circle at 8% 14%, var(--color-primary-soft) 0 24%, transparent 25%),
+        radial-gradient(circle at 93% 76%, var(--color-secondary-soft) 0 21%, transparent 22%),
+        rgba(255, 255, 255, 0.45);
+      box-shadow: var(--shadow-large);
+    }
+
+    .hero-visual-image {
+      width: 100%;
+      height: 100%;
+      min-height: 395px;
+      object-fit: cover;
+      opacity: 0.22;
+      filter: saturate(0.65) contrast(0.96);
+    }
+
+    .visual-overlay {
+      position: absolute;
+      inset: 0;
+      padding: 18px;
+    }
+
+    .dream-card {
+      position: absolute;
+      top: 22px;
+      inset-inline-end: 18px;
+      width: min(190px, calc(100% - 36px));
+      padding: 14px;
+      border: 1px solid rgba(15, 118, 110, 0.14);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: var(--shadow-medium);
+      backdrop-filter: blur(8px);
+      transform: rotate(1.5deg);
+    }
+
+    .dream-card small,
+    .step-card small {
+      color: var(--color-text-muted);
+      font-size: 0.75rem;
+      font-weight: 800;
+    }
+
+    .dream-card h2 {
+      margin: 5px 0 0;
+      font-size: 1.02rem;
+      line-height: 1.3;
+    }
+
+    .journey-line {
+      position: absolute;
+      inset: 62px 0 0;
+      width: 100%;
+      height: 270px;
+      pointer-events: none;
+    }
+
+    .milestone {
+      position: absolute;
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border: 2px solid var(--color-primary);
+      border-radius: 15px;
+      background: var(--color-surface);
+      color: var(--color-primary);
+      box-shadow: var(--shadow-small);
+      font-size: 0.82rem;
+      font-weight: 900;
+    }
+
+    .milestone.one {
+      top: 145px;
+      inset-inline-start: 38px;
+      transform: rotate(-5deg);
+    }
+
+    .milestone.two {
+      top: 210px;
+      inset-inline-end: 54px;
+      transform: rotate(6deg);
+    }
+
+    .step-card {
+      position: absolute;
+      inset-inline: 22px;
+      bottom: 22px;
+      padding: 16px;
+      border: 2px solid var(--color-accent);
+      border-radius: 20px;
+      background: var(--color-surface);
+      box-shadow: var(--shadow-large);
+    }
+
+    .step-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .step-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--color-primary-dark);
+      font-size: 0.78rem;
+      font-weight: 900;
+    }
+
+    .step-label::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--color-accent);
+    }
+
+    .step-time {
+      color: var(--color-text-muted);
+      font-size: 0.76rem;
+      font-weight: 800;
+    }
+
+    .step-card h3 {
+      margin: 8px 0 4px;
+      font-size: 1.05rem;
+      line-height: 1.3;
+    }
+
+    .step-card p {
+      margin-bottom: 0;
+      color: var(--color-text-muted);
+      font-size: 0.87rem;
+    }
+
+    .waitlist-section {
+      padding: 14px 0 48px;
+    }
+
+    .waitlist-card {
+      padding: 22px;
+      border: 1px solid var(--color-border);
+      border-radius: 24px;
+      background: var(--color-surface);
+      box-shadow: var(--shadow-medium);
+    }
+
+    .waitlist-card h2 {
+      margin-bottom: 7px;
+      font-size: 1.72rem;
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+    }
+
+    .waitlist-card > p {
+      margin-bottom: 20px;
+      color: var(--color-text-muted);
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .form-field {
+      display: grid;
+      gap: 7px;
+    }
+
+    label {
+      font-size: 0.84rem;
+      font-weight: 800;
+    }
+
+    input {
+      width: 100%;
+      min-height: 54px;
+      padding: 0 15px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-input);
+      background: var(--color-surface);
+      color: var(--color-text);
+      font-size: 16px;
+      transition: border-color 180ms ease, box-shadow 180ms ease;
+    }
+
+    input::placeholder {
+      color: #8B9995;
+    }
+
+    input:focus {
+      border-color: var(--color-secondary);
+      outline: none;
+      box-shadow: 0 0 0 4px var(--color-focus);
+    }
+
+    input[aria-invalid="true"] {
+      border-color: var(--color-error);
+      background: var(--color-error-bg);
+    }
+
+    .field-error {
+      min-height: 18px;
+      margin: 0;
+      color: var(--color-error);
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .primary-button {
+      min-height: 56px;
+      width: 100%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      border: 0;
+      border-radius: var(--radius-button);
+      background: var(--color-accent);
+      color: var(--color-text);
+      box-shadow: 0 12px 24px rgba(255, 138, 61, 0.24);
+      font-weight: 900;
+      transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease;
+    }
+
+    .primary-button:hover {
+      background: var(--color-accent-hover);
+      box-shadow: 0 14px 28px rgba(255, 138, 61, 0.30);
+    }
+
+    .primary-button:active {
+      transform: scale(0.985);
+    }
+
+    .primary-button:disabled {
+      cursor: not-allowed;
+      opacity: 0.72;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .form-note {
+      margin: 12px 0 0;
+      color: var(--color-text-muted);
+      font-size: 0.78rem;
+      text-align: center;
+    }
+
+    .status-message {
+      margin: 16px 0 0;
+      padding: 12px 14px;
+      border: 1px solid transparent;
+      border-radius: 14px;
+      font-size: 0.92rem;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .status-message[hidden] {
+      display: none;
+    }
+
+    .status-message.is-success {
+      border-color: rgba(47, 158, 104, 0.28);
+      background: rgba(47, 158, 104, 0.10);
+      color: #17623F;
+    }
+
+    .status-message.is-error {
+      border-color: rgba(168, 58, 58, 0.24);
+      background: var(--color-error-bg);
+      color: var(--color-error);
+    }
+
+    .success-message h3 {
+      margin-bottom: 6px;
+      font-size: 1.18rem;
+    }
+
+    .success-message p {
+      margin-bottom: 0;
+    }
+
+    .features {
+      padding: 54px 0 66px;
+    }
+
+    .section-heading {
+      max-width: 620px;
+      margin-bottom: 24px;
+    }
+
+    .section-heading h2 {
+      margin-bottom: 8px;
+      font-size: 1.82rem;
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+    }
+
+    .section-heading p {
+      margin-bottom: 0;
+      color: var(--color-text-muted);
+    }
+
+    .feature-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .feature-card {
+      position: relative;
+      overflow: hidden;
+      padding: 20px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-card);
+      background: var(--color-surface);
+      box-shadow: var(--shadow-small);
+    }
+
+    .feature-card::after {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      inset-inline-start: -48px;
+      bottom: -70px;
+      border-radius: 50%;
+      background: var(--color-primary-soft);
+      opacity: 0.62;
+    }
+
+    .feature-icon {
+      position: relative;
+      z-index: 1;
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 15px;
+      border-radius: 15px;
+      background: var(--color-primary-soft);
+      color: var(--color-primary);
+      font-weight: 900;
+    }
+
+    .feature-card h3,
+    .feature-card p {
+      position: relative;
+      z-index: 1;
+    }
+
+    .feature-card h3 {
+      margin-bottom: 6px;
+      font-size: 1.08rem;
+    }
+
+    .feature-card p {
+      margin-bottom: 0;
+      color: var(--color-text-muted);
+      font-size: 0.92rem;
+    }
+
+    .closing-cta {
+      padding: 0 0 72px;
+    }
+
+    .closing-card {
+      position: relative;
+      overflow: hidden;
+      padding: 25px;
+      border-radius: 24px;
+      background: var(--color-text);
+      color: #fff;
+    }
+
+    .closing-card::after {
+      content: "";
+      position: absolute;
+      width: 190px;
+      height: 190px;
+      inset-inline-start: -80px;
+      bottom: -110px;
+      border-radius: 50%;
+      background: rgba(85, 214, 194, 0.14);
+    }
+
+    .closing-card h2,
+    .closing-card p,
+    .closing-card a {
+      position: relative;
+      z-index: 1;
+    }
+
+    .closing-card h2 {
+      margin-bottom: 8px;
+      font-size: 1.58rem;
+      line-height: 1.15;
+    }
+
+    .closing-card p {
+      color: #C8D6D2;
+    }
+
+    .closing-card .primary-button {
+      margin-top: 8px;
+    }
+
+    footer {
+      padding: 28px 0 calc(28px + env(safe-area-inset-bottom));
+      background: var(--color-text);
+      color: #fff;
+    }
+
+    .footer-inner {
+      display: grid;
+      gap: 20px;
+    }
+
+    .footer-brand p {
+      max-width: 34rem;
+      margin: 8px 0 0;
+      color: #C8D6D2;
+      font-size: 0.88rem;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 18px;
+    }
+
+    .footer-links a {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      color: #D7E3DF;
+      font-size: 0.86rem;
+      font-weight: 700;
+    }
+
+    .copyright {
+      color: #AABDB6;
+      font-size: 0.78rem;
+    }
+
+    .legal-dialog {
+      width: min(100% - 28px, 560px);
+      max-height: min(86vh, 760px);
+      padding: 0;
+      border: 0;
+      border-radius: 22px;
+      background: var(--color-surface);
+      color: var(--color-text);
+      box-shadow: var(--shadow-large);
+    }
+
+    .legal-dialog::backdrop {
+      background: var(--color-overlay);
+      backdrop-filter: blur(3px);
+    }
+
+    .dialog-inner {
+      padding: 22px;
+      overflow: auto;
+    }
+
+    .dialog-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .dialog-header h2 {
+      margin: 0;
+      font-size: 1.35rem;
+    }
+
+    .dialog-close {
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--color-border);
+      border-radius: 14px;
+      background: var(--color-surface);
+      color: var(--color-primary-dark);
+      font-size: 1.25rem;
+    }
+
+    .dialog-inner p {
+      color: var(--color-text-muted);
+    }
+
+    .dialog-inner p:last-child {
+      margin-bottom: 0;
+    }
+
+    @media (min-width: 760px) {
+      .shell,
+      .desktop-shell {
+        width: min(100% - 48px, var(--content-width));
+      }
+
+      .menu-button,
+      .mobile-menu {
+        display: none;
+      }
+
+      .desktop-nav {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+      }
+
+      .desktop-nav a {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        color: var(--color-text-muted);
+        font-size: 0.88rem;
+        font-weight: 800;
+      }
+
+      .desktop-nav a:hover {
+        color: var(--color-primary);
+      }
+
+      .desktop-nav .nav-cta {
+        padding: 0 16px;
+        border-radius: 12px;
+        background: var(--color-primary);
+        color: #fff;
+      }
+
+      .hero {
+        padding: 64px 0 46px;
+      }
+
+      .hero-grid {
+        grid-template-columns: 0.9fr 1.1fr;
+        align-items: center;
+        gap: 56px;
+      }
+
+      h1 {
+        font-size: clamp(4rem, 6.6vw, 5.25rem);
+      }
+
+      .hero-visual,
+      .hero-visual-image {
+        min-height: 520px;
+      }
+
+      .dream-card {
+        top: 34px;
+        inset-inline-end: 34px;
+        width: 220px;
+        padding: 17px;
+      }
+
+      .milestone.one {
+        top: 190px;
+        inset-inline-start: 82px;
+      }
+
+      .milestone.two {
+        top: 290px;
+        inset-inline-end: 118px;
+      }
+
+      .step-card {
+        inset-inline-start: 62px;
+        inset-inline-end: auto;
+        width: 330px;
+        bottom: 40px;
+        padding: 18px;
+      }
+
+      .journey-line {
+        inset: 90px 0 0;
+        height: 360px;
+      }
+
+      .waitlist-section {
+        padding: 20px 0 64px;
+      }
+
+      .waitlist-card {
+        max-width: 760px;
+        margin-inline: auto;
+        padding: 30px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .form-grid .submit-row {
+        grid-column: 1 / -1;
+      }
+
+      .feature-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .closing-card {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: 28px;
+        padding: 34px;
+      }
+
+      .closing-card .primary-button {
+        width: auto;
+        min-width: 230px;
+        margin-top: 0;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr auto;
+        align-items: end;
+      }
+
+      .copyright {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+  </style>
+   <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-W66TTCB8BH"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-W66TTCB8BH');
+    </script>
+</head>
+
+<body>
+  <a class="skip-link" href="#main">דלג לתוכן</a>
+
+  <header class="site-header" id="siteHeader">
+    <div class="desktop-shell header-inner">
+      <a class="brand" href="#top" aria-label="Dreamly - דף הבית">
+        <span class="brand-mark" aria-hidden="true">D</span>
+        <span>Dreamly</span>
+      </a>
+
+      <nav class="desktop-nav" aria-label="ניווט ראשי">
+        <a href="#benefits">למה Dreamly</a>
+        <a href="#waitlist">הצטרפות לבטא</a>
+        <a href="#footer">פרטים נוספים</a>
+        <a class="nav-cta" href="#waitlist">רשימת המתנה</a>
+      </nav>
+
+      <button
+        class="menu-button"
+        id="menuButton"
+        type="button"
+        aria-label="פתיחת תפריט"
+        aria-expanded="false"
+        aria-controls="mobileMenu"
+      >
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <aside class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <nav aria-label="ניווט מובייל">
+      <a href="#top">דף הבית</a>
+      <a href="#benefits">למה Dreamly</a>
+      <a href="#waitlist">הצטרפות לבטא</a>
+      <a href="#footer">פרטים נוספים</a>
+    </nav>
+    <a class="primary-button" href="#waitlist">הצטרפות לרשימת ההמתנה</a>
+  </aside>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="desktop-shell hero-grid">
+        <div>
+          <span class="kicker">הבטא הראשונה של Dreamly בדרך</span>
+          <h1>רואים את הדרך. מתחילים השבוע.</h1>
+          <p class="hero-copy">
+            Dreamly הופכת חלום גדול למסלול ברור, ואז בוחרת איתך צעד קטן ומעשי שמתאים לזמן ולחיים שלך עכשיו.
+          </p>
+
+          <ul class="trust-list" aria-label="יתרונות מרכזיים">
+            <li>פחות הצפה ויותר פעולה</li>
+            <li>מסלול שמתאים את עצמו למציאות</li>
+            <li>גישה מוקדמת למצטרפים לרשימת ההמתנה</li>
+          </ul>
+        </div>
+
+        <div class="hero-visual" aria-label="הדמיה של מסלול Dreamly">
+          <img
+            class="hero-visual-image"
+            src="https://picsum.photos/1200/900"
+            alt="תמונת placeholder להדמיית המוצר Dreamly"
+            width="1200"
+            height="900"
+          >
+
+          <div class="visual-overlay">
+            <article class="dream-card">
+              <small>החלום שלי</small>
+              <h2>להשיק מוצר דיגיטלי ראשון</h2>
+            </article>
+
+            <svg class="journey-line" viewBox="0 0 420 320" aria-hidden="true">
+              <path
+                d="M360 58 C285 68 257 105 280 136 C310 177 274 205 220 202 C160 198 118 232 110 275"
+                fill="none"
+                stroke="#0F766E"
+                stroke-width="8"
+                stroke-linecap="round"
+                stroke-dasharray="1 20"
+              />
+              <path
+                d="M360 58 C285 68 257 105 280 136 C310 177 274 205 220 202 C160 198 118 232 110 275"
+                fill="none"
+                stroke="#7FDACB"
+                stroke-width="3"
+                stroke-linecap="round"
+              />
+            </svg>
+
+            <div class="milestone one" aria-hidden="true">1</div>
+            <div class="milestone two" aria-hidden="true">2</div>
+
+            <article class="step-card">
+              <div class="step-top">
+                <span class="step-label">הצעד שלך השבוע</span>
+                <span class="step-time">45 דקות</span>
+              </div>
+              <h3>לנסח את הרעיון בשלושה משפטים</h3>
+              <p>למי הוא מיועד, איזו בעיה הוא פותר ומה משתנה אחרי השימוש.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="waitlist-section" id="waitlist" aria-labelledby="waitlistTitle">
+      <div class="shell">
+        <div class="waitlist-card">
+          <div id="formContent">
+            <h2 id="waitlistTitle">הצטרפו לרשימת ההמתנה</h2>
+            <p>נעדכן אתכם כשהבטא תיפתח ונזמין את המצטרפים הראשונים להתנסות מוקדמת.</p>
+
+            <form id="waitlistForm" novalidate>
+              <div class="form-grid">
+                <div class="form-field">
+                  <label for="name">שם מלא</label>
+                  <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    autocomplete="name"
+                    placeholder="לדוגמה: נועה לוי"
+                    required
+                    
+                  >
+                  
+                </div>
+
+                <div class="form-field">
+                  <label for="email">כתובת דוא"ל</label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    inputmode="email"
+                    autocomplete="email"
+                    placeholder="name@example.com"
+                    required
+                    
+                  >
+                  
+                </div>
+
+                <div class="submit-row">
+                  <button class="primary-button" id="submitButton" type="submit">
+                    <span>הרשמה לגישה מוקדמת</span>
+                    <span aria-hidden="true">←</span>
+                  </button>
+                  <p class="form-note">
+                    לא נשלח ספאם. ניתן להסיר את ההרשמה בכל עת.
+                  </p>
+                </div>
+              </div>
+            </form>
+          </div>
+          <p
+            id="statusMessage"
+            class="status-message"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+            hidden
+          ></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="features" id="benefits" aria-labelledby="benefitsTitle">
+      <div class="desktop-shell">
+        <div class="section-heading">
+          <span class="kicker">לא עוד רשימת משימות</span>
+          <h2 id="benefitsTitle">שלושה דברים שהופכים חלום לפעולה</h2>
+          <p>Dreamly שומרת על התמונה הגדולה, אבל מציגה רק את מה שחשוב לבצע עכשיו.</p>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">1</div>
+            <h3>צעד אחד ברור</h3>
+            <p>במקום רשימה ארוכה ומלחיצה, מקבלים פעולה ממוקדת שאפשר להתחיל השבוע.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">2</div>
+            <h3>מסלול שמתאים את עצמו</h3>
+            <p>כשהזמן, היכולת או המציאות משתנים, הדרך מתעדכנת בלי לסמן אותך ככישלון.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">3</div>
+            <h3>התקדמות שאפשר לראות</h3>
+            <p>אבני דרך והצלחות קטנות הופכות את ההתקדמות למוחשית ושומרות על הכיוון.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing-cta">
+      <div class="desktop-shell">
+        <div class="closing-card">
+          <div>
+            <h2>החלום יכול להישאר גדול. ההתחלה לא חייבת להיות.</h2>
+            <p>הצטרפו לבטא וקבלו הזמנה כשהגישה המוקדמת תיפתח.</p>
+          </div>
+          <a class="primary-button" href="#waitlist">הצטרפות לרשימת ההמתנה</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="footer">
+    <div class="desktop-shell footer-inner">
+      <div class="footer-brand">
+        <a class="brand" href="#top">
+          <span class="brand-mark" aria-hidden="true">D</span>
+          <span>Dreamly</span>
+        </a>
+        <p>מערכת שמחברת בין חלום גדול לצעד אחד ברור שאפשר לבצע עכשיו.</p>
+      </div>
+
+      <nav class="footer-links" aria-label="קישורים משפטיים">
+        <a href="#" data-dialog="privacyDialog">מדיניות פרטיות</a>
+        <a href="#" data-dialog="termsDialog">תנאי שימוש</a>
+        <a href="mailto:hello@dreamly.example">צור קשר</a>
+      </nav>
+
+      <div class="copyright">
+        © <span id="currentYear"></span> Dreamly. כל הזכויות שמורות.
+      </div>
+    </div>
+  </footer>
+
+  <dialog class="legal-dialog" id="privacyDialog">
+    <div class="dialog-inner">
+      <div class="dialog-header">
+        <h2>מדיניות פרטיות</h2>
+        <button class="dialog-close" type="button" aria-label="סגירה">×</button>
+      </div>
+      <p>
+        זהו טקסט placeholder בלבד. לפני פרסום האתר יש להחליפו במדיניות פרטיות מלאה המתאימה לאופן איסוף ושמירת הנתונים בפועל.
+      </p>
+      <p>
+        בגרסת ההדגמה הנוכחית, פרטי הטופס נשמרים בדפדפן המקומי בלבד ואינם נשלחים לשרת.
+      </p>
+    </div>
+  </dialog>
+
+  <dialog class="legal-dialog" id="termsDialog">
+    <div class="dialog-inner">
+      <div class="dialog-header">
+        <h2>תנאי שימוש</h2>
+        <button class="dialog-close" type="button" aria-label="סגירה">×</button>
+      </div>
+      <p>
+        זהו טקסט placeholder בלבד. לפני פרסום האתר יש להחליפו בתנאי שימוש משפטיים מלאים המתאימים למוצר ולשירות.
+      </p>
+    </div>
+  </dialog>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const header = document.getElementById("siteHeader");
+      const menuButton = document.getElementById("menuButton");
+      const mobileMenu = document.getElementById("mobileMenu");
+
+      document.getElementById("currentYear").textContent = new Date().getFullYear();
+
+      window.addEventListener("scroll", () => {
+        header.classList.toggle("scrolled", window.scrollY > 10);
+      }, { passive: true });
+
+      function setMenu(open) {
+        menuButton.setAttribute("aria-expanded", String(open));
+        menuButton.setAttribute("aria-label", open ? "סגירת תפריט" : "פתיחת תפריט");
+        mobileMenu.classList.toggle("open", open);
+        mobileMenu.setAttribute("aria-hidden", String(!open));
+        document.body.classList.toggle("menu-open", open);
+      }
+
+      menuButton.addEventListener("click", () => {
+        const isOpen = menuButton.getAttribute("aria-expanded") === "true";
+        setMenu(!isOpen);
+      });
+
+      mobileMenu.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => setMenu(false));
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          setMenu(false);
+          document.querySelectorAll("dialog[open]").forEach((dialog) => dialog.close());
+        }
+      });
+
+      document.querySelectorAll("[data-dialog]").forEach((link) => {
+        link.addEventListener("click", (event) => {
+          event.preventDefault();
+          const dialog = document.getElementById(link.dataset.dialog);
+          dialog?.showModal();
+        });
+      });
+
+      document.querySelectorAll(".legal-dialog").forEach((dialog) => {
+        dialog.querySelector(".dialog-close")?.addEventListener("click", () => dialog.close());
+
+        dialog.addEventListener("click", (event) => {
+          const rect = dialog.getBoundingClientRect();
+          const clickedOutside =
+            event.clientX < rect.left ||
+            event.clientX > rect.right ||
+            event.clientY < rect.top ||
+            event.clientY > rect.bottom;
+
+          if (clickedOutside) {
+            dialog.close();
+          }
+        });
+      });
+    })();
+  </script>
+
+    <script>
+      const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxtMnCafzrLhcipNkzJJxWvJUnQl5NgKVq_Onc4DV-oqNcNuXAdKMruqXsIfeSOwyBA/exec';
+      const waitlistForm = document.getElementById('waitlistForm');
+      const submitButton = document.getElementById('submitButton');
+      const submitButtonText = submitButton.querySelector('span:first-child');
+      const statusMessage = document.getElementById('statusMessage');
+
+      function showStatus(message, type) {
+        statusMessage.textContent = message;
+        statusMessage.classList.remove('is-success', 'is-error');
+        statusMessage.classList.add(type === 'success' ? 'is-success' : 'is-error');
+        statusMessage.hidden = false;
+      }
+
+      waitlistForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        if (submitButton.disabled) {
+          return;
+        }
+
+        if (!waitlistForm.checkValidity()) {
+          waitlistForm.reportValidity();
+          return;
+        }
+
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+
+        statusMessage.hidden = true;
+        statusMessage.textContent = '';
+        statusMessage.classList.remove('is-success', 'is-error');
+
+        submitButton.disabled = true;
+        submitButton.setAttribute('aria-busy', 'true');
+        submitButtonText.textContent = 'שולח...';
+
+        try {
+          await fetch(APPS_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email })
+          });
+
+          if (typeof gtag === 'function') {
+            gtag('event', 'sign_up_waitlist', {
+              event_category: 'engagement',
+              event_label: 'Waitlist Form'
+            });
+          }
+
+          waitlistForm.reset();
+          showStatus('תודה! נרשמת בהצלחה לרשימת ההמתנה.', 'success');
+          submitButtonText.textContent = 'הרישום הושלם';
+          submitButton.removeAttribute('aria-busy');
+        } catch (error) {
+          console.error('Waitlist registration failed:', error);
+          showStatus('אירעה שגיאה בשליחת ההרשמה. אפשר לנסות שוב.', 'error');
+          submitButton.disabled = false;
+          submitButton.removeAttribute('aria-busy');
+          submitButtonText.textContent = 'הרשמה לגישה מוקדמת';
+        }
+      });
+    </script>
+</body>
+</html>
