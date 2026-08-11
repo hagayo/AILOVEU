@@ -179,7 +179,7 @@ p { margin: 0; }
 .feature-card p { color: var(--muted); margin-top: 8px; }
 
 .world-section { position: relative; min-height: 660px; display: grid; place-items: center; overflow: hidden; background: var(--ink); }
-.world-bg { position: absolute; inset: 0; opacity: 0.72; }
+.world-bg { position: absolute; inset: 0; }
 .world-bg img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.12); filter: saturate(1.2) contrast(1.05); }
 .world-section::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(36,38,31,0.82), rgba(36,38,31,0.18), rgba(255,144,66,0.3)); }
 .world-content { position: relative; z-index: 2; max-width: 820px; text-align: center; color: white; padding: 40px 22px; }
@@ -193,7 +193,8 @@ p { margin: 0; }
 
 .lightning-section { display: grid; grid-template-columns: 340px 1fr; gap: 28px; align-items: center; }
 .lightning-image { max-width: 340px; border-radius: 34px; overflow: hidden; box-shadow: 0 28px 80px rgba(16, 200, 255, 0.28); background: #00111f; transform: rotate(-2deg); }
-.lightning-image img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
+.lightning-image img { width: 100%; object-fit: cover; }
+/* aspect-ratio: 1 / 1;  */
 .lightning-copy { background: var(--ink); color: white; border-radius: 34px; padding: clamp(24px, 4vw, 40px); box-shadow: var(--shadow); }
 .lightning-copy h2 { color: white; }
 .lightning-copy p:not(.eyebrow) { color: rgba(255,255,255,0.82); font-size: 1.2rem; margin: 20px 0 28px; }
