@@ -23,7 +23,7 @@ body {
   background:
     radial-gradient(circle at 20% 0%, rgba(255, 144, 66, 0.24), transparent 32rem),
     radial-gradient(circle at 80% 12%, rgba(229, 245, 105, 0.24), transparent 30rem),
-    var(--cream);
+    var(--lightBlue);
 }
 img, video { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
