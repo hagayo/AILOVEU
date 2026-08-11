@@ -102,10 +102,8 @@ h2 { font-size: clamp(2rem, 4.4vw, 4rem); letter-spacing: 0; }
 h3 { font-size: clamp(1.25rem, 2vw, 1.75rem); }
 p { margin: 0; }
 
-.hero { 
-  min-height: calc(100vh - 80px); display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 34px; align-items: center;
-  background: var(--lightBlue);
-}
+.hero-section { background: var(--lightBlue); }
+.hero { min-height: calc(100vh - 80px); display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 34px; align-items: center; }
 .hero-lead { font-size: clamp(1.15rem, 2vw, 1.55rem); color: var(--muted); max-width: 680px; margin-top: 24px; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
 .button {
