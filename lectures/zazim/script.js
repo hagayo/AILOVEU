@@ -180,7 +180,7 @@
       requestedDate: String(formData.get('requestedDate') || '').trim(),
       company: String(formData.get('company') || '').trim(),
       participantCount: String(formData.get('participantCount') || '').trim(),
-      privacyConsent: formData.get('privacyConsent') === 'on',
+      privacyConsent: formData.get('consent') === 'on',
       message: String(formData.get('message') || '').trim(),
       pageUrl: window.location.href,
       userAgent: navigator.userAgent,
