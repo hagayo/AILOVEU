@@ -128,6 +128,7 @@ async function sendCookieConsent(decision) {
 
   function acceptExternalMedia() {
     saveConsent(true);
+    sendCookieConsent('accepted');
     loadExternalMedia();
     closeBanner();
   }
