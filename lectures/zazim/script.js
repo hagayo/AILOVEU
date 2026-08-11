@@ -179,7 +179,7 @@
       phone: String(formData.get('phone') || '').trim(),
       requestedDate: String(formData.get('requestedDate') || '').trim(),
       company: String(formData.get('company') || '').trim(),
-      participantCount: String(formData.get('participantCount') || '').trim(),
+      participantCount: String(formData.get('participants') || '').trim(),
       privacyConsent: formData.get('consent') === 'on',
       message: String(formData.get('message') || '').trim(),
       pageUrl: window.location.href,
