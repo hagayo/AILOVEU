@@ -69,6 +69,35 @@
     }
   }
 
+async function sendCookieConsent(decision) {
+  const payload = {
+    recordType: 'cookie-consent',
+    requestId: crypto.randomUUID(),
+    submittedAt: new Date().toISOString(),
+    decision,
+    policyVersion: '2026-08-11',
+    pagePath: window.location.href,
+    storageMethod: 'local-storage',
+    source: 'zazim-cookie-banner'
+  };
+
+  try {
+    const response = await fetch(LEAD_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || result.ok !== true) {
+      throw new Error(result.error || 'cookie_consent_submit_failed');
+    }
+  } catch (error) {
+    console.error('Cookie consent was not saved to the sheet:', error);
+  }
+}
+
   function loadExternalMedia() {
     document.querySelectorAll('iframe[data-src]').forEach((frame) => {
       frame.src = frame.dataset.src;
