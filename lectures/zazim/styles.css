@@ -191,6 +191,7 @@ p { margin: 0; }
 .hr-cards article { padding: 28px; border: 2px solid var(--ink); box-shadow: 9px 9px 0 var(--orange); }
 .hr-cards p { color: var(--muted); margin-top: 12px; }
 
+.lightning-section-bg  { background: var(--cream); }
 .lightning-section { display: grid; grid-template-columns: 340px 1fr; gap: 28px; align-items: center; }
 .lightning-image { max-width: 340px; border-radius: 34px; overflow: hidden; box-shadow: 0 28px 80px rgba(16, 200, 255, 0.28); background: #00111f; transform: rotate(-2deg); }
 .lightning-image img { width: 100%; object-fit: cover; }
