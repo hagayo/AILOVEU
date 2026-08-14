@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO & Basic Meta Tags -->
+    <title>חגי און - הרצאות שזוכרים | Keynote Speaker</title>
+    <meta name="description" content="חווית הרצאה פורצת דרך המחברת בין טכנולוגיה, אלגוריתם המוח והתנועה האנושית. הרצאות פרימיום לארגונים, חברות הייטק וכנסים.">
+    <meta name="author" content="חגי און">
+
+    <!-- OpenGraph (WhatsApp, LinkedIn, Facebook Sharing Meta Tags) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ailoveu.art">
+    <meta property="og:title" content="חגי און - הרצאות שזוכרים | Keynote Speaker">
+    <meta property="og:description" content="החיבור הייחודי בין טכנולוגיה, אלגוריתם המוח והתנועה האנושית. הרצאות פרימיום מעוררות מחשבה לארגונים וכנסים.">
+    <meta property="og:image" content="https://ailoveu.art/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="he_IL">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="חגי און - הרצאות שזוכרים">
+    <meta name="twitter:description" content="החיבור הייחודי בין טכנולוגיה, אלגוריתם המוח והתנועה האנושית. הרצאות פרימיום לארגונים.">
+    <meta name="twitter:image" content="https://ailoveu.art/og-image.jpg">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800&family=Rubik:wght@500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #070C18;
+            --bg-dark-card: #0F172A;
+            --bg-slate: #1E293B;
+            --bg-light-1: #F8FAFC;
+            --bg-light-2: #EEF2F6;
+            --bg-light-3: #E2E8F0;
+            --text-dark: #0F172A;
+            --text-light: #F8FAFC;
+            --text-muted: #64748B;
+            --text-muted-light: #94A3B8;
+            --accent: #FF5E00;
+            --accent-glow: rgba(255, 94, 0, 0.4);
+            --accent-soft: rgba(255, 94, 0, 0.12);
+            --whatsapp-green: #25D366;
+            --whatsapp-hover: #1EBE57;
+            --border-light: rgba(15, 23, 42, 0.08);
+            --border-dark: rgba(255, 255, 255, 0.12);
+            --focus-outline: #38BDF8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Assistant', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-dark);
+            line-height: 1.7;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--focus-outline);
+            outline-offset: 4px;
+            border-radius: 4px;
+        }
+
+        /* Particle Trail Canvas */
+        #trail-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* Navigation Bar */
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(7, 12, 24, 0.88);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-dark);
+            z-index: 1000;
+            padding: 1.1rem 3rem;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+        }
+
+        .nav-brand {
+            font-family: 'Rubik', sans-serif;
+            font-weight: 900;
+            font-size: 1.8rem;
+            color: var(--text-light);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-brand span { color: var(--accent); }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted-light);
+            font-weight: 700;
+            font-size: 1.05rem;
+            transition: color 0.25s ease;
+        }
+
+        .nav-links a:hover, .nav-links a:focus { color: var(--accent); }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--accent) 0%, #FF8A00 100%);
+            color: white !important;
+            padding: 0.7rem 1.6rem;
+            border-radius: 50px;
+            font-weight: 800;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 94, 0, 0.3);
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 94, 0, 0.5);
+        }
+
+        /* HERO SECTION - Modern 2-Column with Parallax Floating Photo Frame */
+        header.hero-section {
+            position: relative;
+            background: radial-gradient(circle at 70% 30%, #152238 0%, var(--bg-dark) 70%);
+            color: var(--text-light);
+            padding: 6rem 2rem 5rem;
+            overflow: hidden;
+        }
+
+        .hero-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content {
+            text-align: right;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 94, 0, 0.12);
+            color: var(--accent);
+            font-weight: 800;
+            font-size: 0.95rem;
+            padding: 0.5rem 1.4rem;
+            border-radius: 30px;
+            margin-bottom: 1.8rem;
+            border: 1px solid rgba(255, 94, 0, 0.3);
+        }
+
+        .hero-content h1 {
+            font-family: 'Rubik', sans-serif;
+            font-weight: 900;
+            font-size: 3.8rem;
+            line-height: 1.15;
+            margin-bottom: 1.8rem;
+            letter-spacing: -1px;
+        }
+
+        .hero-content h1 span {
+            background: linear-gradient(135deg, #FF5E00 0%, #FFB800 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-muted-light);
+            margin-bottom: 2.8rem;
+            font-weight: 400;
+            line-height: 1.8;
+            max-width: 680px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent) 0%, #FF8A00 100%);
+            color: white;
+            padding: 1.1rem 2.8rem;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1.15rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 94, 0, 0.35);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(255, 94, 0, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-light);
+            padding: 1.1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.15rem;
+            text-decoration: none;
+            border: 1px solid var(--border-dark);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Image Parallax Placeholder Box */
+        .hero-media-wrapper {
+            position: relative;
+        }
+
+        .hero-image-card {
+            position: relative;
+            aspect-ratio: 16 / 9;
+            width: 100%;
+            border-radius: 28px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #151F32 0%, #0F172A 100%);
+            border: 2px solid rgba(255, 94, 0, 0.3);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 94, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .hero-image-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Stylish Placeholder Styling when no img file is loaded */
+        .image-placeholder-content {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted-light);
+        }
+
+        .image-placeholder-icon {
+            font-size: 3rem;
+            margin-bottom: 0.8rem;
+            display: block;
+        }
+
+        .image-placeholder-tag {
+            background: rgba(255, 94, 0, 0.2);
+            color: var(--accent);
+            padding: 0.4rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            display: inline-block;
+            margin-top: 0.8rem;
+            border: 1px solid rgba(255, 94, 0, 0.4);
+        }
+
+        .hero-floating-badge {
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            background: rgba(15, 23, 42, 0.92);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-dark);
+            padding: 1rem 1.5rem;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            z-index: 3;
+        }
+
+        .hero-floating-badge .badge-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--accent) 0%, #FF8A00 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+        }
+
+        /* Trust Stats Bar Inside Dark Glow */
+        .trust-bar-wrapper {
+            background: var(--bg-dark);
+            padding: 2rem 2rem 4rem;
+            border-bottom: 1px solid var(--border-dark);
+        }
+
+        .trust-bar {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(21, 31, 50, 0.85);
+            border: 1px solid var(--border-dark);
+            border-radius: 24px;
+            padding: 2.2rem 2rem;
+            backdrop-filter: blur(16px);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .trust-item .num {
+            font-family: 'Rubik', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: var(--text-light);
+            line-height: 1;
+            margin-bottom: 0.4rem;
+        }
+
+        .trust-item .num span { color: var(--accent); }
+        .trust-item .label { font-size: 1rem; color: var(--text-muted-light); font-weight: 600; }
+
+        /* SECTION 1: WHY HAGAY ONN - Studio Light Tech Grid Background */
+        section.why-section-wrapper {
+            background-color: #FFF4E8;
+            background-image: radial-gradient(rgba(255, 94, 0, 0.08) 1px, transparent 1px);
+            background-size: 24px 24px;
+            padding: 7rem 2rem;
+            position: relative;
+        }
+
+        .section-container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title h2 {
+            font-family: 'Rubik', sans-serif;
+            font-size: 2.8rem;
+            color: var(--text-dark);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        .section-title p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .box-problem {
+            background: #FFFFFF;
+            border-radius: 28px;
+            padding: 3rem 2.5rem;
+            border: 2px solid #FECDD3;
+            box-shadow: 0 10px 30px rgba(225, 29, 72, 0.05);
+        }
+
+        .box-solution {
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+            color: white;
+            border-radius: 28px;
+            padding: 3rem 2.5rem;
+            border: 2px solid rgba(255, 94, 0, 0.4);
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);
+        }
+
+        .box-title {
+            font-family: 'Rubik', sans-serif;
+            font-size: 1.7rem;
+            font-weight: 900;
+            margin-bottom: 1.8rem;
+        }
+
+        .box-problem .box-title { color: #E11D48; }
+        .box-solution .box-title { color: #FF8A00; }
+
+        .list-unstyled { list-style: none; }
+        .list-unstyled li {
+            position: relative;
+            padding-right: 2.2rem;
+            margin-bottom: 1.3rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .box-problem li::before { content: "✕"; position: absolute; right: 0; color: #E11D48; font-weight: 900; font-size: 1.2rem; }
+        .box-solution li::before { content: "✓"; position: absolute; right: 0; color: #FF5E00; font-weight: 900; font-size: 1.3rem; }
+
+        /* SECTION 2: BIO - Deep Midnight Tech Gradient */
+        section.bio-section-wrapper {
+            background: linear-gradient(180deg, #F2ECFF 0%, #EDE4FF 100%);
+            color: var(--text-dark);
+            padding: 8rem 2rem;
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid var(--border-dark);
+            border-bottom: 1px solid var(--border-dark);
+        }
+
+        .bio-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .bio-visual {
+            background: rgba(255, 255, 255, 0.72);
+            border-radius: 32px;
+            padding: 4rem 3rem;
+            color: var(--text-dark);
+            position: relative;
+            border: 1px solid rgba(124, 58, 237, 0.12);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .bio-visual h3 {
+            font-family: 'Rubik', sans-serif;
+            font-size: 2.4rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .bio-visual p {
+            color: #475569;
+            font-size: 1.15rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .bio-badge-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .bio-tag {
+            background: rgba(255, 94, 0, 0.15);
+            color: #FF8A00;
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border: 1px solid rgba(255, 94, 0, 0.3);
+        }
+
+        .bio-text h2 {
+            font-family: 'Rubik', sans-serif;
+            font-size: 3rem;
+            color: var(--text-dark);
+            font-weight: 900;
+            margin-bottom: 1.8rem;
+            line-height: 1.2;
+        }
+
+        .bio-text p {
+            font-size: 1.25rem;
+            color: #475569;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        /* PARALLAX INTERMEDIATE BANNER SECTION */
+        section.parallax-quote-banner {
+            position: relative;
+            padding: 7rem 2rem;
+            background-image: linear-gradient(rgba(255, 239, 214, 0.90), rgba(255, 226, 190, 0.90)), url('hero-lecture-placeholder.jpg');
+            background-attachment: fixed;
+            background-position: center;
+            background-size: cover;
+            text-align: center;
+            color: var(--text-dark);
+            border-top: 1px solid rgba(255, 94, 0, 0.12);
+            border-bottom: 1px solid rgba(255, 94, 0, 0.12);
+        }
+
+        .parallax-quote-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .parallax-quote-content blockquote {
+            font-family: 'Rubik', sans-serif;
+            font-size: 2.4rem;
+            font-weight: 900;
+            line-height: 1.4;
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
+        }
+
+        .parallax-quote-content p {
+            font-size: 1.25rem;
+            color: #C94A00;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        /* SECTION 3: LECTURE CARDS GRID - Sleek Soft Studio Gray Background */
+        section.lectures-section-wrapper {
+            background-color: #FFF8DC;
+            padding: 8rem 2rem;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .lecture-pop-card {
+            background: #FFFFFF;
+            border: 2px solid rgba(15, 23, 42, 0.06);
+            border-radius: 28px;
+            padding: 3rem 2.2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+        }
+
+        .lecture-pop-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 6px;
+            background: linear-gradient(90deg, var(--accent) 0%, #FFB800 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lecture-pop-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            border-color: rgba(255, 94, 0, 0.5);
+            box-shadow: 0 30px 60px -15px rgba(255, 94, 0, 0.22);
+        }
+
+        .lecture-pop-card:hover::before { opacity: 1; }
+
+        .card-tag {
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.2rem;
+            background: var(--accent-soft);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+        }
+
+        .lecture-pop-card h3 {
+            font-family: 'Rubik', sans-serif;
+            font-size: 2.1rem;
+            color: var(--text-dark);
+            font-weight: 900;
+            margin-bottom: 1.2rem;
+            line-height: 1.2;
+        }
+
+        .lecture-pop-card p.desc {
+            color: #475569;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .card-bullets {
+            list-style: none;
+            margin-bottom: 2.5rem;
+            border-top: 1px solid var(--border-light);
+            padding-top: 1.5rem;
+        }
+
+        .card-bullets li {
+            font-size: 0.98rem;
+            color: var(--text-dark);
+            font-weight: 700;
+            margin-bottom: 0.7rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .card-bullets li::before {
+            content: "✦";
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+
+        .card-actions-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .card-btn-wa {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            background: var(--whatsapp-green);
+            color: white;
+            padding: 0.95rem 1.4rem;
+            border-radius: 16px;
+            font-weight: 800;
+            font-size: 1.05rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.25);
+        }
+
+        .card-btn-wa:hover, .card-btn-wa:focus {
+            background: var(--whatsapp-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
+        }
+
+        .card-btn-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #F8FAFC;
+            padding: 0.85rem 1.4rem;
+            border-radius: 16px;
+            font-weight: 700;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-light);
+        }
+
+        .card-btn-link:hover, .card-btn-link:focus {
+            background: var(--bg-dark);
+            color: white;
+            border-color: var(--bg-dark);
+        }
+
+        /* SECTION 4: TESTIMONIALS - Warm Elevated White Canvas */
+        section.testimonials-section-wrapper {
+            background-color: #EAF6EF;
+            padding: 8rem 2rem;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .testimonial-card {
+            background: #F8FAFC;
+            border-radius: 28px;
+            padding: 3rem 2.2rem;
+            border: 1px solid var(--border-light);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+        }
+
+        .quote-text {
+            font-size: 1.15rem;
+            color: var(--text-dark);
+            font-style: italic;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .author-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, var(--accent) 0%, #FF8A00 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-family: 'Rubik', sans-serif;
+            font-size: 1.1rem;
+        }
+
+        .author-details h3 {
+            font-family: 'Rubik', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            font-weight: 800;
+        }
+
+        .author-details p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        /* SECTION 5: FAQ - Soft Blue-Slate Tech Background */
+        section.faq-section-wrapper {
+            background-color: #EAF3FA;
+            padding: 8rem 2rem;
+        }
+
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: #FFFFFF;
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            margin-bottom: 1.2rem;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+
+        .faq-question {
+            width: 100%;
+            text-align: right;
+            padding: 1.6rem 2rem;
+            background: none;
+            border: none;
+            font-family: 'Rubik', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: color 0.25s ease;
+        }
+
+        .faq-answer {
+            padding: 0 2rem 1.6rem;
+            font-size: 1.15rem;
+            color: #475569;
+            display: none;
+            line-height: 1.8;
+        }
+
+        .faq-item.active .faq-answer { display: block; }
+        .faq-item.active .faq-question { color: var(--accent); }
+
+        /* CLOSING CTA BANNER - Ambient Glow Dark Theme */
+        section.closing-cta-wrapper {
+            background: radial-gradient(circle at 50% 50%, #FFE9DD 0%, #FFDCCB 80%);
+            padding: 8rem 2rem;
+            text-align: center;
+            color: var(--text-dark);
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid rgba(255, 94, 0, 0.12);
+        }
+
+        .closing-cta-container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .closing-cta-container h2 {
+            font-family: 'Rubik', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 1.2rem;
+            letter-spacing: -1px;
+        }
+
+        .closing-cta-container p {
+            font-size: 1.35rem;
+            color: #475569;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+        }
+
+        .btn-whatsapp {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            background: var(--whatsapp-green);
+            color: white;
+            text-decoration: none;
+            font-family: 'Rubik', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 900;
+            padding: 1.2rem 3.2rem;
+            border-radius: 60px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 12px 35px rgba(37, 211, 102, 0.35);
+        }
+
+        .btn-whatsapp:hover, .btn-whatsapp:focus {
+            background: var(--whatsapp-hover);
+            transform: scale(1.05) translateY(-3px);
+            box-shadow: 0 18px 45px rgba(37, 211, 102, 0.5);
+        }
+
+        .whatsapp-icon {
+            width: 30px;
+            height: 30px;
+            fill: currentColor;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-dark);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border-dark);
+        }
+
+        .footer-brand {
+            font-family: 'Rubik', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-brand span { color: var(--accent); }
+
+        .footer-sub {
+            font-size: 1.2rem;
+            color: var(--text-muted-light);
+            margin-bottom: 2rem;
+        }
+
+        .copyright {
+            font-size: 0.95rem;
+            color: #64748B;
+            border-top: 1px solid var(--border-dark);
+            padding-top: 2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* PREFERS REDUCED MOTION */
+        @media (prefers-reduced-motion: reduce) {
+            *, ::before, ::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+            section.parallax-quote-banner {
+                background-attachment: scroll !important;
+            }
+            .hero-image-card,
+            .lecture-pop-card:hover,
+            .btn-primary:hover,
+            .btn-whatsapp:hover {
+                transform: none !important;
+            }
+            #trail-canvas {
+                display: none !important;
+            }
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 1024px) {
+            nav { grid-template-columns: auto 1fr; }
+            .nav-links { display: none; }
+            .hero-container { grid-template-columns: 1fr; gap: 3rem; }
+            .hero-content { text-align: center; }
+            .hero-actions { justify-content: center; }
+            .bio-container { grid-template-columns: 1fr; gap: 3rem; }
+            .grid-2 { grid-template-columns: 1fr; gap: 2.5rem; }
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 1rem 1.5rem; }
+            .hero-content h1 { font-size: 2.5rem; }
+            .hero-subtitle { font-size: 1.15rem; }
+            .hero-actions { flex-direction: column; }
+            .trust-bar { grid-template-columns: 1fr 1fr; }
+            .closing-cta-container h2 { font-size: 2.2rem; }
+            .btn-whatsapp { font-size: 1.25rem; padding: 1rem 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Particle Mouse Trail Canvas -->
+    <canvas id="trail-canvas" aria-hidden="true"></canvas>
+
+    <!-- RTL Navigation Header -->
+    <nav aria-label="ניווט ראשי">
+        <a href="https://ailoveu.art" class="nav-brand" aria-label="חגי און - עמוד הבית">Hagay <span>Onn</span></a>
+        
+        <ul class="nav-links">
+            <li><a href="https://ailoveu.art">עמוד הבית</a></li>
+            <li><a href="/about.html">אודות</a></li>
+            <li><a href="/contact.html">יצירת קשר</a></li>
+        </ul>
+
+        <a href="https://wa.me/972544956239?text=%D7%94%D7%99%20%D7%97%D7%92%D7%99%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%91%D7%93%D7%95%D7%A7%20%D7%96%D7%9E%D7%99%D7%A0%D7%95%D7%AA%20%D7%9C%D7%97%D7%95%D7%95%D7%99%D7%AA%20%D7%94%D7%A8%D7%A6%D7%90%D7%94" target="_blank" class="nav-cta" rel="noopener">תיאום הרצאה</a>
+    </nav>
+
+    <!-- HERO SECTION - Dark Tech Radial Background + Floating Photo Frame -->
+    <header class="hero-section">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    ⚡ הרצאות Keynote לארגונים, חברות הייטק וכנסים
+                </div>
+                <h1>
+                    החיבור הייחודי בין <span>טכנולוגיה</span>,<br>
+                    אלגוריתם המוח והתנועה האנושית.
+                </h1>
+                <p class="hero-subtitle">
+                    חגי און מציג חוויית הרצאה פורצת דרך שלא רק מעבירה ידע – אלא משנה חשיבה. שילוב נדיר בין עומק טכנולוגי מתקדם, חיווט רשתות עצביות במוח, והדגמות תנועה חיות שמשאירות את הקהל פעור פה.
+                </p>
+                
+                <div class="hero-actions">
+                    <a href="#lectures" class="btn-primary">לכל תחומי ההרצאות ↓</a>
+                    <a href="https://wa.me/972544956239?text=%D7%94%D7%99%20%D7%97%D7%92%D7%99%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%91%D7%93%D7%95%D7%A7%20%D7%96%D7%9E%D7%99%D7%A0%D7%95%D7%AA%20%D7%9C%D7%97%D7%95%D7%95%D7%99%D7%AA%20%D7%94%D7%A8%D7%A6%D7%90%D7%94" target="_blank" class="btn-secondary" rel="noopener">שיחת ייעוץ ב-WhatsApp</a>
+                </div>
+            </div>
+
+            <!-- HERO PHOTO PLACEHOLDER FRAME (Parallax Floating Effect) -->
+            <div class="hero-media-wrapper js-parallax-element" data-speed="0.08">
+                <div class="hero-image-card">
+                    <!-- הוסף כאן את נתיב התמונה שלך ברגע שתמצא אותה במחשב: -->
+                    <img src="hero-lecture-placeholder.jpg" alt="חגי און בהרצאה חיה מול קהל" onerror="this.style.display='none'; document.getElementById('hero-ph-text').style.display='block';">
+                    
+                    <div class="image-placeholder-content" id="hero-ph-text" style="display: none;">
+                        <span class="image-placeholder-icon">📸</span>
+                        <p style="font-weight: 800; font-size: 1.1rem; color: white;">תמונת הרצאה חיה - חגי און</p>
+                        <p style="font-size: 0.9rem; margin-top: 0.3rem;">[החלף את הקובץ `hero-lecture-placeholder.jpg` בתמונה האופקית שלך]</p>
+                        <span class="image-placeholder-tag">16:9 HD Frame</span>
+                    </div>
+                </div>
+
+                <div class="hero-floating-badge">
+                    <div class="badge-icon">🔥</div>
+                    <div>
+                        <div style="font-weight: 900; color: white; font-size: 1.05rem;">חוויה חיה על הבמה</div>
+                        <div style="font-size: 0.85rem; color: var(--text-muted-light);">הדגמות ויזואליות שסוחפות את הקהל</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- TRUST STATS BAR -->
+    <div class="trust-bar-wrapper">
+        <div class="trust-bar">
+            <div class="trust-item">
+                <div class="num">100<span>%</span></div>
+                <div class="label">תוכן מעשי וויזואלי בלבד</div>
+            </div>
+            <div class="trust-item">
+                <div class="num">5</div>
+                <div class="label">תחומי מומחיות משולבים</div>
+            </div>
+            <div class="trust-item">
+                <div class="num">10<span>+</span></div>
+                <div class="label">שנות ניסיון על הבמות והכשרות</div>
+            </div>
+            <div class="trust-item">
+                <div class="num">4.9<span>/5</span></div>
+                <div class="label">דירוג שביעות רצון מנהלים</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 1: WHY HAGAY ONN - Tech Mesh Light Background -->
+    <section class="why-section-wrapper">
+        <div class="section-container">
+            <div class="section-title">
+                <h2>למה הרצאה ארגונית רגילה כבר לא עובדת?</h2>
+                <p>הקהל שלכם מוצף במידע ובמסכים. כדי ליצר שינוי אמיתי צריך משהו אחר לגמרי.</p>
+            </div>
+
+            <div class="grid-2">
+                <div class="box-problem">
+                    <div class="box-title">הרצאה סטנדרטית בשוק</div>
+                    <ul class="list-unstyled">
+                        <li>מצגות עמוסות טקסט שגורמות לקהל לאבד ריכוז תוך 10 דקות</li>
+                        <li>תיאוריות מופשטות ללא כלים יומיומיים שניתן ליישם למחרת</li>
+                        <li>מרצה יושב/עומד במקום אחד ללא אינטראקציה פיזית או ויזואלית</li>
+                        <li>חוויה שפסקה ברגע שהאורות באולם נכבו</li>
+                    </ul>
+                </div>
+
+                <div class="box-solution">
+                    <div class="box-title">חוויית ההרצאה של חגי און</div>
+                    <ul class="list-unstyled">
+                        <li>הדגמות ויזואליות חיות, אינטראקציות וכלים פרקטיים שניתנים ליישום מידי</li>
+                        <li>חיבור בין תוכנה וטכנולוגיה מתקדמת לבין פיזיולוגיה ותנועה אנושית</li>
+                        <li>קצב דינמי, הומור שנון ואנרגיה גבוהה שמשאירה את הקהל מרוכז לחלוטין</li>
+                        <li>תובנות עמוקות שנצרבות בזיכרון ומלוות את העובדים חודשים קדימה</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: BIO - Deep Midnight Gradient -->
+    <section class="bio-section-wrapper">
+        <div class="bio-container">
+            <div class="bio-visual js-parallax-element" data-speed="-0.04">
+                <h3>מהנדס. מפתח. מרצה.</h3>
+                <p>
+                    השילוב הייחודי שבין חדות הנדסית מעולם התוכנה וה-AI לבין הבנה עמוקה של תנועת הגוף, אמנויות לחימה וסנכרון אונות המוח.
+                </p>
+                <div class="bio-badge-list">
+                    <span class="bio-tag">Software Architect</span>
+                    <span class="bio-tag">AI Specialist</span>
+                    <span class="bio-tag">Brain & Movement Expert</span>
+                    <span class="bio-tag">Martial Artist</span>
+                </div>
+            </div>
+
+            <div class="bio-text">
+                <h2>נעים להכיר, חגי און.</h2>
+                <p>
+                    כמהנדס חשמל ומחשבים וכמפתח תוכנה, ביזנס ו-AI, חקרתי במשך שנים את האלגוריתמים המתקדמים ביותר שנוצרו. אך ככל שהעמקתי בטכנולוגיה, גילתי שהמחשב המשוכלל, העוצמתי והמרתק ביותר שנברא אי פעם – הוא המוח והגוף האנושי.
+                </p>
+                <p>
+                    בהרצאות שלי אני מחבר בין העולם הדיגיטלי המהיר לעולם הפיזי. אני לא רק מדבר על מושגים – אני מראה אותם, מנגיש אותם בגובה העיניים, ומעניק לקהל חוויה מעוררת מחשבה שמשלבת הומור, מדע וכלים מעשיים.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERMEDIATE PARALLAX BANNER -->
+    <section class="parallax-quote-banner">
+        <div class="parallax-quote-content js-parallax-element" data-speed="0.05">
+            <blockquote>"המחשב המשוכלל ביותר שנברא אי פעם אינו מיוצר במעבדה – הוא המוח והגוף שלכם."</blockquote>
+            <p>— חגי און | KEYNOTE SPEAKER</p>
+        </div>
+    </section>
+
+    <!-- SECTION 3: LECTURE CARDS GRID - Soft Studio Gray Background -->
+    <section id="lectures" class="lectures-section-wrapper">
+        <div class="section-container">
+            <div class="section-title">
+                <h2>תחומי ההרצאות המובילים</h2>
+                <p>בחרו את הנושא המותאם לאירוע, לכנס או לסדנה הארגונית הבאה שלכם</p>
+            </div>
+
+            <div class="cards-grid">
+                <!-- 1. AI Lecture -->
+                <div class="lecture-pop-card">
+                    <div>
+                        <span class="card-tag">טכנולוגיה & עתיד</span>
+                        <h3>בינה מלאכותית (AI)</h3>
+                        <p class="desc">
+                            צלילה פרקטית אל מהפכת ה-AI: איך מודלי שפה וסוכנים אוטונומיים עובדים באמת, איך לרתום אותם לשדרוג הפרודוקטיביות האישית והארגונית פי 10, ואיך לשמור על היתרון האנושי.
+                        </p>
+                        <ul class="card-bullets">
+                            <li>הטמעה מעשית של כלי AI ביומיום הארגוני</li>
+                            <li>הבנת המנגנונים הפנימיים ללא סיבוך מתמטי</li>
+                            <li>אסטרטגיה ועתיד שוק העבודה הדיגיטלי</li>
+                        </ul>
+                    </div>
+                    <div class="card-actions-group">
+                        <a href="https://wa.me/972544956239?text=%D7%94%D7%99%20%D7%97%D7%92%D7%99%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%91%D7%93%D7%95%D7%A7%20%D7%96%D7%9E%D7%99%D7%A0%D7%95%D7%AA%20%D7%9C%D7%97%D7%95%D7%95%D7%99%D7%AA%20%D7%94%D7%A8%D7%A6%D7%90%D7%AA%20%D7%94-%D7%91%D7%99%D7%A0%D7%94%20%D7%90%D7%9C%D7%90%D7%9B%D7%95%D7%AA%D7%99%D7%AA%20(AI)" target="_blank" class="card-btn-wa" rel="noopener">
+                            <svg class="whatsapp-icon" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                            בדיקת זמינות להרצאת AI
+                        </a>
+                        <a href="/ai-lecture.html" class="card-btn-link">סילבוס מלא וסילבוס מפורט ←</a>
+                    </div>
+                </div>
+
+                <!-- 2. Brain Lecture -->
+                <div class="lecture-pop-card">
+                    <div>
+                        <span class="card-tag">מדעי ההתנהגות</span>
+                        <h3>המוח האנושי</h3>
+                        <p class="desc">
+                            פתיחת המחשב הביולוגי: איך המוח מעבד מידע, בונה קשרים עצביים ומייצר הרגלים? הרצאה החושפת את המנגנונים מאחורי פוקוס עמוק, קבלת החלטות וחדות מנטלית בעולם של הסחות דעת.
+                        </p>
+                        <ul class="card-bullets">
+                            <li>חיווט מחדש של רשתות עצביות (Neuroplasticity)</li>
+                            <li>טכנולוגיות ושיטות לשמירה על פוקוס גבוה</li>
+                            <li>ניהול עומסים מנטליים ושחיקה בעבודה</li>
+                        </ul>
+                    </div>
+                    <div class="card-actions-group">
+                        <a href="https://wa.me/972544956239?text=%D7%94%D7%99%20%D7%97%D7%92%D7%99%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%91%D7%93%D7%95%D7%A7%20%D7%96%D7%9E%D7%99%D7%A0%D7%95%D7%AA%20%D7%9C%D7%97%D7%95%D7%95%D7%99%D7%AA%20%D7%94%D7%A8%D7%A6%D7%90%D7%AA%20%D7%94%D7%9E%D7%95%D7%97%20%D7%94%D7%90%D7%A0%D7%95%D7%A9%D7%99" target="_blank" class="card-btn-wa" rel="noopener">
+                            <svg class="whatsapp-icon" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                            בדיקת זמינות להרצאת המוח
+                        </a>
+                        <a href="/brain-lecture.html" class="card-btn-link">סילבוס מלא וסילבוס מפורט ←</a>
+                    </div>
+                </div>
+
+                <!-- 3. Office Movement Lecture -->
+                <div class="lecture-pop-card">
+                    <div>
+                        <span class="card-tag">בריאות & ביצועים</span>
+                        <h3>תנועה במשרד</h3>
+                        <p class="desc">
+                            לנצח את נזקי הישיבה הממושכת מול המסך. הרצאה דינמית המציגה מיקרו-תנועות, שחרור עומסים והנדסת סביבת העבודה לשמירה על חיוניות, זרימת דם ואנרגיה גבוהה לאורך כל יום העבודה.
+                        </p>
+                        <ul class="card-bullets">
+                            <li>תרגילי מיקרו-תנועה שניתן לבצע תוך כדי עבודה</li>
+                            <li>שיפור יציבה ומניעת כאבים מול המחשב</li>
+                            <li>העלאת אנרגיה ורעננות ללא צורך בציוד מיוחד</li>
+                        </ul>
+                    </div>
+                    <div class="card-actions-group">
+                        <a href="https://wa.me/972544956239?text=%D7%94%D7%99%20%D7%97%D7%92%D7%99%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%91%D7%93%D7%95%D7%A7%20%D7%96%D7%9E%D7%99%D7%A0%D7%95%D7%AA%20%D7%9C%D7%97%D7%95%D7%95%D7%99%D7%AA%20%D7%94%D7%A8%D7%A6%D7%90%D7%AA%20%D7%AA%D7%A0%D7%95%D7%A2%D7%94%20%D7%91%D7%9E%D7%A9%D7%A8%D7%93" target="_blank" class="card-btn-wa" rel="noopener">
+                            <svg class="whatsapp-icon" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                            בדיקת זמינות להרצאת תנועה
+                        </a>
+                        <a href="/movement-lecture.html" class="card-btn-link">סילבוס מלא וסילבוס מפורט ←</a>
+                    </div>
+                </div>
+
+                <!-- 4. Juggling Lecture -->
+                <div class="lecture-pop-card">
+                    <div>
+                        <span class="card-tag">מיומנות & סינרגיה</span>
+                        <h3>ג'אגלינג</h3>
+                        <p class="desc">
+                            הרצאה אינטראקטיבית שבה הקהל לומד מיומנות חדשה מאפס! דרך הג'אגלינג אנו חוקרים סנכרון בין אונות המוח, פיתוח תיאום עין-יד, והוכחה מעשית לכך שכל אדם מסוגל לפרוץ גבולות אישיים.
+                        </p>
+                        <ul class="card-bullets">
+                            <li>סנכרון והפעלה במקביל של שתי אונות המוח</li>
+                            <li>חוויה קבוצתית מגבשת, מצחיקה ומלאת אדרנלין</li>
+                            <li>שינוי תפיסה לגבי היכולת ללמוד דברים חדשים</li>
+                        </ul>
+                    </div>
+                    <div class="card-actions-group">
+                        <a href="https://wa.me/972544956239?text=%D7%94%D7%99%20%D7%97%D7%92%D7%99%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%91%D7%93%D7%95%D7%A7%20%D7%96%D7%9E%D7%99%D7%A0%D7%95%D7%AA%20%D7%9C%D7%97%D7%95%D7%95%D7%99%D7%AA%20%D7%94%D7%A8%D7%A6%D7%90%D7%AA%20%D7%92%27%D7%90%D7%92%D7%9C%D7%99%D7%A0%D7%92%20%D7%95%D7%A1%D7%A0%D7%9B%D7%A8%D7%95%D7%9F%20%D7%9E%D7%95%D7%97" target="_blank" class="card-btn-wa" rel="noopener">
+                            <svg class="whatsapp-icon" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                            בדיקת זמינות להרצאת ג'אגלינג
+                        </a>
+                        <a href="/juggling-lecture.html" class="card-btn-link">סילבוס מלא וסילבוס מפורט ←</a>
+                    </div>
+                </div>
+
+                <!-- 5. Martial Arts Lecture -->
+                <div class="lecture-pop-card">
+                    <div>
+                        <span class="card-tag">אסטרטגיה & מיקוד</span>
+                        <h3>לחימה ופילוסופיה</h3>
+                        <p class="desc">
+                            עקרונות מעולם אמנויות הלחימה המיושמים לניהול ולחיים: קבלת החלטות תחת לחץ, שמירה על קור רוח בעימותים, ניהול משברים בזמן אמת ופיתוח חוסן מנטלי ופנימי עוצמתי.
+                        </p>
+                        <ul class="card-bullets">
+                            <li>ניהול משברים וקבלת החלטות במצבי אי-וודאות</li>
+                            <li>שליטה עצמית, וויסות רגשי ושפת גוף משדרת ביטחון</li>
+                            <li>פיתוח חוסן מנטלי בעבודה ובניהול צוותים</li>
+                        </ul>
+                    </div>
+                    <div class="card-actions-group">
+                        <a href="https://wa.me/972544956239?text=%D7%94%D7%99%20%D7%97%D7%92%D7%99%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%91%D7%93%D7%95%D7%A7%20%D7%96%D7%9E%D7%99%D7%A0%D7%95%D7%AA%20%D7%9C%D7%97%D7%95%D7%95%D7%99%D7%AA%20%D7%94%D7%A8%D7%A6%D7%90%D7%AA%20%D7%9C%D7%97%D7%99%D7%9E%D7%94%20%D7%95%D7%A4%D7%99%D7%9C%D7%95%D7%A1%D7%95%D7%A4%D7%99%D7%94" target="_blank" class="card-btn-wa" rel="noopener">
+                            <svg class="whatsapp-icon" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                            בדיקת זמינות להרצאת לחימה
+                        </a>
+                        <a href="/martial-arts-lecture.html" class="card-btn-link">סילבוס מלא וסילבוס מפורט ←</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: TESTIMONIALS - Warm Elevated White Canvas -->
+    <section class="testimonials-section-wrapper">
+        <div class="section-container">
+            <div class="section-title">
+                <h2>מה אומרים מנהלים ומשתתפים?</h2>
+                <p>האימפקט של ההרצאה נמדד בתגובות של היום שאחרי</p>
+            </div>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p class="quote-text">
+                        "הזמנו את חגי להרצאה על AI והמוח לכנס החברה. הקהל שלנו מורכב מהמהנדסים הקשוחים ביותר – והוא פשוט ריתק אותם! השילוב של הומור, הדגמות חיות וויזואליות מבריקה הפכו את זה להרצאה הטובה ביותר שהייתה לנו השנה."
+                    </p>
+                    <div class="author-info">
+                        <div class="author-avatar">שמ</div>
+                        <div class="author-details">
+                            <h3>שירה מורנו</h3>
+                            <p>סמנכ"לית HR, חברת הייטק</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <p class="quote-text">
+                        "הרצאת התנועה והג'אגלינג של חגי הרימה את כל האירוע. אנשים יצאו עם חיוך מאוזן לאוזן ועד היום, שבועות אחרי, רואים עובדים מתרגלים מיקרו-תנועות ליד העמדות שלהם. מומלץ בחום!"
+                    </p>
+                    <div class="author-info">
+                        <div class="author-avatar">דכה</div>
+                        <div class="author-details">
+                            <h3>דניאל כהן</h3>
+                            <p>מנהל רווחה ואירועים ארגוניים</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: FAQ - Soft Blue-Slate Tech Background -->
+    <section class="faq-section-wrapper">
+        <div class="faq-container">
+            <div class="section-title">
+                <h2>שאלות נפוצות</h2>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" id="faq1-btn" aria-expanded="false" aria-controls="faq1-ans">
+                    <span>מה אורך ההרצאה המומלץ?</span>
+                    <span aria-hidden="true">+</span>
+                </button>
+                <div class="faq-answer" id="faq1-ans" role="region" aria-labelledby="faq1-btn">
+                    אורך ההרצאה הסטנדרטי נע בין 60 ל-90 דקות, בהתאם לצרכי האירוע. ניתן גם לקיים סדנאות עומק מורחבות של חצי יום.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" id="faq2-btn" aria-expanded="false" aria-controls="faq2-ans">
+                    <span>האם ההרצאות מתאימות לצוותים טכנולוגיים/הייטק?</span>
+                    <span aria-hidden="true">+</span>
+                </button>
+                <div class="faq-answer" id="faq2-ans" role="region" aria-labelledby="faq2-btn">
+                    בהחלט! כרקע של מהנדס ומפתח תוכנה, חגי מדבר ב"שפה" של אנשי טכנולוגיה, תוך שמירה על קצב גבוה, הומור והסברים ללא קלישאות.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" id="faq3-btn" aria-expanded="false" aria-controls="faq3-ans">
+                    <span>איזה ציוד נדרש להרצאה?</span>
+                    <span aria-hidden="true">+</span>
+                </button>
+                <div class="faq-answer" id="faq3-ans" role="region" aria-labelledby="faq3-btn">
+                    מקרן/מסך חיבור למחשב ומערכת שמע בסיסית. כל שאר הציוד והעזרים הנדרשים להדגמות מגיעים באופן מלא על ידינו.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CLOSING CTA BANNER - Ambient Glow Dark Theme -->
+    <section class="closing-cta-wrapper">
+        <div class="closing-cta-container">
+            <h2>מוכנים להפוך את האירוע הבא לבלתי נשכח?</h2>
+            <p>צרו קשר עוד היום לבדיקת זמינות תאריכים והתאמת ההרצאה המדויקת עבורכם.</p>
+            
+            <a href="https://wa.me/972544956239?text=%D7%94%D7%99%20%D7%97%D7%92%D7%99%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%91%D7%93%D7%95%D7%A7%20%D7%96%D7%9E%D7%99%D7%A0%D7%95%D7%AA%20%D7%9C%D7%97%D7%95%D7%95%D7%99%D7%AA%20%D7%94%D7%A8%D7%A6%D7%90%D7%94" target="_blank" class="btn-whatsapp" rel="noopener">
+                <svg class="whatsapp-icon" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                שליחת הודעת WhatsApp לתיאום
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-brand">חגי און - <span>הרצאות שזוכרים!</span></div>
+        <div class="footer-sub">הרצאות Keynote, כנסים וסדנאות פרימיום לארגונים</div>
+        
+        <div class="copyright">
+            © כל הזכויות שמורות לחגי און | <a href="https://ailoveu.art" style="color: inherit; text-decoration: underline;">ailoveu.art</a>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE SCRIPTS: Parallax Scroll, Mouse Trail & Accessible FAQ -->
+    <script>
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        /* SMOOTH PARALLAX SCROLL EFFECT */
+        if (!prefersReducedMotion) {
+            const parallaxElements = document.querySelectorAll('.js-parallax-element');
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+                parallaxElements.forEach(el => {
+                    const speed = parseFloat(el.getAttribute('data-speed')) || 0.05;
+                    el.style.transform = `translateY(${scrolled * speed}px)`;
+                });
+            });
+        }
+
+        /* MOUSE PARTICLE TRAIL */
+        const isDesktop = window.matchMedia("(pointer: fine)").matches;
+        if (!prefersReducedMotion && isDesktop) {
+            const canvas = document.getElementById('trail-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+            class Particle {
+                constructor(x, y) {
+                    this.x = x;
+                    this.y = y;
+                    this.size = Math.random() * 4 + 2;
+                    this.speedX = (Math.random() - 0.5) * 1.5;
+                    this.speedY = (Math.random() - 0.5) * 1.5;
+                    this.life = 1;
+                    this.decay = Math.random() * 0.025 + 0.015;
+                }
+
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    this.life -= this.decay;
+                    if (this.size > 0.2) this.size -= 0.04;
+                }
+
+                draw() {
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, Math.max(0, this.size), 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255, 94, 0, ${this.life * 0.75})`;
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = 'rgba(255, 94, 0, 0.8)';
+                    ctx.fill();
+                    ctx.restore();
+                }
+            }
+
+            window.addEventListener('mousemove', (e) => {
+                for (let i = 0; i < 2; i++) {
+                    particles.push(new Particle(e.clientX, e.clientY));
+                }
+            });
+
+            function animateTrail() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (let i = particles.length - 1; i >= 0; i--) {
+                    particles[i].update();
+                    particles[i].draw();
+                    if (particles[i].life <= 0) particles.splice(i, 1);
+                }
+                requestAnimationFrame(animateTrail);
+            }
+            animateTrail();
+        }
+
+        /* ACCESSIBLE FAQ ACCORDION TOGGLE */
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const faqItem = button.parentElement;
+                const isActive = faqItem.classList.contains('active');
+
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                    const btn = item.querySelector('.faq-question');
+                    if (btn) btn.setAttribute('aria-expanded', 'false');
+                });
+
+                if (!isActive) {
+                    faqItem.classList.add('active');
+                    button.setAttribute('aria-expanded', 'true');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
