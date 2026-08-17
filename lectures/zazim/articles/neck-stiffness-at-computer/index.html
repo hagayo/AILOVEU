@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>צוואר תפוס מול המחשב: מה עושים? | זזים בעבודה!</title>
+    <meta content="לפני שמאשימים את הכיסא, כדאי לבדוק את סביבת העבודה, את משך הזמן באותה תנוחה ואת המתח שאנחנו מחזיקים בלי לשים לב. חמישה כיוונים פשוטים לבדיקה." name="description"/>
+    <meta content="חגי און" name="author"/>
+    <meta content="index, follow, max-image-preview:large" name="robots"/>
+    <link href="https://ailoveu.art/lectures/zazim/articles/neck-stiffness-at-computer/index.html" rel="canonical"/>
+    <!-- Open Graph / Social sharing. TODO: replace og:image and twitter:image with this page's final absolute image URL. -->
+    <meta content="צוואר תפוס מול המחשב: מה עושים? | זזים בעבודה!" property="og:title"/>
+    <meta content="לפני שמאשימים את הכיסא, כדאי לבדוק את סביבת העבודה, את משך הזמן באותה תנוחה ואת המתח שאנחנו מחזיקים בלי לשים לב. חמישה כיוונים פשוטים לבדיקה." property="og:description"/>
+    <meta content="article" property="og:type"/>
+    <meta content="https://ailoveu.art/lectures/zazim/articles/neck-stiffness-at-computer/index.html" property="og:url"/>
+    <meta content="https://ailoveu.art/lectures/zazim/assets/img/article-neck-stiffness-cover.webp" property="og:image"/>
+    <meta content="תמונת שיתוף - צוואר תפוס מול המחשב: מה עושים?" property="og:image:alt"/>
+    <meta content="זזים בעבודה!" property="og:site_name"/>
+    <meta content="he_IL" property="og:locale"/>
+    <meta content="תנועה בעבודה" property="article:section"/>
+    <!-- X / Twitter Card -->
+    <meta content="summary_large_image" name="twitter:card"/>
+    <meta content="צוואר תפוס מול המחשב: מה עושים? | זזים בעבודה!" name="twitter:title"/>
+    <meta content="לפני שמאשימים את הכיסא, כדאי לבדוק את סביבת העבודה, את משך הזמן באותה תנוחה ואת המתח שאנחנו מחזיקים בלי לשים לב. חמישה כיוונים פשוטים לבדיקה." name="twitter:description"/>
+    <meta content="https://ailoveu.art/lectures/zazim/assets/img/article-neck-stiffness-cover.webp" name="twitter:image"/>
+    <meta content="תמונת שיתוף - צוואר תפוס מול המחשב: מה עושים?" name="twitter:image:alt"/>
+    <link href="../../styles.css" rel="stylesheet"/>
+    <link href="../../assets/icons/dm-app-logo.png" rel="icon" type="image/png"/>
+    <script src="../../analytics.js"></script>
+</head>
+<body class="article-page">
+  <a class="skip-link" href="#article-content">דילוג לתוכן המאמר</a>
+  <canvas id="mouse-trail-canvas"></canvas>
+  
+  <header class="site-header" data-header="">
+    <nav aria-label="ניווט ראשי" class="nav">
+      <a aria-label="זזים בעבודה - חזרה לראש העמוד" class="brand" href="../../index.html#top">
+        <span class="brand-mark">זזים</span>
+        <span class="brand-text">הרצאת תנועה לארגונים</span>
+      </a>
+      <button aria-expanded="false" aria-label="פתיחת תפריט" class="nav-toggle" data-nav-toggle="" type="button">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-links" data-nav-links="">
+        <div class="nav-main-links">
+          <a href="../../index.html#lecture">ההרצאה</a>
+          <a href="../../articles.html">מאמרים</a>
+          <a href="../../index.html#about">חגי און</a>
+          <a href="../../index.html#faq-title">שאלות נפוצות</a>
+        </div>
+        <a class="nav-cta" href="../../index.html#contact" aria-label="לתיאום הרצאה"><span class="nav-cta-label">לתיאום</span><span class="nav-cta-icon" aria-hidden="true"></span></a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <header class="article-hero">
+    <div class="section-shell article-hero-inner">
+    <a class="article-back" href="../../articles.html">← לכל המאמרים</a>
+    <p class="eyebrow">צוואר, כתפיים ועבודה מול מסך</p>
+    <h1>צוואר תפוס מול המחשב: מה עושים?</h1>
+    <p class="article-deck">לפני שמאשימים את הכיסא, כדאי לבדוק את סביבת העבודה, את משך הזמן באותה תנוחה ואת המתח שאנחנו מחזיקים בלי לשים לב. חמישה כיוונים פשוטים לבדיקה.</p>
+    <div class="article-byline"><span>מאת חגי און</span><span>9 דקות קריאה</span></div>
+    </div>
+    </header>
+    <figure class="article-cover">
+    <img src="../../assets/img/landscape/article-neck-stiffness-cover.webp" alt="מה עושים עם צוואר תפוס מול המחשב" loading="eager" fetchpriority="high" decoding="async"/>
+    </figure>
+    <section class="article-body-wrap">
+    <article class="article-content" id="article-content">
+    <p class="article-intro">יש רגע מוכר באמצע יום עבודה: מרימים את הראש מהמסך, מנסים לסובב אותו ימינה, ופתאום מגלים שהצוואר הגיש בקשת פרישה בלי לעדכן אותנו. האינסטינקט הראשון הוא בדרך כלל להאשים את הכיסא. לפעמים בצדק, אבל לא תמיד.</p>
+    <p>אי נוחות בצוואר ובכתפיים אצל עובדי מחשב היא נושא מורכב. תנוחת העבודה, התאמת הציוד, משך הזמן מול המסך, מתח שרירי, עומס עבודה, פעילות גופנית וגורמים אישיים יכולים כולם להשתתף בסיפור. לכן אני לא מנסה לאבחן כאב דרך מאמר. אני כן מציע חמישה דברים פשוטים שכדאי לבדוק לפני שמכריזים שהפתרון היחיד הוא כיסא חדש במחיר של קטנוע.</p>
+    <h2>1. קודם כל: איפה נמצא המסך?</h2>
+    <p>אם במשך שעות אנחנו נאלצים להטות את הראש למטה, להסתובב הצידה או להתקרב קדימה כדי לראות, כדאי לבדוק את סביבת העבודה עצמה. עקרונות ארגונומיים מקובלים ממליצים למקם את המסך, המקלדת והעכבר כך שניתן לעבוד בתנוחה יחסית נוחה ונייטרלית, ולהימנע מהחזקה ממושכת של הצוואר בזוויות לא נוחות.</p>
+    <p>זה לא אומר שיש גובה קסם שמתאים לכל אדם. הגובה תלוי במבנה הגוף, בכיסא, בגודל המסך, במשקפיים ובאופן השימוש. אבל אם אתם מוצאים את עצמכם "מטפסים" עם הראש לכיוון הלפטופ, יש סיכוי טוב ששווה לשנות משהו בסידור.</p>
+    <figure class="media-placeholder"><div class="media-placeholder-box"><strong>PLACEHOLDER - תמונת לפני/אחרי</strong><p>תמונה ראשונה: לפטופ נמוך ואתה מתכופף אליו. תמונה שנייה: מסך מוגבה, מקלדת חיצונית ואתה יושב בנוחות יחסית.</p><span>לא צריך לכתוב "נכון/לא נכון". עדיף: "יותר עומס" מול "יותר נוח לי".</span></div></figure>
+    <h2>2. לבדוק לא רק איך יושבים, אלא כמה זמן</h2>
+    <p>גם עמדה ארגונומית טובה אינה אמורה להפוך אותנו לפסל. EU-OSHA מדגישים גיוון פיזי והפסקות מהמסך כחלק מעבודה משרדית בריאה יותר. אם הצוואר נשאר באותו כיוון זמן ממושך, לפעמים שינוי תנוחה קצר יכול להיות רלוונטי לא פחות מכיוון נוסף של הכיסא.</p>
+    <p>קומו, הסתכלו למרחק, לכו כמה צעדים, הזיזו כתפיים או סובבו את הגוף כולו. המטרה אינה "למתוח את הצוואר עד שיעבור", אלא לתת למערכת כולה שינוי.</p>
+    <h2>3. לשים לב לכתפיים וללסת</h2>
+    <p>לפעמים הבעיה שאני רואה אינה שהעובד יושב עקום במיוחד. הוא פשוט עובד כאילו המייל הבא עומד לתקוף אותו. הכתפיים מורמות, הלסת סגורה והיד אוחזת בעכבר בכוח שאפשר היה להשתמש בו לטיפוס.</p>
+    <p>נסו מדי פעם לשאול: האם הכתפיים יכולות לרדת קצת? האם האצבעות יכולות להחזיק את העכבר בפחות כוח? האם אני מכווץ את הלסת בלי סיבה? אלו לא תרגילים רפואיים. זו בדיקת מתח מיותר.</p>
+    <figure class="media-placeholder"><div class="media-placeholder-box"><strong>PLACEHOLDER - תמונה הומוריסטית</strong><p>שתי תמונות שלך מול אותו מחשב: בראשונה אתה דרוך מדי, כתפיים גבוהות ולסת קפוצה; בשנייה אתה באותה משימה אבל רגוע יותר.</p><span>כיתוב: "המייל לא בורח."</span></div></figure>
+    <h2>4. להזיז בעדינות, לא להילחם בצוואר</h2>
+    <p>כשמרגישים נוקשות, קל להיכנס למצב של "אני אמשוך חזק וזה ישתחרר". אני מעדיף להתחיל בתנועה עדינה ובטווח נוח: הנהון קטן, סיבוב איטי לצדדים, הטיה עדינה, תנועה של הכתפיים וסיבוב של פלג הגוף העליון.</p>
+    <p>מחקרים אצל עובדי משרד מצאו שתוכניות תרגול מסוימות לצוואר ולכתפיים עשויות להפחית כאב או לשפר תפקוד, אבל זה לא אומר שכל תרגיל מתאים לכל אדם או לכל מצב. אם תנועה מסוימת מכאיבה, לא צריך להוכיח לה מי הבוס.</p>
+    <figure class="media-placeholder"><div class="media-placeholder-box"><strong>PLACEHOLDER - וידאו</strong><p>צילום שלך מהחזה ומעלה מבצע באיטיות "כן, לא, אולי" לצוואר, ואז כמה סיבובי כתפיים. הטווח צריך להיראות קטן ונעים, לא מתיחה קיצונית.</p><span>כיתוב: "תנועה, לא מאבק."</span></div></figure>
+    <h2>5. לדעת מתי מאמר באינטרנט מפסיק להיות הכתובת</h2>
+    <p>אי נוחות קלה שחולפת היא דבר אחד. כאב משמעותי, מתמשך, מחמיר, כאב אחרי פציעה או תסמינים נוספים הם כבר סיבה לא להסתפק בטיפים כלליים מהאינטרנט. במקרה כזה עדיף לפנות לאיש מקצוע רפואי מתאים שיכול לבדוק את המצב האישי.</p>
+    <p>זו גם הסיבה שאני משתדל לא לכתוב "חמש מתיחות שמעלימות כאבי צוואר". הגוף לא עובד כמו כפתור Reset, וכותרת טובה אינה אבחנה.</p>
+    <h2>הכיסא הוא רק חלק מהסיפור</h2>
+    <p>כיסא מתאים בהחלט יכול לעזור, וכך גם מסך בגובה נוח, מקלדת טובה וסביבת עבודה שמתאימה לאדם. אבל ישיבה משרדית אינה בעיה שאפשר לפתור רק בקנייה. לפעמים השינוי החשוב הוא דווקא התנהגותי: לקום, לשנות תנוחה, להפחית מתח מיותר ולתת לגוף יותר מכיוון אחד במהלך היום.</p>
+    <p>לפני שאתם מזמינים כיסא חדש, נסו להסתכל על כל המערכת: איפה המסך, איפה הידיים, כמה זמן אתם באותה תנוחה, ואיך אתם מרגישים בזמן העבודה. לפעמים התשובה אינה רהיט חדש אלא מערכת יחסים קצת פחות קפואה עם הרהיט שכבר יש.</p>
+    <figure class="media-placeholder"><div class="media-placeholder-box"><strong>PLACEHOLDER - תמונת סיום</strong><p>צילום שלך עומד מאחורי הכיסא ומחזיק אותו כאילו הוא "חשוד", אבל מחייך. המסך והעמדה מסודרים ברקע.</p><span>כיתוב אפשרי: "לפני שמאשימים את הכיסא, בודקים את כל הסיפור."</span></div></figure>
+    <p class="article-disclaimer">המידע במאמר כללי בלבד ואינו אבחון או טיפול רפואי. אם יש כאב משמעותי, מתמשך, מחמיר או תסמינים שמדאיגים אתכם, פנו לאיש מקצוע רפואי מתאים.</p>
+    </article>
+    <aside aria-label="על הכותב" class="article-author">
+    <img alt="חגי און" loading="lazy" src="../../assets/img/hagay-author-bw.webp"/>
+    <div><p class="eyebrow">על חגי</p><h2>חגי און</h2>
+    <p>מרצה על בינה מלאכותית ותנועה, מאמן אמנויות לחימה ומפתח. מתאמן באמנויות לחימה מגיל צעיר, מאמן קונג פו מוסמך ממכון וינגייט, ועוסק גם באקרובטיקה וג'אגלינג. בהרצאה "זזים בעבודה!" הוא מחבר בין ניסיון של שנים בתנועה לבין יום העבודה המודרני.</p>
+    <a class="article-author-link" href="../../index.html#about">עוד על חגי און</a></div>
+    </aside>
+    </section>
+    <section aria-labelledby="sources-title" class="article-sources"><div class="section-shell article-sources-inner"><p class="eyebrow">לקריאה נוספת</p><h2 id="sources-title">מקורות ומחקרים</h2><p>מקורות מקצועיים ומחקרים הקשורים לנושאים שעליהם מבוסס המאמר.</p><ul><li><a href="https://oshwiki.osha.europa.eu/en/themes/ergonomics-office-work" rel="noopener noreferrer" target="_blank">EU-OSHA - Ergonomics in Office Work</a></li><li><a href="https://oshwiki.osha.europa.eu/en/themes/musculoskeletal-disorders-and-prolonged-static-sitting" rel="noopener noreferrer" target="_blank">EU-OSHA - Musculoskeletal disorders and prolonged static sitting</a></li><li><a href="https://pubmed.ncbi.nlm.nih.gov/33435941/" rel="noopener noreferrer" target="_blank">Johnston et al. - Workplace ergonomics and exercise for neck pain</a></li><li><a href="https://pubmed.ncbi.nlm.nih.gov/25780258/" rel="noopener noreferrer" target="_blank">Tunwattanapong et al. - Neck and shoulder stretching exercise in office workers</a></li></ul></div></section>
+    <section class="article-bottom-cta"><div class="section-shell"><div><p class="eyebrow">רוצים את זה חי?</p><h2>אפשר גם לקום מהכיסא ביחד</h2><p>ההרצאה "זזים בעבודה!" הופכת את הרעיונות האלה לחוויה קצרה, מצחיקה ומעשית לצוות.</p></div><a class="button primary" href="../../index.html#contact">לתיאום הרצאה</a></div></section>
+  </main>
+
+  <div aria-label="יצירת קשר בוואטסאפ" class="whatsapp-contact" id="whatsappContact">
+    <div aria-hidden="true" class="whatsapp-contact__panel" id="whatsappPanel">
+      <form id="whatsappForm" novalidate="">
+        <label for="whatsappName">שם</label>
+        <input autocomplete="name" id="whatsappName" maxlength="80" name="name" placeholder="השם שלך" required="" type="text"/>
+        <label for="whatsappMessage">הודעה</label>
+        <textarea id="whatsappMessage" maxlength="1000" name="message" placeholder="איך אפשר לעזור?" required="" rows="4"></textarea>
+        <p aria-live="polite" class="whatsapp-contact__error" id="whatsappError" role="alert"></p>
+        <button class="whatsapp-contact__send" type="submit">שלח</button>
+      </form>
+    </div>
+    <button aria-controls="whatsappPanel" aria-expanded="false" aria-label="פתיחת WhatsApp לתיאום הרצאה" class="whatsapp-contact__toggle" id="whatsappToggle" type="button">
+    <img alt="" aria-hidden="true" src="../../assets/icons/whatsapp-icon.png"/>
+    </button>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img alt="" class="footer-logo" src="../../assets/icons/dm-app-logo.png" loading="lazy"/>
+        <strong><span> חגי און</span>  |  <span> זזים בעבודה!</span></strong>
+      </div>
+      <div aria-label="פרטי קשר" class="footer-contact">
+      <p>הרצאה פעילה על תנועה ביום העבודה</p>
+      <a href="tel:0544956239"><strong>דברו איתי: </strong>054-495-6239</a>
+      </div>
+      <nav aria-label="קישורים משפטיים" class="footer-links">
+        <a href="../../privacy.html">מדיניות פרטיות</a>
+        <a href="../../cookies.html">מדיניות עוגיות</a>
+        <a href="../../terms.html">תנאי שימוש</a>
+        <a href="../../accessibility.html">הצהרת נגישות</a>
+        <button class="footer-button" data-open-cookie-settings="" type="button">הגדרות עוגיות</button>
+      </nav>
+    </div>
+  </footer>
+
+  <div aria-describedby="cookie-description" aria-labelledby="cookie-title" class="cookie-banner" hidden="" id="cookie-banner" role="dialog">
+    <div class="cookie-banner-inner">
+      <div>
+        <h2 id="cookie-title">העדפות עוגיות</h2>
+        <p id="cookie-description">האתר שומר בדפדפן את בחירתך. באישורך נוכל להפעיל Google Analytics לצורך מדידת שימוש. אפשר לדחות ולהמשיך להשתמש באתר ללא Analytics. אין באתר עוגיות פירסום.</p>
+        <a href="../../cookies.html">מידע נוסף</a>
+      </div>
+      <div class="cookie-actions">
+        <button class="btn" data-accept-cookies="" type="button">אישור</button>
+        <button class="btn btn-ghost" data-reject-cookies="" type="button">דחייה</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../script.js"></script>
+  <script src="../../whatsapp-contact.js"></script>
+</body>
+</html>
