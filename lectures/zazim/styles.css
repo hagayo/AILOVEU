@@ -479,6 +479,7 @@ input:focus, textarea:focus { border-color: var(--orange); box-shadow: 0 0 0 4px
   display: grid; justify-items: start; gap: 14px;
   text-align: right;
 }
+.articles-hero-brand { display: inline-flex; align-items: center; gap: 30px; }
 .footer-brand { display: inline-flex; align-items: center; gap: 20px; font-size: 1.2rem; font-weight: 800; }
 .footer-brand strong span:last-child { color: var(--orange); }
 .footer-logo {
