@@ -478,7 +478,7 @@ input:focus, textarea:focus { border-color: var(--orange); box-shadow: 0 0 0 4px
   max-width: var(--max); margin: 0 auto; text-align: right;
   display: grid; justify-items: start; gap: 14px;
 }
-.articles-hero-brand { display: inline-flex; align-items: center; gap: 30px; }
+.articles-hero-brand { display: inline-flex; align-items: center; gap: 20px; padding-inline-start: 10px; }
 .articles-hero-logo { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 12px; }
 
 .footer-brand { display: inline-flex; align-items: center; gap: 20px; font-size: 1.2rem; font-weight: 800; }
@@ -724,8 +724,8 @@ input:focus, textarea:focus { border-color: var(--orange); box-shadow: 0 0 0 4px
   margin: 36px 0 0;
   color: rgba(255, 255, 255, .92);
   font-size: clamp(1.5rem, 1.5vw, 1.35rem);
-  line-height: 1.6;
-  font-weight: 700;
+  line-height: 1.6; font-weight: 700;
+  padding-inline-start: 10px;
 }
 
 .articles-section { min-height: 540px; padding: 40px 22px;}
