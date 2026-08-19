@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>סוכנים אוטונומיים - ReAct</title>
+  <meta name="description" content="Agentic Loop, Tool Calling, זיכרון ומצב, ודפוס ReAct">
+  <link rel="stylesheet" href="assets/styles.css?v=20260107094522">
+</head>
+<body>
+<a class="skip-link" href="#main">דילוג לתוכן</a>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>🎓 מפתחי בינה מלאכותית - GenAI Engineers</h1>
+    <p>Agentic Loop, Tool Calling, זיכרון ומצב, ודפוס ReAct</p>
+    <div class="badges">
+      <span class="badge">234 שעות אקדמיות</span>
+      <span class="badge">2 סמסטרים</span>
+      <span class="badge">E2E - קונספט עד ענן</span>
+    </div>
+  </div>
+</header>
+
+<div class="topbar">
+  <nav class="nav" aria-label="ניווט ראשי">
+  <a class="brand" href="index.html">
+    <span class="logo" aria-hidden="true">AI</span>
+    <span>GenAI Engineers</span>
+  </a>
+
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">תפריט</button>
+
+  <ul id="site-nav" class="nav-links">
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">פייתון</button>
+      <ul class="dropdown-menu" aria-label="פייתון" hidden>
+        <li><a href="fastapi-crud.html">FastAPI CRUD</a></li>
+        <li><a href="db-validation.html">DB + Validation</a></li>
+        <li><a href="db-sql-vs-nosql.html">SQL vs NoSQL</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">ארכיטקטורה</button>
+      <ul class="dropdown-menu" aria-label="ארכיטקטורה" hidden>
+        <li><a href="architecture.html">Client-Server</a></li>
+        <li><a href="rest-api.html">REST API</a></li>
+        <li><a href="authentication.html">אימות והרשאות</a></li>
+        <li><a href="api-security.html">אבטחת API</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">ענן והפצה</button>
+      <ul class="dropdown-menu" aria-label="ענן והפצה" hidden>
+        <li><a href="cloud-deploy.html">Docker + Cloud Run</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">סוכנים</button>
+      <ul class="dropdown-menu" aria-label="סוכנים" hidden>
+        <li><a href="agents-react.html">ReAct</a></li>
+        <li><a href="rag.html">RAG</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">וייב קודינג</button>
+      <ul class="dropdown-menu" aria-label="וייב קודינג" hidden>
+        <li><a href="vibe.html">vibe</a></li>
+        <li><a href="home-terminal.html">דף הבית - טרמינל</a></li>
+        <li><a href="home-blueprint.html">דף הבית - Blueprint</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">הקורס</button>
+      <ul class="dropdown-menu" aria-label="הקורס" hidden>
+        <li><a href="syllabus.html">תכנית</a></li>
+        <li><a href="lecturer.html">המרצה</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+</div>
+
+<main id="main" class="container">
+
+<section class="section">
+  <h2>סוכנים אוטונומיים - מנגנון ReAct</h2>
+  <p class="kicker">סוכן הוא מערכת שמחברת מודל שפה עם לולאת החלטה, כלים, וזיכרון. ReAct היא תבנית שמערבבת Reasoning ו-Acting כדי לפתור בעיות רב-שלביות.</p>
+
+  <h3>1) Agentic Loop - הלולאה שמבדילה סוכן מצ'אט</h3>
+  <p>צ'אט "רגיל" מחזיר טקסט. סוכן מפעיל כלים, קורא API, כותב לקובץ, ומתקן את עצמו לפי תוצאות. לכן יש לו לולאת עבודה עם מצבים:</p>
+
+  <div class="figure" role="figure" aria-label="דיאגרמת Agentic loop">
+    <svg width="980" height="250" viewBox="0 0 980 250" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="ag" x1="0" x2="1">
+          <stop offset="0" stop-color="#667eea"/>
+          <stop offset="1" stop-color="#764ba2"/>
+        </linearGradient>
+      </defs>
+
+      <rect x="60" y="75" width="180" height="80" rx="14" fill="url(#ag)" opacity="0.95"/>
+      <text x="150" y="118" text-anchor="middle" font-size="15" fill="#fff" font-weight="800">Plan</text>
+
+      <rect x="300" y="75" width="180" height="80" rx="14" fill="url(#ag)" opacity="0.95"/>
+      <text x="390" y="118" text-anchor="middle" font-size="15" fill="#fff" font-weight="800">Act</text>
+
+      <rect x="540" y="75" width="180" height="80" rx="14" fill="url(#ag)" opacity="0.95"/>
+      <text x="630" y="118" text-anchor="middle" font-size="15" fill="#fff" font-weight="800">Observe</text>
+
+      <rect x="780" y="75" width="180" height="80" rx="14" fill="url(#ag)" opacity="0.95"/>
+      <text x="870" y="118" text-anchor="middle" font-size="15" fill="#fff" font-weight="800">Reflect</text>
+
+      <path d="M240 115 L300 115" stroke="#667eea" stroke-width="6" stroke-linecap="round"/>
+      <polygon points="300,115 285,105 285,125" fill="#667eea"/>
+
+      <path d="M480 115 L540 115" stroke="#667eea" stroke-width="6" stroke-linecap="round"/>
+      <polygon points="540,115 525,105 525,125" fill="#667eea"/>
+
+      <path d="M720 115 L780 115" stroke="#667eea" stroke-width="6" stroke-linecap="round"/>
+      <polygon points="780,115 765,105 765,125" fill="#667eea"/>
+
+      <path d="M870 155 C870 210, 150 210, 150 155" stroke="#4a5fc1" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <polygon points="150,155 162,169 139,169" fill="#4a5fc1"/>
+      <text x="510" y="230" text-anchor="middle" font-size="12" fill="#243447">החזרה ללולאה עד שמתקבלת תוצאה או עד שמיצינו תקציב זמן/טוקנים</text>
+    </svg>
+    <div class="caption">זו לולאת סוכן בסיסית: תכנון - ביצוע - תצפית - שיפור. ReAct הוא מימוש פרקטי של אותה גישה.</div>
+  </div>
+
+  <h3>2) מהי ReAct?</h3>
+  <p>ReAct מציעה מבנה טקסטואלי שבו המודל מייצר:</p>
+  <ul>
+    <li><strong>Reasoning (חשיבה):</strong> ניסוח השלב הבא, מה חסר, ומה צריך לבדוק.</li>
+    <li><strong>Action (פעולה):</strong> הפעלת כלי או קריאת API עם פרמטרים.</li>
+    <li><strong>Observation (תצפית):</strong> תוצאת הכלי חוזרת למודל והוא ממשיך.</li>
+  </ul>
+
+  <details>
+    <summary>למה זה עובד טוב?</summary>
+    <div class="content">
+      <p>כי זה מפריד בין "דיבור" לבין "אימות". במקום להמציא, המודל לומד להיעזר במקורות חיצוניים ולבדוק את עצמו. זה קריטי בסביבה ארגונית שבה טעויות הן יקרות.</p>
+      <ul>
+        <li>כלי חיפוש - מביא עובדות.</li>
+        <li>כלי DB - מחזיר נתונים אמיתיים.</li>
+        <li>כלי קוד - מחשב תוצאות ולא מסתמך על אינטואיציה.</li>
+      </ul>
+    </div>
+  </details>
+
+  <h3>3) Tool Calling - API עבור המודל</h3>
+  <p>כדי שסוכן יפעל בעולם, הוא צריך "כלים". כלי הוא פונקציה עם חתימה מוגדרת (סכמה), והמודל בוחר מתי לקרוא לה. במערכת שלך, הכלים יכולים להיות:</p>
+  <div class="grid cols-3">
+    <div class="card">
+      <h4>כלי מידע</h4>
+      <p>חיפוש, קריאה ממסד נתונים, RAG, קריאת קבצים.</p>
+    </div>
+    <div class="card">
+      <h4>כלי פעולה</h4>
+      <p>שליחת מייל, יצירת ticket, עדכון CRM, ביצוע רכישה.</p>
+    </div>
+    <div class="card">
+      <h4>כלי אימות</h4>
+      <p>הרצת קוד, בדיקת סכמות, חוקים עסקיים.</p>
+    </div>
+  </div>
+
+  <h3>4) מצב (State) וזיכרון (Memory)</h3>
+  <p>המודל עצמו סטטיסטי, ולכן ה"מצב" של הסוכן נשמר סביבו: היסטוריית שיחה, תוצאות כלים, ומבנה עבודה (למשל checklist). באופן פרקטי יש שני סוגי זיכרון:</p>
+  <ul>
+    <li><strong>Short-term:</strong> קונטקסט נוכחי של המשימה.</li>
+    <li><strong>Long-term:</strong> ידע מצטבר - מסמכים, אינדקס, פרופיל משתמש.</li>
+  </ul>
+
+  <div class="callout">
+    <p><strong>כלל פרקטי:</strong> סוכן טוב לא שומר הכל. הוא מסכם, שומר "עובדות" שנבדקו, ומשתמש במפתחות שליפה כדי להחזיר מידע בזמן הנכון.</p>
+  </div>
+
+  <h3>5) דוגמת תסריט ReAct (מפורמט)</h3>
+  <p>זה פורמט קריא שממחיש את המבנה. בפריימוורקים מודרניים לא חייבים לחשוף את ה-Reasoning, אבל כן שומרים את ה-Action וה-Observation לצרכי ניטור.</p>
+
+  <div class="code" aria-label="דוגמת ReAct טקסטואלית">
+    <pre>Goal: "Create a note for user 42 and return its id"
+
+Thought: I need to validate input, then call the Notes API to create the resource.
+Action: POST /api/v1/notes  {"user_id": 42, "title": "Todo", "content": "Buy milk"}
+Observation: 201 Created  {"id": 999}
+
+Thought: Return the id in a compact response.
+Final: {"id": 999}</pre>
+  </div>
+
+  <p>כדי להפוך את זה למעשי, צריך API אמיתי. לכן הפרק הבא מראה איך בונים CRUD ב-FastAPI עם סכמות וטעויות אחידות.</p>
+  <p><a href="fastapi-crud.html">לקריאת הפרק FastAPI CRUD</a></p>
+</section>
+
+</main>
+
+<footer class="footer">
+  <p>🌐 מפתחי בינה מלאכותית - GenAI Engineers | חגי און</p>
+  <p class="muted">אתר סטטי: HTML + CSS + JavaScript - קבצים משותפים לקאש דפדפן</p>
+</footer>
+
+<script src="assets/app.js?v=20260107094522" defer></script>
+</body>
+</html>

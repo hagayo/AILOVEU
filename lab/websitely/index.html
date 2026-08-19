@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="A lightweight website starter-kit generator with design styles, layouts, trust sections, SEO files, and deployable static HTML output." name="description"/>
+<title>Make me a website!</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="styles.css" rel="stylesheet"/>
+<script defer="" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script defer="" src="modules/config.js"></script>
+<script defer="" src="modules/generated-css.js"></script>
+<script defer="" src="modules/generated-site-js.js"></script>
+<script defer="" src="app.js"></script>
+</head>
+<body>
+<a aria-label="Back to AILOVEU" class="top-back-link" href="https://ailoveu.art">← Back to <bdi>AILOVEU</bdi></a>
+<main class="page-wrap" id="main">
+<header class="page-header">
+<div aria-label="Interface language" class="ui-lang-switch">
+<button aria-pressed="true" class="ui-lang-btn active" data-ui-lang="en" id="ui-lang-en" type="button">EN</button>
+<button aria-pressed="false" class="ui-lang-btn" data-ui-lang="he" id="ui-lang-he" type="button">עברית</button>
+</div>
+<p class="eyebrow">Website Generator</p>
+<h1>Make me a website!</h1>
+<p>Supports Hebrew & English</p>
+</header>
+<section aria-labelledby="business-label" class="card">
+<div class="section-label" id="business-label">Business details</div>
+<div class="field">
+<label for="biz-name">Business name <span class="required">*</span></label>
+<input autocomplete="organization" id="biz-name" name="biz-name" placeholder="e.g. Bright Studio" type="text"/>
+</div>
+<div class="field">
+<label for="site-language">Site language</label>
+<select id="site-language" name="site-language">
+<option value="en">English</option>
+<option value="he">Hebrew / עברית</option>
+</select>
+</div>
+<div class="field logo-field">
+<label for="logo-input">Logo or icon</label>
+<div class="logo-upload-line">
+<input accept="image/png,image/jpeg,image/jpg,image/svg+xml,image/webp" id="logo-input" name="logo-input" type="file"/>
+<div aria-live="polite" class="logo-color-swatches" hidden="" id="logo-color-swatches">
+<span class="logo-color-label">Extracted colors</span>
+<span class="logo-color-dot" id="logo-color-1"></span>
+<span class="logo-color-dot" id="logo-color-2"></span>
+<span class="logo-color-dot" id="logo-color-3"></span>
+</div>
+</div>
+</div>
+<div class="field">
+<label for="biz-industry">Industry <span class="required">*</span></label>
+<select id="biz-industry" name="biz-industry">
+<option value="">Select industry</option>
+<option value="technology">Technology / Software</option>
+<option value="healthcare">Healthcare / Medical</option>
+<option value="finance">Finance / Legal</option>
+<option value="retail">Retail / E-commerce</option>
+<option value="food">Food &amp; Beverage</option>
+<option value="education">Education / Training</option>
+<option value="creative">Creative / Design / Media</option>
+<option value="realestate">Real Estate / Property</option>
+<option value="hospitality">Hospitality / Travel</option>
+<option value="fitness">Fitness / Wellness</option>
+<option value="ngo">Non-profit / NGO</option>
+<option value="construction">Construction / Manufacturing</option>
+<option value="other">Other</option>
+</select>
+</div>
+<div class="field">
+<label for="brand-voice">Brand voice</label>
+<select id="brand-voice" name="brand-voice">
+<option value="professional">Professional</option>
+<option value="friendly">Friendly</option>
+<option value="bold">Bold</option>
+<option value="luxury">Luxury</option>
+<option value="playful">Playful</option>
+<option value="technical">Technical</option>
+<option value="calm">Calm</option>
+</select>
+</div>
+<div class="field">
+<label for="website-type">Website type</label>
+<select id="website-type" name="website-type">
+<option value="full">Full site</option>
+<option value="onepage">One-page site</option>
+</select>
+</div>
+<div class="field">
+<label for="site-domain">Domain URL <span class="optional">optional</span></label>
+<input class="ltr-field" autocomplete="url" id="site-domain" inputmode="url" name="site-domain" placeholder="https://yourdomain.com" type="text" dir="ltr"/>
+</div>
+<div class="field">
+<label for="project-config-input">Import project config <span class="optional">optional</span></label>
+<input accept="application/json,.json" autocomplete="off" id="project-config-input" name="project-config-input" type="file"/>
+</div>
+</section>
+<details aria-labelledby="contact-details-label" class="card collapsible-card" id="contact-details-card" open="">
+<summary class="section-label" id="contact-details-label">Contact Details</summary>
+<div class="field">
+<label for="biz-email">Email</label>
+<input class="ltr-field" autocomplete="email" id="biz-email" name="biz-email" placeholder="hello@yourbusiness.com" type="email" dir="ltr"/>
+</div>
+<div class="field">
+<label for="biz-phone">Phone</label>
+<input class="ltr-field" autocomplete="tel" id="biz-phone" name="biz-phone" placeholder="+1 (555) 000-0000" type="text" dir="ltr"/>
+</div>
+<div class="field">
+<label for="biz-whatsapp">WhatsApp number <span class="optional">optional</span></label>
+<input class="ltr-field" autocomplete="tel" id="biz-whatsapp" name="biz-whatsapp" placeholder="+972501234567" type="text" dir="ltr"/>
+</div>
+<div class="field">
+<label for="whatsapp-message">WhatsApp message <span class="optional">optional</span></label>
+<input autocomplete="on" id="whatsapp-message" name="whatsapp-message" placeholder="Hi, I would like to hear more." type="text"/>
+</div>
+<div class="field">
+<label for="biz-area">City / service area</label>
+<input autocomplete="address-level2" id="biz-area" name="biz-area" placeholder="e.g. Tel Aviv, online worldwide" type="text"/>
+</div>
+<div class="field">
+<label for="biz-address">Address</label>
+<input autocomplete="street-address" id="biz-address" name="biz-address" placeholder="123 Main Street, City" type="text"/>
+</div>
+<div class="field">
+<label for="biz-hours">Opening hours</label>
+<input autocomplete="on" id="biz-hours" name="biz-hours" placeholder="Mon-Fri, 9:00-18:00" type="text"/>
+</div>
+</details>
+<details aria-labelledby="cta-goals-label" class="card collapsible-card" id="cta-goals-card">
+<summary class="section-label" id="cta-goals-label">CTA-Goals-Slogans</summary>
+<div class="field">
+<label for="main-headline">Main headline <span class="optional">optional</span></label>
+<input autocomplete="on" id="main-headline" name="main-headline" placeholder="e.g. Websites that sell while you sleep" type="text"/>
+</div>
+<div class="field">
+<label for="biz-tagline">Tagline <span class="muted-label">optional</span></label>
+<input autocomplete="on" id="biz-tagline" name="biz-tagline" placeholder="e.g. Building better tomorrows" type="text"/>
+</div>
+<div class="field">
+<label for="about-text">About text <span class="optional">optional</span></label>
+<textarea autocomplete="on" id="about-text" name="about-text" placeholder="Tell visitors who you are, who you help, and what makes your approach different." rows="4"></textarea>
+</div>
+<div class="field">
+<label for="website-goal">Main website goal</label>
+<select id="website-goal" name="website-goal">
+<option value="leads">Get leads</option>
+<option value="bookings">Book appointments</option>
+<option value="credibility">Build credibility</option>
+<option value="portfolio">Show portfolio</option>
+<option value="sales">Sell products or packages</option>
+<option value="donations">Collect donations</option>
+<option value="event">Promote an event</option>
+<option value="hiring">Hire employees</option>
+</select>
+</div>
+<div class="field">
+<label for="primary-cta">Primary CTA</label>
+<select id="primary-cta" name="primary-cta">
+<option value="auto">Auto choose from goal</option>
+<option value="Book a call">Book a call</option>
+<option value="Get a quote">Get a quote</option>
+<option value="Start free">Start free</option>
+<option value="Reserve now">Reserve now</option>
+<option value="Join now">Join now</option>
+<option value="Donate now">Donate now</option>
+<option value="View portfolio">View portfolio</option>
+<option value="Shop now">Shop now</option>
+<option value="Apply now">Apply now</option>
+</select>
+</div>
+<div class="field">
+<label for="custom-cta-url">Custom CTA URL <span class="optional">optional</span></label>
+<input class="ltr-field" autocomplete="url" id="custom-cta-url" inputmode="url" name="custom-cta-url" placeholder="https://calendly.com/your-link" type="text" dir="ltr"/>
+</div>
+<div class="field">
+<label for="product-payment-url">Product / payments page link <span class="optional">optional</span></label>
+<input class="ltr-field" autocomplete="url" id="product-payment-url" inputmode="url" name="product-payment-url" placeholder="https://your-store.com/product-or-payment" type="text" dir="ltr"/>
+</div>
+</details>
+<details class="card collapsible-card social-links-card" id="social-links-card">
+<summary class="section-label">Social links</summary>
+<p class="card-help">Optional. Add only the profiles you want shown in the generated footer and contact page.</p>
+<div class="field">
+<label for="social-instagram">Instagram</label>
+<input class="ltr-field" autocomplete="url" id="social-instagram" inputmode="url" name="social-instagram" placeholder="https://instagram.com/yourbrand" type="text" dir="ltr"/>
+</div>
+<div class="field">
+<label for="social-linkedin">LinkedIn</label>
+<input class="ltr-field" autocomplete="url" id="social-linkedin" inputmode="url" name="social-linkedin" placeholder="https://linkedin.com/company/yourbrand" type="text" dir="ltr"/>
+</div>
+<div class="field">
+<label for="social-facebook">Facebook</label>
+<input class="ltr-field" autocomplete="url" id="social-facebook" inputmode="url" name="social-facebook" placeholder="https://facebook.com/yourbrand" type="text" dir="ltr"/>
+</div>
+<div class="field">
+<label for="social-tiktok">TikTok</label>
+<input class="ltr-field" autocomplete="url" id="social-tiktok" inputmode="url" name="social-tiktok" placeholder="https://tiktok.com/@yourbrand" type="text" dir="ltr"/>
+</div>
+<div class="field">
+<label for="social-youtube">YouTube</label>
+<input class="ltr-field" autocomplete="url" id="social-youtube" inputmode="url" name="social-youtube" placeholder="https://youtube.com/@yourbrand" type="text" dir="ltr"/>
+</div>
+</details>
+<details class="card collapsible-card integrations-card" id="integrations-card">
+<summary class="section-label">Analytics placeholders</summary>
+<p class="card-help">Optional. Adds clearly marked placeholder snippets to the generated site head.</p>
+<label class="check-line"><input id="analytics-ga" name="analytics-ga" type="checkbox"/> Add Google Analytics placeholder</label>
+<div class="field">
+<label for="ga-id">GA measurement ID</label>
+<input class="ltr-field" autocomplete="on" id="ga-id" name="ga-id" placeholder="G-XXXXXXXXXX" type="text" dir="ltr"/>
+</div>
+<label class="check-line"><input id="analytics-meta" name="analytics-meta" type="checkbox"/> Add Meta Pixel placeholder</label>
+<div class="field">
+<label for="meta-pixel-id">Meta Pixel ID</label>
+<input class="ltr-field" autocomplete="on" id="meta-pixel-id" name="meta-pixel-id" placeholder="1234567890" type="text" dir="ltr"/>
+</div>
+<label class="check-line"><input id="cookie-banner" name="cookie-banner" type="checkbox"/> Add cookie consent banner</label>
+</details>
+<details aria-labelledby="brand-label" class="card collapsible-card styling-colors">
+<summary class="section-label" id="brand-label">Styling &amp; Colors</summary>
+<div aria-label="Color selection method" class="tabs" role="tablist">
+<button aria-selected="false" class="tab-btn" data-tab="manual" id="tab-manual" role="tab" type="button">Enter colors</button>
+<button aria-selected="true" class="tab-btn active" data-tab="presets" id="tab-presets" role="tab" type="button">Presets</button>
+</div>
+<div aria-labelledby="tab-manual" hidden="" id="panel-manual" role="tabpanel">
+<div class="color-row">
+<div class="swatch-wrap">
+<label for="col1">Primary</label>
+<input autocomplete="off" id="col1" name="col1" type="color" value="#111827"/>
+<input autocomplete="off" class="hex-input ltr-field" id="hex1" maxlength="7" name="hex1" placeholder="#rrggbb" type="text" value="#111827" dir="ltr"/>
+</div>
+<div class="swatch-wrap">
+<label for="col2">Secondary</label>
+<input autocomplete="off" id="col2" name="col2" type="color" value="#2563eb"/>
+<input autocomplete="off" class="hex-input ltr-field" id="hex2" maxlength="7" name="hex2" placeholder="#rrggbb" type="text" value="#2563eb" dir="ltr"/>
+</div>
+<div class="swatch-wrap">
+<label for="col3">Accent</label>
+<input autocomplete="off" id="col3" name="col3" type="color" value="#f97316"/>
+<input autocomplete="off" class="hex-input ltr-field" id="hex3" maxlength="7" name="hex3" placeholder="#rrggbb" type="text" value="#f97316" dir="ltr"/>
+</div>
+</div>
+</div>
+<div aria-labelledby="tab-presets" id="panel-presets" role="tabpanel">
+<div class="preset-grid" id="preset-grid"></div>
+</div>
+</details>
+<details aria-labelledby="style-label" class="card style-engine">
+<summary class="section-label" id="style-label">Site style engine</summary>
+<div class="style-fields">
+<div class="field compact-field">
+<label for="design-style">Design style</label>
+<select id="design-style" name="design-style">
+<option value="auto">Auto choose from business type</option>
+<option value="modern">Modern clean</option>
+<option value="bold">Bold startup</option>
+<option value="luxury">Luxury editorial</option>
+<option value="friendly">Friendly local business</option>
+<option value="creative">Creative studio</option>
+<option value="wellness">Calm wellness</option>
+<option value="corporate">Corporate professional</option>
+</select>
+</div>
+<div class="field compact-field">
+<label for="trust-style">Trust section</label>
+<select id="trust-style" name="trust-style">
+<option value="auto">Random / auto choose</option>
+<option value="logos">Client logo strip</option>
+<option value="customers">Trusted by 250+ customers</option>
+<option value="stars">Star rating block</option>
+<option value="certifications">Certifications</option>
+<option value="experience">Years of experience</option>
+<option value="counters">Number counters</option>
+<option value="reviews">Review cards</option>
+</select>
+</div>
+<div class="field compact-field">
+<label for="image-personality">Image feel</label>
+<select id="image-personality" name="image-personality">
+<option value="auto">Auto from industry</option>
+<option value="abstract">Abstract</option>
+<option value="people">People</option>
+<option value="nature">Nature</option>
+<option value="architecture">Architecture</option>
+<option value="workspaces">Workspaces</option>
+<option value="food">Food</option>
+</select>
+</div>
+</div>
+</details>
+
+<details class="card collapsible-card wanted-sections-card" id="wanted-sections-card" open="">
+<summary class="section-label" id="wanted-sections-label">Wanted Sections</summary>
+<p class="card-help" id="wanted-sections-help">Choose which sections appear on index.html and reorder them with the arrows.</p>
+<input id="wanted-sections-order" name="wanted-sections-order" type="hidden" value="hero,trust,goal,services,pricing,compare,faq,gallery,booking,contact,finalCta"/>
+<div class="wanted-sections-list" id="wanted-sections-list" aria-live="polite"></div>
+</details>
+<section aria-labelledby="features-label" class="card" style="display:none">
+<div class="section-label" id="features-label">Generated website options</div>
+<div class="field">
+<label for="form-mode">Contact form behavior</label>
+<select id="form-mode" name="form-mode">
+<option value="netlify">Netlify-ready form + thank-you page</option>
+<option value="mailto">Mailto fallback</option>
+<option value="static">Static demo form</option>
+</select>
+</div>
+<div class="checks">
+<label><input checked="" id="page-faq" name="page-faq" type="checkbox"/> Add faq.html</label>
+<label><input checked="" id="page-pricing" name="page-pricing" type="checkbox"/> Add pricing.html</label>
+<label><input checked="" id="page-blog" name="page-blog" type="checkbox"/> Add blog.html</label>
+<label><input checked="" id="page-gallery" name="page-gallery" type="checkbox"/> Add gallery.html</label>
+<label><input checked="" id="page-booking" name="page-booking" type="checkbox"/> Add booking.html</label>
+<label><input checked="" id="page-thanks" name="page-thanks" type="checkbox"/> Add thank-you.html</label>
+<label><input checked="" id="page-404" name="page-404" type="checkbox"/> Add 404.html</label>
+</div>
+</section>
+<div class="alert alert-error" id="alert-error" role="alert"></div>
+<div class="alert alert-success" id="alert-success" role="status">Files ready - your download should start automatically.</div>
+<section aria-labelledby="quality-label" class="card quality-card" style="display:none">
+<div class="section-label" id="quality-label">Site quality score</div>
+<div class="score-row"><strong id="quality-score">Not generated yet</strong><span id="quality-summary">Generate a site to see the launch checklist.</span></div>
+<ul class="quality-list" id="quality-list">
+<li>Goal-aware structure</li>
+<li>CTA strategy</li>
+<li>Brand voice</li>
+<li>SEO files</li>
+<li>Dark-mode toggle</li>
+<li>Schema.org data</li>
+<li>Launch kit</li>
+</ul>
+</section>
+<section aria-live="polite" class="card generation-card" hidden="" id="generation-card">
+<div class="section-label">Generation progress</div>
+<ol class="generation-steps" id="generation-steps">
+<li>Reading your business details</li>
+<li>Choosing layout and image direction</li>
+<li>Building pages and local business data</li>
+<li>Adding SEO, schema, sitemap, and assets</li>
+<li>Packing the ZIP</li>
+</ol>
+</section>
+<section aria-labelledby="preview-label" class="card preview-card" hidden="" id="preview-card">
+<div class="preview-head">
+<div>
+<div class="section-label" id="preview-label">Live preview</div>
+<p class="card-help">Preview the homepage before downloading. Regenerate to explore another visual version.</p>
+</div>
+<div class="preview-actions">
+<button class="regen-btn" id="regen-btn" title="Keeps your business details and changes the auto variation" type="button">↻ Generate another version</button>
+</div>
+</div>
+<div class="field preview-page-field">
+<label for="preview-page-select">Preview page</label>
+<select id="preview-page-select" name="preview-page-select">
+<option value="index.html">Home</option>
+<option value="about.html">About</option>
+<option value="services.html">Services</option>
+<option value="pricing.html">Pricing</option>
+<option value="faq.html">FAQ</option>
+<option value="blog.html">Blog</option>
+<option value="gallery.html">Gallery</option>
+<option value="booking.html">Booking</option>
+<option value="compare.html">Compare</option>
+<option value="contact.html">Contact</option>
+</select>
+</div>
+<div aria-label="Preview size" class="device-toggle" role="group">
+<button class="device-btn active" data-device="desktop" type="button">Desktop</button>
+<button class="device-btn" data-device="tablet" type="button">Tablet</button>
+<button class="device-btn" data-device="mobile" type="button">Mobile</button>
+</div>
+<div class="preview-shell desktop" id="preview-shell">
+<iframe id="site-preview" title="Generated website preview"></iframe>
+</div>
+</section>
+<div class="button-row">
+<button class="regen-btn preview-trigger" id="preview-btn" type="button">Preview website</button>
+<button class="gen-btn" id="gen-btn" type="button">
+<span aria-hidden="true">⬇</span>
+        Generate &amp; Download Website ZIP
+      </button>
+</div>
+<p class="footer-note">Generates: static site, Picsum images, dark mode, compare content, schema, launch kit, sitemap, robots, manifest, README.</p>
+</main>
+<footer aria-label="Credits" class="app-footer">
+    By <a href="https://ailoveu.art" rel="noopener" target="_blank">AILOVEU</a> &amp; <a href="https://il.linkedin.com/in/hagaytech" rel="noopener" target="_blank">Hagay</a>
+</footer>
+</body>
+</html>

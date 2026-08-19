@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>RAG - Retrieval Augmented Generation</title>
+  <meta name="description" content="מדריך לימודי מלא: אינג'סט מסמכים, embeddings, שליפה, וריראנק, כולל תרגול">
+  <link rel="stylesheet" href="assets/styles.css?v=20260107094522">
+</head>
+<body>
+<a class="skip-link" href="#main">דילוג לתוכן</a>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>🎓 מפתחי בינה מלאכותית - GenAI Engineers</h1>
+    <p>תוכנית לימודים אקדמית מתקדמת - 234 שעות - 2 סמסטרים</p>
+    <div class="badges">
+      <span class="badge">234 שעות אקדמיות</span>
+      <span class="badge">2 סמסטרים</span>
+      <span class="badge">E2E - קונספט עד ענן</span>
+    </div>
+  </div>
+</header>
+
+<div class="topbar">
+  <nav class="nav" aria-label="ניווט ראשי">
+  <a class="brand" href="index.html">
+    <span class="logo" aria-hidden="true">AI</span>
+    <span>GenAI Engineers</span>
+  </a>
+
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">תפריט</button>
+
+  <ul id="site-nav" class="nav-links">
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">פייתון</button>
+      <ul class="dropdown-menu" aria-label="פייתון" hidden>
+        <li><a href="fastapi-crud.html">FastAPI CRUD</a></li>
+        <li><a href="db-validation.html">DB + Validation</a></li>
+        <li><a href="db-sql-vs-nosql.html">SQL vs NoSQL</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">ארכיטקטורה</button>
+      <ul class="dropdown-menu" aria-label="ארכיטקטורה" hidden>
+        <li><a href="architecture.html">Client-Server</a></li>
+        <li><a href="rest-api.html">REST API</a></li>
+        <li><a href="authentication.html">אימות והרשאות</a></li>
+        <li><a href="api-security.html">אבטחת API</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">ענן והפצה</button>
+      <ul class="dropdown-menu" aria-label="ענן והפצה" hidden>
+        <li><a href="cloud-deploy.html">Docker + Cloud Run</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">סוכנים</button>
+      <ul class="dropdown-menu" aria-label="סוכנים" hidden>
+        <li><a href="agents-react.html">ReAct</a></li>
+        <li><a href="rag.html">RAG</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">וייב קודינג</button>
+      <ul class="dropdown-menu" aria-label="וייב קודינג" hidden>
+        <li><a href="vibe.html">vibe</a></li>
+        <li><a href="home-terminal.html">דף הבית - טרמינל</a></li>
+        <li><a href="home-blueprint.html">דף הבית - Blueprint</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">הקורס</button>
+      <ul class="dropdown-menu" aria-label="הקורס" hidden>
+        <li><a href="syllabus.html">תכנית</a></li>
+        <li><a href="lecturer.html">המרצה</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+</div>
+
+<main id="main" class="container">
+
+<section class="section">
+  <h2>RAG - Retrieval Augmented Generation</h2>
+  <p class="kicker">RAG הוא דפוס הנדסי שמחבר מודל שפה עם שכבת שליפה (Retrieval) ממאגר ידע, כך שהתשובה "נשענת" על מקורות אמיתיים במקום להסתמך על זיכרון המודל בלבד.</p>
+
+  <div class="callout">
+    <p><strong>למה זה חשוב בפרודקשן?</strong> כי רוב הארגונים לא יכולים להכניס את כל הידע שלהם למודל, הידע משתנה, ויש צורך בהסבריות ובבקרה. RAG מאפשר grounding, שליטה במקורות, וצמצום hallucinations.</p>
+  </div>
+
+  <h3>1) התמונה הגדולה: איפה RAG יושב בארכיטקטורה</h3>
+  <p>RAG הוא לא "ספריה" אחת, אלא שרשרת רכיבים: אינג'סט מסמכים, עיבוד מקדים, יצירת embeddings, אחסון בוקטור-דאטאבייס, שליפה בזמן שאלה, והרכבת פרומפט שמזין את ה-LLM עם הקונטקסט הרלוונטי.</p>
+
+  <div class="figure" role="figure" aria-label="דיאגרמת RAG מקצה לקצה">
+    <svg width="980" height="330" viewBox="0 0 980 330" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="rag" x1="0" x2="1">
+          <stop offset="0" stop-color="#667eea"/>
+          <stop offset="1" stop-color="#764ba2"/>
+        </linearGradient>
+      </defs>
+
+      <rect x="40" y="35" width="250" height="90" rx="16" fill="url(#rag)" opacity="0.95"/>
+      <text x="165" y="70" text-anchor="middle" font-size="15" fill="#fff" font-weight="800">Ingestion</text>
+      <text x="165" y="92" text-anchor="middle" font-size="12" fill="#fff">PDF, Docs, Web</text>
+      <text x="165" y="112" text-anchor="middle" font-size="12" fill="#fff">OCR, Clean, Parse</text>
+
+      <rect x="365" y="35" width="250" height="90" rx="16" fill="url(#rag)" opacity="0.95"/>
+      <text x="490" y="70" text-anchor="middle" font-size="15" fill="#fff" font-weight="800">Chunk + Embed</text>
+      <text x="490" y="92" text-anchor="middle" font-size="12" fill="#fff">Split to chunks</text>
+      <text x="490" y="112" text-anchor="middle" font-size="12" fill="#fff">Vector embedding</text>
+
+      <rect x="690" y="35" width="250" height="90" rx="16" fill="url(#rag)" opacity="0.95"/>
+      <text x="815" y="70" text-anchor="middle" font-size="15" fill="#fff" font-weight="800">Vector Store</text>
+      <text x="815" y="92" text-anchor="middle" font-size="12" fill="#fff">FAISS / pgvector</text>
+      <text x="815" y="112" text-anchor="middle" font-size="12" fill="#fff">Metadata index</text>
+
+      <path d="M290 80 L365 80" stroke="#667eea" stroke-width="6" stroke-linecap="round"/>
+      <polygon points="365,80 350,70 350,90" fill="#667eea"/>
+      <path d="M615 80 L690 80" stroke="#667eea" stroke-width="6" stroke-linecap="round"/>
+      <polygon points="690,80 675,70 675,90" fill="#667eea"/>
+
+      <rect x="40" y="195" width="250" height="95" rx="16" fill="url(#rag)" opacity="0.95"/>
+      <text x="165" y="232" text-anchor="middle" font-size="15" fill="#fff" font-weight="800">User Question</text>
+      <text x="165" y="255" text-anchor="middle" font-size="12" fill="#fff">Embed the query</text>
+
+      <rect x="365" y="195" width="250" height="95" rx="16" fill="url(#rag)" opacity="0.95"/>
+      <text x="490" y="225" text-anchor="middle" font-size="15" fill="#fff" font-weight="800">Retrieve + Rerank</text>
+      <text x="490" y="248" text-anchor="middle" font-size="12" fill="#fff">Top-k vectors</text>
+      <text x="490" y="270" text-anchor="middle" font-size="12" fill="#fff">Hybrid / BM25</text>
+
+      <rect x="690" y="195" width="250" height="95" rx="16" fill="url(#rag)" opacity="0.95"/>
+      <text x="815" y="225" text-anchor="middle" font-size="15" fill="#fff" font-weight="800">Prompt + LLM</text>
+      <text x="815" y="248" text-anchor="middle" font-size="12" fill="#fff">Citations + answer</text>
+      <text x="815" y="270" text-anchor="middle" font-size="12" fill="#fff">Guardrails</text>
+
+      <path d="M290 242 L365 242" stroke="#667eea" stroke-width="6" stroke-linecap="round"/>
+      <polygon points="365,242 350,232 350,252" fill="#667eea"/>
+      <path d="M615 242 L690 242" stroke="#667eea" stroke-width="6" stroke-linecap="round"/>
+      <polygon points="690,242 675,232 675,252" fill="#667eea"/>
+
+      <path d="M690 242 C640 160, 340 160, 290 242" stroke="#4a5fc1" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <polygon points="290,242 302,256 279,256" fill="#4a5fc1"/>
+      <text x="490" y="170" text-anchor="middle" font-size="12" fill="#243447">Retrieve reads from the vector store</text>
+    </svg>
+    <div class="caption">RAG הוא צינור: מסמכים - chunks - embeddings - מאגר וקטורי, ואז בזמן שאלה: embedding לשאלה - שליפה - הרכבת קונטקסט - תשובת מודל.</div>
+  </div>
+
+  <h3>2) Chunking - האמנות שמחליטה אם RAG עובד</h3>
+  <p>אם ה-chunks גדולים מדי, השליפה תהיה לא מדויקת והקונטקסט יתמלא רעש. אם הם קטנים מדי, מאבדים משמעות ונוצר מצב שבו צריך להרכיב עשרות chunks כדי לענות. לכן chunking הוא פרמטר קריטי.</p>
+
+  <div class="grid cols-2">
+    <div class="card">
+      <h4>כללי אצבע פרקטיים</h4>
+      <ul>
+        <li>גודל chunk טיפוסי: 200-800 tokens, עם overlap של 10%-20%.</li>
+        <li>שומרים מבנה: כותרות, סעיפים, טבלאות, קוד.</li>
+        <li>מוסיפים metadata: מקור, עמוד, כותרת פרק, תאריך, הרשאות.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>היכן זה נשבר</h4>
+      <ul>
+        <li>PDFים סרוקים בלי OCR - הטקסט "מפורק".</li>
+        <li>מסמכים עם הרבה קוד - צריך split שמכבד בלוקים.</li>
+        <li>מידע מבוזר - צריך גם ריראנקר או hybrid search.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>3) Retrieval - וקטורים, היברידי, וריראנק</h3>
+  <p>בשליפה וקטורית אנחנו ממירים טקסט לווקטור במרחב סמנטי. אחר כך אנחנו עושים nearest neighbors כדי למצוא chunks דומים. אבל similarity לא תמיד מספיק, ולכן מערכות מתקדמות משלבות:</p>
+  <ul>
+    <li><strong>Vector search:</strong> טוב למשמעות, פרפרזות, ושאלות "רכות".</li>
+    <li><strong>Lexical (BM25):</strong> טוב למונחים מדויקים, קודים, שמות, מספרים.</li>
+    <li><strong>Reranker:</strong> מודל קטן (cross-encoder) שמדרג מחדש את top-k לפי התאמה מדויקת לשאלה.</li>
+  </ul>
+
+  <details>
+    <summary>מה בוחרים בפרויקט סטודנטים?</summary>
+    <div class="content">
+      <p>התחלה טובה היא Vector search בלבד (FAISS) ואז להוסיף metadata filters. אם יש בעיה במונחים מדויקים - מוסיפים BM25 או reranker. המפתח: למדוד לפני שמוסיפים מורכבות.</p>
+    </div>
+  </details>
+
+  <h3>4) Prompt Assembly - איך "מכניסים" את המקורות למודל</h3>
+  <p>המודל מקבל קונטקסט מוגבל. לכן בונים פרומפט שמפריד בין ההוראות לבין המקורות, ומחייב תשובה שמבוססת רק עליהם. דפוס נפוץ:</p>
+
+  <div class="code" aria-label="תבנית פרומפט RAG">
+    <pre>System:
+You are a helpful assistant. Answer ONLY from the provided sources.
+If the answer is not in the sources, say "I don't know".
+
+User:
+Question: {question}
+
+Sources:
+[1] {chunk_1_text}
+[2] {chunk_2_text}
+...</pre>
+  </div>
+
+  <p>הוספת citations היא חלק מהחוזה. זה מאפשר בדיקה, אמון, והפחתת טעויות. במוצרים ארגוניים, זה גם מאפשר compliance.</p>
+
+  <h3>5) RAG ב-FastAPI - Endpoint לדוגמה</h3>
+  <p>הדוגמה הבאה מראה שירות מינימלי: מקבלים שאלה, מבצעים retrieval, מרכיבים prompt, ושולחים ל-LLM. בפועל תחליף את הפונקציות placeholder למימוש אמיתי (FAISS/pgvector + ספק מודל).</p>
+
+  <div class="code" aria-label="rag_api.py - Skeleton">
+    <pre>from fastapi import FastAPI
+from pydantic import BaseModel, Field
+
+app = FastAPI(title="RAG API", version="1.0")
+
+class AskRequest(BaseModel):
+    question: str = Field(min_length=5, max_length=2000)
+    top_k: int = Field(default=5, ge=1, le=20)
+
+class Source(BaseModel):
+    id: str
+    text: str
+    title: str | None = None
+    page: int | None = None
+
+class AskResponse(BaseModel):
+    answer: str
+    sources: list[Source]
+
+def embed_text(text: str) -> list[float]:
+    # TODO: use embedding model (local or API)
+    raise NotImplementedError
+
+def retrieve(query_vec: list[float], top_k: int) -> list[Source]:
+    # TODO: vector search + metadata filters + optional rerank
+    raise NotImplementedError
+
+def call_llm(prompt: str) -> str:
+    # TODO: call your LLM provider
+    raise NotImplementedError
+
+@app.post("/api/v1/ask", response_model=AskResponse)
+def ask(payload: AskRequest):
+    qvec = embed_text(payload.question)
+    sources = retrieve(qvec, payload.top_k)
+
+    sources_block = "\n".join(
+        [f"[{i+1}] {s.text}" for i, s in enumerate(sources)]
+    )
+    prompt = f\"\"\"You are a helpful assistant. Answer ONLY from the provided sources.
+If the answer is not in the sources, say: I don't know.
+
+Question: {payload.question}
+
+Sources:
+{sources_block}
+\"\"\"
+    answer = call_llm(prompt)
+    return AskResponse(answer=answer, sources=sources)</pre>
+  </div>
+
+  <details>
+    <summary>שדרוגים פרודקשניים שכדאי להכיר</summary>
+    <div class="content">
+      <ul>
+        <li><strong>Cache:</strong> לשאלות שחוזרות, או לשכבת embeddings של queries.</li>
+        <li><strong>Access control:</strong> פילטרים על metadata לפי הרשאות משתמש.</li>
+        <li><strong>Observability:</strong> לשמור trace: question, retrieved ids, token usage, latency.</li>
+        <li><strong>Safety:</strong> הגנה מפני prompt injection בתוך המסמכים (הוראות זדוניות במקור).</li>
+      </ul>
+    </div>
+  </details>
+
+  <h3>6) מדידה והערכה - איך יודעים שזה עובד</h3>
+  <p>RAG נופל בדרך כלל על "שליפה". לכן ההערכה מתחלקת לשניים:</p>
+  <div class="grid cols-2">
+    <div class="card">
+      <h4>Retrieval metrics</h4>
+      <ul>
+        <li>Recall@k - האם המקור הנכון נמצא בטופ-k</li>
+        <li>MRR - כמה גבוה הוא מופיע</li>
+        <li>Coverage - כמה שאלות מצליחות לקבל מקור</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Answer quality</h4>
+      <ul>
+        <li>Correctness - תשובה נכונה</li>
+        <li>Groundedness - נשענת על המקורות</li>
+        <li>Faithfulness - לא מוסיפה עובדות</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>תרגול</h3>
+
+  <details>
+    <summary>שאלות בדיקה (10)</summary>
+    <div class="content">
+      <ol>
+        <li>מה ההבדל בין "ידע המודל" לבין "מקורות" ב-RAG?</li>
+        <li>למה chunking משפיע יותר מהמודל עצמו במקרים רבים?</li>
+        <li>מה היתרון של metadata filters ב-RAG ארגוני?</li>
+        <li>באיזה מצב BM25 מנצח vector search?</li>
+        <li>מה עושה reranker ולמה הוא יקר יותר?</li>
+        <li>מה זה prompt injection בתוך מסמך, ואיך מצמצמים את הסיכון?</li>
+        <li>מה ההבדל בין Recall@k לבין MRR?</li>
+        <li>מהי מדיניות תשובה מומלצת כשאין מקור מתאים?</li>
+        <li>איך היית מוסיף cache בלי לשבור עקביות?</li>
+        <li>איזה log או trace היית שומר כדי לדבג מערכת RAG?</li>
+      </ol>
+    </div>
+  </details>
+
+  <details>
+    <summary>משימת בית (Mini RAG)</summary>
+    <div class="content">
+      <p>בנה שירות FastAPI עם endpoint:</p>
+      <div class="code" aria-label="דרישת API למשימת בית">
+        <pre>POST /api/v1/ask
+{
+  "question": "string",
+  "top_k": 5
+}
+
+Response:
+{
+  "answer": "string",
+  "sources": [{"id":"...", "title":"...", "page":1, "text":"..."}]
+}</pre>
+      </div>
+      <p>דרישות:</p>
+      <ul>
+        <li>המסמכים מגיעים מתיקיה מקומית (למשל markdown או txt) ונכנסים ל-index בהפעלה.</li>
+        <li>יש chunking עם overlap, ושמירה של metadata (שם קובץ, מספר chunk).</li>
+        <li>שליפה של top-k לפי similarity (אפשר להתחיל בלי reranker).</li>
+        <li>תשובה מחזירה citations כ-id של chunks.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>בדיקת פתרון (Checklist + בדיקות)</summary>
+    <div class="content">
+      <p><strong>Checklist:</strong></p>
+      <ul>
+        <li>ה-API מחזיר 200, וכולל answer + sources.</li>
+        <li>בכל תשובה יש לפחות מקור אחד או "I don't know".</li>
+        <li>ה-sources מתאימים לשאלה (בדיקה ידנית על 5 שאלות).</li>
+        <li>המערכת לא קורסת על מסמך גדול או שאלה ארוכה (ולידציה).</li>
+      </ul>
+
+      <p><strong>בדיקת smoke עם curl:</strong></p>
+      <div class="code" aria-label="curl test">
+        <pre>curl -X POST http://localhost:8000/api/v1/ask \
+  -H "Content-Type: application/json" \
+  -d '{"question":"מה זה RAG ולמה הוא שימושי?","top_k":5}'</pre>
+      </div>
+
+      <p><strong>בדיקות יחידה (pytest) - דוגמה:</strong></p>
+      <div class="code" aria-label="pytest example">
+        <pre>from fastapi.testclient import TestClient
+from rag_api import app
+
+client = TestClient(app)
+
+def test_ask_returns_sources():
+    r = client.post("/api/v1/ask", json={"question":"define RAG", "top_k":3})
+    assert r.status_code == 200
+    data = r.json()
+    assert "answer" in data
+    assert "sources" in data
+    assert isinstance(data["sources"], list)</pre>
+      </div>
+    </div>
+  </details>
+
+  <p>בעמוד הבא נוכל לבנות את "הצד התשתיתי" של RAG: בסיס נתונים, ולידציה, ומבנה דאטה נקי. כשתכתוב "המשך", אכין את העמוד הבא בסדרה.</p>
+</section>
+
+</main>
+
+<footer class="footer">
+  <p>🌐 מפתחי בינה מלאכותית - GenAI Engineers | חגי און</p>
+  <p class="muted">אתר סטטי: HTML + CSS + JavaScript - קבצים משותפים לקאש דפדפן</p>
+</footer>
+
+<script src="assets/app.js?v=20260107094522" defer></script>
+</body>
+</html>

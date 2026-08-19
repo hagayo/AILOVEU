@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>דף הבית - Blueprint</title>
+  <meta name="description" content="דף בית מודרני בסגנון Blueprint Engineering">
+  <link rel="stylesheet" href="assets/styles.css?v=20260107094522">
+</head>
+<body class="home home-blueprint">
+<a class="skip-link" href="#main">דילוג לתוכן</a>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>🎓 מפתחי בינה מלאכותית - GenAI Engineers</h1>
+    <p>הפרדה בין צד לקוח וצד שרת, ושילוב APIs בין שירותים</p>
+    <div class="badges">
+      <span class="badge">234 שעות אקדמיות</span>
+      <span class="badge">2 סמסטרים</span>
+      <span class="badge">E2E - קונספט עד ענן</span>
+    </div>
+  </div>
+</header>
+
+<div class="topbar">
+  <nav class="nav" aria-label="ניווט ראשי">
+  <a class="brand" href="index.html">
+    <span class="logo" aria-hidden="true">AI</span>
+    <span>GenAI Engineers</span>
+  </a>
+
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">תפריט</button>
+
+  <ul id="site-nav" class="nav-links">
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">פייתון</button>
+      <ul class="dropdown-menu" aria-label="פייתון" hidden>
+        <li><a href="fastapi-crud.html">FastAPI CRUD</a></li>
+        <li><a href="db-validation.html">DB + Validation</a></li>
+        <li><a href="db-sql-vs-nosql.html">SQL vs NoSQL</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">ארכיטקטורה</button>
+      <ul class="dropdown-menu" aria-label="ארכיטקטורה" hidden>
+        <li><a href="architecture.html">Client-Server</a></li>
+        <li><a href="rest-api.html">REST API</a></li>
+        <li><a href="authentication.html">אימות והרשאות</a></li>
+        <li><a href="api-security.html">אבטחת API</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">ענן והפצה</button>
+      <ul class="dropdown-menu" aria-label="ענן והפצה" hidden>
+        <li><a href="cloud-deploy.html">Docker + Cloud Run</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">סוכנים</button>
+      <ul class="dropdown-menu" aria-label="סוכנים" hidden>
+        <li><a href="agents-react.html">ReAct</a></li>
+        <li><a href="rag.html">RAG</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">וייב קודינג</button>
+      <ul class="dropdown-menu" aria-label="וייב קודינג" hidden>
+        <li><a href="vibe.html">vibe</a></li>
+        <li><a href="home-terminal.html">דף הבית - טרמינל</a></li>
+        <li><a href="home-blueprint.html">דף הבית - Blueprint</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">הקורס</button>
+      <ul class="dropdown-menu" aria-label="הקורס" hidden>
+        <li><a href="syllabus.html">תכנית</a></li>
+        <li><a href="lecturer.html">המרצה</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+</div>
+
+<main id="main" class="container">
+
+<section class="home-hero home-hero--blueprint">
+  <div class="bp-bg" aria-hidden="true"></div>
+
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <span class="hero-badge hero-badge--bp">מצב Blueprint</span>
+      <h1 class="hero-title">ממפתחים מערכת GenAI כמו מהנדסים</h1>
+      <p class="hero-subtitle">לא רק “לכתוב קוד” - להבין זרימה, חוזים, persistence, ותפעול בענן. הכל פרק-פרק, עם דיאגרמות ותרגול.</p>
+
+      <div class="hero-pills" aria-label="מאפייני הקורס">
+        <span class="pill pill-bp">Architecture</span>
+        <span class="pill pill-bp">APIs</span>
+        <span class="pill pill-bp">DB</span>
+        <span class="pill pill-bp">RAG</span>
+        <span class="pill pill-bp">Cloud</span>
+      </div>
+
+      <div class="hero-cta">
+        <a class="btn btn-bp" href="syllabus.html">לתכנית הקורס</a>
+        <a class="btn btn-ghost btn-bp-ghost" href="architecture.html">התחל מארכיטקטורה</a>
+      </div>
+
+      <div class="hero-mini">
+        <div class="mini-card mini-card--bp">
+          <div class="mini-k">Mental Model</div>
+          <div class="mini-v">למה דברים נשברים בפרודקשן</div>
+        </div>
+        <div class="mini-card mini-card--bp">
+          <div class="mini-k">Practice</div>
+          <div class="mini-v">שאלות, משימות, בדיקת פתרון</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-demo" aria-label="Blueprint diagram">
+      <div class="bp-card">
+        <div class="bp-title">זרימת מערכת</div>
+
+        <svg class="bp-diagram" viewBox="0 0 880 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Client to Cloud flow blueprint">
+          <defs>
+            <linearGradient id="bpl" x1="0" x2="1">
+              <stop offset="0" stop-color="#5eead4" stop-opacity="0.95"/>
+              <stop offset="1" stop-color="#60a5fa" stop-opacity="0.95"/>
+            </linearGradient>
+            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <rect x="22" y="22" width="836" height="376" rx="18" fill="none" stroke="rgba(148,163,184,0.35)" stroke-width="2"/>
+          <path d="M22 120H858M22 220H858M22 320H858" stroke="rgba(148,163,184,0.18)" stroke-width="2"/>
+          <path d="M170 22V398M330 22V398M500 22V398M670 22V398" stroke="rgba(148,163,184,0.14)" stroke-width="2"/>
+
+          <g filter="url(#glow)">
+            <rect x="70" y="70" width="210" height="90" rx="16" fill="rgba(2,6,23,0.65)" stroke="url(#bpl)" stroke-width="2"/>
+            <text x="175" y="108" text-anchor="middle" font-size="18" fill="rgba(226,232,240,0.92)" font-weight="800">Client</text>
+            <text x="175" y="135" text-anchor="middle" font-size="13" fill="rgba(226,232,240,0.7)">Browser / App</text>
+
+            <rect x="335" y="70" width="210" height="90" rx="16" fill="rgba(2,6,23,0.65)" stroke="url(#bpl)" stroke-width="2"/>
+            <text x="440" y="108" text-anchor="middle" font-size="18" fill="rgba(226,232,240,0.92)" font-weight="800">API</text>
+            <text x="440" y="135" text-anchor="middle" font-size="13" fill="rgba(226,232,240,0.7)">FastAPI + Pydantic</text>
+
+            <rect x="600" y="70" width="210" height="90" rx="16" fill="rgba(2,6,23,0.65)" stroke="url(#bpl)" stroke-width="2"/>
+            <text x="705" y="108" text-anchor="middle" font-size="18" fill="rgba(226,232,240,0.92)" font-weight="800">Cloud Run</text>
+            <text x="705" y="135" text-anchor="middle" font-size="13" fill="rgba(226,232,240,0.7)">Containers</text>
+
+            <rect x="235" y="245" width="210" height="90" rx="16" fill="rgba(2,6,23,0.65)" stroke="url(#bpl)" stroke-width="2"/>
+            <text x="340" y="283" text-anchor="middle" font-size="18" fill="rgba(226,232,240,0.92)" font-weight="800">DB</text>
+            <text x="340" y="310" text-anchor="middle" font-size="13" fill="rgba(226,232,240,0.7)">Postgres / Mongo</text>
+
+            <rect x="470" y="245" width="210" height="90" rx="16" fill="rgba(2,6,23,0.65)" stroke="url(#bpl)" stroke-width="2"/>
+            <text x="575" y="283" text-anchor="middle" font-size="18" fill="rgba(226,232,240,0.92)" font-weight="800">Storage</text>
+            <text x="575" y="310" text-anchor="middle" font-size="13" fill="rgba(226,232,240,0.7)">S3-like objects</text>
+          </g>
+
+          <path d="M280 115H335" stroke="rgba(94,234,212,0.85)" stroke-width="4" stroke-linecap="round"/>
+          <path d="M545 115H600" stroke="rgba(96,165,250,0.85)" stroke-width="4" stroke-linecap="round"/>
+          <path d="M440 160V245" stroke="rgba(94,234,212,0.75)" stroke-width="4" stroke-linecap="round"/>
+          <path d="M560 160V245" stroke="rgba(96,165,250,0.75)" stroke-width="4" stroke-linecap="round"/>
+
+          <text x="308" y="102" text-anchor="middle" font-size="12" fill="rgba(226,232,240,0.7)">HTTP</text>
+          <text x="572" y="102" text-anchor="middle" font-size="12" fill="rgba(226,232,240,0.7)">Deploy</text>
+          <text x="455" y="212" text-anchor="start" font-size="12" fill="rgba(226,232,240,0.7)">metadata</text>
+          <text x="575" y="212" text-anchor="start" font-size="12" fill="rgba(226,232,240,0.7)">binary</text>
+        </svg>
+
+        <div class="bp-legend">
+          <span class="bp-chip">stateless containers</span>
+          <span class="bp-chip">external DB</span>
+          <span class="bp-chip">object storage</span>
+        </div>
+      </div>
+
+      <div class="demo-hint demo-hint--bp">
+        <span class="spark" aria-hidden="true">⌁</span>
+        כל פרק באתר מפרק את הדיאגרמה הזאת למעשים: קוד + תפעול + בדיקות.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section home-section">
+  <h2>התחלה מומלצת</h2>
+  <div class="home-actions">
+    <a class="card-link card-link--bp" href="architecture.html">
+      <div class="card-link-top">ארכיטקטורה</div>
+      <div class="card-link-body">Client-Server, REST, חוזים, תקלות נפוצות.</div>
+      <div class="card-link-cta">פתח פרק</div>
+    </a>
+
+    <a class="card-link card-link--bp" href="cloud-deploy.html">
+      <div class="card-link-top">ענן והפצה</div>
+      <div class="card-link-body">Docker + Cloud Run, stateless, secrets, storage.</div>
+      <div class="card-link-cta">פתח פרק</div>
+    </a>
+
+    <a class="card-link card-link--bp" href="rag.html">
+      <div class="card-link-top">RAG</div>
+      <div class="card-link-body">Chunking, retrieval, rerank, sources.</div>
+      <div class="card-link-cta">פתח פרק</div>
+    </a>
+  </div>
+</section>
+
+<section class="section home-section">
+  <div class="chooser">
+    <h2>רוצה את גרסת Terminal?</h2>
+    <p class="muted">זו גרסת Blueprint. היא מדגישה דיאגרמות ומנטל מודל. הגרסה Terminal מרגישה כמו DevTools.</p>
+    <a class="btn btn-ghost" href="home-terminal.html">לגרסת Terminal</a>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <p>🌐 מפתחי בינה מלאכותית - GenAI Engineers | חגי און</p>
+  <p class="muted">אתר סטטי: HTML + CSS + JavaScript - קבצים משותפים לקאש דפדפן</p>
+</footer>
+
+<script src="assets/app.js?v=20260107094522" defer></script>
+</body>
+</html>

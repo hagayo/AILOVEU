@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>REST API - עקרונות ופרקטיקות</title>
+  <meta name="description" content="HTTP, חוזים, שגיאות, גרסאות ואבטחה בסיסית">
+  <link rel="stylesheet" href="assets/styles.css?v=20260107094522">
+</head>
+<body>
+<a class="skip-link" href="#main">דילוג לתוכן</a>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>🎓 מפתחי בינה מלאכותית - GenAI Engineers</h1>
+    <p>HTTP, חוזים, שגיאות, גרסאות ואבטחה בסיסית</p>
+    <div class="badges">
+      <span class="badge">234 שעות אקדמיות</span>
+      <span class="badge">2 סמסטרים</span>
+      <span class="badge">E2E - קונספט עד ענן</span>
+    </div>
+  </div>
+</header>
+
+<div class="topbar">
+  <nav class="nav" aria-label="ניווט ראשי">
+  <a class="brand" href="index.html">
+    <span class="logo" aria-hidden="true">AI</span>
+    <span>GenAI Engineers</span>
+  </a>
+
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">תפריט</button>
+
+  <ul id="site-nav" class="nav-links">
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">פייתון</button>
+      <ul class="dropdown-menu" aria-label="פייתון" hidden>
+        <li><a href="fastapi-crud.html">FastAPI CRUD</a></li>
+        <li><a href="db-validation.html">DB + Validation</a></li>
+        <li><a href="db-sql-vs-nosql.html">SQL vs NoSQL</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">ארכיטקטורה</button>
+      <ul class="dropdown-menu" aria-label="ארכיטקטורה" hidden>
+        <li><a href="architecture.html">Client-Server</a></li>
+        <li><a href="rest-api.html">REST API</a></li>
+        <li><a href="authentication.html">אימות והרשאות</a></li>
+        <li><a href="api-security.html">אבטחת API</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">ענן והפצה</button>
+      <ul class="dropdown-menu" aria-label="ענן והפצה" hidden>
+        <li><a href="cloud-deploy.html">Docker + Cloud Run</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">סוכנים</button>
+      <ul class="dropdown-menu" aria-label="סוכנים" hidden>
+        <li><a href="agents-react.html">ReAct</a></li>
+        <li><a href="rag.html">RAG</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">וייב קודינג</button>
+      <ul class="dropdown-menu" aria-label="וייב קודינג" hidden>
+        <li><a href="vibe.html">vibe</a></li>
+        <li><a href="home-terminal.html">דף הבית - טרמינל</a></li>
+        <li><a href="home-blueprint.html">דף הבית - Blueprint</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">הקורס</button>
+      <ul class="dropdown-menu" aria-label="הקורס" hidden>
+        <li><a href="syllabus.html">תכנית</a></li>
+        <li><a href="lecturer.html">המרצה</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+</div>
+
+<main id="main" class="container">
+
+<section class="section">
+  <h2>REST API - עקרונות, חוזים, ודפוסי פרודקשן</h2>
+  <p class="kicker">REST הוא סגנון ארכיטקטוני לתקשורת בין מערכות על גבי HTTP. כדי שזה יעבוד בפרודקשן נדרש יותר מ-GET ו-POST.</p>
+
+  <h3>1) HTTP כשפה של המערכת</h3>
+  <p>HTTP מגדיר סט פעולות (Methods), סטטוסים (Status Codes), כותרות (Headers) וגוף (Body). השרת מציע "משאבים" (Resources) והלקוח מבצע עליהם פעולות.</p>
+
+  <div class="grid cols-3">
+    <div class="card">
+      <h4>Methods</h4>
+      <ul>
+        <li><span class="highlight">GET</span> - קריאה</li>
+        <li><span class="highlight">POST</span> - יצירה</li>
+        <li><span class="highlight">PUT</span> - החלפה מלאה</li>
+        <li><span class="highlight">PATCH</span> - עדכון חלקי</li>
+        <li><span class="highlight">DELETE</span> - מחיקה</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Status Codes</h4>
+      <ul>
+        <li>200, 201 - הצלחה</li>
+        <li>400 - בקשה לא תקינה</li>
+        <li>401/403 - אימות/הרשאה</li>
+        <li>404 - לא נמצא</li>
+        <li>409 - קונפליקט</li>
+        <li>429 - יותר מדי בקשות</li>
+        <li>500 - שגיאת שרת</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>JSON</h4>
+      <p>פורמט נתונים נפוץ להעברת אובייקטים. בפועל חשוב לאכוף סכמות, לא רק "לזרוק dict".</p>
+      <p class="small">ב-FastAPI משתמשים ב-Pydantic כדי לבצע ולידציה.</p>
+    </div>
+  </div>
+
+  <h3>2) עקרונות REST שאנשים מפספסים</h3>
+  <div class="callout">
+    <p><strong>Idempotency:</strong> פעולה שאפשר לבצע שוב ושוב בלי לשנות את התוצאה אחרי הפעם הראשונה. GET ו-PUT אמורים להיות idempotent, POST בדרך כלל לא.</p>
+  </div>
+
+  <details>
+    <summary>מה המשמעות המעשית?</summary>
+    <div class="content">
+      <p>אם לקוח שולח בקשה פעמיים בגלל רשת לא יציבה, מערכת טובה יודעת לא לשבור נתונים. לכן:</p>
+      <ul>
+        <li>ביצירת משאב קריטי - שוקלים idempotency key.</li>
+        <li>בעדכון - משתמשים ב-ETag/If-Match או version field למניעת lost updates.</li>
+        <li>בטעויות זמניות - מגדירים retries בצד לקוח עם backoff, אבל בזהירות כדי לא ליצור עומס.</li>
+      </ul>
+    </div>
+  </details>
+
+  <h3>3) תבנית שגיאות אחידה</h3>
+  <p>הטעות הנפוצה היא להחזיר הודעת טקסט שונה בכל נקודת קצה. במקום זה מגדירים פורמט קבוע שכולל קוד פנימי, הודעה למפתח, ו-id לניטור.</p>
+
+  <div class="code" aria-label="פורמט שגיאה מומלץ ב-JSON">
+    <pre>{
+  "error": {
+    "code": "USER_NOT_FOUND",
+    "message": "No user with id=123",
+    "trace_id": "9f0b2d0c0a0b4c8e"
+  }
+}</pre>
+  </div>
+
+  <h3>4) גרסאות API</h3>
+  <p>מערכת אמיתית משתנה. כדי לא לשבור לקוחות קיימים משתמשים בגרסאות. הדרך הפשוטה: prefix בנתיב.</p>
+
+  <div class="code" aria-label="דוגמה לנתיבי API בגרסאות">
+    <pre>GET /api/v1/users/123
+GET /api/v2/users/123</pre>
+  </div>
+
+  <h3>5) אבטחה בסיסית: Authentication ו-Authorization</h3>
+  <p>אימות (Authentication) עונה על "מי אתה". הרשאות (Authorization) עונות על "מה מותר לך". ב-REST נהוג להשתמש ב-Bearer Token ב-Header.</p>
+
+  <div class="code" aria-label="דוגמה ל-Authorization header">
+    <pre>Authorization: Bearer &lt;access_token&gt;</pre>
+  </div>
+
+  <details>
+    <summary>כללי זהב לאבטחה פרקטית</summary>
+    <div class="content">
+      <ul>
+        <li>לעולם לא מחזירים secrets ללקוח ולא שומרים אותם ב-localStorage אם אפשר להימנע.</li>
+        <li>מגבילים קצב (rate limiting) - במיוחד endpoints שקשורים ל-LLM.</li>
+        <li>מפרידים הרשאות לפי roles או scopes.</li>
+        <li>מתעדים אירועים (audit logs) לפעולות רגישות.</li>
+      </ul>
+    </div>
+  </details>
+
+  <h3>6) דפוסי שימוש שכיחים</h3>
+  <div class="grid cols-2">
+    <div class="card">
+      <h4>Pagination</h4>
+      <p>רשימות גדולות מחייבות חלוקה לעמודים. דפוס פשוט: limit + cursor.</p>
+      <div class="code" aria-label="דוגמת query params ל-pagination">
+        <pre>GET /api/v1/items?limit=50&amp;cursor=eyJpZCI6MTAwfQ==</pre>
+      </div>
+      <p class="small">Cursor יציב יותר מ-page number כשנתונים משתנים.</p>
+    </div>
+    <div class="card">
+      <h4>Filtering + Sorting</h4>
+      <p>מניחים שצד לקוח רוצה סינון, ולכן מאפשרים query params סטנדרטיים.</p>
+      <div class="code" aria-label="דוגמת filtering sorting">
+        <pre>GET /api/v1/orders?status=paid&amp;sort=-created_at</pre>
+      </div>
+      <p class="small">סימן מינוס מציין מיון יורד.</p>
+    </div>
+  </div>
+
+  <p>כדי לראות איך כל זה מתרגם לקוד אמיתי, ממשיכים לדוגמת CRUD ב-FastAPI.</p>
+  <p><a href="fastapi-crud.html">לקריאת הפרק FastAPI CRUD</a></p>
+</section>
+
+</main>
+
+<footer class="footer">
+  <p>🌐 מפתחי בינה מלאכותית - GenAI Engineers | חגי און</p>
+  <p class="muted">אתר סטטי: HTML + CSS + JavaScript - קבצים משותפים לקאש דפדפן</p>
+</footer>
+
+<script src="assets/app.js?v=20260107094522" defer></script>
+</body>
+</html>

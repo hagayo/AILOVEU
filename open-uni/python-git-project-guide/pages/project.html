@@ -1,0 +1,21 @@
+<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>פתיחת תיקייה ופרויקט Python ראשון | python-git-first-project</title><link rel="stylesheet" href="../assets/css/main.css"></head><body>
+<header class="site-header"><a class="brand" href="../index.html"><span class="brand-mark">G</span><span>python-git-first-project</span></a><button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">תפריט</button><nav id="main-nav" class="main-nav"><a href="../index.html">בית</a><a href="install.html">התקנה</a><a href="project.html">פרויקט</a><a href="code-tests.html">קוד ובדיקות</a><a href="upgrade-overview.html">שדרוג האפליקציה</a><a href="github-actions.html">Actions</a><a href="cheat-sheet.html">פקודות</a></nav></header>
+<main><section class="page-hero section-shell reveal"><p class="eyebrow">מדריך Git למתחילים</p><h1>פתיחת תיקייה ופרויקט Python ראשון</h1><p class="lead">כל שלב כתוב בסדר ביצוע ברור, עם פקודות מוכנות להעתקה ודגשים למניעת טעויות.</p></section><section class="content-layout section-shell"><aside class="side-nav reveal"><a href="install.html">1. התקנה</a><a href="project.html">2. פרויקט ראשון</a><a href="gitignore-readme.html">3. gitignore ו-README</a><a href="code-tests.html">4. קוד ובדיקות</a><a href="upgrade-overview.html">5. שדרוג האפליקציה</a><a href="api-layer.html">6. שכבת API</a><a href="cli-json.html">7. CLI ושמירת JSON</a><a href="quality-next.html">8. בדיקות המשך</a><a href="github-actions.html">9. GitHub Actions</a><a href="dependabot.html">6. Dependabot</a><a href="cheat-sheet.html">פקודות בסיסיות</a></aside><div><article class="content-card reveal"><h2>1. יצירת תיקיית הפרויקט</h2><pre><code>cd ~/Desktop
+mkdir python-git-first-project
+cd python-git-first-project
+code .</code></pre></article><article class="content-card reveal"><h2>2. יצירת סביבת עבודה</h2><pre><code>python -m venv .venv
+source .venv/Scripts/activate
+python --version
+pip --version</code></pre><div class="callout"><strong>ב-macOS/Linux:</strong> מפעילים עם source .venv/bin/activate</div></article><article class="content-card reveal"><h2>3. התקנת ספריות</h2><pre><code>pip install requests httpx pytest pylint
+pip freeze &gt; requirements.txt</code></pre></article><article class="content-card reveal"><h2>4. מבנה תיקיות</h2><pre class="file-tree"><code>python-git-first-project/
+├── .github/
+│   ├── workflows/
+│   │   └── python-ci.yml
+│   └── dependabot.yml
+├── src/
+│   └── github_client.py
+├── tests/
+│   └── test_github_client.py
+├── .gitignore
+├── README.md
+└── requirements.txt</code></pre></article></div></section></main><footer class="site-footer"><p>מדריך Git למתחילים - פרויקט Python ראשון.</p></footer><script src="../assets/js/main.js"></script></body></html>

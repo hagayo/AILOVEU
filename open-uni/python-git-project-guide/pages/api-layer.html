@@ -1,0 +1,35 @@
+<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>שכבת API נקייה | python-git-first-project</title><link rel="stylesheet" href="../assets/css/main.css"></head><body>
+<header class="site-header"><a class="brand" href="../index.html"><span class="brand-mark">G</span><span>python-git-first-project</span></a><button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">תפריט</button><nav id="main-nav" class="main-nav"><a href="../index.html">בית</a><a href="install.html">התקנה</a><a href="project.html">פרויקט</a><a href="code-tests.html">קוד ובדיקות</a><a href="upgrade-overview.html">שדרוג האפליקציה</a><a href="github-actions.html">Actions</a><a href="cheat-sheet.html">פקודות</a></nav></header>
+<main><section class="page-hero section-shell reveal"><p class="eyebrow">שדרוג האפליקציה</p><h1>שכבת API נקייה</h1><p class="lead">נארגן את הקוד שמדבר עם GitHub במקום אחד ונכין אותו לשימוש חוזר באפליקציה.</p></section><section class="content-layout section-shell"><aside class="side-nav reveal"><a href="install.html">1. התקנה</a><a href="project.html">2. פרויקט ראשון</a><a href="gitignore-readme.html">3. gitignore ו-README</a><a href="code-tests.html">4. קוד ובדיקות</a><a href="upgrade-overview.html">5. שדרוג האפליקציה</a><a href="api-layer.html">6. שכבת API</a><a href="cli-json.html">7. CLI ושמירת JSON</a><a href="quality-next.html">8. בדיקות המשך</a><a href="github-actions.html">9. GitHub Actions</a><a href="dependabot.html">10. Dependabot</a><a href="cheat-sheet.html">פקודות בסיסיות</a></aside><div><article class="content-card reveal"><h2>src/github_client.py</h2><p>נחליף את הקובץ הקודם בגרסה מעט מקצועית יותר. הפונקציה מחזירה מידע מסודר ולא מערבבת הדפסות עם לוגיקה.</p><pre><code>"""GitHub API client functions."""
+
+from typing import Any
+
+import httpx
+import requests
+
+API_URL = "https://api.github.com"
+
+
+def get_github_status_with_requests() -> int:
+    """Return GitHub API status code using requests."""
+    response = requests.get(API_URL, timeout=10)
+    return response.status_code
+
+
+def get_github_info_with_httpx() -> dict[str, Any]:
+    """Return basic GitHub API information using httpx."""
+    response = httpx.get(API_URL, timeout=10)
+    response.raise_for_status()
+    return response.json()
+
+
+def build_github_summary() -> dict[str, Any]:
+    """Build a small summary from the GitHub API."""
+    github_info = get_github_info_with_httpx()
+
+    return {
+        "status_code": get_github_status_with_requests(),
+        "current_user_url": github_info.get("current_user_url"),
+        "authorizations_url": github_info.get("authorizations_url"),
+        "repository_search_url": github_info.get("repository_search_url"),
+    }</code></pre></article><article class="content-card reveal"><h2>למה זה יותר טוב?</h2><ul><li>הקוד שמדבר עם GitHub נמצא במקום אחד.</li><li>הפונקציות מחזירות מידע במקום להדפיס אותו מיד.</li><li>קל יותר לבדוק את הקוד עם Mock.</li><li>בעתיד אפשר להחליף API בלי לשבור את כל האפליקציה.</li></ul></article><article class="content-card reveal"><h2>בדיקה ידנית מהירה</h2><pre><code>python -c "from src.github_client import build_github_summary; print(build_github_summary())"</code></pre></article></div></section></main><footer class="site-footer"><p>מדריך Git למתחילים - פרויקט Python ראשון.</p></footer><script src="../assets/js/main.js"></script></body></html>
