@@ -20,6 +20,7 @@
   --light-blue: #d9d1f5;
   --light-gray: #e4e7e7;
   --orange: #ff9042;
+  --dark-orange: #fb7618;
   --lime: #e5f569;
   --dominant-red: #b42318;
   --whatsapp-green: #25d366;
@@ -758,7 +759,7 @@ input:focus, textarea:focus { border-color: var(--orange); box-shadow: 0 0 0 4px
 /* .article-card-copy { padding: 18px 20px 20px; } */
 
 .article-card-link:hover .article-card-image img { transform: scale(1.01); }
-.article-meta { margin-top: 10px; margin-inline-start: 10px; color: var(--orange); font-weight: 900; }
+.article-meta { margin-top: 10px; margin-inline-start: 10px; color: var(--dark-orange); font-weight: 900; }
 .article-card-copy > p:not(.article-meta) { margin-inline-start: 10px; margin-inline-end: 10px; margin-block-end: 10px; color: var(--muted); }
 .article-read-more { display: inline-block; margin-top: 20px; color: var(--green); font-weight: 900; text-decoration: underline; text-underline-offset: 4px; }
 
