@@ -475,11 +475,12 @@ input:focus, textarea:focus { border-color: var(--orange); box-shadow: 0 0 0 4px
 
 .site-footer { background: #17140f; color: var(--white); margin-top: 40px; padding: 42px 22px 46px; }
 .footer-inner {
-  max-width: var(--max); margin: 0 auto;
+  max-width: var(--max); margin: 0 auto; text-align: right;
   display: grid; justify-items: start; gap: 14px;
-  text-align: right;
 }
 .articles-hero-brand { display: inline-flex; align-items: center; gap: 30px; }
+.articles-hero-logo { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 12px; }
+
 .footer-brand { display: inline-flex; align-items: center; gap: 20px; font-size: 1.2rem; font-weight: 800; }
 .footer-brand strong span:last-child { color: var(--orange); }
 .footer-logo {
@@ -701,7 +702,7 @@ input:focus, textarea:focus { border-color: var(--orange); box-shadow: 0 0 0 4px
 .articles-hero-eyebrow {
   margin: 0 0 24px;
   color: #f2ff66;
-  font-size: clamp(.86rem, 1.1vw, 1rem);
+  font-size: clamp(.95rem, 1.2vw, 1.1rem);
   font-weight: 900;
 }
 
