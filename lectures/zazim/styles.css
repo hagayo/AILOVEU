@@ -773,8 +773,8 @@ input:focus, textarea:focus { border-color: var(--orange); box-shadow: 0 0 0 4px
 
 /* Individual article pages */
 .article-page { background: var(--paper); }
-.article-hero { padding-top: 82px; background: linear-gradient(145deg, var(--light-blue), #fff4ed 56%, #fff6fa); border-bottom: 1px solid var(--line); }
-.article-hero-inner { padding-top: clamp(70px, 9vw, 118px); padding-bottom: clamp(54px, 8vw, 92px); }
+.article-hero { padding-top: 44px; background: linear-gradient(145deg, #baa7ff, #fff4ed 56%, #fff6fa); border-bottom: 1px solid var(--line); }
+.article-hero-inner { padding-top: clamp(50px, 9vw, 90px); padding-bottom: clamp(44px, 8vw, 64px); }
 .article-back { display: inline-block; margin-bottom: 28px; color: var(--green); font-weight: 900; text-decoration: underline; text-underline-offset: 4px; }
 .article-hero h1 { max-width: 980px; font-size: clamp(2.7rem, 7vw, 6rem); line-height: .98; margin-top: 18px; letter-spacing: 0; }
 .article-deck { max-width: 780px; color: var(--muted); font-size: clamp(1.15rem, 2.1vw, 1.4rem); line-height: 1.7; }
