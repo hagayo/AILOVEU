@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="he" dir="rtl" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>DOCX to Markdown</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <h1>DOCX to Markdown</h1>
+      <p id="fileName" class="file-name">לא נבחר מסמך</p>
+    </div>
+
+    <div class="header-actions" aria-label="פעולות ראשיות">
+      <label class="select-label">
+        <span>Theme</span>
+        <select id="themeSelect" aria-label="בחירת ערכת צבעים">
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+          <option value="sepia">Sepia</option>
+        </select>
+      </label>
+      <button id="openButton" type="button">Open .docx</button>
+      <input id="fileInput" type="file" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" hidden>
+      <button id="resetButton" type="button" class="secondary" disabled>Reset</button>
+    </div>
+  </header>
+
+  <main class="app-main">
+    <!-- <section id="dropZone" class="drop-zone" tabindex="0" aria-label="פתיחת קובץ DOCX"> -->
+      <!-- <input id="fileInput" type="file" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" hidden> -->
+      <!-- <strong>גרור לכאן קובץ DOCX</strong> -->
+      <!-- <span>או לחץ לפתיחת מסמך</span> -->
+      <!-- <small>המסמך נשאר בדפדפן ואינו נשלח לשום שרת.</small> -->
+    <!-- </section> -->
+
+    <section id="workspace" class="workspace" hidden>
+      <article class="pane word-pane">
+        <header class="pane-header">
+          <h2>Word Preview</h2>
+          <div class="pane-tools" role="group" aria-label="כיוון Word Preview">
+            <button class="direction-button active" type="button" data-target="wordPreview" data-direction="rtl">RTL</button>
+            <button class="direction-button" type="button" data-target="wordPreview" data-direction="ltr">LTR</button>
+          </div>
+        </header>
+        <div id="wordPreview" class="word-preview" dir="rtl"></div>
+      </article>
+
+      <article class="pane markdown-pane">
+        <header class="pane-header">
+          <h2>Markdown</h2>
+          <div class="pane-tools">
+            <div class="direction-group" role="group" aria-label="כיוון Markdown">
+              <button class="direction-button active" type="button" data-target="markdownEditor" data-direction="rtl">RTL</button>
+              <button class="direction-button" type="button" data-target="markdownEditor" data-direction="ltr">LTR</button>
+            </div>
+            <button id="copyButton" type="button">Copy Markdown</button>
+            <button id="downloadButton" type="button">Download .md</button>
+          </div>
+        </header>
+        <textarea id="markdownEditor" class="markdown-editor" dir="rtl" spellcheck="false" aria-label="Markdown editable"></textarea>
+        <footer class="status-bar">
+          <span id="wordCount">0 words</span>
+          <span id="charCount">0 characters</span>
+          <span id="modifiedStatus">Converted</span>
+        </footer>
+      </article>
+    </section>
+
+    <section id="warningsPanel" class="warnings-panel" hidden aria-live="polite">
+      <button id="warningsToggle" class="warnings-toggle" type="button" aria-expanded="false">
+        <span id="warningsSummary">Conversion warnings</span>
+        <span aria-hidden="true">▾</span>
+      </button>
+      <ul id="warningsList" class="warnings-list" hidden></ul>
+    </section>
+
+    <p id="message" class="message" role="status" aria-live="polite"></p>
+  </main>
+
+  <script src="vendor/mammoth.browser.min.js"></script>
+  <script src="vendor/turndown.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
