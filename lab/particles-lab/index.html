@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Particle Lab</title>
+  <meta name="description" content="Interactive particle art studio running entirely in your browser.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alef:wght@400;700&amp;family=Assistant:wght@400;500;600;700;800&amp;family=Frank+Ruhl+Libre:wght@400;500;600;700;800;900&amp;family=Heebo:wght@400;500;600;700;800;900&amp;family=Miriam+Libre:wght@400;700&amp;family=Noto+Sans+Hebrew:wght@400;500;600;700;800;900&amp;family=Noto+Serif+Hebrew:wght@400;500;600;700;800;900&amp;family=Playpen+Sans+Hebrew:wght@400;500;600;700;800&amp;family=Rubik:wght@400;500;600;700;800;900&amp;family=Secular+One&amp;family=Suez+One&amp;family=Varela+Round&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app-shell">
+    <section class="stage" aria-label="Particle canvas">
+      <canvas id="particleCanvas"></canvas>
+      <div class="hud" aria-live="polite">
+        <span id="hudImage">Astronaut</span>
+        <span id="hudStyle">Cinematic</span>
+        <span><b id="hudParticles">0</b> particles</span>
+        <span><b id="hudFps">0</b> FPS</span>
+      </div>
+      <div id="dropOverlay" class="drop-overlay" hidden>Drop image here</div>
+    </section>
+
+    <aside class="studio-panel" aria-label="Particle controls">
+      <header class="brand-row">
+        <div>
+          <p class="eyebrow">Interactive particle studio</p>
+          <h1>Particles Lab</h1>
+        </div>
+        <button id="uploadButton" class="primary-button" type="button">Upload image</button>
+        <input id="fileInput" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+      </header>
+
+      <section class="panel-section" data-tutorial-target="source">
+        <div class="section-heading"><span>01</span><h2>Demo gallery</h2></div>
+        <div class="gallery" id="gallery">
+          <button class="gallery-item active" type="button" data-demo="astronaut" aria-pressed="true">
+            <img src="assets/thumbs/astronaut.jpg" alt="Astronaut demo" width="220" height="180" decoding="async">
+            <span>Astronaut</span>
+          </button>
+          <button class="gallery-item" type="button" data-demo="portrait" aria-pressed="false">
+            <img src="assets/thumbs/portrait.jpg" alt="Portrait demo" width="220" height="180" loading="lazy" decoding="async">
+            <span>Portrait</span>
+          </button>
+          <button class="gallery-item" type="button" data-demo="wolf" aria-pressed="false">
+            <img src="assets/thumbs/wolf.jpg" alt="Wolf demo" width="220" height="180" loading="lazy" decoding="async">
+            <span>Wolf</span>
+          </button>
+          <button class="gallery-item" type="button" data-demo="cyberpunk-city" aria-pressed="false">
+            <img src="assets/thumbs/cyberpunk-city.jpg" alt="Cyberpunk city demo" width="220" height="180" loading="lazy" decoding="async">
+            <span>City</span>
+          </button>
+          <button class="gallery-item" type="button" data-demo="butterfly" aria-pressed="false">
+            <img src="assets/thumbs/butterfly.jpg" alt="Butterfly demo" width="220" height="180" loading="lazy" decoding="async">
+            <span>Butterfly</span>
+          </button>
+          <button class="gallery-item" type="button" data-demo="galaxy" aria-pressed="false">
+            <img src="assets/thumbs/galaxy.jpg" alt="Galaxy demo" width="220" height="180" loading="lazy" decoding="async">
+            <span>Galaxy</span>
+          </button>
+        </div>
+      </section>
+
+      <details class="panel-section collapsible-section">
+        <summary class="section-heading"><span>02</span><h2>Style</h2></summary>
+        <div class="segmented" id="styleButtons">
+          <button type="button" data-style="faithful" aria-pressed="false">Faithful</button>
+          <button type="button" data-style="neon" aria-pressed="false">Neon</button>
+          <button class="active" type="button" data-style="cinematic" aria-pressed="true">Cinematic</button>
+          <button type="button" data-style="galaxy" aria-pressed="false">Galaxy</button>
+        </div>
+      </details>
+
+      <details class="panel-section collapsible-section">
+        <summary class="section-heading"><span>03</span><h2>Particles & physics</h2></summary>
+        <div class="controls-grid">
+          <label>Density <output id="densityOut">100%</output><input id="density" type="range" min="20" max="100" value="100"></label>
+          <label>Particle size <output id="sizeOut">3.2</output><input id="particleSize" type="range" min="0.6" max="3.6" step="0.1" value="3.2"></label>
+          <label>Mouse force <output id="forceOut">200</output><input id="mouseForce" type="range" min="0" max="300" value="200"></label>
+          <label>Mouse radius <output id="radiusOut">220</output><input id="mouseRadius" type="range" min="40" max="300" value="220"></label>
+          <label>Spring <output id="springOut">10</output><input id="spring" type="range" min="2" max="24" value="10"></label>
+          <label>Damping <output id="dampingOut">91%</output><input id="damping" type="range" min="75" max="98" value="91"></label>
+        </div>
+      </details>
+
+      <details class="panel-section collapsible-section">
+        <summary class="section-heading"><span>04</span><h2>Mouse mode</h2></summary>
+        <div class="segmented compact" id="mouseModeButtons">
+          <button class="active" type="button" data-mode="repel" aria-pressed="true">Repel</button>
+          <button type="button" data-mode="attract" aria-pressed="false">Attract</button>
+          <button type="button" data-mode="flow" aria-pressed="false">Flow</button>
+          <button type="button" data-mode="vortex" aria-pressed="false">Vortex</button>
+        </div>
+      </details>
+
+      <details class="panel-section collapsible-section" data-tutorial-target="morph">
+        <summary class="section-heading"><span>05</span><h2>Morph</h2></summary>
+        <div class="morph-section">
+          <label class="morph-speed">Morph speed <output id="morphSpeedOut"></output><input id="morphSpeed" type="range" min="0.4" max="5" step="0.1"></label>
+          <div class="segmented morph-styles" id="morphStyleButtons">
+            <button type="button" data-morph-style="direct" aria-pressed="false">Direct</button>
+            <button type="button" data-morph-style="swirl" aria-pressed="false">Swirl</button>
+            <button type="button" data-morph-style="explode" aria-pressed="false">Explode</button>
+            <button class="active" type="button" data-morph-style="wave" aria-pressed="true">Wave</button>
+            <button type="button" data-morph-style="gravity" aria-pressed="false">Gravity drop</button>
+            <button type="button" data-morph-style="random" aria-pressed="false">Random</button>
+          </div>
+          <div class="toggle-row">
+            <button id="autoMorphButton" type="button" aria-pressed="false">Auto morph</button>
+          </div>
+        </div>
+      </details>
+
+      <details class="panel-section collapsible-section">
+        <summary class="section-heading"><span>06</span><h2>Interaction effects</h2></summary>
+        <div class="click-section">
+          <label class="effect-field">Effect
+            <select id="clickEffectSelect">
+              <option value="random" selected>Random - Shuffle Bag</option>
+              <option value="mirror-rise">Mirror Rise</option>
+              <option value="center-bloom">Center Bloom</option>
+              <option value="sweep-wave">Sweep Wave</option>
+              <option value="letter-scramble">Letter Scramble</option>
+              <option value="shatter">Shatter</option>
+              <option value="vortex-line">Vortex Line</option>
+              <option value="glitch-slices">Glitch Slices</option>
+              <option value="pixel-rain">Pixel Rain</option>
+              <option value="shockwave">Shockwave</option>
+              <option value="spiral">Spiral</option>
+              <option value="explosion">Explosion</option>
+              <option value="implosion">Implosion</option>
+              <option value="letter-spin">Letter Spin</option>
+              <option value="domino">Domino</option>
+              <option value="elastic-stretch">Elastic Stretch</option>
+            </select>
+          </label>
+          <button class="primary-button" id="playEffectButton" type="button">Play effect</button>
+          <p class="control-note">Click or touch the canvas to play the selected effect.</p>
+        </div>
+      </details>
+
+      <details class="panel-section collapsible-section">
+        <summary class="section-heading"><span>07</span><h2>Particle text</h2></summary>
+        <div class="text-section">
+          <textarea id="particleText" rows="3" maxlength="120" dir="auto" placeholder="Type text..." aria-label="Particle text"></textarea>
+          <div class="text-control-group">
+            <h3>Typography</h3>
+            <div class="text-options">
+              <label class="text-field full">Font
+                <select id="textFont">
+                  <option value="Rubik" data-weights="400,500,600,700,800,900" data-scripts="hebrew,latin" selected>Rubik</option>
+                  <option value="Assistant" data-weights="400,500,600,700,800" data-scripts="hebrew,latin">Assistant</option>
+                  <option value="Heebo" data-weights="400,500,600,700,800,900" data-scripts="hebrew,latin">Heebo</option>
+                  <option value="Frank Ruhl Libre" data-weights="400,500,600,700,800,900" data-scripts="hebrew,latin">Frank Ruhl Libre</option>
+                  <option value="Noto Sans Hebrew" data-weights="400,500,600,700,800,900" data-scripts="hebrew,latin">Noto Sans Hebrew</option>
+                  <option value="Noto Serif Hebrew" data-weights="400,500,600,700,800,900" data-scripts="hebrew,latin">Noto Serif Hebrew</option>
+                  <option value="Alef" data-weights="400,700" data-scripts="hebrew,latin">Alef</option>
+                  <option value="Secular One" data-weights="400" data-scripts="hebrew,latin">Secular One</option>
+                  <option value="Suez One" data-weights="400" data-scripts="hebrew,latin">Suez One</option>
+                  <option value="Varela Round" data-weights="400" data-scripts="hebrew,latin">Varela Round</option>
+                  <option value="Miriam Libre" data-weights="400,700" data-scripts="hebrew,latin">Miriam Libre</option>
+                  <option value="Playpen Sans Hebrew" data-weights="400,500,600,700,800" data-scripts="hebrew,latin">Playpen Sans Hebrew</option>
+                </select>
+              </label>
+              <label class="text-field">Font size <output id="textSizeOut">96 px</output>
+                <input id="textSize" type="range" min="24" max="360" step="2" value="96">
+              </label>
+              <label class="text-field">Font weight <span id="textWeightHint"></span>
+                <select id="textWeight">
+                </select>
+              </label>
+              <p class="font-warning" id="fontWarning" role="status" aria-live="polite"></p>
+            </div>
+          </div>
+          <div class="text-control-group">
+            <h3>Color</h3>
+            <div class="color-options">
+              <label class="check-option"><input id="gradientText" type="checkbox"> Two-color gradient</label>
+              <label class="check-option"><input id="rainbowText" type="checkbox"> Rainbow gradient</label>
+              <label class="color-field">Color 1 <input id="textColorStart" type="color" value="#36d8ff"></label>
+              <label class="color-field">Color 2 <input id="textColorEnd" type="color" value="#ff3d81" disabled></label>
+            </div>
+          </div>
+          <button class="primary-button text-create" id="createTextButton" type="button">Create particle text</button>
+        </div>
+      </details>
+
+      <details class="panel-section collapsible-section" data-tutorial-target="automation">
+        <summary class="section-heading"><span>08</span><h2>Effect automation</h2></summary>
+        <div class="automation-section">
+          <div class="effect-sequence-field">
+            <span class="sequence-label">Effects Sequence</span>
+            <div class="sequence-builder">
+              <select id="sequenceEffectSelect" aria-label="Effect to add">
+              </select>
+              <button id="addSequenceEffectButton" type="button">Add</button>
+            </div>
+            <ol class="effect-sequence-list" id="effectSequenceList" aria-live="polite"></ol>
+            <button class="clear-sequence" id="clearSequenceButton" type="button">Clear sequence</button>
+          </div>
+          <label class="automation-range">Interval <output id="loopIntervalOut">3.0s</output>
+            <input id="loopInterval" type="range" min="0.8" max="12" step="0.2" value="3">
+          </label>
+          <label class="effect-field">Sequence order
+            <select id="sequenceOrder">
+              <option value="ordered">In order</option>
+              <option value="shuffle">Shuffle Bag</option>
+            </select>
+          </label>
+          <button class="primary-button" id="automationButton" type="button" aria-pressed="false">Start automation</button>
+        </div>
+      </details>
+
+      <section class="panel-section action-row">
+        <button id="exportButton" type="button">Export PNG</button>
+        <button id="recordButton" type="button" aria-pressed="false">Record WebM</button>
+        <button id="resetButton" type="button">Reset</button>
+      </section>
+      <button class="tutorial-launch" id="tutorialButton" type="button">Tutorial</button>
+      <p class="creator-credit">By <a href="https://www.linkedin.com/in/hagaytech/" target="_blank" rel="noopener noreferrer">Hagay Onn</a> &amp; <a href="https://ailoveu.art" target="_blank" rel="noopener noreferrer">AILOVEU</a></p>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+    </aside>
+  </main>
+
+  <script defer src="data/demos/astronaut.js"></script>
+  <script defer src="js/app.js"></script>
+  <script defer src="js/tutorial.js"></script>
+</body>
+</html>
