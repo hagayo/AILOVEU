@@ -1,0 +1,67 @@
+<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>קוד Python, pytest ו-pylint | python-git-first-project</title><link rel="stylesheet" href="../assets/css/main.css"></head><body>
+<header class="site-header"><a class="brand" href="../index.html"><span class="brand-mark">G</span><span>python-git-first-project</span></a><button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">תפריט</button><nav id="main-nav" class="main-nav"><a href="../index.html">בית</a><a href="install.html">התקנה</a><a href="project.html">פרויקט</a><a href="code-tests.html">קוד ובדיקות</a><a href="upgrade-overview.html">שדרוג האפליקציה</a><a href="github-actions.html">Actions</a><a href="cheat-sheet.html">פקודות</a></nav></header>
+<main><section class="page-hero section-shell reveal"><p class="eyebrow">מדריך Git למתחילים</p><h1>קוד Python, pytest ו-pylint</h1><p class="lead">כל שלב כתוב בסדר ביצוע ברור, עם פקודות מוכנות להעתקה ודגשים למניעת טעויות.</p></section><section class="content-layout section-shell"><aside class="side-nav reveal"><a href="install.html">1. התקנה</a><a href="project.html">2. פרויקט ראשון</a><a href="gitignore-readme.html">3. gitignore ו-README</a><a href="code-tests.html">4. קוד ובדיקות</a><a href="upgrade-overview.html">5. שדרוג האפליקציה</a><a href="api-layer.html">6. שכבת API</a><a href="cli-json.html">7. CLI ושמירת JSON</a><a href="quality-next.html">8. בדיקות המשך</a><a href="github-actions.html">9. GitHub Actions</a><a href="dependabot.html">6. Dependabot</a><a href="cheat-sheet.html">פקודות בסיסיות</a></aside><div><article class="content-card reveal"><h2>src/github_client.py</h2><pre><code>"""Simple HTTP client examples using requests and httpx."""
+
+from typing import Any
+
+import httpx
+import requests
+
+API_URL = "https://api.github.com"
+
+
+def get_github_status_with_requests() -&gt; int:
+    """Return GitHub API status code using requests."""
+    response = requests.get(API_URL, timeout=10)
+    return response.status_code
+
+
+def get_github_info_with_httpx() -&gt; dict[str, Any]:
+    """Return basic GitHub API information using httpx."""
+    response = httpx.get(API_URL, timeout=10)
+    response.raise_for_status()
+    return response.json()
+
+
+def main() -&gt; None:
+    """Run a small demo."""
+    status_code = get_github_status_with_requests()
+    github_info = get_github_info_with_httpx()
+    print(f"GitHub status code: {status_code}")
+    print(f"Current user URL: {github_info.get("current_user_url")}")
+
+
+if __name__ == "__main__":
+    main()</code></pre></article><article class="content-card reveal"><h2>tests/test_github_client.py</h2><pre><code>"""Tests for github_client module."""
+
+from unittest.mock import Mock, patch
+
+from src.github_client import get_github_info_with_httpx, get_github_status_with_requests
+
+
+@patch("src.github_client.requests.get")
+def test_get_github_status_with_requests(mock_get: Mock) -&gt; None:
+    """Test that requests client returns status code."""
+    mock_response = Mock()
+    mock_response.status_code = 200
+    mock_get.return_value = mock_response
+
+    result = get_github_status_with_requests()
+
+    assert result == 200
+    mock_get.assert_called_once()
+
+
+@patch("src.github_client.httpx.get")
+def test_get_github_info_with_httpx(mock_get: Mock) -&gt; None:
+    """Test that httpx client returns JSON data."""
+    mock_response = Mock()
+    mock_response.json.return_value = {"current_user_url": "https://api.github.com/user"}
+    mock_response.raise_for_status.return_value = None
+    mock_get.return_value = mock_response
+
+    result = get_github_info_with_httpx()
+
+    assert result["current_user_url"] == "https://api.github.com/user"
+    mock_response.raise_for_status.assert_called_once()</code></pre><pre><code>pytest
+pylint src tests</code></pre></article></div></section></main><footer class="site-footer"><p>מדריך Git למתחילים - פרויקט Python ראשון.</p></footer><script src="../assets/js/main.js"></script></body></html>

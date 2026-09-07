@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1">
+    <meta name="description" content="AI Lectures landing page by Hagay Onn">
+    <title>חגי און - הרצאות וייעוץ AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <style>
+        :root {
+            /* Material 3 AI/Tech Color Palette */
+            --md-sys-color-primary: #2563eb;
+            --md-sys-color-on-primary: #ffffff;
+            --md-sys-color-primary-container: #dbeafe;
+            --md-sys-color-on-primary-container: #1e3a8a;
+            
+            --md-sys-color-secondary: #7c3aed;
+            --md-sys-color-on-secondary: #ffffff;
+            --md-sys-color-secondary-container: #ede9fe;
+            --md-sys-color-on-secondary-container: #5b21b6;
+            
+            --md-sys-color-surface: #fafafa;
+            --md-sys-color-on-surface: #1a1a1a;
+            --md-sys-color-surface-variant: #f1f5f9;
+            --md-sys-color-on-surface-variant: #64748b;
+            --md-sys-color-surface-container: #ffffff;
+            --md-sys-color-surface-container-low: #f8fafc;
+            --md-sys-color-surface-container-high: #f1f5f9;
+            
+            --md-sys-color-error: #dc2626;
+            --md-sys-color-on-error: #ffffff;
+            
+            --md-sys-color-outline: #cbd5e1;
+            --md-sys-color-outline-variant: #e2e8f0;
+            
+            /* Gradients for AI theme */
+            --gradient-primary: linear-gradient(135deg, #2563eb, #3b82f6);
+            --gradient-secondary: linear-gradient(135deg, #7c3aed, #a855f7);
+            --gradient-ai: linear-gradient(135deg, #06b6d4, #3b82f6, #7c3aed);
+            
+            /* Typography scale */
+            --md-sys-typescale-display-large-size: 3.5rem;
+            --md-sys-typescale-display-medium-size: 2.75rem;
+            --md-sys-typescale-headline-large-size: 2rem;
+            --md-sys-typescale-headline-medium-size: 1.75rem;
+            --md-sys-typescale-title-large-size: 1.375rem;
+            --md-sys-typescale-title-medium-size: 1rem;
+            --md-sys-typescale-body-large-size: 1rem;
+            --md-sys-typescale-body-medium-size: 0.875rem;
+            
+            /* Spacing */
+            --md-sys-spacing-xs: 0.5rem;
+            --md-sys-spacing-sm: 0.75rem;
+            --md-sys-spacing-md: 1rem;
+            --md-sys-spacing-lg: 1.5rem;
+            --md-sys-spacing-xl: 2rem;
+            --md-sys-spacing-xxl: 3rem;
+            
+            /* Elevation */
+            --md-sys-elevation-1: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+            --md-sys-elevation-2: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.06);
+            --md-sys-elevation-3: 0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05);
+            --md-sys-elevation-4: 0 20px 25px rgba(0,0,0,0.1), 0 10px 10px rgba(0,0,0,0.04);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rubik', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            direction: rtl;
+            background-color: var(--md-sys-color-surface);
+            color: var(--md-sys-color-on-surface);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--md-sys-spacing-lg);
+        }
+
+        .text-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-ai);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(1deg); }
+        }
+
+        .hero-content {
+            text-align: center;
+            color: white;
+            z-index: 1;
+            position: relative;
+            max-width: 1000px;
+        }
+
+        .hero h1 {
+            font-size: var(--md-sys-typescale-display-large-size);
+            font-weight: 700;
+            margin-bottom: var(--md-sys-spacing-xl);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: var(--md-sys-typescale-title-large-size);
+            margin-bottom: var(--md-sys-spacing-xxl);
+            opacity: 0.95;
+            font-weight: 400;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--md-sys-spacing-sm);
+            background: var(--md-sys-color-surface-container);
+            color: var(--md-sys-color-primary);
+            padding: var(--md-sys-spacing-lg) var(--md-sys-spacing-xl);
+            border-radius: 28px;
+            text-decoration: none;
+            font-size: var(--md-sys-typescale-title-medium-size);
+            font-weight: 500;
+            box-shadow: var(--md-sys-elevation-2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            box-shadow: var(--md-sys-elevation-4);
+            transform: translateY(-2px);
+            background: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+        }
+
+        /* Sections */
+        section {
+            padding: var(--md-sys-spacing-xxl) 0;
+        }
+
+        .section-alt {
+            background-color: var(--md-sys-color-surface-container-low);
+        }
+
+        .section-title {
+            font-size: var(--md-sys-typescale-headline-large-size);
+            font-weight: 600;
+            color: var(--md-sys-color-primary);
+            text-align: center;
+            margin-bottom: var(--md-sys-spacing-xxl);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+
+        /* Content Cards */
+        .content-card {
+            background: var(--md-sys-color-surface-container);
+            border-radius: 16px;
+            padding: var(--md-sys-spacing-xl);
+            margin-bottom: var(--md-sys-spacing-lg);
+            box-shadow: var(--md-sys-elevation-1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid var(--md-sys-color-outline-variant);
+        }
+
+        .content-card:hover {
+            box-shadow: var(--md-sys-elevation-3);
+            transform: translateY(-4px);
+        }
+
+        .content-card p {
+            font-size: var(--md-sys-typescale-body-large-size);
+            line-height: 1.7;
+            margin-bottom: var(--md-sys-spacing-md);
+            color: var(--md-sys-color-on-surface);
+        }
+
+        .content-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Benefits Grid */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--md-sys-spacing-lg);
+            margin-top: var(--md-sys-spacing-xl);
+        }
+
+        .benefit-item {
+            background: var(--md-sys-color-surface-container);
+            border-radius: 16px;
+            padding: var(--md-sys-spacing-xl);
+            box-shadow: var(--md-sys-elevation-1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid var(--md-sys-color-outline-variant);
+            text-align: center;
+        }
+
+        .benefit-item:hover {
+            box-shadow: var(--md-sys-elevation-2);
+            transform: translateY(-2px);
+        }
+
+        .benefit-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--md-sys-spacing-md);
+            color: white;
+            font-size: 24px;
+            position: relative;
+        }
+
+        .benefit-icon::before {
+            font-family: 'Material Icons Round';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+        }
+
+        .benefit-icon.icon-lightbulb::before { content: '💡'; }
+        .benefit-icon.icon-brain::before { content: '🧠'; }
+        .benefit-icon.icon-celebration::before { content: '🎉'; }
+        .benefit-icon.icon-rocket::before { content: '🚀'; }
+
+        .benefit-title {
+            font-size: var(--md-sys-typescale-title-medium-size);
+            font-weight: 600;
+            color: var(--md-sys-color-primary);
+            margin-bottom: var(--md-sys-spacing-sm);
+        }
+
+        .benefit-desc {
+            font-size: var(--md-sys-typescale-body-medium-size);
+            color: var(--md-sys-color-on-surface-variant);
+            line-height: 1.6;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--md-sys-spacing-lg);
+            margin-top: var(--md-sys-spacing-xl);
+        }
+
+        .testimonial {
+            background: var(--md-sys-color-surface-container);
+            border-radius: 16px;
+            padding: var(--md-sys-spacing-xl);
+            box-shadow: var(--md-sys-elevation-1);
+            border: 1px solid var(--md-sys-color-outline-variant);
+            position: relative;
+        }
+
+        .testimonial::before {
+            content: '"';
+            position: absolute;
+            top: var(--md-sys-spacing-md);
+            left: var(--md-sys-spacing-md);
+            font-size: 3rem;
+            color: var(--md-sys-color-primary);
+            opacity: 0.3;
+            font-family: serif;
+        }
+
+        .testimonial-text {
+            font-size: var(--md-sys-typescale-body-large-size);
+            line-height: 1.6;
+            margin-bottom: var(--md-sys-spacing-md);
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            font-weight: 500;
+            color: var(--md-sys-color-primary);
+            text-align: left;
+        }
+
+        /* Audience List */
+        .audience-list {
+            list-style: none;
+            margin-top: var(--md-sys-spacing-xl);
+        }
+
+        .audience-item {
+            display: flex;
+            align-items: center;
+            gap: var(--md-sys-spacing-md);
+            padding: var(--md-sys-spacing-lg);
+            margin-bottom: var(--md-sys-spacing-md);
+            background: var(--md-sys-color-surface-container);
+            border-radius: 12px;
+            box-shadow: var(--md-sys-elevation-1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .audience-item:hover {
+            box-shadow: var(--md-sys-elevation-2);
+            transform: translateX(-4px);
+        }
+
+        .audience-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .audience-icon::before {
+            font-family: 'Material Icons Round';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 20px;
+        }
+
+        .audience-icon.icon-business::before { content: '🏢'; }
+        .audience-icon.icon-groups::before { content: '👥'; }
+        .audience-icon.icon-school::before { content: '🎓'; }
+
+        /* FAQ */
+        .faq-container {
+            margin-top: var(--md-sys-spacing-xl);
+        }
+
+        .faq-item {
+            background: var(--md-sys-color-surface-container);
+            border-radius: 12px;
+            margin-bottom: var(--md-sys-spacing-md);
+            box-shadow: var(--md-sys-elevation-1);
+            border: 1px solid var(--md-sys-color-outline-variant);
+            overflow: hidden;
+        }
+
+        .faq-item details summary {
+            padding: var(--md-sys-spacing-lg);
+            cursor: pointer;
+            font-weight: 500;
+            font-size: var(--md-sys-typescale-title-medium-size);
+            color: var(--md-sys-color-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--md-sys-spacing-md);
+            transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .faq-item details summary .faq-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .faq-item details summary .faq-icon::before {
+            font-size: 20px;
+        }
+
+        .faq-icon.icon-schedule::before { content: '⏰'; }
+        .faq-icon.icon-help::before { content: '❓'; }
+        .faq-icon.icon-location::before { content: '📍'; }
+
+        .faq-item details summary:hover {
+            background-color: var(--md-sys-color-surface-variant);
+        }
+
+        .faq-item details[open] summary {
+            border-bottom: 1px solid var(--md-sys-color-outline-variant);
+        }
+
+        .faq-item details p {
+            padding: var(--md-sys-spacing-lg);
+            margin: 0;
+            background-color: var(--md-sys-color-surface-variant);
+            line-height: 1.6;
+        }
+
+        /* CTA Footer */
+        .cta-footer {
+            background: var(--gradient-primary);
+            color: white;
+            text-align: center;
+            padding: var(--md-sys-spacing-xxl) 0;
+        }
+
+        .cta-footer h2 {
+            font-size: var(--md-sys-typescale-headline-medium-size);
+            margin-bottom: var(--md-sys-spacing-xl);
+            color: white;
+        }
+
+        .cta-footer .cta-button {
+            background: white;
+            color: var(--md-sys-color-primary);
+        }
+
+        .cta-footer .cta-button:hover {
+            background: var(--md-sys-color-surface-variant);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: var(--md-sys-typescale-display-medium-size);
+            }
+            
+            .hero p {
+                font-size: var(--md-sys-typescale-title-medium-size);
+            }
+            
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .testimonials {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 0 var(--md-sys-spacing-md);
+            }
+        }
+
+        /* Smooth animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        /* Focus states for accessibility */
+        .cta-button:focus-visible {
+            outline: 2px solid var(--md-sys-color-primary);
+            outline-offset: 2px;
+        }
+
+        .faq-item details summary:focus-visible {
+            outline: 2px solid var(--md-sys-color-primary);
+            outline-offset: -2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content animate-in">
+            <h1>הבינה המלאכותית מעולם לא הייתה פשוטה (ומשעשעת) יותר!</h1>
+            <p>הרצאות וייעוץ ייחודיים עם חגי און, שמחברים בין המוח האנושי ל-AI בקלילות ובהומור.</p>
+            <a href="https://calendly.com/ailoveu/30min" class="cta-button">
+                📅 קביעת פגישה או הרצאה
+            </a>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="section-alt">
+        <div class="container">
+            <h2 class="section-title">גלי מוח וקסמי הבינה המלאכותית</h2>
+            <div class="text-container">
+                <div class="content-card animate-in">
+                    <p>מכירים את זה שהמוח שלכם מקבל קצר מלנסות להבין AI? 🤯</p>
+                    <p>אתם לא לבד! לפעמים להבין בינה מלאכותית מרגיש כמו שילוב של מדע טילים עם פיזיקה קוונטית. אבל האמת? זה לא חייב לטגן לכם את המוח. בדיוק כאן נכנס חגי און לתמונה – מומחה AI יוצא דופן עם גישה מיוחדת: הוא לא סתם מסביר על בינה מלאכותית, הוא מחבר אותה ישירות אליכם למוח, והופך רעיונות מורכבים לרגעי "אהה!" מבריקים.</p>
+                </div>
+                <div class="content-card animate-in">
+                    <p>דמיינו בינה מלאכותית שמוסברת דרך דוגמאות פשוטות וקלילות מהפעילות של המוח שלכם: רשתות נוירונים הופכות לכבישים מהירים של המחשבה, למידה חישובית מזכירה חיזוק זיכרון טבעי, וכתיבת פרומפטים הופכת לפשוטה כאילו חשבתם אותה בעצמכם. ההרצאות והייעוץ של חגי הן לא עוד מצגות טכניות משעממות – הן סוחפות, מצחיקות ומותאמות לכל אחד, גם אם שיא היכולות הטכנולוגיות שלכם מסתכם באתחול הראוטר בבית.</p>
+                </div>
+                <div class="content-card animate-in">
+                    <p>משתתפי ההרצאות יוצאים עם ידע פרקטי, ביטחון עצמי והתרגשות מהפוטנציאל האדיר של AI בחייהם האישיים והמקצועיים. זו בינה מלאכותית בלי פיהוקים ועם הרבה צחוק!</p>
+                    <p><strong>רוצים לשדרג את מנת המשכל הטכנולוגית שלכם ועל הדרך ליהנות?</strong></p>
+                    <p>שלחו הודעה ונתאם הרצאה או פגישת ייעוץ עם חגי. המוח שלכם (ואולי גם הבוס) יודו לכם! 😉</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits -->
+    <section>
+        <div class="container">
+            <h2 class="section-title">למה לבחור בחגי?</h2>
+            <div class="benefits-grid">
+                <div class="benefit-item animate-in">
+                    <div class="benefit-icon icon-lightbulb"></div>
+                    <h3 class="benefit-title">הסברים פשוטים וברורים</h3>
+                    <p class="benefit-desc">בלי ז'רגון, בלי סיבוכים – הבינו AI בקלות.</p>
+                </div>
+                <div class="benefit-item animate-in">
+                    <div class="benefit-icon icon-brain"></div>
+                    <h3 class="benefit-title">חיבור מוח ל-AI</h3>
+                    <p class="benefit-desc">הסברים מקוריים, מבוססי אנלוגיות מוחיות שכל אחד יכול להבין.</p>
+                </div>
+                <div class="benefit-item animate-in">
+                    <div class="benefit-icon icon-celebration"></div>
+                    <h3 class="benefit-title">חוויה מעוררת השראה</h3>
+                    <p class="benefit-desc">למידה חווייתית, מלאת הומור וכיף.</p>
+                </div>
+                <div class="benefit-item animate-in">
+                    <div class="benefit-icon icon-rocket"></div>
+                    <h3 class="benefit-title">ידע פרקטי מיידי</h3>
+                    <p class="benefit-desc">כלים מעשיים ליישום מידי בחיים ובעבודה</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="section-alt">
+        <div class="container">
+            <h2 class="section-title">מה הלקוחות אומרים?</h2>
+            <div class="text-container">
+                <div class="testimonials">
+                    <div class="testimonial animate-in">
+                        <p class="testimonial-text">ההרצאה של חגי הייתה חוויה מבריקה! סוף סוף הבנתי באמת מה זה AI ואיך להשתמש בו.</p>
+                        <p class="testimonial-author">- דניאל כהן, מנהל מוצר</p>
+                    </div>
+                    <div class="testimonial animate-in">
+                        <p class="testimonial-text">ידעתי ש-AI מעניין, אבל לא ידעתי שזה יכול להיות גם מצחיק ומעורר השראה!</p>
+                        <p class="testimonial-author">- מיכל ברעם, מנהלת שיווק</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Target Audience -->
+    <section>
+        <div class="container">
+            <h2 class="section-title">למי זה מתאים?</h2>
+            <div class="text-container">
+                <ul class="audience-list">
+                    <li class="audience-item animate-in">
+                        <div class="audience-icon icon-business"></div>
+                        <span>מנהלים ואנשי מקצוע שרוצים להעמיק בעולם ה-AI</span>
+                    </li>
+                    <li class="audience-item animate-in">
+                        <div class="audience-icon icon-groups"></div>
+                        <span>ארגונים המחפשים פעילות ייחודית ומרתקת לעובדים</span>
+                    </li>
+                    <li class="audience-item animate-in">
+                        <div class="audience-icon icon-school"></div>
+                        <span>כל מי שרוצה להבין AI בצורה פשוטה, מהנה ואינטואיטיבית</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section class="section-alt">
+        <div class="container">
+            <h2 class="section-title">קצת על חגי און</h2>
+            <div class="text-container">
+                <div class="content-card animate-in">
+                    <p>חגי און, מרצה ומומחה AI, בעל ניסיון של למעלה מ-25 שנה בהוראה, פיתוח ויישום טכנולוגיות חדשניות. חגי מתמחה בהנגשת נושאים מורכבים לקהל רחב, עם חיבור ייחודי בין AI, המוח האנושי וחשיבה יצירתית.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section>
+        <div class="container">
+            <h2 class="section-title">שאלות נפוצות</h2>
+            <div class="text-container">
+                <div class="faq-container">
+                    <div class="faq-item animate-in">
+                        <details>
+                            <summary>
+                                <span class="faq-icon icon-schedule"></span>
+                                כמה זמן נמשכת הרצאה או ייעוץ?
+                            </summary>
+                            <p>הרצאות בין שעה לשעתיים וחצי. ייעוץ מותאם אישית.</p>
+                        </details>
+                    </div>
+                    <div class="faq-item animate-in">
+                        <details>
+                            <summary>
+                                <span class="faq-icon icon-help"></span>
+                                האם דרוש ידע קודם?
+                            </summary>
+                            <p>לא. התוכן מותאם לכל רמה.</p>
+                        </details>
+                    </div>
+                    <div class="faq-item animate-in">
+                        <details>
+                            <summary>
+                                <span class="faq-icon icon-location"></span>
+                                היכן מתבצע המפגש?
+                            </summary>
+                            <p>בזום או פרונטלית לפי בקשתך.</p>
+                        </details>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Footer -->
+    <section class="cta-footer">
+        <div class="container">
+            <div class="text-container">
+                <h2>הצטרפו לאלפי אנשים שגילו ש-AI יכול להיות ברור, פשוט ומצחיק!</h2>
+                <a href="https://calendly.com/ailoveu/30min" class="cta-button">
+                    📅 שריינו עכשיו פגישה או הרצאה
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Enhanced script with Material Design 3 interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('האתר של חגי און נטען בהצלחה!');
+            
+            // Intersection Observer for animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe all animatable elements
+            document.querySelectorAll('.animate-in').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                observer.observe(el);
+            });
+            
+            // Enhanced button interactions
+            document.querySelectorAll('.cta-button').forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px) scale(1.02)';
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+                
+                button.addEventListener('mousedown', function() {
+                    this.style.transform = 'translateY(0) scale(0.98)';
+                });
+                
+                button.addEventListener('mouseup', function() {
+                    this.style.transform = 'translateY(-2px) scale(1.02)';
+                });
+            });
+            
+            // Card hover effects
+            document.querySelectorAll('.content-card, .benefit-item, .testimonial').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-4px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // FAQ accordion enhancements
+            document.querySelectorAll('.faq-item details').forEach(details => {
+                details.addEventListener('toggle', function() {
+                    if (this.open) {
+                        // Close other open details
+                        document.querySelectorAll('.faq-item details[open]').forEach(other => {
+                            if (other !== this) {
+                                other.open = false;
+                            }
+                        });
+                        
+                        // Smooth scroll to opened item
+                        setTimeout(() => {
+                            this.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'nearest'
+                            });
+                        }, 150);
+                    }
+                });
+            });
+            
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+            
+            // Parallax effect for hero background
+            let ticking = false;
+            function updateParallax() {
+                const scrolled = window.pageYOffset;
+                const parallax = document.querySelector('.hero::before');
+                if (parallax) {
+                    const speed = scrolled * 0.5;
+                    document.documentElement.style.setProperty('--parallax-offset', `${speed}px`);
+                }
+                ticking = false;
+            }
+            
+            function requestTick() {
+                if (!ticking) {
+                    requestAnimationFrame(updateParallax);
+                    ticking = true;
+                }
+            }
+            
+            window.addEventListener('scroll', requestTick);
+            
+            // Add ripple effect to buttons
+            function createRipple(event) {
+                const button = event.currentTarget;
+                const circle = document.createElement('span');
+                const diameter = Math.max(button.clientWidth, button.clientHeight);
+                const radius = diameter / 2;
+                
+                const rect = button.getBoundingClientRect();
+                circle.style.width = circle.style.height = `${diameter}px`;
+                circle.style.left = `${event.clientX - rect.left - radius}px`;
+                circle.style.top = `${event.clientY - rect.top - radius}px`;
+                circle.classList.add('ripple');
+                
+                const ripple = button.getElementsByClassName('ripple')[0];
+                if (ripple) {
+                    ripple.remove();
+                }
+                
+                button.appendChild(circle);
+                
+                // Remove ripple after animation
+                setTimeout(() => {
+                    circle.remove();
+                }, 600);
+            }
+            
+            // Add ripple CSS
+            const rippleCSS = `
+                .cta-button {
+                    position: relative;
+                    overflow: hidden;
+                }
+                
+                .ripple {
+                    position: absolute;
+                    border-radius: 50%;
+                    background-color: rgba(255, 255, 255, 0.3);
+                    transform: scale(0);
+                    animation: ripple-animation 0.6s linear;
+                    pointer-events: none;
+                }
+                
+                @keyframes ripple-animation {
+                    to {
+                        transform: scale(4);
+                        opacity: 0;
+                    }
+                }
+            `;
+            
+            const style = document.createElement('style');
+            style.textContent = rippleCSS;
+            document.head.appendChild(style);
+            
+            // Apply ripple effect to buttons
+            document.querySelectorAll('.cta-button').forEach(button => {
+                button.addEventListener('click', createRipple);
+            });
+        });
+    </script>
+</body>
+</html>

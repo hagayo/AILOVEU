@@ -1,0 +1,42 @@
+<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>הוספת gitignore ו-README | python-git-first-project</title><link rel="stylesheet" href="../assets/css/main.css"></head><body>
+<header class="site-header"><a class="brand" href="../index.html"><span class="brand-mark">G</span><span>python-git-first-project</span></a><button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">תפריט</button><nav id="main-nav" class="main-nav"><a href="../index.html">בית</a><a href="install.html">התקנה</a><a href="project.html">פרויקט</a><a href="code-tests.html">קוד ובדיקות</a><a href="upgrade-overview.html">שדרוג האפליקציה</a><a href="github-actions.html">Actions</a><a href="cheat-sheet.html">פקודות</a></nav></header>
+<main><section class="page-hero section-shell reveal"><p class="eyebrow">מדריך Git למתחילים</p><h1>הוספת gitignore ו-README</h1><p class="lead">כל שלב כתוב בסדר ביצוע ברור, עם פקודות מוכנות להעתקה ודגשים למניעת טעויות.</p></section><section class="content-layout section-shell"><aside class="side-nav reveal"><a href="install.html">1. התקנה</a><a href="project.html">2. פרויקט ראשון</a><a href="gitignore-readme.html">3. gitignore ו-README</a><a href="code-tests.html">4. קוד ובדיקות</a><a href="upgrade-overview.html">5. שדרוג האפליקציה</a><a href="api-layer.html">6. שכבת API</a><a href="cli-json.html">7. CLI ושמירת JSON</a><a href="quality-next.html">8. בדיקות המשך</a><a href="github-actions.html">9. GitHub Actions</a><a href="dependabot.html">6. Dependabot</a><a href="cheat-sheet.html">פקודות בסיסיות</a></aside><div><article class="content-card reveal"><h2>.gitignore</h2><pre><code># Python cache
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Test and coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env</code></pre><div class="callout">לא מעלים את תיקיית .venv ל-GitHub.</div></article><article class="content-card reveal"><h2>README.md</h2><pre><code># Python Git First Project
+
+A simple Python project for learning Git, GitHub, pytest, pylint, GitHub Actions, and Dependabot.
+
+## Setup
+
+python -m venv .venv
+source .venv/Scripts/activate
+pip install -r requirements.txt
+
+## Run tests
+
+pytest
+
+## Run pylint
+
+pylint src tests</code></pre></article></div></section></main><footer class="site-footer"><p>מדריך Git למתחילים - פרויקט Python ראשון.</p></footer><script src="../assets/js/main.js"></script></body></html>

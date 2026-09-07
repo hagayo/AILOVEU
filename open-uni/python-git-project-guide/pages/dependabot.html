@@ -1,0 +1,16 @@
+<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>הוספת Dependabot | python-git-first-project</title><link rel="stylesheet" href="../assets/css/main.css"></head><body>
+<header class="site-header"><a class="brand" href="../index.html"><span class="brand-mark">G</span><span>python-git-first-project</span></a><button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">תפריט</button><nav id="main-nav" class="main-nav"><a href="../index.html">בית</a><a href="install.html">התקנה</a><a href="project.html">פרויקט</a><a href="code-tests.html">קוד ובדיקות</a><a href="upgrade-overview.html">שדרוג האפליקציה</a><a href="github-actions.html">Actions</a><a href="cheat-sheet.html">פקודות</a></nav></header>
+<main><section class="page-hero section-shell reveal"><p class="eyebrow">מדריך Git למתחילים</p><h1>הוספת Dependabot</h1><p class="lead">כל שלב כתוב בסדר ביצוע ברור, עם פקודות מוכנות להעתקה ודגשים למניעת טעויות.</p></section><section class="content-layout section-shell"><aside class="side-nav reveal"><a href="install.html">1. התקנה</a><a href="project.html">2. פרויקט ראשון</a><a href="gitignore-readme.html">3. gitignore ו-README</a><a href="code-tests.html">4. קוד ובדיקות</a><a href="upgrade-overview.html">5. שדרוג האפליקציה</a><a href="api-layer.html">6. שכבת API</a><a href="cli-json.html">7. CLI ושמירת JSON</a><a href="quality-next.html">8. בדיקות המשך</a><a href="github-actions.html">9. GitHub Actions</a><a href="dependabot.html">6. Dependabot</a><a href="cheat-sheet.html">פקודות בסיסיות</a></aside><div><article class="content-card reveal"><h2>.github/dependabot.yml</h2><pre><code>version: 2
+
+updates:
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"</code></pre><p>Dependabot בודק עדכונים ל-requirements.txt וגם ל-GitHub Actions, ויוצר Pull Request כשיש עדכון.</p></article><article class="content-card reveal"><h2>Commit והעלאה</h2><pre><code>git add .
+git commit -m "Add Dependabot configuration"
+git push</code></pre></article></div></section></main><footer class="site-footer"><p>מדריך Git למתחילים - פרויקט Python ראשון.</p></footer><script src="../assets/js/main.js"></script></body></html>

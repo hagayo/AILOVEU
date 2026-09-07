@@ -1,0 +1,44 @@
+<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>CLI ושמירת דוח JSON | python-git-first-project</title><link rel="stylesheet" href="../assets/css/main.css"></head><body>
+<header class="site-header"><a class="brand" href="../index.html"><span class="brand-mark">G</span><span>python-git-first-project</span></a><button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">תפריט</button><nav id="main-nav" class="main-nav"><a href="../index.html">בית</a><a href="install.html">התקנה</a><a href="project.html">פרויקט</a><a href="code-tests.html">קוד ובדיקות</a><a href="upgrade-overview.html">שדרוג האפליקציה</a><a href="github-actions.html">Actions</a><a href="cheat-sheet.html">פקודות</a></nav></header>
+<main><section class="page-hero section-shell reveal"><p class="eyebrow">שדרוג האפליקציה</p><h1>CLI ושמירת דוח JSON</h1><p class="lead">נוסיף קובץ הפעלה שמקבל פרמטרים משורת הפקודה ושומר את תוצאת ה-API לקובץ JSON.</p></section><section class="content-layout section-shell"><aside class="side-nav reveal"><a href="install.html">1. התקנה</a><a href="project.html">2. פרויקט ראשון</a><a href="gitignore-readme.html">3. gitignore ו-README</a><a href="code-tests.html">4. קוד ובדיקות</a><a href="upgrade-overview.html">5. שדרוג האפליקציה</a><a href="api-layer.html">6. שכבת API</a><a href="cli-json.html">7. CLI ושמירת JSON</a><a href="quality-next.html">8. בדיקות המשך</a><a href="github-actions.html">9. GitHub Actions</a><a href="dependabot.html">10. Dependabot</a><a href="cheat-sheet.html">פקודות בסיסיות</a></aside><div><article class="content-card reveal"><h2>src/github_report.py</h2><p>הקובץ הזה אחראי על שמירת הדוח לקובץ JSON. כך מפרידים בין קבלת מידע לבין שמירת מידע.</p><pre><code>"""Create and save GitHub API reports."""
+
+import json
+from pathlib import Path
+from typing import Any
+
+
+def save_report(data: dict[str, Any], output_path: str) -> Path:
+    """Save report data as a formatted JSON file."""
+    path = Path(output_path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(data, indent=2), encoding="utf-8")
+    return path</code></pre></article><article class="content-card reveal"><h2>src/app.py</h2><p>זהו קובץ ההפעלה הראשי של האפליקציה. הוא מקבל נתיב פלט דרך שורת הפקודה.</p><pre><code>"""Command line entry point for the GitHub report app."""
+
+import argparse
+
+from src.github_client import build_github_summary
+from src.github_report import save_report
+
+
+def parse_args() -> argparse.Namespace:
+    """Parse command line arguments."""
+    parser = argparse.ArgumentParser(description="Create a small GitHub API report.")
+    parser.add_argument(
+        "--output",
+        default="reports/github-summary.json",
+        help="Path for the output JSON report.",
+    )
+    return parser.parse_args()
+
+
+def main() -> None:
+    """Run the application."""
+    args = parse_args()
+    summary = build_github_summary()
+    output_path = save_report(summary, args.output)
+    print(f"Report saved to: {output_path}")
+
+
+if __name__ == "__main__":
+    main()</code></pre></article><article class="content-card reveal"><h2>הרצה</h2><pre><code>python -m src.app</code></pre><p>הרצה עם שם קובץ אחר:</p><pre><code>python -m src.app --output reports/my-report.json</code></pre><p>אחרי ההרצה אמור להיווצר קובץ JSON בתוך תיקיית <code>reports</code>.</p></article><article class="content-card reveal"><h2>עדכון gitignore</h2><p>כדי לא להעלות דוחות שנוצרים בהרצה, מוסיפים ל-<code>.gitignore</code>:</p><pre><code>reports/*.json
+!reports/.gitkeep</code></pre></article></div></section></main><footer class="site-footer"><p>מדריך Git למתחילים - פרויקט Python ראשון.</p></footer><script src="../assets/js/main.js"></script></body></html>

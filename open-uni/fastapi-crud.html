@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>FastAPI CRUD - דוגמה מלאה</title>
+  <meta name="description" content="CRUD, סכמות Pydantic, סטטוסים, ושגיאות אחידות">
+  <link rel="stylesheet" href="assets/styles.css?v=20260107094522">
+</head>
+<body>
+<a class="skip-link" href="#main">דילוג לתוכן</a>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>🎓 מפתחי בינה מלאכותית - GenAI Engineers</h1>
+    <p>CRUD, סכמות Pydantic, סטטוסים, ושגיאות אחידות</p>
+    <div class="badges">
+      <span class="badge">234 שעות אקדמיות</span>
+      <span class="badge">2 סמסטרים</span>
+      <span class="badge">E2E - קונספט עד ענן</span>
+    </div>
+  </div>
+</header>
+
+<div class="topbar">
+  <nav class="nav" aria-label="ניווט ראשי">
+  <a class="brand" href="index.html">
+    <span class="logo" aria-hidden="true">AI</span>
+    <span>GenAI Engineers</span>
+  </a>
+
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">תפריט</button>
+
+  <ul id="site-nav" class="nav-links">
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">פייתון</button>
+      <ul class="dropdown-menu" aria-label="פייתון" hidden>
+        <li><a href="fastapi-crud.html">FastAPI CRUD</a></li>
+        <li><a href="db-validation.html">DB + Validation</a></li>
+        <li><a href="db-sql-vs-nosql.html">SQL vs NoSQL</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">ארכיטקטורה</button>
+      <ul class="dropdown-menu" aria-label="ארכיטקטורה" hidden>
+        <li><a href="architecture.html">Client-Server</a></li>
+        <li><a href="rest-api.html">REST API</a></li>
+        <li><a href="authentication.html">אימות והרשאות</a></li>
+        <li><a href="api-security.html">אבטחת API</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">ענן והפצה</button>
+      <ul class="dropdown-menu" aria-label="ענן והפצה" hidden>
+        <li><a href="cloud-deploy.html">Docker + Cloud Run</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">סוכנים</button>
+      <ul class="dropdown-menu" aria-label="סוכנים" hidden>
+        <li><a href="agents-react.html">ReAct</a></li>
+        <li><a href="rag.html">RAG</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">וייב קודינג</button>
+      <ul class="dropdown-menu" aria-label="וייב קודינג" hidden>
+        <li><a href="vibe.html">vibe</a></li>
+        <li><a href="home-terminal.html">דף הבית - טרמינל</a></li>
+        <li><a href="home-blueprint.html">דף הבית - Blueprint</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">הקורס</button>
+      <ul class="dropdown-menu" aria-label="הקורס" hidden>
+        <li><a href="syllabus.html">תכנית</a></li>
+        <li><a href="lecturer.html">המרצה</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+</div>
+
+<main id="main" class="container">
+
+<section class="section">
+  <h2>FastAPI - דוגמת CRUD מלאה עם חוזה וולידציה</h2>
+  <p class="kicker">המטרה היא להראות API קטן אך "נכון": סכמות עם Pydantic, CRUD, סטטוסים, ושגיאות עקביות. זה הבסיס למערכת שמתחברת לסוכנים ולפרודקשן.</p>
+
+  <h3>1) מודל נתונים וחוזה (Pydantic)</h3>
+  <p>ב-REST, ה-API הוא חוזה. FastAPI + Pydantic מאפשרים להגדיר חוזה ולבצע ולידציה אוטומטית. זה מאפשר פיתוח מקבילי של לקוח ושרת, ומקטין באגים.</p>
+
+  <div class="code" aria-label="models.py - סכמות Pydantic">
+    <pre>from pydantic import BaseModel, Field
+from datetime import datetime
+
+class NoteCreate(BaseModel):
+    title: str = Field(min_length=1, max_length=80)
+    content: str = Field(default="", max_length=10_000)
+
+class Note(NoteCreate):
+    id: int
+    created_at: datetime</pre>
+  </div>
+
+  <h3>2) CRUD על גבי In-Memory Store</h3>
+  <p>כדי להתמקד ב-API, נתחיל במאגר בזיכרון (dict). בפרודקשן מחליפים למסד נתונים, אבל החוזה וה-endpoints נשארים זהים.</p>
+
+  <div class="code" aria-label="main.py - FastAPI CRUD בסיסי">
+    <pre>from fastapi import FastAPI, HTTPException
+from datetime import datetime
+from models import Note, NoteCreate
+
+app = FastAPI(title="Notes API", version="1.0")
+
+notes: dict[int, Note] = {}
+next_id = 1
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}
+
+@app.post("/api/v1/notes", response_model=Note, status_code=201)
+def create_note(payload: NoteCreate):
+    global next_id
+    note = Note(id=next_id, created_at=datetime.utcnow(), **payload.model_dump())
+    notes[note.id] = note
+    next_id += 1
+    return note
+
+@app.get("/api/v1/notes", response_model=list[Note])
+def list_notes():
+    return list(notes.values())
+
+@app.get("/api/v1/notes/{note_id}", response_model=Note)
+def get_note(note_id: int):
+    note = notes.get(note_id)
+    if not note:
+        raise HTTPException(status_code=404, detail="Note not found")
+    return note
+
+@app.put("/api/v1/notes/{note_id}", response_model=Note)
+def replace_note(note_id: int, payload: NoteCreate):
+    if note_id not in notes:
+        raise HTTPException(status_code=404, detail="Note not found")
+    old = notes[note_id]
+    updated = Note(id=note_id, created_at=old.created_at, **payload.model_dump())
+    notes[note_id] = updated
+    return updated
+
+@app.delete("/api/v1/notes/{note_id}", status_code=204)
+def delete_note(note_id: int):
+    if note_id not in notes:
+        raise HTTPException(status_code=404, detail="Note not found")
+    del notes[note_id]</pre>
+  </div>
+
+  <h3>3) נקודות פרודקשן מינימליות</h3>
+  <div class="grid cols-2">
+    <div class="card">
+      <h4>OpenAPI אוטומטי</h4>
+      <p>FastAPI מפרסם תיעוד ב-<span class="highlight">/docs</span> ו-<span class="highlight">/redoc</span>. זה הופך את החוזה לכלי עבודה אמיתי לצוותים.</p>
+      <p class="small">במערכות מרובות שירותים - OpenAPI הוא השפה המשותפת.</p>
+    </div>
+    <div class="card">
+      <h4>Health checks</h4>
+      <p>Endpoint כמו <span class="highlight">/health</span> מאפשר לניטור ול-load balancer לדעת אם השירות חי. במערכת מלאה מוסיפים בדיקות DB/Cache.</p>
+      <p class="small">מומלץ גם readiness + liveness כשעובדים עם קונטיינרים.</p>
+    </div>
+  </div>
+
+  <details>
+    <summary>איפה נכנסים DB, Authentication, ואסינכרוניות?</summary>
+    <div class="content">
+      <p>בשלב הבא אפשר להחליף את dict במסד נתונים (PostgreSQL או MongoDB), להוסיף JWT/OAuth, ולהפוך endpoints לאסינכרוניים (async def) כשיש IO כבד.</p>
+      <p>הנקודה היא: אל תחליף הכל יחד. שומרים את החוזה, משפרים שכבה אחת בכל פעם.</p>
+    </div>
+  </details>
+
+  <h3>4) דוגמת לקוח - קריאה מהדפדפן</h3>
+  <p>כך צד לקוח מתקשר עם השרת. זה אותו רעיון גם כאשר "לקוח" הוא שירות אחר או סוכן.</p>
+
+  <div class="code" aria-label="client.js - fetch לדוגמה">
+    <pre>async function createNote() {
+  const res = await fetch("/api/v1/notes", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({title: "Hello", content: "From browser"})
+  });
+
+  if (!res.ok) throw new Error(await res.text());
+  return await res.json();
+}</pre>
+  </div>
+
+  <p>כעת יש לנו API אמיתי. סוכן יכול לקרוא לו ככלי (Tool) ולהרכיב תהליכים.</p>
+  <p><a href="agents-react.html">חזרה לפרק ReAct</a></p>
+</section>
+
+</main>
+
+<footer class="footer">
+  <p>🌐 מפתחי בינה מלאכותית - GenAI Engineers | חגי און</p>
+  <p class="muted">אתר סטטי: HTML + CSS + JavaScript - קבצים משותפים לקאש דפדפן</p>
+</footer>
+
+<script src="assets/app.js?v=20260107094522" defer></script>
+</body>
+</html>

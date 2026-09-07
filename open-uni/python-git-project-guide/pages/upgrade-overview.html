@@ -1,0 +1,20 @@
+<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>שדרוג האפליקציה לשלב הבא | python-git-first-project</title><link rel="stylesheet" href="../assets/css/main.css"></head><body>
+<header class="site-header"><a class="brand" href="../index.html"><span class="brand-mark">G</span><span>python-git-first-project</span></a><button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">תפריט</button><nav id="main-nav" class="main-nav"><a href="../index.html">בית</a><a href="install.html">התקנה</a><a href="project.html">פרויקט</a><a href="code-tests.html">קוד ובדיקות</a><a href="upgrade-overview.html">שדרוג האפליקציה</a><a href="github-actions.html">Actions</a><a href="cheat-sheet.html">פקודות</a></nav></header>
+<main><section class="page-hero section-shell reveal"><p class="eyebrow">שלב המשך</p><h1>שדרוג האפליקציה לשלב הבא</h1><p class="lead">נעלה את הפרויקט מרמת קובץ Python פשוט לאפליקציה קטנה ומסודרת עם שכבות, CLI, שמירת JSON ובדיקות המשך.</p></section><section class="content-layout section-shell"><aside class="side-nav reveal"><a href="install.html">1. התקנה</a><a href="project.html">2. פרויקט ראשון</a><a href="gitignore-readme.html">3. gitignore ו-README</a><a href="code-tests.html">4. קוד ובדיקות</a><a href="upgrade-overview.html">5. שדרוג האפליקציה</a><a href="api-layer.html">6. שכבת API</a><a href="cli-json.html">7. CLI ושמירת JSON</a><a href="quality-next.html">8. בדיקות המשך</a><a href="github-actions.html">9. GitHub Actions</a><a href="dependabot.html">10. Dependabot</a><a href="cheat-sheet.html">פקודות בסיסיות</a></aside><div><article class="content-card reveal"><h2>מה השדרוג הבא?</h2><p>בשלב הראשון בנינו קובץ Python פשוט. עכשיו נעלה רמה ונבנה אפליקציה קטנה יותר מסודרת: שכבת API, שכבת CLI, שמירת תוצאה לקובץ JSON, טיפול בשגיאות ובדיקות טובות יותר.</p><div class="callout"><strong>המטרה:</strong> ללמד את הסטודנטים שהקוד לא חייב להיות גדול כדי להיות מקצועי. מספיק להפריד אחריות ולכתוב בדיקות.</div></article><article class="content-card reveal"><h2>מבנה הקבצים החדש</h2><pre><code>python-git-first-project/
+├── src/
+│   ├── __init__.py
+│   ├── github_client.py
+│   ├── github_report.py
+│   └── app.py
+├── tests/
+│   ├── __init__.py
+│   ├── test_github_client.py
+│   └── test_github_report.py
+├── reports/
+│   └── .gitkeep
+├── requirements.txt
+└── README.md</code></pre></article><article class="content-card reveal"><h2>פקודות הכנה</h2><pre><code>mkdir -p reports
+touch src/__init__.py tests/__init__.py reports/.gitkeep
+touch src/github_report.py src/app.py tests/test_github_report.py</code></pre><p>תיקיית <code>reports</code> תשמור קבצי JSON שנוצרים בהרצה. הקובץ <code>.gitkeep</code> מאפשר להעלות תיקייה ריקה ל-Git.</p></article><article class="content-card reveal"><h2>סדר העבודה הנכון</h2><ol><li>יוצרים קבצים חדשים.</li><li>כותבים שכבת קוד אחת בכל פעם.</li><li>מריצים את הקוד ידנית.</li><li>כותבים בדיקות.</li><li>מריצים <code>pytest</code> ו-<code>pylint</code>.</li><li>עושים Commit קטן וברור.</li></ol><pre><code>git status
+git add .
+git commit -m "Upgrade app structure with CLI and reports"</code></pre></article></div></section></main><footer class="site-footer"><p>מדריך Git למתחילים - פרויקט Python ראשון.</p></footer><script src="../assets/js/main.js"></script></body></html>

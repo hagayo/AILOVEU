@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ארכיטקטורה: Client-Server ו-Services</title>
+  <meta name="description" content="הפרדה בין צד לקוח וצד שרת, ושילוב APIs בין שירותים">
+  <link rel="stylesheet" href="assets/styles.css?v=20260107094522">
+</head>
+<body>
+<a class="skip-link" href="#main">דילוג לתוכן</a>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>🎓 מפתחי בינה מלאכותית - GenAI Engineers</h1>
+    <p>הפרדה בין צד לקוח וצד שרת, ושילוב APIs בין שירותים</p>
+    <div class="badges">
+      <span class="badge">234 שעות אקדמיות</span>
+      <span class="badge">2 סמסטרים</span>
+      <span class="badge">E2E - קונספט עד ענן</span>
+    </div>
+  </div>
+</header>
+
+<div class="topbar">
+  <nav class="nav" aria-label="ניווט ראשי">
+  <a class="brand" href="index.html">
+    <span class="logo" aria-hidden="true">AI</span>
+    <span>GenAI Engineers</span>
+  </a>
+
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">תפריט</button>
+
+  <ul id="site-nav" class="nav-links">
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">פייתון</button>
+      <ul class="dropdown-menu" aria-label="פייתון" hidden>
+        <li><a href="fastapi-crud.html">FastAPI CRUD</a></li>
+        <li><a href="db-validation.html">DB + Validation</a></li>
+        <li><a href="db-sql-vs-nosql.html">SQL vs NoSQL</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">ארכיטקטורה</button>
+      <ul class="dropdown-menu" aria-label="ארכיטקטורה" hidden>
+        <li><a href="architecture.html">Client-Server</a></li>
+        <li><a href="rest-api.html">REST API</a></li>
+        <li><a href="authentication.html">אימות והרשאות</a></li>
+        <li><a href="api-security.html">אבטחת API</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">ענן והפצה</button>
+      <ul class="dropdown-menu" aria-label="ענן והפצה" hidden>
+        <li><a href="cloud-deploy.html">Docker + Cloud Run</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">סוכנים</button>
+      <ul class="dropdown-menu" aria-label="סוכנים" hidden>
+        <li><a href="agents-react.html">ReAct</a></li>
+        <li><a href="rag.html">RAG</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">וייב קודינג</button>
+      <ul class="dropdown-menu" aria-label="וייב קודינג" hidden>
+        <li><a href="vibe.html">vibe</a></li>
+        <li><a href="home-terminal.html">דף הבית - טרמינל</a></li>
+        <li><a href="home-blueprint.html">דף הבית - Blueprint</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">הקורס</button>
+      <ul class="dropdown-menu" aria-label="הקורס" hidden>
+        <li><a href="syllabus.html">תכנית</a></li>
+        <li><a href="lecturer.html">המרצה</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+</div>
+
+<main id="main" class="container">
+
+<section class="section">
+  <h2>ארכיטקטורה - צד לקוח, צד שרת, ושירותים</h2>
+  <p class="kicker">כדי לפתח מערכת GenAI יציבה צריך קודם להבין היכן הקוד רץ, איך זורם מידע, ומהו "חוזה" בין חלקי מערכת.</p>
+
+  <h3>1) מודל Client-Server במבט מערכתי</h3>
+  <p>הדפדפן הוא סביבת הרצה מוגבלת ובטוחה יחסית, שמריצה HTML/CSS/JS עבור תצוגה ואינטראקציה. השרת הוא סביבת הרצה שאנו שולטים בה, וממנה אנו יכולים לגשת למסדי נתונים, סודות (API keys), תורים, קבצים ושירותים נוספים. ההפרדה הזו היא לא "טכנולוגיה", אלא עקרון אבטחה וסקייל.</p>
+
+  <div class="figure" role="figure" aria-label="דיאגרמת זרימה של בקשה-תגובה בין דפדפן לשרת">
+    <svg width="980" height="240" viewBox="0 0 980 240" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="cs" x1="0" x2="1">
+          <stop offset="0" stop-color="#667eea"/>
+          <stop offset="1" stop-color="#4a5fc1"/>
+        </linearGradient>
+      </defs>
+
+      <rect x="40" y="55" width="250" height="130" rx="16" fill="url(#cs)"/>
+      <text x="165" y="98" text-anchor="middle" font-size="18" fill="#fff" font-weight="800">Client</text>
+      <text x="165" y="125" text-anchor="middle" font-size="13" fill="#fff">Browser - UI, JS, Fetch</text>
+      <text x="165" y="150" text-anchor="middle" font-size="13" fill="#fff">אין גישה לסודות/DB</text>
+
+      <rect x="690" y="55" width="250" height="130" rx="16" fill="url(#cs)"/>
+      <text x="815" y="98" text-anchor="middle" font-size="18" fill="#fff" font-weight="800">Server</text>
+      <text x="815" y="125" text-anchor="middle" font-size="13" fill="#fff">API - FastAPI / Node</text>
+      <text x="815" y="150" text-anchor="middle" font-size="13" fill="#fff">DB, Cache, Secrets</text>
+
+      <path d="M300 105 L680 105" stroke="#667eea" stroke-width="6" stroke-linecap="round"/>
+      <polygon points="680,105 665,95 665,115" fill="#667eea"/>
+      <text x="490" y="92" text-anchor="middle" font-size="12" fill="#243447">HTTP Request (GET/POST)</text>
+
+      <path d="M680 150 L300 150" stroke="#4a5fc1" stroke-width="6" stroke-linecap="round"/>
+      <polygon points="300,150 315,140 315,160" fill="#4a5fc1"/>
+      <text x="490" y="170" text-anchor="middle" font-size="12" fill="#243447">HTTP Response (HTML/JSON)</text>
+    </svg>
+    <div class="caption">מודל בקשה-תגובה: הדפדפן שולח בקשה (Request) והשרת מחזיר תשובה (Response). על גבי זה בנוי REST.</div>
+  </div>
+
+  <details>
+    <summary>מה חשוב להבין בהפרדה הזו?</summary>
+    <div class="content">
+      <ul>
+        <li><strong>אבטחה:</strong> מפתח ל-LLM או למסד נתונים לא אמור להופיע בקוד שרץ בדפדפן.</li>
+        <li><strong>ביצועים:</strong> פעולות כבדות או איטיות (למשל קריאת DB, תיווך למודל, כתיבה לקבצים) שייכות לשרת.</li>
+        <li><strong>אמינות:</strong> השרת צריך לנהל Timeouts, Retries, Rate Limits, תורים וניטור.</li>
+        <li><strong>חוזים:</strong> ה-API הוא חוזה שמאפשר לצוותים לעבוד במקביל.</li>
+      </ul>
+    </div>
+  </details>
+
+  <h3>2) API בין שירותים (Services-to-Services)</h3>
+  <p>במערכת GenAI אמיתית יש יותר משרת אחד: שירות API, שירות חיפוש/אינדוקס, שירות לוגים, שירות תשלומים, ולעתים גם שירות "תיווך מודלים". במקום לקשור את כולם למונולית, מקימים גבולות ברורים - כל שירות אחראי על תחום אחד ומדבר עם אחרים דרך API.</p>
+
+  <div class="figure" role="figure" aria-label="דיאגרמת מיקרו-שירותים פשוטה">
+    <svg width="980" height="270" viewBox="0 0 980 270" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="ms" x1="0" x2="1">
+          <stop offset="0" stop-color="#667eea"/>
+          <stop offset="1" stop-color="#764ba2"/>
+        </linearGradient>
+      </defs>
+
+      <rect x="30" y="95" width="240" height="110" rx="16" fill="url(#ms)" opacity="0.95"/>
+      <text x="150" y="130" text-anchor="middle" font-size="16" fill="#fff" font-weight="800">API Gateway</text>
+      <text x="150" y="155" text-anchor="middle" font-size="12" fill="#fff">Auth, Rate limit</text>
+      <text x="150" y="175" text-anchor="middle" font-size="12" fill="#fff">Routing</text>
+
+      <rect x="360" y="35" width="260" height="95" rx="16" fill="url(#ms)" opacity="0.95"/>
+      <text x="490" y="72" text-anchor="middle" font-size="15" fill="#fff" font-weight="800">LLM Service</text>
+      <text x="490" y="95" text-anchor="middle" font-size="12" fill="#fff">Tool calling, prompts</text>
+
+      <rect x="360" y="160" width="260" height="95" rx="16" fill="url(#ms)" opacity="0.95"/>
+      <text x="490" y="197" text-anchor="middle" font-size="15" fill="#fff" font-weight="800">Data Service</text>
+      <text x="490" y="220" text-anchor="middle" font-size="12" fill="#fff">DB, cache, RAG store</text>
+
+      <rect x="710" y="95" width="240" height="110" rx="16" fill="url(#ms)" opacity="0.95"/>
+      <text x="830" y="130" text-anchor="middle" font-size="15" fill="#fff" font-weight="800">Observability</text>
+      <text x="830" y="155" text-anchor="middle" font-size="12" fill="#fff">Logs, metrics, traces</text>
+
+      <path d="M270 150 L350 80" stroke="#667eea" stroke-width="6" stroke-linecap="round"/>
+      <polygon points="350,80 335,70 335,90" fill="#667eea"/>
+      <path d="M270 150 L350 208" stroke="#667eea" stroke-width="6" stroke-linecap="round"/>
+      <polygon points="350,208 335,198 335,218" fill="#667eea"/>
+
+      <path d="M620 80 L700 145" stroke="#667eea" stroke-width="6" stroke-linecap="round"/>
+      <polygon points="700,145 684,136 688,154" fill="#667eea"/>
+      <path d="M620 208 L700 155" stroke="#667eea" stroke-width="6" stroke-linecap="round"/>
+      <polygon points="700,155 688,146 684,164" fill="#667eea"/>
+    </svg>
+    <div class="caption">חלוקה טיפוסית: שער כניסה (Gateway), שירות מודלים, שירות מידע, ותשתיות ניטור. הקווים מייצגים קריאות API פנימיות.</div>
+  </div>
+
+  <h3>3) עקרונות תכנון חוזי API</h3>
+  <div class="grid cols-2">
+    <div class="card">
+      <h4>חוזה יציב</h4>
+      <p>חוזה הוא לא "URL" בלבד. הוא כולל פורמט בקשה, פורמט תשובה, קודי שגיאה, גרסאות, ומגבלות קצב. חוזה טוב מאפשר פיתוח מקבילי: צד אחד מתקדם, הצד השני נשען על ה-Contract.</p>
+      <p class="small">כלים: OpenAPI/Swagger, סכמות Pydantic, תיעוד Redoc.</p>
+    </div>
+    <div class="card">
+      <h4>גבולות (Boundaries)</h4>
+      <p>משתדלים שלא "לדלוף" פרטים פנימיים בין שירותים. לדוגמה: שירות תשלומים לא אמור לדעת איך בנוי מסד המשתמשים. הוא אמור לקבל user_id ולקבל תשובה של "האם מותר". זה מאפשר החלפה או שדרוג ללא שבר.</p>
+      <p class="small">כלל אצבע: כל שירות בעל בעלות נתונים (data ownership) ברורה.</p>
+    </div>
+  </div>
+
+  <details>
+    <summary>טעויות נפוצות בארכיטקטורה של מתחילים</summary>
+    <div class="content">
+      <ul>
+        <li><strong>מפתח API בדפדפן:</strong> גורם לניצול ושימוש לרעה.</li>
+        <li><strong>API בלי סטנדרט שגיאות:</strong> כל צוות "ממציא" פורמט, ומכאן באגים.</li>
+        <li><strong>מיקרו-שירותים מוקדם מדי:</strong> אם אין צורך, זה מוסיף מורכבות תפעולית.</li>
+        <li><strong>אין observability:</strong> בלי לוגים ומדדים אתה "עיוור" בפרודקשן.</li>
+      </ul>
+    </div>
+  </details>
+
+  <p>המשך טבעי מכאן הוא להבין איך מתכננים REST נכון - בעמוד הבא.</p>
+  <p><a href="rest-api.html">לקריאת הפרק על REST API</a></p>
+</section>
+
+</main>
+
+<footer class="footer">
+  <p>🌐 מפתחי בינה מלאכותית - GenAI Engineers | חגי און</p>
+  <p class="muted">אתר סטטי: HTML + CSS + JavaScript - קבצים משותפים לקאש דפדפן</p>
+</footer>
+
+<script src="assets/app.js?v=20260107094522" defer></script>
+</body>
+</html>

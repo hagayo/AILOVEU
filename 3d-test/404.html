@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AILoveU Page Not Found - 404</title>
+    <meta name="title" content="AILoveU">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* --- Core Theme: Fun, Vibrant, and RTL --- */
+        
+        :root {
+            --color-neon-blue: #00BFFF; /* Electric Blue - Primary */
+            --color-lime-green: #39FF14; /* Lime Green - Secondary Glow */
+            --color-yellow: #FFD700; /* Gold/Vibrant Yellow - 404 pulse start */
+            --color-dark-bg: #1a0a1a;
+            --color-text: #ffffff;
+            --color-shadow: #007bff; /* Blue shadow */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Vibrant, fun background gradient (Dark Blue/Purple mix) */
+            background: radial-gradient(circle at center, #151e33 0%, #0a0a1a 100%);
+            color: var(--color-text);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            box-sizing: border-box;
+            padding: 1rem;
+            text-align: center;
+            position: relative;
+            direction: rtl; /* Set default text direction to Right-to-Left */
+        }
+
+        /* --- Broken Loading Animation (The Core Visual) --- */
+
+        .loading-ring {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 3rem 0 2rem;
+            border-radius: 50%;
+            border: 10px solid rgba(255, 255, 255, 0.1);
+            border-top: 10px solid var(--color-neon-blue); /* Using Neon Blue */
+            box-shadow: 0 0 20px var(--color-neon-blue), inset 0 0 10px var(--color-neon-blue); /* Using Neon Blue */
+            animation: spin 3s cubic-bezier(0.5, 0.1, 0.5, 0.9) infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-ring::before {
+            content: "404";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--color-yellow);
+            text-shadow: 0 0 10px var(--color-yellow);
+            animation: pulse-color 1.5s infinite alternate;
+        }
+
+        @keyframes pulse-color {
+            0% { color: var(--color-yellow); text-shadow: 0 0 5px var(--color-yellow); }
+            100% { color: var(--color-lime-green); text-shadow: 0 0 15px var(--color-lime-green); } /* Cycling to Lime Green */
+        }
+
+
+        /* --- Main Content --- */
+
+        .message-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 500px;
+            padding: 0 1rem;
+        }
+
+        /* --- Status Text --- */
+        .status-message {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--color-text);
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 0 var(--color-shadow);
+        }
+        
+        .description-p {
+            font-size: 1.1rem;
+            color: #ccc;
+            margin-bottom: 3rem;
+            line-height: 1.6;
+        }
+
+        /* New Highlight color: Blue */
+        .text-highlight-blue {
+            color: var(--color-neon-blue);
+            font-weight: 700;
+        }
+        
+        /* --- Button Styles --- */
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        @media (min-width: 480px) {
+            .button-group {
+                flex-direction: row;
+                justify-content: center;
+                gap: 2rem;
+            }
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2.5rem;
+            border-radius: 9999px; /* Pill-shaped buttons */
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            text-transform: capitalize; /* Keep Hebrew natural */
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: var(--color-neon-blue); /* Using Neon Blue */
+            color: var(--color-dark-bg);
+            border: 3px solid var(--color-neon-blue);
+            box-shadow: 0 5px 15px rgba(0, 191, 255, 0.5); /* Blue shadow */
+        }
+        .btn-primary:hover {
+            background-color: #0099cc; /* Darker blue hover */
+            transform: scale(1.05) translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 191, 255, 0.7); /* Blue shadow */
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--color-yellow);
+            border: 3px solid var(--color-yellow);
+        }
+        .btn-secondary:hover {
+            background-color: var(--color-yellow);
+            color: var(--color-dark-bg);
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <h1>AI❤️U</h1>
+    <h2>404 - Page Not Found</h2>
+    <p>The page you were looking for doesn't exist.</p>
+
+    <!-- Broken Loading Ring Animation -->
+    <div class="loading-ring">
+    </div>
+
+    <!-- Main Content -->
+    <div class="message-container">
+
+        <h2 class="status-message">
+            לא נמצא! השרת התבלבל
+        </h2>
+        
+        <p class="description-p">
+            הדף שחיפשת לא נמצא. אולי הוא <span class="text-highlight-blue">יצא לחופש</span>, או שהוא מנסה להתקין מערכת הפעלה חדשה. זה לא אנחנו, זה המחשב.
+        </p>
+
+        <!-- Call to Action -->
+        <div class="button-group">
+            <a href="https://ailoveu.art" class="btn btn-primary">
+                חזור לדף הבית
+            </a>
+            <button onclick="window.location.reload()" class="btn btn-secondary">
+                נסה שוב
+            </button>
+        </div>
+    </div>
+</body>
+</html>

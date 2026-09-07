@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; }
+    model-viewer { width: 600px; height: 400px; margin-top: 20px; }
+    button { margin:20px; border-radius:10px; color:#ffffff; background-color:#2244aa; }
+  </style>
+</head>
+<body>
+<h1>2D Image to 3D Model Viewer</h1>
+<input type="file" id="imageInput" accept="image/*">
+<button onclick="processImage()">Upload and Convert</button>
+<p id="status">Awaiting input...</p>
+<model-viewer id="modelViewer" style="display:none;" camera-controls auto-rotate></model-viewer>
+
+<script>
+const replicateAPI = 'https://api.replicate.com/v1/predictions';
+<!-- const apiToken = 'YOUR_REPLICATE_API_TOKEN';  // Replace with your Replicate API token -->
+const apiToken = 'r8_dZNDPBbIdtiuXFdGQ1YeWr3P1JL4lK54dbngg';
+const modelVersion = 'e0d3fe8a';  // TripoSR model version ID
+
+async function processImage() {
+  const fileInput = document.getElementById("imageInput");
+  if (fileInput.files.length === 0) {
+    alert("Please select an image.");
+    return;
+  }
+
+  const file = fileInput.files[0];
+  document.getElementById("status").innerText = "Uploading and processing image...";
+
+  const imageData = await convertToBase64(file);
+  const prediction = await initiatePrediction(imageData);
+
+  if (prediction && prediction.urls) {
+    const modelUrl = await pollPrediction(prediction.urls.get);
+    if (modelUrl) {
+      displayModel(modelUrl);
+    } else {
+      document.getElementById("status").innerText = "Failed to generate 3D model.";
+    }
+  } else {
+    document.getElementById("status").innerText = "Prediction initiation failed.";
+  }
+}
+
+function convertToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = error => reject(error);
+    reader.readAsDataURL(file);
+  });
+}
+
+async function initiatePrediction(imageData) {
+  try {
+    const response = await fetch(replicateAPI, {
+      method: "POST",
+      headers: {
+        Authorization: `Token ${apiToken}`,
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "cross-origin"
+      },
+      body: JSON.stringify({
+        version: modelVersion,
+        input: { image: `data:image/jpeg;base64,${imageData}` }
+      })
+    });
+    return await response.json();
+  } catch (error) {
+    console.error("Error initiating prediction:", error);
+    return null;
+  }
+}
+
+async function pollPrediction(statusUrl) {
+  try {
+    let modelUrl = null;
+    while (!modelUrl) {
+      const response = await fetch(statusUrl, {
+        headers: { Authorization: `Token ${apiToken}`, "Access-Control-Allow-Origin": "cross-origin" }
+      });
+      const status = await response.json();
+      if (status.status === "succeeded") {
+        modelUrl = status.output;
+        break;
+      } else if (status.status === "failed") {
+        console.error("Prediction failed:", status);
+        break;
+      }
+      await new Promise(resolve => setTimeout(resolve, 2000));
+    }
+    return modelUrl;
+  } catch (error) {
+    console.error("Error polling prediction:", error);
+    return null;
+  }
+}
+
+function displayModel(modelUrl) {
+  const modelViewer = document.getElementById("modelViewer");
+  modelViewer.src = modelUrl;
+  modelViewer.style.display = "block";
+  document.getElementById("status").innerText = "3D model generated successfully!";
+}
+</script>
+
+</body>
+</html>

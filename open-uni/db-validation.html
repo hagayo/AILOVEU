@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>DB + Pydantic Validation</title>
+  <meta name="description" content="מדריך לימודי מלא: סכמות, ולידציה, SQLModel/SQLAlchemy, ושגיאות עקביות, כולל תרגול">
+  <link rel="stylesheet" href="assets/styles.css?v=20260107094522">
+</head>
+<body>
+<a class="skip-link" href="#main">דילוג לתוכן</a>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>🎓 מפתחי בינה מלאכותית - GenAI Engineers</h1>
+    <p>תוכנית לימודים אקדמית מתקדמת - 234 שעות - 2 סמסטרים</p>
+    <div class="badges">
+      <span class="badge">234 שעות אקדמיות</span>
+      <span class="badge">2 סמסטרים</span>
+      <span class="badge">E2E - קונספט עד ענן</span>
+    </div>
+  </div>
+</header>
+
+<div class="topbar">
+  <nav class="nav" aria-label="ניווט ראשי">
+  <a class="brand" href="index.html">
+    <span class="logo" aria-hidden="true">AI</span>
+    <span>GenAI Engineers</span>
+  </a>
+
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">תפריט</button>
+
+  <ul id="site-nav" class="nav-links">
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">פייתון</button>
+      <ul class="dropdown-menu" aria-label="פייתון" hidden>
+        <li><a href="fastapi-crud.html">FastAPI CRUD</a></li>
+        <li><a href="db-validation.html">DB + Validation</a></li>
+        <li><a href="db-sql-vs-nosql.html">SQL vs NoSQL</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">ארכיטקטורה</button>
+      <ul class="dropdown-menu" aria-label="ארכיטקטורה" hidden>
+        <li><a href="architecture.html">Client-Server</a></li>
+        <li><a href="rest-api.html">REST API</a></li>
+        <li><a href="authentication.html">אימות והרשאות</a></li>
+        <li><a href="api-security.html">אבטחת API</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">ענן והפצה</button>
+      <ul class="dropdown-menu" aria-label="ענן והפצה" hidden>
+        <li><a href="cloud-deploy.html">Docker + Cloud Run</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">סוכנים</button>
+      <ul class="dropdown-menu" aria-label="סוכנים" hidden>
+        <li><a href="agents-react.html">ReAct</a></li>
+        <li><a href="rag.html">RAG</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">וייב קודינג</button>
+      <ul class="dropdown-menu" aria-label="וייב קודינג" hidden>
+        <li><a href="vibe.html">vibe</a></li>
+        <li><a href="home-terminal.html">דף הבית - טרמינל</a></li>
+        <li><a href="home-blueprint.html">דף הבית - Blueprint</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">הקורס</button>
+      <ul class="dropdown-menu" aria-label="הקורס" hidden>
+        <li><a href="syllabus.html">תכנית</a></li>
+        <li><a href="lecturer.html">המרצה</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+</div>
+
+<main id="main" class="container">
+
+<section class="section">
+  <h2>DB + Pydantic Validation</h2>
+  <p class="kicker">כשעוברים מפרויקט דמו לפרודקשן, הבעיה המרכזית היא יציבות נתונים: מה נכנס למערכת, איך מאחסנים, ואיך מוודאים שהחוזה לא נשבר. כאן נכנסים Pydantic, שכבת Persistence, ו-DB.</p>
+
+  <div class="callout">
+    <p><strong>רעיון מפתח:</strong> ב-API מודרני לא "זורקים dict". מגדירים סכמות, מבדילים בין Create/Read/Update, ומחזירים שגיאות עקביות. ה-DB הוא מקור האמת - וה-API הוא שכבת האכיפה.</p>
+  </div>
+
+  <h3>1) שכבות במערכת Backend טיפוסית</h3>
+  <p>סטודנטים רבים כותבים הכל בתוך ה-endpoint. זה עובד לשעה הראשונה ואז מתחיל להישבר. במקום זה מפרידים אחריות:</p>
+
+  <div class="figure" role="figure" aria-label="דיאגרמת שכבות API + DB">
+    <svg width="980" height="300" viewBox="0 0 980 300" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="lay" x1="0" x2="1">
+          <stop offset="0" stop-color="#667eea"/>
+          <stop offset="1" stop-color="#764ba2"/>
+        </linearGradient>
+      </defs>
+
+      <rect x="70" y="40" width="840" height="55" rx="14" fill="url(#lay)" opacity="0.95"/>
+      <text x="490" y="74" text-anchor="middle" font-size="15" fill="#fff" font-weight="800">API Layer (FastAPI) - Routes + Auth + Rate limiting</text>
+
+      <rect x="70" y="110" width="840" height="55" rx="14" fill="url(#lay)" opacity="0.95"/>
+      <text x="490" y="144" text-anchor="middle" font-size="15" fill="#fff" font-weight="800">Schema Layer (Pydantic) - Validation + Serialization + Contracts</text>
+
+      <rect x="70" y="180" width="840" height="55" rx="14" fill="url(#lay)" opacity="0.95"/>
+      <text x="490" y="214" text-anchor="middle" font-size="15" fill="#fff" font-weight="800">Service / Domain - Business rules + Use-cases</text>
+
+      <rect x="70" y="250" width="840" height="55" rx="14" fill="url(#lay)" opacity="0.95"/>
+      <text x="490" y="284" text-anchor="middle" font-size="15" fill="#fff" font-weight="800">Persistence - SQLAlchemy/SQLModel + DB</text>
+    </svg>
+    <div class="caption">חלוקה מינימלית שמאפשרת סקייל: routes מציגים API, סכמות מגדירות חוזה, שירותים מיישמים לוגיקה, ו-persistence מדבר עם DB.</div>
+  </div>
+
+  <h3>2) למה Pydantic הוא הרבה יותר מ-"type hints"</h3>
+  <p>Pydantic נותן לך שלושה דברים שמבדילים מערכת יציבה ממערכת שבירה:</p>
+  <ul>
+    <li><strong>ולידציה:</strong> בדיקה אוטומטית של קלט - אורכים, טווחים, פורמטים, וכפייה של טיפוסים.</li>
+    <li><strong>סיריאליזציה:</strong> המרה עקבית ל-JSON, כולל תאריכים, enums, וחבילות נתונים מורכבות.</li>
+    <li><strong>Contract:</strong> תיעוד אוטומטי ב-OpenAPI, שמאפשר ללקוח לייצר SDK ולצוותים לעבוד במקביל.</li>
+  </ul>
+
+  <h3>3) תבנית מודלים נכונה: Create, Read, Update</h3>
+  <p>הטעות הקלאסית היא להשתמש באותו מודל לכל המצבים. בפועל אלו חוזים שונים:</p>
+
+  <div class="grid cols-3">
+    <div class="card">
+      <h4>Create</h4>
+      <p>מה הלקוח רשאי לשלוח. בדרך כלל בלי id ובלי fields שמחושבים בשרת.</p>
+    </div>
+    <div class="card">
+      <h4>Read</h4>
+      <p>מה השרת מחזיר. כולל id, timestamps, ולעתים שדות מחושבים.</p>
+    </div>
+    <div class="card">
+      <h4>Update</h4>
+      <p>עדכון חלקי או מלא. לעדכון חלקי נדרש מודל עם optional fields.</p>
+    </div>
+  </div>
+
+  <div class="code" aria-label="schemas.py - Pydantic models">
+    <pre>from pydantic import BaseModel, Field
+from datetime import datetime
+from typing import Optional
+
+class NoteCreate(BaseModel):
+    title: str = Field(min_length=1, max_length=80)
+    content: str = Field(default="", max_length=10_000)
+
+class NoteUpdate(BaseModel):
+    title: Optional[str] = Field(default=None, min_length=1, max_length=80)
+    content: Optional[str] = Field(default=None, max_length=10_000)
+
+class NoteRead(BaseModel):
+    id: int
+    title: str
+    content: str
+    created_at: datetime</pre>
+  </div>
+
+  <details>
+    <summary>למה Update שונה מ-Create?</summary>
+    <div class="content">
+      <p>ב-PATCH הלקוח יכול לשלוח רק חלק מהשדות. אם תשתמש ב-Create, אתה תכריח אותו לשלוח הכל, או שתדרוס ערכים קיימים בטעות. לכן update model עם Optional הוא דפוס חשוב.</p>
+    </div>
+  </details>
+
+  <h3>4) מעבר מ-dict ל-DB אמיתי</h3>
+  <p>In-memory dict הוא כלי לימודי מעולה, אבל בפרודקשן צריך:</p>
+  <ul>
+    <li><strong>התמדה:</strong> נתונים שורדים ריסטארט.</li>
+    <li><strong>קונקרנציה:</strong> מספר תהליכים/שרתים כותבים יחד בלי לדרוס.</li>
+    <li><strong>שאילתות:</strong> פילטרים, מיון, אינדקסים.</li>
+    <li><strong>אכיפת חוקים:</strong> unique constraints, foreign keys, transactions.</li>
+  </ul>
+
+  <h3>5) SQLModel/SQLAlchemy - דוגמת מינימום עובדת</h3>
+  <p>הדוגמה הבאה משתמשת ב-SQLModel (שבנוי מעל SQLAlchemy) כדי להגדיר טבלת Notes ולבנות CRUD אמיתי עם SQLite. זה פתרון מצוין לסטודנטים כי הוא קריא, ומחבר DB + מודלים.</p>
+
+  <div class="code" aria-label="db.py - engine + session">
+    <pre>from sqlmodel import SQLModel, create_engine, Session
+
+DATABASE_URL = "sqlite:///./app.db"
+engine = create_engine(DATABASE_URL, echo=False)
+
+def init_db() -> None:
+    SQLModel.metadata.create_all(engine)
+
+def get_session() -> Session:
+    return Session(engine)</pre>
+  </div>
+
+  <div class="code" aria-label="models.py - SQLModel table">
+    <pre>from datetime import datetime
+from sqlmodel import SQLModel, Field
+
+class Note(SQLModel, table=True):
+    id: int | None = Field(default=None, primary_key=True)
+    title: str
+    content: str = ""
+    created_at: datetime = Field(default_factory=datetime.utcnow)</pre>
+  </div>
+
+  <div class="code" aria-label="main.py - FastAPI + SQLModel CRUD">
+    <pre>from fastapi import FastAPI, Depends, HTTPException
+from sqlmodel import Session, select
+from db import init_db, get_session
+from models import Note
+from schemas import NoteCreate, NoteUpdate, NoteRead
+
+app = FastAPI(title="Notes API (DB)", version="1.0")
+
+@app.on_event("startup")
+def on_startup():
+    init_db()
+
+def session_dep():
+    with get_session() as session:
+        yield session
+
+@app.post("/api/v1/notes", response_model=NoteRead, status_code=201)
+def create_note(payload: NoteCreate, session: Session = Depends(session_dep)):
+    note = Note(title=payload.title, content=payload.content)
+    session.add(note)
+    session.commit()
+    session.refresh(note)
+    return NoteRead.model_validate(note.__dict__ | {"id": note.id, "created_at": note.created_at})
+
+@app.get("/api/v1/notes", response_model=list[NoteRead])
+def list_notes(session: Session = Depends(session_dep)):
+    notes = session.exec(select(Note).order_by(Note.id.desc())).all()
+    return [NoteRead.model_validate(n.__dict__ | {"id": n.id, "created_at": n.created_at}) for n in notes]
+
+@app.get("/api/v1/notes/{note_id}", response_model=NoteRead)
+def get_note(note_id: int, session: Session = Depends(session_dep)):
+    note = session.get(Note, note_id)
+    if not note:
+        raise HTTPException(status_code=404, detail="Note not found")
+    return NoteRead.model_validate(note.__dict__ | {"id": note.id, "created_at": note.created_at})
+
+@app.patch("/api/v1/notes/{note_id}", response_model=NoteRead)
+def update_note(note_id: int, payload: NoteUpdate, session: Session = Depends(session_dep)):
+    note = session.get(Note, note_id)
+    if not note:
+        raise HTTPException(status_code=404, detail="Note not found")
+
+    if payload.title is not None:
+        note.title = payload.title
+    if payload.content is not None:
+        note.content = payload.content
+
+    session.add(note)
+    session.commit()
+    session.refresh(note)
+    return NoteRead.model_validate(note.__dict__ | {"id": note.id, "created_at": note.created_at})
+
+@app.delete("/api/v1/notes/{note_id}", status_code=204)
+def delete_note(note_id: int, session: Session = Depends(session_dep)):
+    note = session.get(Note, note_id)
+    if not note:
+        raise HTTPException(status_code=404, detail="Note not found")
+    session.delete(note)
+    session.commit()</pre>
+  </div>
+
+  <details>
+    <summary>נקודות פרודקשן מינימליות סביב DB</summary>
+    <div class="content">
+      <ul>
+        <li><strong>Migration:</strong> בפרודקשן לא יוצרים טבלאות ישירות מהקוד, אלא משתמשים ב-Alembic.</li>
+        <li><strong>Connection pool:</strong> ל-Postgres משתמשים ב-pool, ובענן מכוונים max connections.</li>
+        <li><strong>Transactions:</strong> פעולות מרובות כתיבות צריכות להיות אטומיות - commit אחד או rollback.</li>
+        <li><strong>Indexes:</strong> שדות חיפוש ומיון צריכים אינדקס, אחרת latency קופץ.</li>
+      </ul>
+    </div>
+  </details>
+
+  <h3>6) שגיאות עקביות - Error Schema</h3>
+  <p>FastAPI יחזיר אוטומטית 422 על ולידציה. אבל לשגיאות דומיין (למשל "כותרת כבר קיימת") מומלץ להגדיר פורמט שגיאה אחיד:</p>
+
+  <div class="code" aria-label="error schema example">
+    <pre>{
+  "error": {
+    "code": "NOTE_NOT_FOUND",
+    "message": "No note with id=123",
+    "trace_id": "a7f1c1..."
+  }
+}</pre>
+  </div>
+
+  <p>היתרון: צד לקוח יודע לתרגם קודים, לוגים יכולים להיות מקושרים, וסוכן יכול להחליט איך לתקן (למשל לשאול את המשתמש שאלה נוספת).</p>
+
+  <h3>תרגול</h3>
+
+  <details>
+    <summary>שאלות בדיקה (10)</summary>
+    <div class="content">
+      <ol>
+        <li>למה Create/Read/Update הם חוזים שונים?</li>
+        <li>מה ההבדל בין PUT ל-PATCH מבחינת מודלים?</li>
+        <li>למה DB פותר בעיות ש-dict לא יכול לפתור?</li>
+        <li>מה role של SQLAlchemy/SQLModel במערכת?</li>
+        <li>מה ההבדל בין commit ל-refresh?</li>
+        <li>מתי נדרשת transaction אמיתית?</li>
+        <li>מה FastAPI מחזיר אוטומטית על ולידציה שנכשלה?</li>
+        <li>למה חשוב error schema אחיד?</li>
+        <li>למה migrations (Alembic) חשובים בפרודקשן?</li>
+        <li>אילו שדות היית מאנדקס במערכת Notes גדולה?</li>
+      </ol>
+    </div>
+  </details>
+
+  <details>
+    <summary>משימת בית (CRUD עם DB אמיתי)</summary>
+    <div class="content">
+      <p>בנה שירות Notes עם DB (SQLite מספיק) וארבעה endpoints:</p>
+      <div class="code" aria-label="homework endpoints">
+        <pre>POST   /api/v1/notes
+GET    /api/v1/notes
+PATCH  /api/v1/notes/{id}
+DELETE /api/v1/notes/{id}</pre>
+      </div>
+
+      <p>דרישות:</p>
+      <ul>
+        <li>הפרדה ברורה בין SQLModel table לבין Pydantic schemas (Create/Read/Update).</li>
+        <li>ולידציה: title מינימום 1, מקסימום 80. content מקסימום 10,000.</li>
+        <li>החזרת סטטוסים נכונים: 201 ביצירה, 204 במחיקה, 404 כשאין משאב.</li>
+        <li>הוספת endpoint <span class="highlight">/health</span> שמחזיר {"status":"ok"}.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>בדיקת פתרון (Checklist + בדיקות)</summary>
+    <div class="content">
+      <p><strong>Checklist:</strong></p>
+      <ul>
+        <li>עולה מקומית ויוצר <span class="highlight">app.db</span> בזמן startup.</li>
+        <li>POST מחזיר 201 עם id ו-created_at.</li>
+        <li>PATCH מאפשר לעדכן שדה אחד בלי לדרוס את השני.</li>
+        <li>DELETE מחזיר 204, וקריאה אחרי מחיקה מחזירה 404.</li>
+        <li>ולידציה נכשלת מחזירה 422.</li>
+      </ul>
+
+      <p><strong>בדיקת smoke עם curl:</strong></p>
+      <div class="code" aria-label="curl tests">
+        <pre># create
+curl -X POST http://localhost:8000/api/v1/notes \
+  -H "Content-Type: application/json" \
+  -d '{"title":"First","content":"Hello DB"}'
+
+# list
+curl http://localhost:8000/api/v1/notes
+
+# patch
+curl -X PATCH http://localhost:8000/api/v1/notes/1 \
+  -H "Content-Type: application/json" \
+  -d '{"content":"Updated"}'
+
+# delete
+curl -X DELETE -i http://localhost:8000/api/v1/notes/1</pre>
+      </div>
+
+      <p><strong>בדיקות יחידה (pytest) - כיוון:</strong></p>
+      <div class="code" aria-label="pytest outline">
+        <pre>def test_create_then_get(client):
+    r = client.post("/api/v1/notes", json={"title":"t","content":"c"})
+    assert r.status_code == 201
+    note_id = r.json()["id"]
+
+    r2 = client.get(f"/api/v1/notes/{note_id}")
+    assert r2.status_code == 200
+    assert r2.json()["title"] == "t"</pre>
+      </div>
+    </div>
+  </details>
+
+  <p>המשך טבעי מכאן הוא לעטוף את השירות הזה ב-Docker ולהרים אותו ב-Cloud Run בצורה נכונה (env, secrets, health, scaling). כשתכתוב "המשך" אכין את הפרק Docker + Cloud Run.</p>
+</section>
+
+</main>
+
+<footer class="footer">
+  <p>🌐 מפתחי בינה מלאכותית - GenAI Engineers | חגי און</p>
+  <p class="muted">אתר סטטי: HTML + CSS + JavaScript - קבצים משותפים לקאש דפדפן</p>
+</footer>
+
+<script src="assets/app.js?v=20260107094522" defer></script>
+</body>
+</html>

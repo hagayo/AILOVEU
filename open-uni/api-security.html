@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>אבטחת API - API Security</title>
+  <meta name="description" content="מדריך אבטחת API: מודל איומים, Authorization, rate limiting, validation, CORS/CSRF, secrets, uploads, logs.">
+  <link rel="stylesheet" href="assets/styles.css?v=20260107094522">
+</head>
+<body class="">
+<a class="skip-link" href="#main">דילוג לתוכן</a>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>🎓 מפתחי בינה מלאכותית - GenAI Engineers</h1>
+    <p>הפרדה בין צד לקוח וצד שרת, ושילוב APIs בין שירותים</p>
+    <div class="badges">
+      <span class="badge">234 שעות אקדמיות</span>
+      <span class="badge">2 סמסטרים</span>
+      <span class="badge">E2E - קונספט עד ענן</span>
+    </div>
+  </div>
+</header>
+
+<div class="topbar">
+  <nav class="nav" aria-label="ניווט ראשי">
+  <a class="brand" href="index.html">
+    <span class="logo" aria-hidden="true">AI</span>
+    <span>GenAI Engineers</span>
+  </a>
+
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">תפריט</button>
+
+  <ul id="site-nav" class="nav-links">
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">פייתון</button>
+      <ul class="dropdown-menu" aria-label="פייתון" hidden>
+        <li><a href="fastapi-crud.html">FastAPI CRUD</a></li>
+        <li><a href="db-validation.html">DB + Validation</a></li>
+        <li><a href="db-sql-vs-nosql.html">SQL vs NoSQL</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">ארכיטקטורה</button>
+      <ul class="dropdown-menu" aria-label="ארכיטקטורה" hidden>
+        <li><a href="architecture.html">Client-Server</a></li>
+        <li><a href="rest-api.html">REST API</a></li>
+        <li><a href="authentication.html">אימות והרשאות</a></li>
+        <li><a href="api-security.html">אבטחת API</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">ענן והפצה</button>
+      <ul class="dropdown-menu" aria-label="ענן והפצה" hidden>
+        <li><a href="cloud-deploy.html">Docker + Cloud Run</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">סוכנים</button>
+      <ul class="dropdown-menu" aria-label="סוכנים" hidden>
+        <li><a href="agents-react.html">ReAct</a></li>
+        <li><a href="rag.html">RAG</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">וייב קודינג</button>
+      <ul class="dropdown-menu" aria-label="וייב קודינג" hidden>
+        <li><a href="vibe.html">vibe</a></li>
+        <li><a href="home-terminal.html">דף הבית - טרמינל</a></li>
+        <li><a href="home-blueprint.html">דף הבית - Blueprint</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false">הקורס</button>
+      <ul class="dropdown-menu" aria-label="הקורס" hidden>
+        <li><a href="syllabus.html">תכנית</a></li>
+        <li><a href="lecturer.html">המרצה</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+</div>
+
+<main id="main" class="container">
+
+<section class="section">
+  <h2>אבטחת API - Security by Design</h2>
+  <p class="kicker">אבטחת API היא לא “תוסף”. היא חלק מהארכיטקטורה: מודל איומים, הגנות שכבתיות, וניהול סיכונים. בפרק הזה נלמד איך להגן על שירותי FastAPI (וגם על שירותים בענן) בצורה סטנדרטית ופרקטית.</p>
+
+  <div class="callout">
+    <p><strong>מטרה:</strong> להפוך API מ"עובד" ל"עמיד": פחות פריצות, פחות דליפות, פחות תקלות תפעוליות, והפתעות נעימות בריאיון עבודה.</p>
+  </div>
+
+  <h3>1) מודל איומים קצר: מה התוקף מנסה לעשות?</h3>
+  <ul>
+    <li><strong>לגנוב נתונים</strong> (PII, מסמכים, תמונות, תוצאות מודל)</li>
+    <li><strong>להפעיל פעולות ללא הרשאה</strong> (מחיקה, שינוי, העלאות)</li>
+    <li><strong>לשבור זמינות</strong> (DoS, rate abuse, ייצור עלויות)</li>
+    <li><strong>לנצל משאבים יקרים</strong> (קריאות LLM, חיפוש וקטורי, GPU)</li>
+  </ul>
+
+  <h3>2) Top mistakes בפרויקטים של API</h3>
+  <div class="grid cols-2">
+    <div class="card">
+      <h4>Broken Authorization</h4>
+      <p>המערכת “מאמתת” משתמש, אבל לא בודקת שהוא מורשה למשאב (IDOR). זה הבאג הכי יקר.</p>
+      <p class="small">דוגמה: <span class="highlight">GET /users/123</span> מחזיר נתונים גם אם אתה משתמש 999.</p>
+    </div>
+    <div class="card">
+      <h4>Secrets בקוד</h4>
+      <p>מפתחות JWT, API keys, credentials - לא נשמרים ב-repo. בפרודקשן רק ENV/Secret Manager.</p>
+    </div>
+    <div class="card">
+      <h4>No rate limiting</h4>
+      <p>endpoint יקר בלי הגנה = הפקת עלויות והפלת שירות. במיוחד בעולמות GenAI.</p>
+    </div>
+    <div class="card">
+      <h4>Input לא מוגבל</h4>
+      <p>קבצים ענקיים, JSON עצום, טקסטים אינסופיים - תוקף יכול להפיל שרת גם בלי “פריצה”.</p>
+    </div>
+  </div>
+
+  <h3>3) שכבות הגנה: Defense in Depth</h3>
+  <p>שכבה אחת לא מספיקה. הפתרון הטוב הוא שילוב:</p>
+  <ul>
+    <li><strong>App:</strong> ולידציה, הרשאות, לוגיקה</li>
+    <li><strong>Gateway/Proxy:</strong> TLS, rate limiting, request size limits</li>
+    <li><strong>DB/Storage:</strong> הרשאות מינימליות, הפרדת נתונים</li>
+    <li><strong>Observability:</strong> לוגים, alerts, audit trail</li>
+  </ul>
+
+  <h3>4) Authentication מול Authorization - איפה אנשים נופלים?</h3>
+  <p>אימות (JWT) אומר “מי אתה”. הרשאות אומרות “מה מותר לך”. רוב הפריצות קורות כשמסתמכים על user_id מה-path או מה-body בלי להשוות לזהות מה-token.</p>
+
+  <div class="code" aria-label="Wrong vs right authorization">
+<pre># לא נכון: סומכים על user_id מהלקוח
+@app.get("/users/{user_id}")
+def get_user(user_id: int):
+    return db.get_user(user_id)
+
+# נכון: מזהות מה-token + בדיקת הרשאה
+@app.get("/me")
+def me(user=Depends(get_current_user)):
+    return db.get_user(user.user_id)</pre>
+  </div>
+
+  <h3>5) Rate limiting ו-Protecting expensive endpoints</h3>
+  <p>מנגנון בסיסי: “כמה בקשות פר משתמש ליחידת זמן”. אפשר ליישם ב-Redis או לשים ברמת gateway.</p>
+
+  <details>
+    <summary>דוגמה רעיונית עם Redis (קונספט)</summary>
+    <div class="content">
+      <div class="code" aria-label="Redis rate limit idea">
+<pre># key: rl:{user_id}:{minute_bucket}
+# INCR + EXPIRE
+# אם עבר threshold - מחזירים 429 Too Many Requests</pre>
+      </div>
+      <p class="small">בפרודקשן נהוג להשתמש ב-Gateway/WAF או ספרייה מוכחת, לא להמציא לבד.</p>
+    </div>
+  </details>
+
+  <h3>6) Input Validation + Schema hardening</h3>
+  <ul>
+    <li><strong>Pydantic</strong> נותן סכימה קשיחה ומונע “שדות מפתיעים”.</li>
+    <li>הגבלת אורכים: text, lists, מספרים.</li>
+    <li>איסור שדות לא מוכרים: <span class="highlight">extra = "forbid"</span>.</li>
+  </ul>
+
+  <div class="code" aria-label="Pydantic forbid extra fields">
+<pre>from pydantic import BaseModel, ConfigDict, Field
+
+class NoteIn(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    title: str = Field(min_length=1, max_length=120)
+    content: str = Field(max_length=10_000)</pre>
+  </div>
+
+  <h3>7) CORS, Cookies ו-CSRF - מה צריך לדעת</h3>
+  <p><strong>CORS</strong> הוא מנגנון דפדפן שמגן על המשתמש, לא על השרת. אם אתה משתמש ב-cookies לאימות, אתה חייב לחשוב גם על <strong>CSRF</strong>. אם אתה משתמש ב-Bearer token ב-header, CSRF פחות רלוונטי, אבל עדיין צריך CORS מדויק.</p>
+
+  <div class="card">
+    <h4>כלל פשוט</h4>
+    <ul>
+      <li>API ל-SPA מודרני: לרוב Bearer tokens, CORS מגודר ל-origin שלך.</li>
+      <li>Cookies: דרוש CSRF token + SameSite + Secure.</li>
+    </ul>
+  </div>
+
+  <h3>8) File uploads: אבטחת העלאות וקבצים</h3>
+  <p>קבצים הם שטח התקפה קלאסי. חשוב להפריד: <strong>Object storage לקבצים</strong> ו-DB למטא-דאטה.</p>
+  <ul>
+    <li>הגבלת גודל העלאה (request size limit).</li>
+    <li>בדיקת content-type וחתימה (מינימום).</li>
+    <li>אחסון פרטי + Signed URLs להורדה.</li>
+    <li>שמות קבצים לא מהלקוח - יצירת key פנימי.</li>
+  </ul>
+
+  <h3>9) Secrets management</h3>
+  <p>סודות הם “דלת אחורית” אם דולפים. בפרודקשן: secrets ב-Secret Manager/ENV, הרשאות מינימליות, ורוטציה.</p>
+
+  <div class="grid cols-2">
+    <div class="card">
+      <h4>מה לא עושים</h4>
+      <ul>
+        <li>מפתח JWT ב-git</li>
+        <li>.env בתוך repo ציבורי</li>
+        <li>אותו סוד לכל סביבה</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>מה כן עושים</h4>
+      <ul>
+        <li>Secret per env (dev/stage/prod)</li>
+        <li>Rotation תקופתי</li>
+        <li>Audit מי ניגש לסוד</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>10) Logging, Audit trail, ופרטיות</h3>
+  <ul>
+    <li>לא לוגים של tokens, סיסמאות, או מידע רגיש.</li>
+    <li>Audit events: login, שינוי role, מחיקות, העלאות.</li>
+    <li>Correlation id לבקשה (כדי לאתר תקלות).</li>
+  </ul>
+
+  <h3>11) Checklist קצר לפרודקשן</h3>
+  <div class="card">
+    <ul>
+      <li>HTTPS בלבד</li>
+      <li>JWT/API keys עם TTL ורוטציה</li>
+      <li>Authorization לכל משאב (אין IDOR)</li>
+      <li>Rate limiting (במיוחד ל-LLM/RAG)</li>
+      <li>Request size limits</li>
+      <li>Secrets ב-Secret Manager</li>
+      <li>Logging זהיר + audit trail</li>
+    </ul>
+  </div>
+
+  <h3>תרגול</h3>
+
+  <details>
+    <summary>שאלות בדיקה (12)</summary>
+    <div class="content">
+      <ol>
+        <li>למה CORS לא “מאבטח את השרת”?</li>
+        <li>מה זה IDOR ולמה הוא נפוץ?</li>
+        <li>מתי CSRF רלוונטי ומתי פחות?</li>
+        <li>מה ההבדל בין 401, 403, 429?</li>
+        <li>למה חשוב להגביל request size?</li>
+        <li>למה endpoints של GenAI נחשבים “יקרים” מבחינת אבטחה?</li>
+        <li>מה הסיכון בהחזקת secrets בקוד?</li>
+        <li>איזה מידע לא כדאי להכניס ללוגים?</li>
+        <li>מה היתרון ב-Signed URLs לקבצים?</li>
+        <li>למה “extra=forbid” יכול להציל אותך?</li>
+        <li>מה ההבדל בין rate limiting ב-app לבין gateway?</li>
+        <li>תן 2 שכבות הגנה שונות שהן לא אותה שכבה.</li>
+      </ol>
+    </div>
+  </details>
+
+  <details>
+    <summary>משימת בית (Hardening ל-CRUD שלך)</summary>
+    <div class="content">
+      <p><strong>מטרה:</strong> להפוך את ה-CRUD שלך לעמיד יותר.</p>
+      <ul>
+        <li>הוסף <span class="highlight">extra="forbid"</span> לכל models.</li>
+        <li>הוסף הגבלת אורך לתוכן (Field max_length).</li>
+        <li>הגן על כל endpoint עם auth, וודא שאין IDOR (notes רק של המשתמש).</li>
+        <li>הוסף rate limit ל-login ול-endpoint היקר ביותר.</li>
+        <li>הוסף upload לקובץ: קובץ נשמר ב-storage (לתרגול אפשר “fake”), וב-DB נשמר רק URL.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>בדיקת פתרון (Checklist)</summary>
+    <div class="content">
+      <ul>
+        <li>אין endpoints שמקבלים user_id מהלקוח כדי לקבוע זהות.</li>
+        <li>כל משאב נבדק מול המשתמש המחובר (ownership או role).</li>
+        <li>קלט מוגבל וסכימה קשיחה (Pydantic).</li>
+        <li>קיימת הגנה על endpoints יקרים (rate limit).</li>
+        <li>הפרדת binary data מה-DB (URL/metadata בלבד).</li>
+        <li>אין secrets ב-repo.</li>
+      </ul>
+    </div>
+  </details>
+</section>
+
+</main>
+
+<footer class="footer">
+  <p>🌐 מפתחי בינה מלאכותית - GenAI Engineers | חגי און</p>
+  <p class="muted">אתר סטטי: HTML + CSS + JavaScript - קבצים משותפים לקאש דפדפן</p>
+</footer>
+
+<script src="assets/app.js?v=20260107094522" defer></script>
+</body>
+</html>

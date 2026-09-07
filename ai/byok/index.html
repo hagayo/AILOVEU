@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AILOVEU -> BYOK LLMs Playground testing page</title>
+  <meta name="description" content="Author: Hagay Onn, Category: Tutorial example page, 
+    Content: Bring-Your-Own-Key (BYOK) LLMs playground page, for free try and usage by students.">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Free LLMs Playground page, enabling students to try different LLMs from the browser using their own API-Keys (BYOK)">
+  <meta property="og:image" content="https://ailoveu.art/ai/byok/ailoveu-128.png">
+  <meta property="og:site_name" content="AILOVEU LLMs Playground">
+  <meta property="og:url" content="https://ailoveu.art/ai/byok/index.html">
+  <meta property="og:type" content="website">
+  <meta property="og:description" content="Author: Hagay Onn, Category: Tutorial example page, 
+    Content: Bring-Your-Own-Key (BYOK) LLMs playground page, for free try and usage by students.">
+  <meta name="twitter:title" content="AILOVEU LLMs Playground page">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:description" content="Author: Hagay Onn, Category: Tutorial example page, 
+    Content: Bring-Your-Own-Key (BYOK) LLMs playground page, for free try and usage by students.">
+  <meta name="twitter:site" content="@HagayOnn45271">
+  <meta name="twitter:creator" content="@HagayOnn45271">
+  <meta name="author" content="Hagay Onn">
+  <meta name="theme-color" content="#d5f5d6">
+  <link rel="icon" sizes="192x192" href="./ailoveu-128.png">
+  <link rel="apple-touch-icon" href="./ailoveu-128.png">
+  <link rel="canonical" href="https://ailoveu.art/ai/byok/index.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="noise"></div>
+
+  <header class="header">
+    <div class="header-inner">
+
+      <!-- ① Logo now links to the brand site -->
+      <div class="logo">
+        <a href="https://ailoveu.art" target="_blank" rel="noopener noreferrer">
+          <h1>[LLMs PLAYGROUND page - by AILOVEU]</h1>
+        </a>
+      </div>
+
+      <div class="header-meta">
+        <span class="badge">BYOK</span>
+        <span class="version">v1.0</span>
+
+        <!-- ④ Dark / Light toggle moved here from the controls panel -->
+        <button class="theme-toggle-btn" id="theme-toggle-btn"
+                title="Toggle dark / light mode" aria-label="Toggle theme">
+          <!-- Sun icon — shown in dark mode -->
+          <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1"  x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22"  x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1"  y1="12" x2="3"  y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+          <!-- Moon icon — shown in light mode -->
+          <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- LEFT PANEL: Controls -->
+    <section class="panel panel-controls">
+      <div class="panel-label">CONFIGURE</div>
+
+      <!-- Provider Selection -->
+      <div class="field-group">
+        <p class="field-label">Provider</p>
+        <div class="segmented" id="provider-segmented" role="group" aria-label="Provider">
+          <button class="seg-btn active" data-provider="claude">Claude</button>
+          <button class="seg-btn" data-provider="openai">ChatGPT</button>
+          <button class="seg-btn" data-provider="gemini">Gemini</button>
+        </div>
+        <input type="hidden" id="provider" value="claude" />
+      </div>
+
+      <!-- Model Selection -->
+      <div class="field-group">
+        <label class="field-label" for="model">Model</label>
+        <div class="select-wrapper">
+          <select id="model"></select>
+          <span class="select-arrow">▾</span>
+        </div>
+      </div>
+
+      <!-- API Key -->
+      <div class="field-group">
+        <label class="field-label" for="api-key">
+          API Key
+          <span class="field-hint" id="key-hint">anthropic.com</span>
+        </label>
+        <div class="input-wrapper">
+          <input
+            type="password"
+            id="api-key"
+            placeholder="sk-ant-••••••••••••••••••"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <button class="toggle-visibility" id="toggle-key" title="Show/hide key" aria-label="Toggle key visibility">
+            <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- ② Save-key row: checkbox + forget button -->
+        <div class="save-key-row">
+          <label class="save-key-label">
+            <input type="checkbox" id="save-key-checkbox" checked />
+            Remember key in this browser
+          </label>
+          <button class="btn-forget-key" id="btn-forget-key" title="Delete saved key from browser storage">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="3 6 5 6 21 6"/>
+              <path d="M19 6l-1 14H6L5 6"/>
+              <path d="M10 11v6M14 11v6"/>
+              <path d="M9 6V4h6v2"/>
+            </svg>
+            Forget
+          </button>
+        </div>
+
+        <p class="security-note">🔒 Your key is <strong>never</strong> sent to our servers — only to your chosen LLM provider.</p>
+      </div>
+
+      <!-- System Prompt -->
+      <div class="field-group">
+        <label class="field-label">
+          System Prompt
+          <button class="inline-btn" id="toggle-system-prompt">edit</button>
+        </label>
+        <div class="system-prompt-preview" id="system-prompt-preview">
+          You are a helpful, concise assistant. Answer clearly and directly.
+        </div>
+        <textarea
+          id="system-prompt"
+          class="hidden"
+          rows="4"
+          maxlength="1000"
+          placeholder="Define assistant behavior..."
+        >You are a helpful, concise assistant. Answer clearly and directly.</textarea>
+      </div>
+
+      <!-- Temperature -->
+      <div class="field-group">
+        <label class="field-label" for="temperature">
+          Temperature
+          <span class="field-value" id="temp-value">0.7</span>
+        </label>
+        <input type="range" id="temperature" min="0" max="2" step="0.1" value="0.7" class="slider" />
+        <div class="slider-labels"><span>Precise</span><span>Creative</span></div>
+      </div>
+
+      <!-- MaxTokens Slider -->
+      <div class="field-group">
+        <label class="field-label" for="tokens-slider">
+          Max Tokens (Output)
+          <span class="field-value" id="tokens-value">1024</span>
+        </label>
+        <input type="range" id="tokens-slider" min="512" max="4096" step="512" value="1024" class="slider" />
+        <div class="slider-labels"><span>Small</span><span>Large</span></div>
+      </div>
+
+      <!-- ④ Dark/Light Mode slider REMOVED — toggle is now in the header -->
+
+    </section>
+
+    <!-- RIGHT PANEL: Chat -->
+    <section class="panel panel-chat">
+      <div class="panel-label">INTERACT</div>
+
+      <div class="chat-window" id="chat-window">
+        <div class="chat-empty" id="chat-empty">
+          <div class="empty-icon">⬡</div>
+          <p>Configure your provider and key,<br/>then send a message to begin.</p>
+        </div>
+      </div>
+
+      <div class="input-area" dir="auto">
+        <div class="textarea-wrapper">
+          <textarea
+            id="user-input"
+            placeholder="Type your message… (up to 2000 characters)"
+            maxlength="2000"
+            rows="3"
+          ></textarea>
+          <div class="char-counter">
+            <span id="char-count">0</span><span>/2000</span>
+          </div>
+        </div>
+        <div class="input-actions">
+          <button class="btn-clear" id="btn-clear" title="Clear chat">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="3 6 5 6 21 6"/>
+              <path d="M19 6l-1 14H6L5 6"/>
+              <path d="M10 11v6M14 11v6"/>
+              <path d="M9 6V4h6v2"/>
+            </svg>
+            Clear
+          </button>
+          <button class="btn-send" id="btn-send">
+            <span id="btn-text">Send</span>
+            <svg id="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="22" y1="2" x2="11" y2="13"/>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+            <div class="spinner hidden" id="spinner"></div>
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <span><strong>All API-Keys are processed on client-side only! Never transmitted to any third-party — just to your chosen LLM provider.</strong></span>
+    <p>This is an LLMs BYOK playground webpage using direct browser calls to LLM APIs.</p>
+    <p>Previously these calls were blocked for CORS reasons; now enabled via special headers for test/demo usage.</p>
+    <p>This is a demonstration webpage for my students.</p>
+  </footer>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
