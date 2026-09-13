@@ -1,4 +1,5 @@
-# Particle Lab — Startup Optimized
+# Particles Lab - V6.2.0
+# by Hagay Onn & AILOVEU (ailoveu.art)
 
 Vanilla HTML/CSS/JavaScript. No build step, no modules, no Base64, no server dependency.
 
@@ -31,7 +32,8 @@ An optional real-browser recording regression check requires Playwright, Chrome 
 node tests/recording-browser-check.cjs recording-check.webm
 ```
 
-It records animation, simulates a hidden tab with suspended animation callbacks for three seconds, resumes, and verifies that the downloaded WebM excludes the hidden interval without a long frame gap.
+It records animation, simulates a hidden tab with suspended animation callbacks for three seconds, resumes, and verifies that the downloaded WebM excludes the hidden interval without a long frame gap and declares a finite duration matching its encoded timestamps.
+
 ## Sampling model
 
 - Particle capacity: `MAX_PARTICLES = 24000`
@@ -51,6 +53,8 @@ Selecting another demo or uploading an image morphs the current particle field i
 Morph speed is adjustable from 0.4 to 5 seconds. Direct, Swirl, Explode, Wave, Gravity drop and per-transition Random paths are available. Wave is the default path, while Auto Morph cycles through the built-in demos with a short pause between transitions.
 
 ## Interaction effects and recording
+
+Before downloading, WebM recordings are finalized with explicit duration metadata derived from encoded frame timestamps. This prevents upload services from guessing an incorrect length for the browser's streaming WebM output. Finalization preserves encoded video data and keeps the record button locked until saving finishes.
 
 Canvas clicks, touch gestures and the Play button can trigger Mirror Rise, Center Bloom, Sweep Wave, Letter Scramble, Shatter, Vortex Line, Glitch Slices, Pixel Rain, Shockwave, Spiral, Explosion, Implosion, Letter Spin, Domino or Elastic Stretch. Mirror Rise sends the particle field toward a vertical reflection before the spring restores it, while Center Bloom expands gradually from the image center and settles back. Text particles retain their letter group so letter-aware effects move glyphs coherently; images use spatial equivalents. Random uses a Shuffle Bag, so every effect appears once before any effect repeats and the same effect cannot bridge two bags consecutively.
 
