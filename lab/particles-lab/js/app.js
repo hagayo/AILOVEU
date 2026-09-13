@@ -152,8 +152,9 @@
     autoMorph: false,
     nextAutoMorphTime: Infinity,
     recorder: null,
-    recordingChunks: null,
-    recordingStream: null
+    recordingStream: null,
+    recordingTrack: null,
+    lastRecordingFrame: -Infinity
   };
 
   const x = new Float32Array(MAX_PARTICLES);
@@ -661,6 +662,7 @@
     runEffectAutomation(now);
     simulate();
     render(now);
+    captureRecordingFrame(now);
     state.fpsFrames++;
     if (now - state.fpsTime >= 500) {
       ui.hudFps.textContent = String(Math.round(state.fpsFrames * 1000 / (now - state.fpsTime)));
@@ -918,7 +920,7 @@
   }
 
   function getRecordingMimeType() {
-    const types = ['video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm'];
+    const types = ['video/webm;codecs=vp8', 'video/webm;codecs=vp9', 'video/webm'];
     for (let i = 0; i < types.length; i++) {
       if (MediaRecorder.isTypeSupported(types[i])) return types[i];
     }
@@ -926,52 +928,89 @@
   }
 
   function resetRecordingUi() {
+    ui.record.disabled = false;
     ui.record.textContent = 'Record WebM';
     ui.record.classList.remove('active');
     ui.record.setAttribute('aria-pressed', 'false');
   }
 
+  function captureRecordingFrame(now) {
+    const recorder = state.recorder;
+    if (!recorder || document.hidden) return;
+    // Resume only after a fresh render, so the hidden tab's last frame isn't extended.
+    if (recorder.state === 'paused') recorder.resume();
+    if (recorder.state !== 'recording' || !state.recordingTrack) return;
+    if (now - state.lastRecordingFrame < 1000 / RECORDING_FPS - 0.5) return;
+    state.recordingTrack.requestFrame();
+    state.lastRecordingFrame = now;
+  }
+
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden && state.recorder && state.recorder.state === 'recording') {
+      state.recorder.pause();
+      setStatus('Recording paused while this tab is hidden.');
+    } else if (!document.hidden && state.recorder && state.recorder.state === 'paused') {
+      setStatus('Recording WebM…');
+    }
+  });
+
   function startRecording() {
+    if (state.recorder) return;
     if (typeof MediaRecorder === 'undefined' || typeof canvas.captureStream !== 'function') {
       setStatus('WebM recording is not supported by this browser.');
       return;
     }
-    const stream = canvas.captureStream(RECORDING_FPS);
     const mimeType = getRecordingMimeType();
     if (!mimeType) {
-      stream.getTracks().forEach(function (track) { track.stop(); });
       setStatus('WebM recording is not supported by this browser.');
       return;
     }
+    let stream;
+    let captureTrack;
     let recorder;
     try {
+      // Capture completed renders instead of sampling the canvas on a separate timer.
+      stream = canvas.captureStream(0);
+      captureTrack = stream.getVideoTracks()[0];
+      if (!captureTrack || typeof captureTrack.requestFrame !== 'function') {
+        stream.getTracks().forEach(function (track) { track.stop(); });
+        stream = canvas.captureStream(RECORDING_FPS);
+        captureTrack = null;
+      }
       recorder = new MediaRecorder(stream, { mimeType });
     } catch (error) {
-      stream.getTracks().forEach(function (track) { track.stop(); });
+      if (stream) stream.getTracks().forEach(function (track) { track.stop(); });
       console.error(error);
       setStatus('Could not start WebM recording.');
       return;
     }
     state.recorder = recorder;
     state.recordingStream = stream;
-    state.recordingChunks = [];
+    state.recordingTrack = captureTrack;
+    state.lastRecordingFrame = -Infinity;
+    const chunks = [];
+    let failed = false;
+    function cleanup() {
+      stream.getTracks().forEach(function (track) { track.stop(); });
+      state.recorder = null;
+      state.recordingStream = null;
+      state.recordingTrack = null;
+      resetRecordingUi();
+    }
     recorder.ondataavailable = function (event) {
-      if (event.data && event.data.size) state.recordingChunks.push(event.data);
+      if (event.data && event.data.size) chunks.push(event.data);
     };
     recorder.onerror = function (event) {
+      failed = true;
       console.error(event.error || event);
+      if (recorder.state !== 'inactive') recorder.stop();
+      stream.getTracks().forEach(function (track) { track.stop(); });
       setStatus('WebM recording failed.');
     };
     recorder.onstop = function () {
-      const chunks = state.recordingChunks || [];
       const type = recorder.mimeType || 'video/webm';
-      if (state.recordingStream) {
-        state.recordingStream.getTracks().forEach(function (track) { track.stop(); });
-      }
-      state.recorder = null;
-      state.recordingStream = null;
-      state.recordingChunks = null;
-      resetRecordingUi();
+      cleanup();
+      if (failed) return;
       if (!chunks.length) {
         setStatus('No video frames were recorded.');
         return;
@@ -984,7 +1023,15 @@
       setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
       setStatus('WebM recording saved.');
     };
-    recorder.start(250);
+    try {
+      recorder.start(250);
+      if (document.hidden) recorder.pause();
+    } catch (error) {
+      cleanup();
+      console.error(error);
+      setStatus('Could not start WebM recording.');
+      return;
+    }
     ui.record.textContent = 'Stop recording';
     ui.record.classList.add('active');
     ui.record.setAttribute('aria-pressed', 'true');
@@ -992,10 +1039,15 @@
   }
 
   function toggleRecording() {
-    if (state.recorder && state.recorder.state !== 'inactive') {
-      state.recorder.stop();
-    } else {
+    if (!state.recorder) {
       startRecording();
+    } else if (state.recorder.state !== 'inactive') {
+      state.recorder.stop();
+      // End capture immediately; keep this session locked until its final data arrives.
+      state.recordingStream.getTracks().forEach(function (track) { track.stop(); });
+      state.recordingTrack = null;
+      ui.record.disabled = true;
+      ui.record.textContent = 'Saving recording…';
     }
   }
 
