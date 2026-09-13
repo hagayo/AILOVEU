@@ -3,7 +3,7 @@
   "version": "1.2.0",
   "private": true,
   "scripts": {
-    "test": "node --test tests/project.test.cjs",
-    "check": "node --check js/app.js && node --check js/tutorial.js && node --test tests/project.test.cjs"
+    "test": "node --test tests/project.test.cjs tests/recording.test.cjs",
+    "check": "node --check js/app.js && node --check js/tutorial.js && npm test"
   }
 }
