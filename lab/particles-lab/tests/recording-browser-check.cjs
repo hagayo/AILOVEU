@@ -40,13 +40,17 @@ const { execFileSync } = require('node:child_process');
     await page.waitForFunction(() => document.getElementById('recordButton').textContent === 'Record WebM');
     assert.deepEqual(errors, []);
     const probe = JSON.parse(execFileSync('ffprobe', ['-v', 'error', '-select_streams', 'v:0',
-      '-show_entries', 'packet=pts_time', '-of', 'json', output], { encoding: 'utf8' }));
+      '-show_entries', 'packet=pts_time:format=duration', '-of', 'json', output], { encoding: 'utf8' }));
     const timestamps = probe.packets.map(packet => Number(packet.pts_time));
     const duration = timestamps.at(-1);
     const maxGap = Math.max(...timestamps.slice(1).map((time, i) => time - timestamps[i]));
     assert.ok(duration > 3 && duration < 5.5, `Hidden time leaked into video: ${duration}s`);
     assert.ok(maxGap < 0.5, `Frozen-frame timestamp gap: ${maxGap}s`);
-    console.log(JSON.stringify({ saved: output, duration, maxGap, errors }));
+    const declaredDuration = Number(probe.format.duration);
+    assert.ok(Number.isFinite(declaredDuration), 'Missing duration metadata');
+    assert.ok(declaredDuration >= duration && declaredDuration - duration < 0.5,
+      `Incorrect declared duration: ${declaredDuration}s vs final packet ${duration}s`);
+    console.log(JSON.stringify({ saved: output, duration, declaredDuration, maxGap, errors }));
   } finally {
     await browser.close();
   }
