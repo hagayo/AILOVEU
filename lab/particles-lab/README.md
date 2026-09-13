@@ -25,6 +25,13 @@ npm test
 npm run check
 ```
 
+An optional real-browser recording regression check requires Playwright, Chrome and `ffprobe` on PATH:
+
+```bash
+node tests/recording-browser-check.cjs recording-check.webm
+```
+
+It records animation, simulates a hidden tab with suspended animation callbacks for three seconds, resumes, and verifies that the downloaded WebM excludes the hidden interval without a long frame gap.
 ## Sampling model
 
 - Particle capacity: `MAX_PARTICLES = 24000`
@@ -49,7 +56,7 @@ Canvas clicks, touch gestures and the Play button can trigger Mirror Rise, Cente
 
 Section 08 builds one numbered Effects Sequence by adding effects in the intended order. A one-item sequence repeats that effect, while longer sequences loop in insertion order or through a Shuffle Bag. Items can be removed individually or the sequence can be cleared, the interval is adjustable, and automation always pauses while an image Morph is active.
 
-Record WebM captures the canvas at 60 FPS until the same button is pressed again, then downloads the recording locally when the browser supports `canvas.captureStream()` and `MediaRecorder`.
+Record WebM captures completed canvas renders at up to 60 FPS until the same button is pressed again, then downloads the recording locally when the browser supports `canvas.captureStream()` and `MediaRecorder`. Recording pauses while the tab is hidden and resumes after a fresh render, excluding time when the animation is suspended. VP8 is preferred for real-time encoding, with VP9/WebM fallbacks; browsers without manual frame capture use timed capture. Stopping ends capture immediately and waits for the final video data before allowing another recording.
 
 ## Tutorial
 
