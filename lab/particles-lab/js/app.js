@@ -927,6 +927,123 @@
     return '';
   }
 
+  // MediaRecorder produces a streaming WebM without a finalized duration. Read
+  // encoded timestamps (not wall time, which includes pauses) before downloading.
+  async function finalizeRecordingWebM(blob) {
+    const bytes = new Uint8Array(await blob.arrayBuffer());
+    function vint(offset, keepMarker) {
+      const first = bytes[offset];
+      let width = 1, marker = 0x80;
+      while (width <= 8 && !(first & marker)) { width++; marker >>= 1; }
+      if (width > 8 || offset + width > bytes.length) throw new Error('Invalid WebM integer');
+      let value = keepMarker ? first : first & (marker - 1);
+      let unknown = !keepMarker && value === marker - 1;
+      for (let i = 1; i < width; i++) {
+        value = value * 256 + bytes[offset + i];
+        unknown = unknown && bytes[offset + i] === 255;
+      }
+      return { width, value, unknown };
+    }
+    function element(offset, limit) {
+      const id = vint(offset, true);
+      const size = vint(offset + id.width, false);
+      const start = offset + id.width + size.width;
+      const end = size.unknown ? limit : start + size.value;
+      if (start > limit || end > limit) throw new Error('Truncated WebM element');
+      return { id: id.value, offset, start, end, unknown: size.unknown };
+    }
+    function children(start, end) {
+      const result = [];
+      while (start < end) {
+        const item = element(start, end);
+        if (item.unknown) throw new Error('Unexpected unknown WebM element size');
+        result.push(item);
+        start = item.end;
+      }
+      return result;
+    }
+    function uint(item) {
+      let value = 0;
+      for (let i = item.start; i < item.end; i++) value = value * 256 + bytes[i];
+      return value;
+    }
+    function sizeBytes(value) {
+      let width = 1;
+      while (value >= 2 ** (7 * width) - 1) width++;
+      const result = new Uint8Array(width);
+      for (let i = width - 1; i >= 0; i--) { result[i] = value % 256; value = Math.floor(value / 256); }
+      result[0] |= 1 << (8 - width);
+      return result;
+    }
+    const header = element(0, bytes.length);
+    if (header.id !== 0x1a45dfa3) throw new Error('Missing WebM header');
+    const segment = element(header.end, bytes.length);
+    if (segment.id !== 0x18538067 || segment.end !== bytes.length) throw new Error('Invalid WebM segment');
+    const parts = [];
+    let info, scale = 1000000, last = -1, previous = -1, explicitEnd = 0;
+    // Unknown-sized clusters end at the next Segment-level element.
+    const levelOne = [0x1f43b675, 0x1549a966, 0x1654ae6b, 0x114d9b74, 0x1c53bb6b, 0x1254c367, 0x1941a469, 0x1043a770];
+    function blockTime(block, base, duration) {
+      const track = vint(block.start, false);
+      const pos = block.start + track.width;
+      if (pos + 3 > block.end) throw new Error('Truncated WebM block');
+      let relative = bytes[pos] * 256 + bytes[pos + 1];
+      if (relative >= 32768) relative -= 65536;
+      const time = base + relative;
+      if (time > last) { previous = last; last = time; }
+      if (duration) explicitEnd = Math.max(explicitEnd, time + duration);
+    }
+    for (let pos = segment.start; pos < segment.end;) {
+      const item = element(pos, segment.end);
+      if (item.id === 0x1f43b675) {
+        let base = 0;
+        for (let cursor = item.start; cursor < item.end;) {
+          const child = element(cursor, item.end);
+          if (item.unknown && levelOne.includes(child.id)) { item.end = cursor; break; }
+          if (child.unknown) throw new Error('Invalid WebM cluster child');
+          if (child.id === 0xe7) base = uint(child);
+          if (child.id === 0xa3) blockTime(child, base, 0);
+          if (child.id === 0xa0) {
+            const group = children(child.start, child.end);
+            const block = group.find(entry => entry.id === 0xa1);
+            const duration = group.find(entry => entry.id === 0x9b);
+            if (block) blockTime(block, base, duration ? uint(duration) : 0);
+          }
+          cursor = child.end;
+        }
+      } else if (item.unknown) throw new Error('Invalid streaming WebM');
+      if (item.id === 0x1549a966) {
+        info = item;
+        const timestampScale = children(item.start, item.end).find(entry => entry.id === 0x2ad7b1);
+        if (timestampScale) scale = uint(timestampScale);
+      }
+      parts.push(item);
+      pos = item.end;
+    }
+    if (!info || last < 0 || scale <= 0) throw new Error('WebM has no timing information');
+    const finalFrame = previous >= 0 ? last - previous : 1000000000 / RECORDING_FPS / scale;
+    const duration = new Uint8Array(11);
+    duration.set([0x44, 0x89, 0x88]);
+    new DataView(duration.buffer).setFloat64(3, Math.max(explicitEnd, last + finalFrame));
+    // Drop old duration/CRC and indexes whose byte offsets would change when Info grows.
+    const infoParts = children(info.start, info.end)
+      .filter(item => item.id !== 0x4489 && item.id !== 0xbf)
+      .map(item => bytes.subarray(item.offset, item.end));
+    infoParts.push(duration);
+    const infoSize = infoParts.reduce((total, part) => total + part.length, 0);
+    const body = [];
+    for (const item of parts) {
+      if ([0x114d9b74, 0x1c53bb6b, 0xbf].includes(item.id)) continue;
+      if (item === info) body.push(new Uint8Array([0x15, 0x49, 0xa9, 0x66]), sizeBytes(infoSize), ...infoParts);
+      else if (item.id === 0x1f43b675) body.push(new Uint8Array([0x1f, 0x43, 0xb6, 0x75]),
+        sizeBytes(item.end - item.start), bytes.subarray(item.start, item.end));
+      else body.push(bytes.subarray(item.offset, item.end));
+    }
+    const bodySize = body.reduce((total, part) => total + part.length, 0);
+    return new Blob([bytes.subarray(0, segment.offset), new Uint8Array([0x18, 0x53, 0x80, 0x67]),
+      sizeBytes(bodySize), ...body], { type: blob.type });
+  }
+
   function resetRecordingUi() {
     ui.record.disabled = false;
     ui.record.textContent = 'Record WebM';
@@ -1007,15 +1124,27 @@
       stream.getTracks().forEach(function (track) { track.stop(); });
       setStatus('WebM recording failed.');
     };
-    recorder.onstop = function () {
+    recorder.onstop = async function () {
       const type = recorder.mimeType || 'video/webm';
-      cleanup();
-      if (failed) return;
+      if (failed) { cleanup(); return; }
       if (!chunks.length) {
+        cleanup();
         setStatus('No video frames were recorded.');
         return;
       }
-      const url = URL.createObjectURL(new Blob(chunks, { type }));
+      ui.record.disabled = true;
+      ui.record.textContent = 'Saving recording…';
+      let blob;
+      try {
+        blob = await finalizeRecordingWebM(new Blob(chunks, { type }));
+      } catch (error) {
+        console.error(error);
+        cleanup();
+        setStatus('Could not finalize WebM recording. Please try recording again.');
+        return;
+      }
+      cleanup();
+      const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
       link.download = 'particle-lab-recording.webm';
