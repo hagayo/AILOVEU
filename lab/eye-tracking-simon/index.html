@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="he" dir="rtl" prefix="og: https://ogp.me/ns#">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-965B4QWVB4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-965B4QWVB4');
+  </script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <title>זיכרון בצבע — משחק פנים וצלילים</title>
+  <meta name="description" content="משחק זיכרון צבעוני עם חמש פנים וצלילים: צפו ברצף, חזרו עליו ובדקו עד לאיזה שלב תגיעו. שלוש רמות קושי, למשחק במחשב ובטלפון.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="copyright" content="© 2026 חגי און / Hagay Onn and ailoveu.art. All rights reserved.">
+  <meta name="theme-color" content="#071315">
+  <meta name="author" content="HAGAY ONN"/>
+  <link rel="canonical" href="https://ailoveu.art/lab/eye-track-simon/index.html">
+  <link rel="image_src" href="https://ailoveu.art/lab/eye-track-simon/assets/original.webp">
+  <!-- Static social metadata: readable by crawlers without running JavaScript. -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ailoveu.art/lab/eye-track-simon/index.html">
+  <meta property="og:locale" content="he_IL">
+  <meta property="og:site_name" content="זיכרון בצבע">
+  <meta property="og:title" content="זיכרון בצבע — משחק פנים וצלילים">
+  <meta property="og:description" content="משחק זיכרון צבעוני עם חמש פנים וצלילים: צפו ברצף, חזרו עליו ובדקו עד לאיזה שלב תגיעו. שלוש רמות קושי, למשחק במחשב ובטלפון.">
+  <meta property="og:image" content="https://ailoveu.art/lab/eye-track-simon/assets/original.webp">
+  <meta property="og:image:secure_url" content="https://ailoveu.art/lab/eye-track-simon/assets/original.webp">
+  <meta property="og:image:type" content="image/webp">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="1536">
+  <meta property="og:image:alt" content="תמונת המשחק: דיוקן נשים בצבעים טבעי, כחול, ירוק, צהוב וכתום.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://ailoveu.art/lab/eye-track-simon/assets/original.webp">
+  <meta name="twitter:title" content="זיכרון בצבע — משחק פנים וצלילים">
+  <meta name="twitter:description" content="משחק זיכרון צבעוני עם חמש פנים וצלילים: צפו ברצף, חזרו עליו ובדקו עד לאיזה שלב תגיעו. שלוש רמות קושי, למשחק במחשב ובטלפון.">
+  <meta name="twitter:image:alt" content="תמונת המשחק: דיוקן נשים בצבעים טבעי, כחול, ירוק, צהוב וכתום.">
+  <link rel="preload" href="assets/background-clean.webp" as="image">
+  <link rel="preload" href="assets/iris-base.png" as="image">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main class="scene" aria-label="תמונת הפנים — לחצו על הפנים כדי לחזור על הרצף" data-i18n-aria-label="תמונת הפנים — לחצו על הפנים כדי לחזור על הרצף">
+    <img
+      id="fallbackImage" class="scene__fallback" src="assets/original.webp"
+      alt="דיוקן של נשים בצבעים טבעי, כחול, ירוק, צהוב וכתום, ופנים נוספות בקצה השמאלי"
+      data-i18n-alt="דיוקן של נשים בצבעים טבעי, כחול, ירוק, צהוב וכתום, ופנים נוספות בקצה השמאלי"
+      draggable="false" fetchpriority="low"
+    >
+    <canvas id="sceneCanvas" class="is-hidden" aria-hidden="true"></canvas>
+    <p id="statusMessage" class="status" role="status" aria-live="polite">
+      <span data-i18n="טוען את התמונה…">טוען את התמונה…</span>
+    </p>
+    <noscript>
+      <p class="status status--error"><span data-i18n="כדי לשחק צריך להפעיל JavaScript בדפדפן.">כדי לשחק צריך להפעיל JavaScript בדפדפן.</span></p>
+    </noscript>
+  </main>
+
+  <!-- <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="hagayol" data-color="#FFDD00" data-emoji="☕" data-font="Cookie" data-text="Buy me Coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ></script>   -->
+  <a class="buy-me-coffee" href="https://www.buymeacoffee.com/hagayol" target="_blank">
+    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me Coffee" style="height: 40px !important;width: 180px !important;" >
+  </a>
+  <button id="languageToggle" class="language-toggle" type="button" lang="en" aria-label="Switch to English">English</button>
+  <button id="playButton" class="play-button" type="button" aria-controls="gamePanel" aria-expanded="false" disabled><span data-i18n="לשחק!">לשחק!</span></button>
+
+  <section class="game-panel" id="gamePanel" aria-label="לוח המשחק" data-i18n-aria-label="לוח המשחק" data-phase="idle" hidden>
+    <header class="game-hud" id="gameHud">
+      <h1><span data-i18n="זיכרון בצבע">זיכרון בצבע</span></h1>
+      <button id="muteButton" class="quiet-button" type="button" aria-pressed="false" aria-label="השתקת צלילים" data-i18n-aria-label="השתקת צלילים"><span data-i18n="צליל פעיל ♪">צליל פעיל ♪</span></button>
+      <button id="vibrateButton" class="quiet-button" type="button" aria-pressed="false" aria-label="כיבוי רטט" data-i18n-aria-label="כיבוי רטט"><span data-i18n="רטט פעיל">רטט פעיל</span></button>
+      <button id="exitButton" class="close-button" type="button" aria-label="סגור משחק וחזור לתמונה" data-i18n-aria-label="סגור משחק וחזור לתמונה" title="חזרה לתמונה" data-i18n-title="חזרה לתמונה">×</button>
+    </header>
+    <div class="game-stats" aria-label="נתוני המשחק" data-i18n-aria-label="נתוני המשחק">
+      <span><span data-i18n="שלב">שלב</span> <strong id="roundValue">—</strong></span>
+      <span><span data-i18n="אורך הרצף">אורך הרצף</span> <strong id="lengthValue">3</strong></span>
+      <span id="timeWrap" hidden><span data-i18n="נותרו">נותרו</span> <strong id="timeValue" role="timer" aria-live="off">—</strong></span>
+    </div>
+    <div class="game-message" role="status" aria-live="polite" aria-atomic="true">
+      <h2 id="gameMessage"><span data-i18n="חמש פנים. כמה תצליחו לזכור?">חמש פנים. כמה תצליחו לזכור?</span></h2>
+      <p id="gameHint"><span data-i18n="צפו ברצף, הקשיבו לצלילים וחזרו עליו בלחיצה על הפנים.">צפו ברצף, הקשיבו לצלילים וחזרו עליו בלחיצה על הפנים.</span></p>
+    </div>
+    <aside id="friendChallenge" class="friend-challenge" hidden>
+      <strong data-i18n="נראה אם תעבור אותי!">נראה אם תעבור אותי!</strong>
+      <p id="friendTarget"></p>
+      <button id="leaveChallenge" class="secondary-button" type="button" data-i18n="למשחק רגיל">למשחק רגיל</button>
+    </aside>
+    <aside class="achievements-card" aria-label="כרטיס הישגים" data-i18n-aria-label="כרטיס הישגים">
+      <div class="achievements-heading"><strong><span data-i18n="הישגים">הישגים</span></strong></div>
+      <div class="achievement-grid">
+        <span><span data-i18n="שיא רצף ארוך">שיא רצף ארוך</span> <b id="achievementLongest">—</b></span>
+        <span><span data-i18n="שיא ציון זיכרון">שיא ציון זיכרון</span> <b id="achievementScore">—</b></span>
+        <span><span data-i18n="שיא מהירות זיכרון">שיא מהירות זיכרון</span> <b id="achievementSpeed">—</b></span>
+      </div>
+    </aside>
+    <div class="result-summary" id="resultSummary" hidden>
+      <strong><span data-i18n="תוצאת המשחק הנוכחי">תוצאת המשחק הנוכחי</span></strong>
+      <div class="result-grid">
+        <span><span data-i18n="הרצף הארוך שהושלם">הרצף הארוך שהושלם</span> <b id="resultLength">—</b></span>
+        <span><span data-i18n="ציון זיכרון">ציון זיכרון</span> <b id="resultScore">—</b></span>
+        <span><span data-i18n="מהירות זיכרון">מהירות זיכרון</span> <b id="resultSpeed">—</b></span>
+      </div>
+    </div>
+    <div class="answer-progress" hidden><span id="answerProgress"></span><span id="levelCaption"></span></div>
+    <div class="timer-track" id="timerTrack" hidden><div id="timerFill"></div></div>
+    <div class="face-keys" role="group" aria-label="לחיצה על פנים או שימוש במקשים 1 עד 5" data-i18n-aria-label="לחיצה על פנים או שימוש במקשים 1 עד 5">
+      <button type="button" data-face="0" class="face-key face-key--natural" disabled aria-label="פנים בצבע טבעי, מקש 1" data-i18n-aria-label="פנים בצבע טבעי, מקש 1"><span class="color-dot"></span><span data-i18n="טבעי">טבעי</span><kbd>1</kbd></button>
+      <button type="button" data-face="1" class="face-key face-key--blue" disabled aria-label="פנים כחולות, מקש 2" data-i18n-aria-label="פנים כחולות, מקש 2"><span class="color-dot"></span><span data-i18n="כחול">כחול</span><kbd>2</kbd></button>
+      <button type="button" data-face="2" class="face-key face-key--green" disabled aria-label="פנים ירוקות, מקש 3" data-i18n-aria-label="פנים ירוקות, מקש 3"><span class="color-dot"></span><span data-i18n="ירוק">ירוק</span><kbd>3</kbd></button>
+      <button type="button" data-face="3" class="face-key face-key--yellow" disabled aria-label="פנים צהובות, מקש 4" data-i18n-aria-label="פנים צהובות, מקש 4"><span class="color-dot"></span><span data-i18n="צהוב">צהוב</span><kbd>4</kbd></button>
+      <button type="button" data-face="4" class="face-key face-key--orange" disabled aria-label="פנים כתומות, מקש 5" data-i18n-aria-label="פנים כתומות, מקש 5"><span class="color-dot"></span><span data-i18n="כתום">כתום</span><kbd>5</kbd></button>
+    </div>
+    <div class="game-controls">
+      <label class="level-picker" for="difficulty"><span data-i18n="רמת קושי">רמת קושי</span><select id="difficulty"><option value="beginner" data-i18n="מתחילים · ללא הגבלת זמן">מתחילים · ללא הגבלת זמן</option><option value="advanced" data-i18n="מתקדמים · 10 שניות לכל פנים">מתקדמים · 10 שניות לכל פנים</option><option value="champion" data-i18n="אלופי־על · 5 שניות לכל פנים">אלופי־על · 5 שניות לכל פנים</option></select></label>
+      <label class="level-picker surprise-picker" for="surpriseMode"><span data-i18n="מצב הפתעה">מצב הפתעה</span><select id="surpriseMode"><option value="normal" data-i18n="רגיל">רגיל</option><option value="reverse" data-i18n="רצף הפוך">רצף הפוך</option><option value="sounds" data-i18n="צלילים בלבד">צלילים בלבד</option><option value="both" data-i18n="הפוך + צלילים בלבד">הפוך + צלילים בלבד</option><option value="confusion" data-i18n="בלבול צבעים">בלבול צבעים</option></select></label>
+      <button id="dailyButton" class="secondary-button" type="button" aria-pressed="false"><span data-i18n="אתגר יומי">אתגר יומי</span></button>
+      <button id="startButton" class="primary-button" type="button" disabled><span data-i18n="התחל משחק">התחל משחק</span></button>
+      <button id="resumeButton" class="primary-button" type="button" hidden><span data-i18n="המשך וצפה ברצף">המשך וצפה ברצף</span></button>
+    </div>
+    <div id="shareControls" class="share-controls" hidden>
+      <button id="shareChallenge" class="secondary-button share-button" type="button" data-i18n="שיתוף חבר באתגר">שיתוף חבר באתגר</button>
+      <p id="shareStatus" role="status" aria-live="polite"></p>
+      <input id="shareLink" type="text" readonly dir="ltr" hidden aria-label="קישור לאתגר" data-i18n-aria-label="קישור לאתגר">
+    </div>
+  </section>
+
+  <script defer src="js/config.js"></script>
+  <script defer src="js/i18n.js"></script>
+  <script defer src="js/utils.js"></script>
+  <script defer src="js/bubbles.js"></script>
+  <script defer src="js/smoke.js"></script>
+  <script defer src="js/game-config.js"></script>
+  <script defer src="js/challenge.js"></script>
+  <script defer src="js/water.js"></script>
+  <script defer src="js/game.js"></script>
+  <script defer src="js/audio.js"></script>
+  <script defer src="js/game-ui.js"></script>
+  <script defer src="js/renderer.js"></script>
+  <script defer src="js/motion.js"></script>
+  <script defer src="js/app.js"></script>
+</body>
+</html>

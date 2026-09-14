@@ -1,0 +1,10 @@
+{
+  "name": "faces-memory-game",
+  "version": "3.3.0",
+  "author": "Hagay Onn",
+  "private": true,
+  "scripts": {
+    "test": "node tests/game.test.cjs && node tests/audio.test.cjs && node tests/face-regions.test.cjs && node tests/landing-effects.test.cjs && node tests/achievements.test.cjs",
+    "test:browser": "node tests/browser.cjs && node tests/challenge-browser.cjs"
+  }
+}
