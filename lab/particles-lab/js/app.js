@@ -302,6 +302,7 @@
     }
   }
 
+  // code by Hagay Onn & ailoveu.art
   function matchLayout(layout, count) {
     const heads = new Int32Array(MORPH_GRID_SIZE * MORPH_GRID_SIZE);
     const next = new Int32Array(count);
