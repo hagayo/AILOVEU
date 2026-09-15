@@ -50,13 +50,44 @@
       draggable="false" fetchpriority="low"
     >
     <canvas id="sceneCanvas" class="is-hidden" aria-hidden="true"></canvas>
-    <p id="statusMessage" class="status" role="status" aria-live="polite">
-      <span data-i18n="טוען את התמונה…">טוען את התמונה…</span>
-    </p>
+    <div class="loading-feedback">
+      <p id="statusMessage" class="status" role="status" aria-live="polite">
+        <span data-i18n="טוען את התמונה…">טוען את התמונה…</span>
+      </p>
+      <button id="retryLoad" class="secondary-button" type="button" hidden data-i18n="טעינה מחדש">טעינה מחדש</button>
+    </div>
     <noscript>
       <p class="status status--error"><span data-i18n="כדי לשחק צריך להפעיל JavaScript בדפדפן.">כדי לשחק צריך להפעיל JavaScript בדפדפן.</span></p>
     </noscript>
   </main>
+
+  <script>
+    // A deferred <script> that never finishes downloading (a stalled mobile
+    // connection, not an outright failure) blocks every later deferred script,
+    // including app.js - so its own image-load timeout never gets a chance to
+    // run and the static "loading" text above is left showing forever. This
+    // inline script runs immediately during parsing, independent of any
+    // network request, so it can recover even when a script request stalls.
+    (function watchForStalledBoot() {
+      var TIMEOUT_MS = 18000;
+      window.setTimeout(function () {
+        if (window.EyeTracking && window.EyeTracking.booted) {
+          return; // app.js started fine; its own error handling is in charge now.
+        }
+        var status = document.getElementById('statusMessage');
+        var retry = document.getElementById('retryLoad');
+        if (status) {
+          status.textContent = 'הטעינה נתקעה. נסו לרענן את הדף.';
+          status.classList.add('status--error');
+          status.hidden = false;
+        }
+        if (retry) {
+          retry.hidden = false;
+          retry.addEventListener('click', function () { window.location.reload(); });
+        }
+      }, TIMEOUT_MS);
+    }());
+  </script>
 
   <!-- <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="hagayol" data-color="#FFDD00" data-emoji="☕" data-font="Cookie" data-text="Buy me Coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ></script>   -->
   <a class="buy-me-coffee" href="https://www.buymeacoffee.com/hagayol" target="_blank">
