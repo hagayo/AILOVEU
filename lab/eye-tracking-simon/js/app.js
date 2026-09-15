@@ -2,6 +2,10 @@
 
 (function bootstrapEyeTracking() {
   const app = window.EyeTracking;
+  // Reaching this line means every earlier deferred script finished downloading,
+  // so the inline stalled-boot watchdog in index.html can stand down: from here
+  // on, this file's own image-load timeout and error handling are in charge.
+  app.booted = true;
   const config = app.config;
   const utils = app.utils;
   const canvas = document.getElementById('sceneCanvas');
