@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#edf6fb">
+  <title>Legal Timeliner</title>
+  <meta name="description" content="בניית ציר זמן כרונולוגי ממסמכי DOCX ו-TXT, מהמחשב או מ-Google Drive, ללא AI.">
+  <meta name="author" content="Hagay Onn" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="keywords" content="AI-Love-U, ailoveu, legal-timeliner, tools fo lawyers, build timeline from legal docx/txt files, tool for lawyers and legal offices" />
+  <link rel="canonical" href="https://ailoveu.art/law-lab/legal-timeliner/index.html" />
+  <meta property="og:title" content="Legal-Timeliner: build your case timeline in seconds, special for lawyers" />
+  <meta property="og:description" content="Legal-Timeliner: build your case timeline in seconds, special tool for lawyers by ailoveu.art" />
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://ailoveu.art/law-lab/legal-timeliner/index.html">
+  <meta property="og:image" content="https://ailoveu.art/law-lab/legal-timeliner/img/legal-timeliner-screenshot.jpg">
+  <meta property="og:image:alt" content="Legal-Timeliner: build your case timeline in seconds, special for lawyers" />
+  <meta property="og:site_name" content="AI-Love-U" />
+  <meta property="og:locale" content="he_HE" />
+  <meta property="article:author" content="Hagay Onn">
+  <meta property="article:published_time" content="2026-09-28T00:00:00+03:00">
+  <meta property="article:modified_time" content="2026-09-28T00:00:00+03:00">
+  <link rel="icon" href="https://ailoveu.art/law-lab/legal-timeliner/img/legal-timeliner-icon.png" type="image/png">
+  <link rel="apple-touch-icon" href="https://ailoveu.art/law-lab/legal-timeliner/img/legal-timeliner-icon.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="access-locked">
+  <div class="access-gate" id="access-gate" role="dialog" aria-modal="true" aria-labelledby="access-title">
+    <form class="access-gate-panel" id="access-form">
+      <h2 id="access-title">פתיחת ציר הזמן</h2>
+      <label for="access-password">סיסמה</label>
+      <input id="access-password" type="password" inputmode="numeric" autocomplete="off" required autofocus>
+      <p class="access-error" id="access-error" role="alert" hidden>סיסמה שגויה, נסו שוב</p>
+      <button type="submit">פתיחת העמוד</button>
+    </form>
+  </div>
+  <header class="site-header" inert>
+    <div class="shell header-inner">
+      <a class="brand" href="#" aria-label="Legal Timeliner - ראש הדף">
+        <span class="brand-mark" aria-hidden="true">LT</span>
+        <span>
+          <strong>ציר זמן משפטי</strong>
+          <small>LEGAL TIMELINER</small>
+        </span>
+      </a>
+      <div class="header-pills" aria-label="מאפייני המערכת">
+        <span class="pill pill-green">עיבוד מקומי</span>
+        <span class="pill pill-purple">DOCX / TXT</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="shell main-shell" inert>
+    <div class="app-surface">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <h1 id="hero-title"><span>ציר זמן מדויק</span><span>מכל המסמכים בתיק</span></h1>
+          <p class="hero-slogan"><span>מעלים את כל המסמכים של התיק, לוחצים "בנה ציר זמן"</span><span>ורואים מיד את השינויים המדוייקים בתיק לאורך הזמן</span></p>
+          <div class="hero-trust">
+            <span>מקור מלא לכל אזכור</span>
+            <span>חילוץ דטרמיניסטי</span>
+            <span>כל הכפילויות נשמרות</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="workspace-section">
+        <section id="drop-zone" class="panel workspace-panel" aria-labelledby="documents-title">
+          <div class="panel-heading workspace-heading">
+            <div class="workspace-title">
+              <div>
+                <h2 id="documents-title">תיק המסמכים</h2>
+                <p>הוסיפו מסמכים בכמה סבבים ומכמה תיקיות שונות, ואז בנו מהם ציר זמן אחד</p>
+              </div>
+            </div>
+            <div class="workspace-actions">
+              <input id="file-input" type="file" accept=".docx,.txt" multiple hidden>
+              <button id="add-more" class="add-files-button" type="button">＋ הוסף מסמכים</button>
+              <button id="add-from-drive" class="add-files-button" type="button">Google Drive</button>
+              <button id="clear-files" class="text-button danger-text" type="button" hidden>נקה תיק</button>
+              <button id="build-timeline" class="primary-button workspace-build-button" type="button" disabled>
+                <span class="button-label">בנה ציר זמן</span>
+                <span class="button-arrow" aria-hidden="true">←</span>
+              </button>
+            </div>
+          </div>
+
+          <div id="progress-wrap" class="progress-wrap workspace-progress" hidden>
+            <div class="progress-line"><span id="progress-bar"></span></div>
+            <p id="progress-text">מתחיל עיבוד...</p>
+          </div>
+
+          <div id="parser-status" class="parser-status" hidden>
+            <span class="status-dot"></span>
+            <span id="parser-status-text"></span>
+          </div>
+
+          <div id="files-area" class="files-area" hidden>
+            <button id="files-toggle" class="files-toggle" type="button" aria-expanded="true" aria-controls="file-list" hidden>
+              <span id="file-summary" class="file-summary"><strong id="file-count">0</strong> מסמכים בתיק · <strong id="file-size">0</strong></span>
+              <span class="files-chevron" aria-hidden="true">⌄</span>
+            </button>
+            <div id="file-list" class="file-list" aria-live="polite"></div>
+          </div>
+        </section>
+      </section>
+
+      <section id="stale-banner" class="stale-banner" hidden>
+        <span aria-hidden="true">↻</span>
+        <div><strong>תיק המסמכים השתנה</strong><br>הטיימליין המוצג הוא מההרצה הקודמת. לחצו "עדכן ציר זמן" כדי לכלול את השינויים.</div>
+      </section>
+
+      <section id="results-section" class="results-section" hidden aria-labelledby="results-title">
+        <div class="results-head">
+          <div>
+            <span class="eyebrow">Legal Timeline</span>
+            <h2 id="results-title">ציר זמן משפטי</h2>
+          </div>
+          <div class="metrics" aria-label="סיכום תוצאות">
+            <div><strong id="metric-entries">0</strong><span>אירועים</span></div>
+            <div><strong id="metric-dates">0</strong><span>תאריכים</span></div>
+            <div><strong id="metric-files">0</strong><span>מסמכים עם אירועים</span></div>
+          </div>
+        </div>
+
+        <p id="processing-summary" class="processing-summary" hidden role="status" aria-live="polite"></p>
+
+        <div id="processing-warning" class="processing-warning" hidden role="status" aria-live="polite">
+          <strong>ציר הזמן חלקי</strong>
+          <div id="processing-warning-text"></div>
+        </div>
+
+        <div class="results-toolbar">
+          <label>
+            רמת סינון
+            <select id="filter-level"></select>
+          </label>
+          <label>
+            הצג מסמך
+            <select id="document-filter"><option value="all">כל המסמכים</option></select>
+          </label>
+          <label>
+            סוג אירוע
+            <select id="category-filter"><option value="all">כל הקבוצות</option></select>
+          </label>
+        </div>
+
+        <div class="export-toolbar" aria-label="ייצוא ציר הזמן">
+          <span id="selected-events-count" class="selected-events-count">לא נבחרו אירועים</span>
+          <div class="export-actions">
+            <button id="select-visible-events" class="text-button" type="button">בחר את כל המוצגים</button>
+            <button id="clear-event-selection" class="text-button" type="button">נקה בחירה</button>
+            <label class="export-format-label" for="export-format">ייצוא כ-
+              <select id="export-format">
+                <option value="docx">Word</option>
+                <option value="pdf">PDF</option>
+                <option value="md">Markdown</option>
+              </select>
+            </label>
+            <button id="export-selected-events" class="export-button" type="button" disabled>ייצא אירועים נבחרים</button>
+          </div>
+        </div>
+
+        <div id="empty-results" class="empty-results" hidden>
+          <span aria-hidden="true">∅</span>
+          <strong>לא נמצאו אירועים מתאימים</strong>
+          <p>אפשר לבחור סינון רחב יותר כדי לראות גם אזכורים לבדיקה.</p>
+        </div>
+
+        <div id="timeline" class="timeline"></div>
+      </section>
+    </div>
+  </main>
+
+  <dialog id="source-dialog" class="source-dialog" aria-labelledby="source-dialog-title">
+    <div class="source-dialog-head">
+      <div>
+        <h2 id="source-dialog-title">קטע המקור</h2>
+        <p id="source-dialog-meta"></p>
+      </div>
+      <button id="source-dialog-close" class="source-dialog-close" type="button" aria-label="סגור">×</button>
+    </div>
+    <div id="source-dialog-content" class="source-dialog-content"></div>
+    <a id="source-dialog-file" class="source-dialog-file" target="_blank" rel="noopener"></a>
+  </dialog>
+
+  <footer class="site-footer" inert>
+    <div class="shell">Legal-Timeliner by <a href="https://ailoveu.art" target="_blank" rel="noopener noreferrer">ailoveu.art</a> &amp; Hagay Onn. Copyright © since 2026. All rights reserved.</div>
+  </footer>
+
+  <script defer src="js/access-gate.js"></script>
+  <script defer src="js/config.js"></script>
+  <script defer src="js/script-loader.js"></script>
+  <script defer src="js/file-store.js"></script>
+  <script defer src="js/google-drive.js"></script>
+  <script defer src="js/file-processor.js"></script>
+  <script defer src="js/document-extractor.js"></script>
+  <script defer src="js/date-engine.js"></script>
+  <script defer src="js/timeline.js"></script>
+  <script defer src="js/related-documents.js"></script>
+  <script defer src="js/timeline-export.js"></script>
+  <script defer src="js/app.js"></script>
+</body>
+</html>
